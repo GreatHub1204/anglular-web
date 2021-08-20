@@ -1,0 +1,1563 @@
+<div *ngIf="isLoading" class="spinner-border" style="width: 1rem; height: 1rem;" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+<div *ngIf="safetyFatigueMomentPages?.length > 0" id="{{page_index}}">
+  <div class="sheet">
+    <div class="sheet-title">
+      <p class="noword sheet-title">3.4 安全性(疲労破壊)に関する照査　【ＲＣ標準 7.3.2】</p>
+      <p class="noword sheet-title indent10">(1) 曲げモーメントに対する照査</p>
+      <ng-container *ngIf="isSRC">
+        <p class="noword sheet-title indent10">(a) 鉄筋に対する曲げモーメント【RC標準7.3.2】</p>
+      </ng-container>
+      <p class="noword sheet-title indent10">➀ 部材の照査</p>
+      <p class="sheet-title indent20">曲げモーメントを受ける部材の疲労に関する照査は、設計変動応力度σ<sub>srd</sub>を</p>
+      <p class="sheet-title indent20">設計応答値、設計疲労強度f<sub>rd</sub>を豊歳係数で除した値を設計限界値とし、次式</p>
+      <p class="noword sheet-title indent20">により行う。</p>
+      <p class="noword sheet-title indent40">γ<sub>i</sub> ・I<sub>Rd</sub> / I<sub>Ld</sub> ≦　1.0</p>
+      <p class="sheet-title indent30">ここに、γ<sub>i</sub>： 構造物係数　(＝ 1.0)</p>
+      <p class="sheet-title indent65">I<sub>Rd</sub>： 設計応答値　(＝ σ<sub>srd</sub>)</p>
+      <p class="sheet-title indent65">I<sub>Ld</sub>： 設計限界値　(＝ f<sub>rd</sub>/γ<sub>b</sub>)</p>
+      <p class="noword sheet-title indent65">γ<sub>b</sub>： 部材係数　(＝ 1.0)</p>
+      <p class="noword sheet-title indent10">➁ 列車本数</p>
+      <p class="sheet-title indent40">A列車荷重 ： 旅客列車 → {{NA}}本/日</p>
+      <p class="noword sheet-title indent40">B列車荷重 ： 貨物列車 → {{NB}}本/日</p>
+      <p class="noword sheet-title indent10">➂ 設計変動応力度σ<sub>srd</sub>と最小応力度σ<sub>min</sub>の算定</p>
+      <p class="sheet-title indent20">標準列車荷重による鉄筋の設計変動応力度σ<sub>srd</sub>および最小応力度σ<sub>min</sub>を</p>
+      <p class="sheet-title indent20">算定する。鉄筋の最小応力度σ<sub>min</sub>は、鉄筋に生じる最小引張応力度または</p>
+      <p class="noword sheet-title indent20">永久作用による設計応力度で、圧縮が生じる場合には0とする。</p>
+      <p class="noword sheet-title indent10">➃ 200万回 引張疲労強度f<sub>sr200</sub>の算定</p>
+      <p class="sheet-title indent20">照査断面に配置した鉄筋の200万回強度(N/mm<sup>2</sup>)を次式より求める。</p>
+      <div align="center">
+        <table class="formula">
+          <tr>
+            <td rowspan="2">f<sub>sr200</sub> = γ<sub>i</sub>・</td>
+            <td class="bottom">10ar</td>
+            <td rowspan="2">・( 1 - </td>
+            <td class="bottom">σ<sub>min</sub></td>
+            <td rowspan="2">) / γ<sub>s</sub></td>
+          </tr>
+          <tr>
+            <td>( 2 ｘ 10<sup>6k</sup> )</td>
+            <td>f<sub>suk</sub></td>
+          </tr>
+        </table>
+      </div>
+      <p class="sheet-title indent30">ここに、ar = 3.09 - 0.003 φ</p>
+      <p class="sheet-title indent75">k = 0.12</p>
+      <p class="sheet-title indent60">σ<sub>min</sub>： 鉄筋の引張最小応力度(N/mm<sup>2</sup>)で圧縮を受ける場合は</p>
+      <p class="sheet-title indent100">0とする。</p>
+      <p class="sheet-title indent65">f<sub>suk</sub>： 鉄筋の引張強度の特性値(N/mm<sup>2</sup>)</p>
+      <p class="sheet-title indent70">γ<sub>1</sub>： 鉄筋の継手、曲げ加工による低減係数(圧接：0.7、</p>
+      <p class="sheet-title indent90">曲げ加工 : 0.65)</p>
+      <p class="sheet-title indent70">γ<sub>s</sub>： 鉄筋の材料係数</p>
+      <p class="sheet-title indent70">φ ： 照査の対象とする鉄筋の直径(mm)</p>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <div class="sheet-title">
+      <p class="noword sheet-title indent10">➄ Ｓ－Ｎ線図の係数選択</p>
+      <p class="caption">σ<sub>srd</sub>とf<sub>sr200</sub>の大小関係により、Ｓ－Ｎ線図の係数を下表に従い選択する。</p>
+      <div align="center">
+        <table border="1" class="title">
+          <tr>
+            <td rowspan="2" width="22%">S-N線パラメータ</td>
+            <td colspan="2">異形鉄筋
+          </tr>
+          <tr>
+            <td>γ<sub>i</sub>・σ<sub>srd</sub> / (f<sub>sr200</sub> / γ<sub>b</sub>)≦1.0</td>
+            <td>γ<sub>i</sub>・σ<sub>srd</sub> / (f<sub>sr200</sub> / γ<sub>b</sub>)＞1.0</td>
+          </tr>
+          <tr>
+            <td>ar</td>
+            <td>2.71 - 0.003 φ</td>
+            <td>3.09 - 0.003 φ</td>
+          </tr>
+          <tr>
+            <td>k</td>
+            <td>0.06</td>
+            <td>0.12</td>
+          </tr>
+        </table>
+      </div>
+      <p class="noword"></p>
+      <p class="sheet-title indent10">➅ 総等価繰返し回数の算定</p>
+      <p class="sheet-title indent20">標準列車荷重換算の総等価繰返し回数ΣＮを次式により算定する。</p>
+      <div align="center">
+        <table class="formula">
+          <tr>
+            <td rowspan="2">ΣＮ ＝ 365・T・j<sub>A</sub>・N<sub>A</sub>・(</td>
+            <td class="bottom">S<sub>A</sub></td>
+            <td rowspan="2">)<sup>1/k</sup> + 365・T・j<sub>A</sub>・N<sub>B</sub>(</td>
+            <td class="bottom">S<sub>B</sub></td>
+            <td rowspan="2">)<sup>1/k</sup></td>
+          </tr>
+          <tr>
+            <td>S<sub>C</sub></td>
+            <td>S<sub>C</sub></td>
+          </tr>
+        </table>
+      </div>
+      <p class="sheet-title indent30">ここに、T： 設計耐用期間　(＝ 100)</p>
+      <p class="sheet-title indent50">S<sub>A</sub>/S<sub>C</sub>： Ａ列車荷重と標準列車荷重の最大変動断面力比</p>
+      <p class="sheet-title indent50">S<sub>B</sub>/S<sub>C</sub>： Ｂ列車荷重と標準列車荷重の最大変動断面力比</p>
+      <p class="sheet-title indent50">S<sub>A</sub>, S<sub>B</sub>： 実列車荷重(Ａ列車荷重,Ｂ列車荷重)による最大変動断面力</p>
+      <p class="sheet-title indent65">S<sub>C</sub>： 標準列車荷重による最大変動断面力</p>
+      <p class="sheet-title indent45">N<sub>A</sub>, N<sub>B</sub>： S<sub>A</sub>, S<sub>B</sub>に対する列車１編成あたり等価繰返し回数(回)</p>
+      <p class="sheet-title indent55">j<sub>A</sub>, j<sub>B</sub>： 実列車の１線、１日あたりの本数(本/回)</p>
+      <p class="noword sheet-title indent70">k： Ｓ－Ｎ線図の勾配</p>
+      <p class="noword sheet-title indent10">⑦ 設計引帳疲労強度f<sub>rd</sub>の算定</p>
+      <p class="sheet-title indent20">総等価繰返し回数ΣＮを用いて、字式により設計引帳疲労強度f<sub>rd</sub>を求める。</p>
+      <div align="center">
+        <table class="formula">
+          <tr>
+            <td rowspan="2">f<sub>rd</sub> = γ<sub>1</sub>・γ<sub>2</sub>・</td>
+            <td class="bottom">10ar</td>
+            <td rowspan="2">・( 1- </td>
+            <td class="bottom">σ<sub>min</sub></td>
+            <td rowspan="2">) / γ<sub>s</sub></td>
+          </tr>
+          <tr>
+            <td>N<sup>k</sup></td>
+            <td>f<sub>suk</sub></td>
+          </tr>
+        </table>
+      </div>
+      <p class="sheet-title indent30">ここに、f<sub>rd</sub>： 鉄筋の設計引帳疲労強度　(N/mm<sup>2</sup>)</p>
+      <p class="sheet-title indent70">Ｎ： 標準列車荷重換算の総等価繰返し回数ΣＮ</p>
+      <p class="sheet-title indent60">ar, k： Ｓ－Ｎ線図の係数</p>
+      <p class="sheet-title indent60">σ<sub>min</sub>： 鉄筋の引帳最小応力度(N/mm<sup>2</sup>)で、圧縮を受ける場合は</p>
+      <p class="sheet-title indent90">0とする。</p>
+      <p class="sheet-title indent65">f<sub>suk</sub>： 鉄筋の引帳強度の特値(N/mm<sup>2</sup>）</p>
+      <p class="sheet-title indent70">γ<sub>1</sub>： 鉄筋継手、曲げ加工による低減係数(圧接：0.7,</p>
+      <p class="sheet-title indent90">曲げ加工:0.65)</p>
+      <p class="sheet-title indent70">γ<sub>2</sub>： 複線を支持する部材における荷重分布比aによる補正係数</p>
+      <div align="center">
+        <table class="formula">
+          <tr>
+            <td rowspan="2">γ<sub>2</sub> = </td>
+            <td class="bottom">1</td>
+          </tr>
+          <tr>
+            <td>(a<sup>1/k</sup> + (1 - a)<sup>1/k</sup>)<sup>k</sup></td>
+          </tr>
+        </table>
+      </div>
+      <p class="sheet-title indent75">a： 当該部材の</p>
+      <p class="sheet-title indent90">(１線載荷による最大断面力)/(複線載荷による最大断面力)</p>
+      <p class="sheet-title indent70">γ<sub>s</sub>： 鉄筋の材料係数</p>
+    </div>
+  </div>
+
+  <div *ngFor="let pages of safetyFatigueMomentPages; index as i" class="sheet-table">
+
+    <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
+    <div class="cell_title2">[{{pages.g_name}}]</div>
+    <table class="main">
+      <tr>
+        <th colspan="2" class="cell_name1 g-top2 g-right2 g-bottom1 g-left2">部材名称</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-right2 g-bottom1">
+          {{column.title1.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">位置</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.title2.alien}} g-right2 g-bottom1">
+          {{column.title2.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">断面番号</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.title3.alien}} g-right2 g-bottom2">
+          {{column.title3.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">B</th>
+        <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.B.alien}} g-right2 g-bottom1">
+          {{column.B.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">H</th>
+        <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.H.alien}} g-right2 g-bottom1">
+          {{column.H.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">Bf</th>
+        <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Bt.alien}} g-right2 g-bottom1">
+          {{column.Bt.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">Hf</th>
+        <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.t.alien}} g-right2 g-bottom2">
+          {{column.t.value}}</td>
+        </ng-container>
+      </tr>
+      <ng-container *ngIf="pages.SRCFlag">
+        <tr>
+          <th rowspan="3" class="cell_name2 g-right1 g-bottom1 g-left2">I配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">引張ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_I_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
+            {{column.steel_I_web.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">圧縮ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
+            {{column.steel_I_compress.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th rowspan="2" class="cell_name2 g-right1 g-bottom2 g-left2">H配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_H_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom2">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
+            {{column.steel_H_web.value}}</td>
+          </ng-container>
+        </tr>
+      </ng-container>
+      <tr>
+        <th class="cell_name2 g-left2">Ast</th>
+        <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <ng-container *ngIf="column.Ast.value=='-' || column.tcos.value=='1'">
+            <td colspan="2" class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+          </ng-container>
+          <ng-container *ngIf="column.Ast.value!='-' && column.tcos.value!='1'">
+            <td class="{{column.Ast.alien}}">({{column.tcos.value}})</td>
+            <td class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">引張鉄筋</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.AstString.alien}} g-right2 g-bottom1">
+          {{column.AstString.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">dast</th>
+        <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.dst.alien}} g-right2 g-bottom1">
+          {{column.dst.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-left2">Asc</th>
+        <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <ng-container *ngIf="column.Asc.value=='-' || column.ccos.value=='1'">
+            <td colspan="2" class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+          </ng-container>
+          <ng-container *ngIf="column.Asc.value!='-' && column.ccos.value!='1'">
+            <td class="{{column.Asc.alien}}">({{column.ccos.value}})</td>
+            <td class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">圧縮鉄筋</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.AscString.alien}} g-right2 g-bottom1">
+          {{column.AscString.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">dasc</th>
+        <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.dsc.alien}} g-right2 g-bottom1">
+          {{column.dsc.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-left2">Ase</th>
+        <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Ase.alien}} g-right2">
+          {{column.Ase.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">側方鉄筋</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.AseString.alien}} g-right2 g-bottom1">
+          {{column.AseString.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">dase</th>
+        <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.dse.alien}} g-right2 g-bottom2">
+          {{column.dse.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">f'ck</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.fck.alien}} g-right2 g-bottom1">
+          {{column.fck.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γc</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.rc.alien}} g-right2 g-bottom1">
+          {{column.rc.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">f'cd</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.fcd.alien}} g-right2 g-bottom1">
+          {{column.fcd.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">fsyk</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <ng-container *ngIf="column.steelFlag">
+            <td class="{{column.fsy_steel.alien}} g-bottom1">
+            {{column.fsy_steel.value}}</td>
+            <td class="{{column.fsy.alien}} g-right2 g-bottom1">
+            {{column.fsy.value}}</td>
+          </ng-container>
+          <ng-container *ngIf="!column.steelFlag">
+            <td colspan="2" class="{{column.fsy.alien}} g-right2 g-bottom1">
+            {{column.fsy.value}}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γs</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <ng-container *ngIf="column.steelFlag">
+            <td class="{{column.rs_steel.alien}} g-bottom1">
+            {{column.rs_steel.value}}</td>
+            <td class="{{column.rs.alien}} g-right2 g-bottom1">
+            {{column.rs.value}}</td>
+          </ng-container>
+          <ng-container *ngIf="!column.steelFlag">
+            <td colspan="2" class="{{column.rs.alien}} g-right2 g-bottom1">
+            {{column.rs.value}}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">fsyd</th>
+        <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <ng-container *ngIf="column.steelFlag">
+            <td class="{{column.fsd_steel.alien}} g-bottom2">
+            {{column.fsd_steel.value}}</td>
+            <td class="{{column.fsd.alien}} g-right2 g-bottom2">
+            {{column.fsd.value}}</td>
+          </ng-container>
+          <ng-container *ngIf="!column.steelFlag">
+            <td colspan="2" class="{{column.fsd.alien}} g-right2 g-bottom2">
+            {{column.fsd.value}}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">fsuk</th>
+        <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.fsu.alien}} g-right2 g-bottom2">
+          {{column.fsu.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">Mdmin</th>
+        <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Mdmin.alien}} g-right2 g-bottom1">
+          {{column.Mdmin.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">N'd</th>
+        <th class="cell_name3 g-right2 g-bottom2">(kN)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Ndmin.alien}} g-right2 g-bottom2">
+          {{column.Ndmin.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">σmin</th>
+        <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.sigma_min.alien}} g-right2 g-bottom2">
+          {{column.sigma_min.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">M<sub>rd</sub></th>
+        <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Mrd.alien}} g-right2 g-bottom1">
+          {{column.Mrd.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom2 g-left2">N'd</th>
+        <th class="cell_name3 g-right2 g-bottom2">(kN)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.Nrd.alien}} g-right2 g-bottom2">
+          {{column.Nrd.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">σsrd</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.sigma_rd.alien}} g-right2 g-bottom1">
+          {{column.sigma_rd.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">fsr200</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.fsr200.alien}} g-right2 g-bottom1">
+          {{column.fsr200.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σsrd/(fsr200/γb)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.ratio200.alien}} g-right2 g-bottom1">
+          {{column.ratio200.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">K</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.k.alien}} g-right2 g-bottom1">
+          {{column.k.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">鉄筋補正　αr</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.ar.alien}} g-right2 g-bottom1">
+          {{column.ar.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">ΣＮ</th>
+        <th class="cell_name3 g-right2 g-bottom1">(回)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.N.alien}} g-right2 g-bottom1">
+          {{column.N.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">N<sub>A</sub></th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.NA.alien}} g-right2 g-bottom1">
+          {{column.NA.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">N<sub>B</sub></th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.NB.alien}} g-right2 g-bottom1">
+          {{column.NB.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">S<sub>A</sub>/S<sub>C</sub></th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.SASC.alien}} g-right2 g-bottom1">
+          {{column.SASC.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">S<sub>B</sub>/S<sub>C</sub></th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.SBSC.alien}} g-right2 g-bottom1">
+          {{column.SBSC.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">鉄筋加工補正 r1</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.r1.alien}} g-right2 g-bottom1">
+          {{column.r1.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">鉄筋加工補正 r2</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.r2.alien}} g-right2 g-bottom1">
+          {{column.r2.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γs</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.rs2.alien}} g-right2 g-bottom1">
+          {{column.rs2.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="cell_name2 g-bottom1 g-left2">frd</th>
+        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.frd.alien}} g-right2 g-bottom1">
+          {{column.frd.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">γ<sub>i</sub></th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.ri.alien}} g-right2 g-bottom2">
+          {{column.ri.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σsrd/(fsrd/γb)</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.ratio.alien}} g-right2 g-bottom1">
+          {{column.ratio.value}}</td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
+        <ng-container *ngFor="let column of pages.columns; index as c">
+          <td colspan="2" class="{{column.result.alien}} g-right2 g-bottom2">
+          {{column.result.value}}</td>
+        </ng-container>
+      </tr>
+    </table>
+  </div>
+
+  <ng-container *ngIf="isSRC">
+    <div class="sheet">
+      <div class="sheet-title">
+        <p class="noword sheet-title indent10">(b) 鉄筋に対する曲げモーメント（疲労限）【鋼標準 第Ⅱ編 2.4】</p>
+        <p class="sheet-title indent10">② 曲げモーメントに対する照査【鋼標準 第Ⅱ編 2.4.4】</p>
+        <p class="sheet-title indent30">疲労限の照査は、設計最大応力範囲⊿σ<sub>fud</sub>を設計応答値、補正した垂直応力の<p>
+        <p class="sheet-title indent20">一定振幅応力に対する応力範囲の打切り限界⊿σ<sub>cod'</sub>を設計限界値として、以下に</p>
+        <p class="sheet-title indent20">示す式により行う。</p>
+        <div class="margin30">
+          <table class="formula">
+            <tr>
+              <td rowspan="2">γ<sub>i</sub>・</td>
+              <td class="bottom">⊿σ<sub>fud</sub></td>
+              <td rowspan="2"> ≦ 1.0</td>
+            </tr>
+            <tr>
+              <td>⊿σ<sub>cod'</sub></td>
+            </tr>
+          </table>
+        </div>
+        <p class="sheet-title indent30">ここに、γ<sub>i</sub>： 構造物係数</p>
+        <p class="sheet-title indent55">⊿σ<sub>fud</sub>： 設計応力範囲</p>
+        <p class="sheet-title indent50">⊿σ<sub>cod'</sub>： 補正した垂直応力の一定振幅応力に対する応力範囲の打切り限界</p>
+        <p class="sheet-title indent100">（= ⊿σ<sub>cod</sub>・C<sub>R</sub>・C<sub>t</sub>）</p>
+        <p class="sheet-title indent55">⊿σ<sub>cod</sub>： 垂直応力の一定振幅応力に対する応力範囲の打切り限界</p>
+        <p class="sheet-title indent70">C<sub>R</sub> ： 平均応力度に関する補正係数</p>
+        <p class="noword sheet-title indent70">C<sub>t</sub> ： 板厚に関する補正係数</p>
+        <p class="sheet-title indent10">1）設計最大応力範囲の算定【鋼標準 第Ⅱ編 1.3.2.3】</p>
+        <p class="noword sheet-title indent25">疲労限による照査に用いる着目部位の設計最大応力範囲は、次式により求める。</p>
+        <div class="margin30">
+          <table class="formula">
+            <tr>
+              <td>⊿σ<sub>fud</sub> = γ<sub>a</sub>・(σ<sub>max</sub> - σ<sub>min</sub>)</td>
+            </tr>
+          </table>
+        </div>
+        <p class="sheet-title indent30">ここに、γ<sub>a</sub> : 構造物解析係数</p>
+        <p class="sheet-title indent65">σ<sub>max</sub> : 引張を正、圧縮を負とした垂直応力度の最大値</p>
+        <p class="sheet-title indent65">σ<sub>min</sub> : 引張を正、圧縮を負とした垂直応力度の最小値</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="sheet-title">
+        <p class="sheet-title indent10">2）補正した垂直応力の一定振幅応力に対する応力範囲の打切り限界</p>
+        <p class="sheet-title textright">【鋼標準 第Ⅱ編 2.4.2】</p>
+        <p class="noword sheet-title indent25">補正した垂直応力の一定振幅応力に対する応力範囲の打切り限界は、次式による。</p>
+        <div class="margin30">
+          <table class="formula">
+            <tr>
+              <td>⊿σ<sub>cod'</sub> = ⊿σ<sub>cod</sub>・C<sub>R</sub>・C<sub>t</sub></td>
+            </tr>
+          </table>
+        </div>
+        <p class="sheet-title indent30">ここに、⊿σ<sub>cod</sub> : 「表5.2.2.10」による。</p>
+        <p class="sheet-title indent95">C<sub>R</sub> : 「表5.2.2.11」による。</p>
+        <p class="sheet-title indent95">C<sub>t</sub> : 【鋼標準 第Ⅱ編 2.4.3 表2.4.8】に定める非仕上げの溶接継</p>
+        <p class="sheet-title indent120">ぎ手のうち、(b)横突合せ溶接継手、(d)十字溶接継手（付加</p>
+        <p class="sheet-title indent120">版t≦12mmの場合、補正は行わない）、(e)ガセット溶接継手</p>
+        <p class="sheet-title indent120">の面外ガセット、および(f)その他の溶接継手は、次式によ</p>
+        <p class="sheet-title indent120">る。</p>
+        <div class="margin130">
+          <table class="formula">
+            <tr>
+              <td style="text-aline:left">C<sub>t</sub> = <sup>4</sup>√(25/t)</td>
+              <td width="30px"><td>
+              <td>(t＞25mm)</td>
+            </tr>
+            <tr>
+              <td style="text-aline:left">C<sub>t</sub> = 1.0</td>
+              <td width="30px"><td>
+              <td>(t≦25mm)</td>
+            </tr>
+          </table>
+        </div>
+        <p></p>
+        <p class="caption">表5.2.2.10 垂直応力を受ける継手の一定振幅応力に対する応力範囲の打切り限界</p>
+        <div align="center">
+          <table border="1" class="title">
+            <tr>
+              <td width="100px">区分</td>
+              <td width="200px">⊿σ<sub>cod</sub>（N/mm<sup>2</sup>）</td>
+            </tr>
+            <tr><td>A</td><td>190</td></tr>
+            <tr><td>B</td><td>155</td></tr>
+            <tr><td>C</td><td>115</td></tr>
+            <tr><td>D</td><td>84</td></tr>
+            <tr><td>E</td><td>62</td></tr>
+            <tr><td>F</td><td>46</td></tr>
+            <tr><td>G</td><td>32</td></tr>
+          </table>
+        </div>
+        <p></p>
+        <p class="caption">表5.2.2.11 平均応力度に関する補正係数</p>
+        <div align="center">
+          <table border="1" class="title">
+            <tr>
+              <td rowspan="2" width="25%">溶接継手</td>
+              <td width="25%">Φ≧-0.5</td>
+              <td width="25%">-0.5＞Φ＞-1</td>
+              <td width="25%">Φ≦-1.0</td>
+            </tr>
+            <tr>
+              <td>1.0</td>
+              <td align="center"><table class="formula">
+                <tr><td class="bottom">13</td></tr>
+                <tr><td>16+6Φ</td></tr>
+              </table></td>
+              <td>1.3</td>
+            </tr>
+            <tr>
+              <td rowspan="2">非溶接継手</td>
+              <td>Φ≧0</td>
+              <td>0＞Φ＞-1</td>
+              <td>Φ≦-1.0</td>
+            </tr>
+            <tr>
+              <td>1.0</td>
+              <td align="center"><table class="formula">
+                <tr><td class="bottom">3</td></tr>
+                <tr><td>3+Φ</td></tr>
+              </table></td>
+              <td>照査しなくてよい</td>
+            </tr>
+          </table>
+        </div>
+        <p class="sheet-title indent40">注）Φは次式により算定する。</p>
+        <div class="margin70">
+          <table class="formula">
+            <tr>
+              <td rowspan="2">Φ = </td>
+              <td class="bottom">σ<sub>min</sub></td>
+            </tr>
+            <tr>
+              <td>σ<sub>max</sub> - σ<sub>min</sub></td>
+            </tr>
+          </table>
+        </div>
+        <p></p>
+        <p class="sheet-title indent10">3）疲労等級【鋼標準 第Ⅱ編 2.4.3】</p>
+        <p class="sheet-title indent25">疲労限の照査は、繰返し引張応力を受ける位置で検討を行う。表5.2.2.12に照査</p>
+        <p class="sheet-title indent15">および強度等級を示す。</p>
+        <p class="caption">表5.2.2.12 照査位置および強度等級</p>
+        <div align="center">
+          <table border="1" class="title">
+            <tr>
+              <td width="70%">継手の種類</td>
+              <td width="30%">強度等級</td>
+            </tr>
+            <tr>
+              <td>(d)十字溶接継手 ②非仕上げすみ肉溶接継手</td>
+              <td>E</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let pages of safetyFatigueMomentPages; index as i" class="sheet-table">
+      <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
+      <div class="cell_title2">[{{pages.g_name}}]</div>
+      <table class="main">
+        <tr>
+          <th colspan="2" class="cell_name1 g-top2 g-right2 g-bottom1 g-left2">部材名称</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-right2 g-bottom1">
+            {{column.title1.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">位置</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title2.alien}} g-right2 g-bottom1">
+            {{column.title2.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">断面番号</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title3.alien}} g-right2 g-bottom2">
+            {{column.title3.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">B</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.B.alien}} g-right2 g-bottom1">
+            {{column.B.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">H</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.H.alien}} g-right2 g-bottom1">
+            {{column.H.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">Bf</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Bt.alien}} g-right2 g-bottom1">
+            {{column.Bt.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">Hf</th>
+          <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.t.alien}} g-right2 g-bottom2">
+            {{column.t.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th rowspan="3" class="cell_name2 g-right1 g-bottom1 g-left2">I配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">引張ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_I_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
+            {{column.steel_I_web.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">圧縮ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
+            {{column.steel_I_compress.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th rowspan="2" class="cell_name2 g-right1 g-bottom2 g-left2">H配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_H_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom2">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
+            {{column.steel_H_web.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Ast</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <ng-container *ngIf="column.Ast.value=='-' || column.tcos.value=='1'">
+              <td colspan="2" class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.Ast.value!='-' && column.tcos.value!='1'">
+              <td class="{{column.Ast.alien}}">({{column.tcos.value}})</td>
+              <td class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">引張鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AstString.alien}} g-right2 g-bottom1">
+            {{column.AstString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">dast</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dst.alien}} g-right2 g-bottom1">
+            {{column.dst.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Asc</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <ng-container *ngIf="column.Asc.value=='-' || column.ccos.value=='1'">
+              <td colspan="2" class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.Asc.value!='-' && column.ccos.value!='1'">
+              <td class="{{column.Asc.alien}}">({{column.ccos.value}})</td>
+              <td class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">圧縮鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AscString.alien}} g-right2 g-bottom1">
+            {{column.AscString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">dasc</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dsc.alien}} g-right2 g-bottom1">
+            {{column.dsc.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Ase</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Ase.alien}} g-right2">
+            {{column.Ase.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">側方鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AseString.alien}} g-right2 g-bottom1">
+            {{column.AseString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">dase</th>
+          <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dse.alien}} g-right2 g-bottom2">
+            {{column.dse.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">f'ck</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fck.alien}} g-right2 g-bottom1">
+            {{column.fck.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γc</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.rc.alien}} g-right2 g-bottom1">
+            {{column.rc.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">f'cd</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fcd.alien}} g-right2 g-bottom1">
+            {{column.fcd.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">fsyk</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.fsy_steel.alien}} g-bottom1">
+            {{column.fsy_steel.value}}</td>
+            <td class="{{column.fsy.alien}} g-right2 g-bottom1">
+            {{column.fsy.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γs</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.rs_steel.alien}} g-bottom1">
+            {{column.rs_steel.value}}</td>
+            <td class="{{column.rs.alien}} g-right2 g-bottom1">
+            {{column.rs.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">fsyd</th>
+          <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.fsd_steel.alien}} g-bottom2">
+            {{column.fsd_steel.value}}</td>
+            <td class="{{column.fsd.alien}} g-right2 g-bottom2">
+            {{column.fsd.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">fsuk</th>
+          <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fsu.alien}} g-right2 g-bottom2">
+            {{column.fsu.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">M<sub>d1</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.MdGen.alien}} g-right2 g-bottom1">
+            {{column.MdGen.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">N'<sub>d1</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NdGen.alien}} g-right2 g-bottom1">
+            {{column.NdGen.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">σ<sub>max</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_max_s.alien}} g-right2 g-bottom1">
+            {{column.sigma_max_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">M<sub>d2</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Mdmin.alien}} g-right2 g-bottom1">
+            {{column.Mdmin.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">N'<sub>d2</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Ndmin.alien}} g-right2 g-bottom1">
+            {{column.Ndmin.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">σmin</th>
+          <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_min_s.alien}} g-right2 g-bottom2">
+            {{column.sigma_min_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">⊿σ<sub>fud</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_fud.alien}} g-right2 g-bottom1">
+            {{column.sigma_fud.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">継手種類</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.welding_joint.alien}} g-right2 g-bottom1">
+            {{column.welding_joint.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">強度等級</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.class_s.alien}} g-right2 g-bottom1">
+            {{column.class_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">⊿σ<sub>cod</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_cod.alien}} g-right2 g-bottom1">
+            {{column.sigma_cod.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">Φ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fai_s.alien}} g-right2 g-bottom1">
+            {{column.fai_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">C<sub>r</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Cr.alien}} g-right2 g-bottom1">
+            {{column.Cr.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">C<sub>t</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Ct.alien}} g-right2 g-bottom1">
+            {{column.Ct.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">⊿σ<sub>cod'</sub></th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_cod2.alien}} g-right2 g-bottom1">
+            {{column.sigma_cod2.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ri_s.alien}} g-right2 g-bottom1">
+            {{column.ri_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">γ<sub>i</sub>・⊿σ<sub>fud</sub>/⊿σ<sub>cod'</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ratio_s.alien}} g-right2 g-bottom2">
+            {{column.ratio_s.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.result_s.alien}} g-right2 g-bottom2">
+            {{column.result_s.value}}</td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- 累積損傷は計算しない
+    <div *ngFor="let pages of safetyFatigueMomentPages; index as i" class="sheet-table">
+      <div class="cell_title1">安全性[疲労破壊：疲労限および繰返し回数の影響を考慮した疲労破壊] (その{{i+1}})</div>
+      <div class="cell_title2">[{{pages.g_name}}]</div>
+      <table class="main">
+        <tr>
+          <th colspan="2" class="cell_name1 g-top2 g-right2 g-bottom1 g-left2">部材名称</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-right2 g-bottom1">
+            {{column.title1.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">位置</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title2.alien}} g-right2 g-bottom1">
+            {{column.title2.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">断面番号</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.title3.alien}} g-right2 g-bottom2">
+            {{column.title3.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">B</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.B.alien}} g-right2 g-bottom1">
+            {{column.B.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">H</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.H.alien}} g-right2 g-bottom1">
+            {{column.H.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">Bf</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Bt.alien}} g-right2 g-bottom1">
+            {{column.Bt.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">Hf</th>
+          <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.t.alien}} g-right2 g-bottom2">
+            {{column.t.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th rowspan="3" class="cell_name2 g-right1 g-bottom1 g-left2">I配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">引張ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_I_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
+            {{column.steel_I_web.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom1">圧縮ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
+            {{column.steel_I_compress.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th rowspan="2" class="cell_name2 g-right1 g-bottom2 g-left2">H配置<br>鉄骨</th>
+          <th class="cell_name3 g-right2 g-bottom1">ﾌﾗﾝｼﾞ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
+            {{column.steel_H_tension.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name3 g-right2 g-bottom2">腹板</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
+            {{column.steel_H_web.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Ast</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <ng-container *ngIf="column.Ast.value=='-' || column.tcos.value=='1'">
+              <td colspan="2" class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.Ast.value!='-' && column.tcos.value!='1'">
+              <td class="{{column.Ast.alien}}">({{column.tcos.value}})</td>
+              <td class="{{column.Ast.alien}} g-right2">{{column.Ast.value}}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">引張鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AstString.alien}} g-right2 g-bottom1">
+            {{column.AstString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">dast</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dst.alien}} g-right2 g-bottom1">
+            {{column.dst.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Asc</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <ng-container *ngIf="column.Asc.value=='-' || column.ccos.value=='1'">
+              <td colspan="2" class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.Asc.value!='-' && column.ccos.value!='1'">
+              <td class="{{column.Asc.alien}}">({{column.ccos.value}})</td>
+              <td class="{{column.Asc.alien}} g-right2">{{column.Asc.value}}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">圧縮鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AscString.alien}} g-right2 g-bottom1">
+            {{column.AscString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">dasc</th>
+          <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dsc.alien}} g-right2 g-bottom1">
+            {{column.dsc.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-left2">Ase</th>
+          <th class="cell_name3 g-right2">(mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Ase.alien}} g-right2">
+            {{column.Ase.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">側方鉄筋</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.AseString.alien}} g-right2 g-bottom1">
+            {{column.AseString.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">dase</th>
+          <th class="cell_name3 g-right2 g-bottom2">(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.dse.alien}} g-right2 g-bottom2">
+            {{column.dse.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">f'ck</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fck.alien}} g-right2 g-bottom1">
+            {{column.fck.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γc</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.rc.alien}} g-right2 g-bottom1">
+            {{column.rc.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">f'cd</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fcd.alien}} g-right2 g-bottom1">
+            {{column.fcd.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">fsyk</th>
+          <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.fsy_steel.alien}} g-bottom1">
+            {{column.fsy_steel.value}}</td>
+            <td class="{{column.fsy.alien}} g-right2 g-bottom1">
+            {{column.fsy.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γs</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.rs_steel.alien}} g-bottom1">
+            {{column.rs_steel.value}}</td>
+            <td class="{{column.rs.alien}} g-right2 g-bottom1">
+            {{column.rs.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">fsyd</th>
+          <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td class="{{column.fsd_steel.alien}} g-bottom2">
+            {{column.fsd_steel.value}}</td>
+            <td class="{{column.fsd.alien}} g-right2 g-bottom2">
+            {{column.fsd.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th class="cell_name2 g-bottom2 g-left2">fsuk</th>
+          <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fsu.alien}} g-right2 g-bottom2">
+            {{column.fsu.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">継手の種類</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Mdmin.alien}} g-right2 g-bottom1">
+            {{column.Mdmin.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">継手に対する強度等級</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Ndmin.alien}} g-right2 g-bottom1">
+            {{column.Ndmin.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">照査箇所の板厚 t(mm)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_min.alien}} g-right2 g-bottom1">
+            {{column.sigma_min.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査する応力タイプ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Mrd.alien}} g-right2 g-bottom2">
+            {{column.Mrd.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-bottom2">疲労限による照査</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.Nrd.alien}} g-bottom2">
+            {{column.Nrd.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">最大設計作用応力 σ<sub>max</sub>,τ<sub>max</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_min.alien}} g-right2 g-bottom1">
+            {{column.sigma_rd.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">最小設計作用応力 σ<sub>min</sub>,τ<sub>min</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fsr200.alien}} g-right2 g-bottom1">
+            {{column.fsr200.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">設計作用応力範囲<br>⊿σ<sub>fud</sub>,⊿τ<sub>fud</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ratio200.alien}} g-right2 g-bottom1">
+            {{column.ratio200.value}}○○継手</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">一定振幅応力に対する応力範囲の打切り限界<br>⊿σ<sub>cod</sub>,⊿τ<sub>cod</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.k.alien}} g-right2 g-bottom1">
+            {{column.k.value}}AtoG</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">作用応力度の比 Φ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ar.alien}} g-right2 g-bottom1">
+            {{column.ar.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">平均応力度に関する補正係数 C<sub>R</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.N.alien}} g-right2 g-bottom1">
+            {{column.N.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">板厚に関する補正係数 C<sub>t</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NA.alien}} g-right2 g-bottom1">
+            {{column.NA.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">補正後の応力範囲の打切り限界<br>⊿σ<sub>cod'</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NB.alien}} g-right2 g-bottom1">
+            {{column.NB.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・⊿σ<sub>fud</sub>/⊿σ<sub>cod'</sub><br>γ<sub>i</sub>・⊿τ<sub>fud</sub>/⊿τ<sub>cod'</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.SASC.alien}} g-right2 g-bottom1">
+            {{column.SASC.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.rs2.alien}} g-right2 g-bottom2">
+            {{column.rs2.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-bottom2">繰返し回数の影響を考慮した疲労破壊の照査</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ar.alien}} g-bottom2">
+            {{column.ar.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">最大設計作用応力 σ<sub>max</sub>,τ<sub>max</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.sigma_min.alien}} g-right2 g-bottom1">
+            {{column.sigma_rd.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">最小設計作用応力 σ<sub>min</sub>,τ<sub>min</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.fsr200.alien}} g-right2 g-bottom1">
+            {{column.fsr200.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">200万回基本疲労許容応力範囲<br>⊿σ<sub>fd</sub>,⊿τ<sub>fd</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ratio200.alien}} g-right2 g-bottom1">
+            {{column.ratio200.value}}○○継手</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">変動振幅応力に対する応力範囲の打切り限界<br>⊿σ<sub>vod</sub>,⊿τ<sub>vod</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.k.alien}} g-right2 g-bottom1">
+            {{column.k.value}}AtoG</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">作用応力度の比 Φ</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ar.alien}} g-right2 g-bottom1">
+            {{column.ar.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">平均応力度に関する補正係数 C<sub>R</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.N.alien}} g-right2 g-bottom1">
+            {{column.N.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">板厚に関する補正係数 C<sub>t</sub></th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NA.alien}} g-right2 g-bottom1">
+            {{column.NA.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">補正後の200万回基本疲労許容応力範囲<br>⊿σ<sub>fd'</sub>(N/mm<sup>2</sup>)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NB.alien}} g-right2 g-bottom1">
+            {{column.NB.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">累積疲労損傷度 D</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.SASC.alien}} g-right2 g-bottom1">
+            {{column.SASC.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">疲労設計曲線の傾きを表す定数 m</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.rs2.alien}} g-right2 g-bottom1">
+            {{column.rs2.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-bottom1">γ<sub>i</sub><sup>m</sup>・D</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.ar.alien}} g-bottom1">
+            {{column.ar.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">照査結果</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.N.alien}} g-right2 g-bottom1">
+            {{column.N.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">累積疲労損傷度の照査結果</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NA.alien}} g-right2 g-bottom1">
+            {{column.NA.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-bottom1 g-left2">無題1</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.NB.alien}} g-right2 g-bottom1">
+            {{column.NB.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-bottom1 g-left2">無題2</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.SASC.alien}} g-right2 g-bottom1">
+            {{column.SASC.value}}-</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">無題3</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.rs2.alien}} g-right2 g-bottom2">
+            {{column.rs2.value}}-</td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+    -->
+
+  </ng-container>
+
+</div>
+
+<div *ngIf="err.length > 0" class="sheet">
+  <p>{{err}}</p>
+</div>

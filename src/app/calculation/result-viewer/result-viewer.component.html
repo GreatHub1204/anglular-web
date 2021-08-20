@@ -1,0 +1,120 @@
+<main class="main-container">
+  <div #print_section id="print_section">
+    <div class="HtmlPage">
+
+      <!-- 断面力一覧表 出力-->
+      <ng-container *ngIf="printSectionForce">
+        <app-section-force-list></app-section-force-list>
+      </ng-container>
+
+      <!-- 鉄筋コンクリート（RC）照査表 出力 -->
+      <ng-container *ngIf="printcalculate">
+        <!-- 安全性（破壊）曲げモーメントの照査表 出力 -->
+        <app-result-safety-moment></app-result-safety-moment>
+        <!-- 安全性（破壊）せん断力の照査表 出力 -->
+        <app-result-safety-shear-force></app-result-safety-shear-force>
+        <!-- 安全性（疲労破壊）曲げモーメントの照査表 出力 -->
+        <app-result-safety-fatigue-moment></app-result-safety-fatigue-moment>
+        <!-- 安全性（疲労破壊）せん断力の照査表 出力 -->
+        <app-result-safety-fatigue-shear-force></app-result-safety-fatigue-shear-force>
+        <!-- 耐久性 曲げひび割れの照査表 出力 -->
+        <app-result-serviceability-moment></app-result-serviceability-moment>
+        <!-- 耐久性 せん断ひび割れの照査表 出力 -->
+        <app-result-serviceability-shear-force></app-result-serviceability-shear-force>
+        <!-- 使用性 曲げひび割れの照査表 出力 -->
+        <app-result-durability-moment></app-result-durability-moment>
+        <!-- 復旧性（地震時以外）曲げモーメントの照査表 出力 -->
+        <app-result-restorability-moment></app-result-restorability-moment>
+        <!-- 復旧性（地震時以外）せん断力の照査表 出力 -->
+        <app-result-restorability-shear-force></app-result-restorability-shear-force>
+        <!-- 復旧性（地震時）曲げモーメントの照査表 出力 -->
+        <app-result-earthquakes-moment></app-result-earthquakes-moment>
+        <!-- 復旧性（地震時）せん断力の照査表 出力 -->
+        <app-result-earthquakes-shear-force></app-result-earthquakes-shear-force>
+        <!-- 最小鉄筋量の照査表 出力 -->
+        <app-result-minimum-reinforcement></app-result-minimum-reinforcement>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- サイドバー -->
+  <div class="sticky">
+    <!-- 目次 -->
+    <ul>
+      <!-- 断面力一覧表 -->
+      <ng-container *ngIf="printSectionForce">
+        <li><a routerLink="/result-viewer" fragment="ap_0">断面力一覧表</a></li>
+      </ng-container>
+
+      <!-- 照査表 -->
+      <ng-container *ngIf="printcalculate">
+
+        <!-- 鉄筋コンクリート（RC）照査表 -->
+        <ng-container *ngIf="safetyMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_1">
+              安全性（破壊）曲げ</a></li>
+        </ng-container>
+        <ng-container *ngIf="safetyShearForce.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_2">
+              安全性（破壊）せん断</a></li>
+        </ng-container>
+        <ng-container *ngIf="SafetyFatigueMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_3">
+              安全性（疲労破壊）曲げ</a></li>
+        </ng-container>
+        <ng-container *ngIf="safetyFatigueShearForce.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_4">
+              安全性（疲労破壊）せん断</a></li>
+        </ng-container>
+        <ng-container *ngIf="serviceabilityMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_5">
+              耐久性（曲げひび割れ）</a></li>
+        </ng-container>
+        <ng-container *ngIf="serviceabilityShearForce.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_6">
+              耐久性（せん断ひび割れ）</a></li>
+        </ng-container>
+        <ng-container *ngIf="durabilityMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_7">
+              使用性（外観ひび割れ）</a></li>
+        </ng-container>
+        <ng-container *ngIf="restorabilityMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_8">
+              復旧性（損傷）曲げ</a></li>
+        </ng-container>
+        <ng-container *ngIf="restorabilityShearForce.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_9">
+              復旧性（損傷）せん断</a></li>
+        </ng-container>
+        <ng-container *ngIf="earthquakesMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_10">
+              復旧性（地震時）曲げ</a></li>
+        </ng-container>
+        <ng-container *ngIf="earthquakesShearForce.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_11">
+              復旧性（地震時）せん断</a></li>
+        </ng-container>
+        
+        <ng-container *ngIf="ResultMinimumReinforcement.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_12">
+              最小鉄筋量の照査</a></li>
+        </ng-container>
+
+        <ng-container *ngIf="ResultMinimumReinforcement.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_13">
+              最大鉄筋量の検討</a></li>
+        </ng-container>
+
+      </ng-container>
+    </ul>
+    <!-- 印刷ボタン -->
+    <button
+      styleSheetFile="assets/css/result-viewer.component.css"
+      printSectionId = "print_section" ngxPrint >Print</button>
+    <ng-container *ngIf="printSummaryTable()">
+      <button (click)="summaryTableShow()">総括表</button>
+    </ng-container>
+
+  </div>
+
+</main>

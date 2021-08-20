@@ -1,0 +1,39 @@
+.c-subNavArea {
+
+    &__nav {
+      text-align: left;
+      margin-left: -10px;
+      font-size: 0; /* タグ改行時の空白防止 */
+      background: #fff;
+      color: #2f3f4e;
+      font-size: 14px;
+    }
+  
+    a.is-active {
+      background: #2f3f4e;
+      color: #fff;
+    }
+  
+    &__navItem {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 14px; /* ulでサイズ0にしたのを戻す */
+    }
+  
+    &__navItemTitle {
+      transform: translateX(0);
+      display: block;
+      border-bottom: 1px solid #000080;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #2f3f4e;
+      cursor: pointer;
+      position: relative;
+  
+      &:hover {
+        background: #2f3f4e0c;
+        text-decoration: none;
+      }
+    }
+  
+  }

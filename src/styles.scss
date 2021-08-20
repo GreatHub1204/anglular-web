@@ -1,0 +1,18 @@
+/* Add application styles & imports to this file! */
+@import url("https://unpkg.com/jquery-ui-pack@1.12.3/jquery-ui.css");
+
+@import url("https://unpkg.com/jquery-ui-pack@1.12.3/jquery-ui.structure.css");
+
+@import url("https://unpkg.com/jquery-ui-pack@1.12.3/jquery-ui.theme.css");
+
+@import url("https://unpkg.com/pqgrid@7.5.0/pqgrid.min.css");
+@import "~pqgrid/pqgrid.ui.min.css";
+@import "~pqgrid/themes/bootstrap/pqgrid.css";
+
+@import "~bootstrap/dist/css/bootstrap.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+

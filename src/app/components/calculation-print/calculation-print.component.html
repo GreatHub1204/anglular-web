@@ -1,0 +1,105 @@
+<div class="condition-container">
+  <div class="print-item">
+    <fieldset>
+      <legend>設計条件</legend>
+      <div *ngIf="isManual() == false">
+        <label>
+          <input
+            type="checkbox"
+            name="print_section_force"
+            id="print_section_force"
+            [value]="print_section_force"
+            [(ngModel)]="print_section_force_checked"
+            [checked]="print_section_force_checked"
+          />断面力の集計表
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="print_calculate"
+            id="print_calculate"
+            [value]="print_calculate_checked"
+            [(ngModel)]="print_calculate_checked"
+            [checked]="print_calculate_checked"
+          />性能照査
+        </label>
+      </div>
+<!--
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="print_summary_table"
+            id="print_summary_table"
+            [value]="print_summary_table_checked"
+            [(ngModel)]="print_summary_table_checked"
+            [checked]="print_summary_table_checked"
+          />総括表
+        </label>
+      </div>
+-->
+    </fieldset>
+  </div>
+  <div class="calculate-item">
+    <fieldset>
+      <legend>照査</legend>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="calculate_moment"
+            id="calculate_moment"
+            [value]="calculate_moment_checked"
+            [(ngModel)]="calculate_moment_checked"
+            [checked]="calculate_moment_checked"
+          />曲げ
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="calculate_shear_force"
+            id="calculate_shear_force"
+            [value]="calculate_shear_force_checked"
+            [(ngModel)]="calculate_shear_force_checked"
+            [checked]="calculate_shear_force_checked"
+          />せん断
+        </label>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<div class="table-container">
+  <fieldset>
+    <legend>部材</legend>
+    <div class="hot" >
+      <table>
+        <tbody>
+          <ng-container *ngFor="let item of table_datas; index as j">
+            <tr>
+              <td width="70px">
+                <input type="checkbox" 
+                [value]="item.calc_checked" 
+                [(ngModel)]="item.calc_checked"
+                [checked]="item.calc_checked" 
+              />
+              </td>
+              <td width="250px">
+                {{item.g_name}}
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+</div>
+
+<div class="button-container">
+  <button (click)="onClick()">計算印刷</button>
+</div>
+

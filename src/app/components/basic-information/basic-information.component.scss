@@ -1,0 +1,65 @@
+.left-contents {
+  width: 450px;
+  float: left;
+  position: relative;
+  margin-right: 15px;
+
+  .pickup-table {
+    width: 100%;
+    margin-bottom: .8em;
+  }
+
+}
+
+.right-contents{
+  position: relative; 
+  float: left;
+
+  .right-left-contents{
+    width: 100px;
+    position: relative;
+    float: left;
+    margin-right: 15px;
+    
+    .specification1-fieldset {
+      margin-bottom: 70px;
+      label {
+        padding-left: .8em;
+      }
+    }
+
+  }
+
+  .right-right-contents{
+    position:relative; 
+    float: left;
+
+    .specification2-fieldset {
+      width: 200px; 
+      margin-bottom: .8em;
+      label {
+        padding-left: .8em;
+      }
+    }
+
+  }
+
+  .conditions-checkbox{
+    float: right;
+    width: 100%; 
+  }
+
+}
+
+
+legend {
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+fieldset {
+  border: 1px #cacaca solid;
+ 
+}
+
+

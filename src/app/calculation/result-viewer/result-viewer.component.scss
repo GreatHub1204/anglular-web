@@ -1,0 +1,229 @@
+.sticky {
+  display: inline-block;        /* インラインブロック要素にする */
+  vertical-align:  top;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+  width: 300px;
+  margin-left: 15px;
+}
+
+#print_section {
+  display: inline-block;
+}
+
+/* ページレイアウト (section.sheet を１ページとする) */
+.HtmlPage {
+  font-family: "ＭＳ 明朝", serif;
+  /* マージン・パディングをリセットした方がデザインしやすい */
+  margin: 0;
+  padding: 0;
+  display: block;        /* インラインブロック要素にする */
+}
+
+.sheet {
+  background: white; /* 背景を白く */
+  box-shadow: 0 0.5mm 2mm rgba(0, 0, 0, 0.3); /* ドロップシャドウ */
+  margin: 5mm auto;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  page-break-after: always;
+  /* 用紙サイズ A4 */
+  height: 1123px;
+  width: 794px;
+  /* 余白サイズ */
+  padding-top: 83px;
+  padding-left: 113px;
+  padding-right: 113px;
+}
+
+.sheet-title{
+  margin: 0; 
+  font-size: 14px; 
+  text-align: left;
+  .indent10{text-indent: 1.0em;}
+  .indent15{text-indent: 1.5em;}
+  .indent20{text-indent: 2.0em;}
+  .indent25{text-indent: 2.5em;}
+  .indent30{text-indent: 3.0em;}
+  .indent40{text-indent: 4.0em;}
+  .indent45{text-indent: 4.5em;}
+  .indent50{text-indent: 5.0em;}
+  .indent55{text-indent: 5.5em;}
+  .indent60{text-indent: 6.0em;}
+  .indent65{text-indent: 6.5em;}
+  .indent70{text-indent: 7.0em;}
+  .indent75{text-indent: 7.5em;}
+  .indent80{text-indent: 8.0em;}
+  .indent85{text-indent: 8.5em;}
+  .indent90{text-indent: 9.0em;}
+  .indent95{text-indent: 9.5em;}
+  .indent100{text-indent: 10.0em;}
+  .indent105{text-indent: 10.5em;}
+  .indent110{text-indent: 11.0em;}
+  .indent115{text-indent: 11.5em;}
+  .indent120{text-indent: 12.0em;}
+  .indent135{text-indent: 13.5em;}
+  .indent140{text-indent: 14.0em;}
+  .indent160{text-indent: 16.0em;}
+  .indent170{text-indent: 17.0em;}
+  .indent175{text-indent: 17.5em;}
+  .indent180{text-indent: 18.0em;}
+  .indent190{text-indent: 19.0em;}
+  .indent200{text-indent: 20.0em;}
+  .indent240{text-indent: 24.0em;}
+  .indent_title{text-align: center;}
+  .textright{text-align: right;}
+}
+
+p.noword{
+  margin-bottom: 14pt;
+}
+p.caption{
+  text-align: center;
+}
+div.noword{
+  margin-bottom: 14pt;
+}
+div{
+  .margin30{margin-left: 3.0em;}
+  .margin50{margin-left: 5.0em;}
+  .margin70{margin-left: 7.0em;}
+  .margin110{margin-left: 11.0em;}
+  .margin115{margin-left: 11.5em;}
+  .margin130{margin-left: 13em;}
+}
+
+table.title{
+  text-align:center;
+  border: 1px solid black;
+  font-size: 12px;
+  width: 454px;
+  table-layout: fixed;
+}
+table.formula{
+  text-align:center;
+  font-size: 12px;
+  margin: 0;
+  .top{
+    border-top: 1px solid black;
+  }
+  .bottom{
+    border-bottom: 1px solid black;
+  }
+}
+
+
+/*以降は表部分に用いる*/
+.cell_title1{
+  font-size: 10pt;
+  text-align: left;
+  margin-top: 14px;
+}
+.cell_title2{
+  font-size: 10pt;
+  text-align: right;
+}
+
+.sheet-table {
+  background: white; /* 背景を白く */
+  box-shadow: 0 0.5mm 2mm rgba(0, 0, 0, 0.3); /* ドロップシャドウ */
+  margin: 5mm auto;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  page-break-after: always;
+  /* 用紙サイズ A4 */
+  height: 1123px;
+  width: 794px;
+  /* 余白サイズ */
+  padding-top: 80px;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+table.main {
+  font-size: 10px;
+  table-layout: fixed;
+  margin: 0;
+  tr {
+    height: 12px;
+  }
+  th{
+    text-align: center;
+    white-space: nowrap;
+    margin: 0;
+    /*sup{
+      vertical-align: top;
+      position: relative;
+      top: 7px;
+    }*/
+  }
+  td {
+    width: 50px;
+    height: 12px;
+    margin: 0;
+  }
+  .minwidth{
+    min-width: 100px;
+  }
+  .left{ text-align: left; padding-left: 10px; }
+  .center{ text-align: center; }
+  .right{ text-align: right; padding-right: 10px; }
+  .cell_name1{ table-layout: fixed; width: 134px; }
+  .cell_name2{ table-layout: fixed; width: 65px; }
+  .cell_name3{ table-layout: fixed; width: 69px; }
+  .g-top1{ border-top: 1px solid lightgray; }
+  .g-right1{ border-right: 1px solid lightgray; }
+  .g-bottom1{ border-bottom: 1px solid lightgray; }
+  .g-left1{ border-left: 1px solid lightgray; }
+  .g-top2{ border-top: 1px solid black; }
+  .g-right2{ border-right: 1px solid black; }
+  .g-bottom2{ border-bottom: 1px solid black; }
+  .g-left2{ border-left: 1px solid black; }
+}
+.center{
+  text-align: center;
+}
+.caption-top{
+  caption-side: top;
+  font-size: 12px;
+}
+
+/*以降は一覧表に用いる*/
+table.spreadsheet{
+  font-size: 12px;
+  table-layout: fixed;
+  margin: 0;
+  border: 1px solid black;
+  /*thead.head {
+    border-bottom: 1px solid black;
+  }
+  tbody.body {
+    border-top: 1px solid lightgray;
+  }*/
+  tr {
+    height: 12px;
+  }
+  .left{ text-align: left; padding-left: 2px; }
+  .center{ text-align: center; }
+  .right{ text-align: right; padding-right: 2px; }
+  .g-top1{ border-top: 1px solid lightgray; }
+  .g-right1{ border-right: 1px solid lightgray; }
+  .g-bottom1{ border-bottom: 1px solid lightgray; }
+  .g-left1{ border-left: 1px solid lightgray; }
+  .g-top2{ border-top: 1px solid black; }
+  .g-right2{ border-right: 1px solid black; }
+  .g-bottom2{ border-bottom: 1px solid black; }
+  .g-left2{ border-left: 1px solid black; }
+}
+
+/*table .spreadsheet td .g-top1{ border-top: 1px solid lightgray; }
+table .spreadsheet td .g-right1{ border-right: 1px solid lightgray; }
+table .spreadsheet td .g-bottom1{ border-bottom: 1px solid lightgray; }
+table .spreadsheet td .g-left1{ border-left: 1px solid lightgray; }
+table .spreadsheet td .g-top2{ border-top: 1px solid black; }
+table .spreadsheet td .g-right2{ border-right: 1px solid black; }
+table .spreadsheet td .g-bottom2{ border-bottom: 1px solid black; }
+table .spreadsheet td .g-left2{ border-left: 1px solid black; }*/

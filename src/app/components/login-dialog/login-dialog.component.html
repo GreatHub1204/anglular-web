@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <a (click)="goToLink()" class="a">ユーザー登録がお済みでない方はこちらから</a>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" (submit)="login()">
+    <label for="email">メールアドレス</label>
+    <input type="email" name="mail" required email class="form-control" formControlName="email"
+      [(ngModel)]="loginUserName" placeholder="Username" id="user_name_id">
+    <label for="password">パスワード</label>
+    <input type="password" class="form-control" formControlName="password" [(ngModel)]="loginPassword"
+      placeholder="Password" required>
+    <input type="submit" id="submit"/>
+  </form>
+  <div *ngIf="loginError">
+    {{errorMessage}}
+  </div>
+</div>
+<div class="modal-footer">
+  <div *ngIf="connecting">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <button class="btn btn-outline-success" (click)="login()">ログイン</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">キャンセル</button>
+</div>

@@ -1,0 +1,32 @@
+<div class="form-container">
+  <form>
+    <div class="input-container">
+      <label>耐用年数：</label>
+      <input id="T" name="T" type="text" [(ngModel)]="service_life" />
+    </div>
+    <div class="input-container">
+      <label>jA：</label>
+      <input id="jA" name="jA" type="text" [(ngModel)]="train_A_count" />
+    </div>
+    <div class="input-container">
+      <label>jB：</label>
+      <input id="jB" name="jB" type="text" [(ngModel)]="train_B_count" />
+    </div>
+  </form>
+</div>
+
+<div class="c-subNavArea">
+  <nav>
+    <ul class="c-subNavArea__nav">
+      <li class="c-subNavArea__navItem" *ngFor="let groupe of table_datas; index as i">
+        <a (click)="activePageChenge(i)" id="fig{{i}}" class="c-subNavArea__navItemTitle">
+          <span>{{getGroupeName(i)}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div>
+  <app-sheet #grid [options]="options"></app-sheet>
+</div>

@@ -1,0 +1,328 @@
+
+/* ページレイアウト (section.sheet を１ページとする) */
+.HtmlPage {
+  font-family: "ＭＳ 明朝", serif;
+  /* マージン・パディングをリセットした方がデザインしやすい */
+  margin: 0;
+  padding: 0;
+  display: block;
+  /* インラインブロック要素にする */
+}
+
+.sheet {
+  background: white;
+  /* 背景を白く 
+  box-shadow: 0 0.5mm 2mm rgba(0, 0, 0, 0.3);
+  /* ドロップシャドウ
+  */
+  box-sizing: border-box;
+  margin: 5mm auto;
+  overflow: hidden;
+  position: relative;
+  page-break-after: always;
+  /* 用紙サイズ A4 */
+  height: 1123px;
+  width: 794px;
+  /* 余白サイズ */
+  padding-top: 83px;
+  padding-left: 113px;
+  padding-right: 113px;
+}
+
+.sheet-title {
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+}
+.sheet-title .indent10 {
+  text-indent: 1em;
+}
+.sheet-title .indent15 {
+  text-indent: 1.5em;
+}
+.sheet-title .indent20 {
+  text-indent: 2em;
+}
+.sheet-title .indent25 {
+  text-indent: 2.5em;
+}
+.sheet-title .indent30 {
+  text-indent: 3em;
+}
+.sheet-title .indent40 {
+  text-indent: 4em;
+}
+.sheet-title .indent45 {
+  text-indent: 4.5em;
+}
+.sheet-title .indent50 {
+  text-indent: 5em;
+}
+.sheet-title .indent55 {
+  text-indent: 5.5em;
+}
+.sheet-title .indent60 {
+  text-indent: 6em;
+}
+.sheet-title .indent65 {
+  text-indent: 6.5em;
+}
+.sheet-title .indent70 {
+  text-indent: 7em;
+}
+.sheet-title .indent75 {
+  text-indent: 7.5em;
+}
+.sheet-title .indent80 {
+  text-indent: 8em;
+}
+.sheet-title .indent85 {
+  text-indent: 8.5em;
+}
+.sheet-title .indent90 {
+  text-indent: 9em;
+}
+.sheet-title .indent95 {
+  text-indent: 9.5em;
+}
+.sheet-title .indent100 {
+  text-indent: 10em;
+}
+.sheet-title .indent105 {
+  text-indent: 10.5em;
+}
+.sheet-title .indent110 {
+  text-indent: 11em;
+}
+.sheet-title .indent115 {
+  text-indent: 11.5em;
+}
+.sheet-title .indent120 {
+  text-indent: 12em;
+}
+.sheet-title .indent135 {
+  text-indent: 13.5em;
+}
+.sheet-title .indent140 {
+  text-indent: 14.0em;
+}
+.sheet-title .indent160 {
+  text-indent: 16.0em;
+}
+.sheet-title .indent170 {
+  text-indent: 17.0em;
+}
+.sheet-title .indent175 {
+  text-indent: 17.5em;
+}
+.sheet-title .indent180 {
+  text-indent: 18.0em;
+}
+.sheet-title .indent190 {
+  text-indent: 19.0em;
+}
+.sheet-title .indent200 {
+  text-indent: 20.0em;
+}
+.sheet-title .indent240 {
+  text-indent: 24em;
+}
+.sheet-title .indent_title {
+  text-align: center;
+}
+.sheet-title .textright {
+  text-align: right;
+}
+
+p.noword {
+  margin-bottom: 14pt;
+}
+p.caption {
+  text-align: center;
+}
+div.noword{
+  margin-bottom: 14pt;
+}
+div .margin30 {
+  margin-left: 3.0em;
+}
+div .margin50 {
+  margin-left: 5.0em;
+}
+div .margin70 {
+  margin-left: 7.0em;
+}
+div .margin110 {
+  margin-left: 11.0em;
+}
+div .margin115 {
+  margin-left: 11.5em;
+}
+div .margin130 {
+  margin-left: 13em;
+}
+
+table.title {
+  text-align: center;
+  border: 1px solid black;
+  font-size: 12px;
+  width: 454px;
+  table-layout: fixed;
+}
+
+table.formula {
+  text-align: center;
+  font-size: 12px;
+  margin: 0;
+}
+table.formula .top {
+  border-top: 1px solid black;
+}
+table.formula .bottom {
+  border-bottom: 1px solid black;
+}
+
+.cell_title1 {
+  font-size: 12pt;
+  text-align: left;
+  margin-top: 14px;
+}
+
+.cell_title2 {
+  font-size: 11pt;
+  text-align: right;
+}
+
+table{
+  border-spacing:0
+}
+
+/*以降は表部分に用いる*/
+.sheet-table {
+  background: white;
+  /* 背景を白く 
+  box-shadow: 0 0.5mm 2mm rgba(0, 0, 0, 0.3);
+  /* ドロップシャドウ
+  */
+  box-sizing: border-box;
+  margin: 5mm auto;
+  overflow: hidden;
+  position: relative;
+  page-break-after: always;
+  /* 用紙サイズ A4 */
+  height: 1123px;
+  width: 794px;
+  /* 余白サイズ*/
+  padding-top: 35px;
+  padding-bottom: 63px;
+  padding-left: 55px;
+  padding-right: 55px;
+}
+
+table.main {
+  font-size: 12px;
+  table-layout: fixed;
+  margin: 0;
+}
+table.main tr {
+  height: 20px;
+}
+table.main th {
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+}
+/*table.main th sup{
+  vertical-align: top;
+  position: relative;
+  top: 7px;
+}*/
+table.main td {
+  width: 54px;
+  height: 20px;
+  margin: 0;
+}
+table.main .minwidth{
+  min-width: 108px;
+}
+table.main .left {
+  text-align: left;
+  padding-left: 10px;
+}
+table.main .center {
+  text-align: center;
+}
+table.main .right {
+  text-align: right;
+  padding-right: 10px;
+}
+table.main .cell_name1 {
+  width: 144px;
+}
+table.main .cell_name2 {
+  width: 70px;
+}
+table.main .cell_name3 {
+  width: 74px;
+}
+table.main .g-top1 {
+  border-top: 1px solid lightgray;
+}
+table.main .g-right1 {
+  border-right: 1px solid lightgray;
+}
+table.main .g-bottom1 {
+  border-bottom: 1px solid lightgray;
+}
+table.main .g-left1 {
+  border-left: 1px solid lightgray;
+}
+table.main .g-top2 {
+  border-top: 1px solid black;
+}
+table.main .g-right2 {
+  border-right: 1px solid black;
+}
+table.main .g-bottom2 {
+  border-bottom: 1px solid black;
+}
+table.main .g-left2 {
+  border-left: 1px solid black;
+}
+
+div.center {
+  text-align: center;
+}
+
+.caption-top {
+  caption-side: top;
+  font-size: 12px;
+}
+
+/*以降は一覧表に用いる*/
+table.spreadsheet{
+  font-size: 12px;
+  table-layout: fixed;
+  margin: 0;
+  border: 1px solid black;
+}
+/*table.spreadsheet thead.head {
+  border-bottom: 1px solid black;
+}
+table.spreadsheet tbody.body {
+  border-top: 1px solid lightgray;
+}*/
+table.spreadsheet tr {
+  height: 12px;
+}
+table.spreadsheet .left{ text-align: left; padding-left: 2px; }
+table.spreadsheet .center{ text-align: center; }
+table.spreadsheet .right{ text-align: right; padding-right: 2px; }
+table.spreadsheet .g-top1{ border-top: 1px solid lightgray; }
+table.spreadsheet .g-right1{ border-right: 1px solid lightgray; }
+table.spreadsheet .g-bottom1{ border-bottom: 1px solid lightgray; }
+table.spreadsheet .g-left1{ border-left: 1px solid lightgray; }
+table.spreadsheet .g-top2{ border-top: 1px solid black; }
+table.spreadsheet .g-right2{ border-right: 1px solid black; }
+table.spreadsheet .g-bottom2{ border-bottom: 1px solid black; }
+table.spreadsheet .g-left2{ border-left: 1px solid black; }

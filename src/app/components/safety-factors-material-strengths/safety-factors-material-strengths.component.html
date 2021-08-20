@@ -1,0 +1,106 @@
+<div class="c-subNavArea">
+  <nav>
+    <ul class="c-subNavArea__nav">
+      <li class="c-subNavArea__navItem" *ngFor="let groupe of groupe_name; index as i" >
+        <a (click)="activePageChenge(i)" id="saf{{i}}" class="c-subNavArea__navItemTitle">
+          <span>{{groupe}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="tabContent">
+  <div class="sectionTitle">
+    <h4>鉄筋・コンクリート</h4>
+  </div>
+
+  <div class="safety-factors">
+    <h5>安全係数</h5>
+    <div class="table-container">
+      <app-sheet #grid1 [options]="options1"></app-sheet>
+    </div>
+
+    <div class="range-fieldset">
+      <fieldset>
+        <legend>鉄筋配置</legend>
+        <ol>
+          <li>引張鉄筋</li>
+          <li>引張＋圧縮</li>
+          <li>全周鉄筋</li>
+        </ol>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="material-strength">
+    <h5>鉄筋材料強度</h5>
+    <div class="table-container">
+      <app-sheet #grid2 [options]="options2"></app-sheet>
+      <div class="concrete-strength">
+        <h5>コンクリート材料強度</h5>
+        <app-sheet #grid3 [options]="options3"></app-sheet>
+      </div>
+    </div>
+  </div>
+
+  <div class="sectionTitle">
+    <h4>鉄骨</h4>
+  </div>
+  <div class="safety-factors">
+    <h5>安全係数</h5>
+    <div class="table-container">
+      <app-sheet #grid4 [options]="options4"></app-sheet>
+    </div>
+  </div>
+
+  <div class="material-strength">
+    <h5>鉄骨材料強度</h5>
+    <div class="table-container">
+      <app-sheet #grid5 [options]="options5"></app-sheet>
+    </div>
+  </div>
+
+
+  <div class="sectionTitle">
+    <h4>杭・施工条件</h4>
+  </div>
+  <div class="pile-factors">
+    <h5>杭の施工条件</h5>
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2" colspan="2">施工方法</th>
+          <th colspan="3">施工修正係数ρc</th>
+          <th rowspan="2" width="110px">せん断補強鋼材を用いない棒部材の設計せん断耐力Vcdの低減係数</th>
+        </tr>
+        <tr>
+          <th width="80px">圧縮強度</th>
+          <th width="80px">付着強度</th>
+          <th width="80px">ヤング係数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of options6; index as i">
+          <tr>
+            <td width="20px">
+              <input type="radio" 
+                name="pile_factor" 
+                id="pile_factor{{i}}"
+                [(ngModel)]="pile_factor_select_id" 
+                [value]="item.id"
+                [checked]="item.selected" 
+                (change)="setPileFactor(i)" />
+            </td>
+            <td style="text-align: left" width="200px">{{item.title}}</td>
+            <td>{{item.rfck.toFixed(2)}}</td>
+            <td>{{item.rfbok.toFixed(2)}}</td>
+            <td>{{item.rEc.toFixed(2)}}</td>
+            <td>{{item.rVcd.toFixed(2)}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+</div>

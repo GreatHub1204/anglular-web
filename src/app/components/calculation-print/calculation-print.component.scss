@@ -1,0 +1,35 @@
+.condition-container {
+    display: grid;
+    grid-column: 2;
+    grid-template-columns: 250px 150px;
+}
+
+.print-item {
+    margin: 15px;
+    grid-column: 1 / 2;
+}
+
+.calculate-item { 
+    margin: 15px;
+    grid-column: 2 / 2;
+}
+
+.table-container {
+    margin-left: 15px;
+    margin-top: 30px;
+    width: 350px;
+}
+
+.hot {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.button-container {
+    margin-left: 15px;
+    margin-top: 30px;   
+}
+
+fieldset {
+    border: 1px #cacaca solid;
+  }
