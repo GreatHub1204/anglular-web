@@ -283,15 +283,9 @@ export class CalcSafetyShearForceService {
       }
       result["rbc"] = rbc;
 
-      if ( this.basic.get_specification2() !== 2 && this.basic.get_specification2() !== 5 ) {
-        // 標準の式
-        const Vdd: any = this.calcVdd(
-          fcd, d, Aw, bw, Ss,
-          La, Nd, h, Mu, pc, rbc);
-        for (const key of Object.keys(Vdd)) {
-          result[key] = Vdd[key];
-        }
-      } else {
+      const speci1 = this.basic.get_specification1();
+      const speci2 = this.basic.get_specification2();
+      if ( speci1=== 0 && (speci2 === 2 || speci2 === 5 )) {
         // JR東日本の場合
         const Vydd = this.calcVydd(
           fcd, d, La, pc, Nd, h, hw2,
@@ -301,8 +295,17 @@ export class CalcSafetyShearForceService {
         for (const key of Object.keys(Vydd)) {
           result[key] = Vydd[key];
         }
+        
+      } else {
+        // 標準の式
+        const Vdd: any = this.calcVdd(
+          fcd, d, Aw, bw, Ss,
+          La, Nd, h, Mu, pc, rbc);
+        for (const key of Object.keys(Vdd)) {
+          result[key] = Vdd[key];
+        }
       }
-      //const Vsdd = this.calcVsdd();
+
     }
 
 

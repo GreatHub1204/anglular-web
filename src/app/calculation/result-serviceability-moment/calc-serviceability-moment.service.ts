@@ -84,9 +84,11 @@ export class CalcServiceabilityMomentService {
 
     // POST 用
     const option = {};
+    
     // JR東日本モードの場合 barCenterPosition オプション = true
+    const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
-    if(speci2===2 || speci2===5){
+    if(speci1==0 &&(speci2===2 || speci2===5)){
       option['barCenterPosition'] = true; 
     }
 

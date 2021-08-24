@@ -33,9 +33,10 @@ export class InputSafetyFactorsMaterialStrengthsService {
   public default_safety_factor(): any {
 
     let result: any;
-
-    switch (this.basic.get_specification1()) {
+    const sp1 = this.basic.get_specification1();
+    switch (sp1) {
       case 0: // 鉄道
+      case 1: // 土木学会
 
         result = [
           {
@@ -84,9 +85,17 @@ export class InputSafetyFactorsMaterialStrengthsService {
 
         break;
 
-      case 1: // 港湾
+      case 2: // 港湾
         result = new Array();
         break;
+    }
+
+    // 例外
+    if(sp1 === 0){
+      if( this.basic.get_specification2() === 2){
+        // JR東日本
+        result[3].r1 = 1.00; // 復旧性の γi =1.00
+      }
     }
 
     return result;
@@ -163,7 +172,17 @@ export class InputSafetyFactorsMaterialStrengthsService {
         ];
         break;
 
-      case 1: // 港湾
+      case 1: // 土木学会
+        result = [
+            { id: 'pile-000', title: '使用しない', rfck: 1.0, rfbok: 1.0, rEc: 1.0, rVcd: 1.0, selected: true },
+            { id: 'pile-001', title: '泥水比重1.04以下', rfck: 0.8, rfbok: 0.7, rEc: 0.8, rVcd: 0.9, selected: false },
+            { id: 'pile-002', title: '自然泥水, 泥水比重1.10以下', rfck: 0.7, rfbok: 0.6, rEc: 0.8, rVcd: 0.9, selected: false },
+            { id: 'pile-003', title: 'ベントナイト泥水', rfck: 0.6, rfbok: 0.5, rEc: 0.7, rVcd: 0.8, selected: false },
+            { id: 'pile-004', title: '気中施工', rfck: 0.9, rfbok: 0.9, rEc: 0.9, rVcd: 1.0, selected: false },
+          ];
+          break;
+    
+      case 2: // 港湾
       result = new Array();
 
         break;
