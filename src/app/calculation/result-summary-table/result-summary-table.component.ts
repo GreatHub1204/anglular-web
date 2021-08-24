@@ -27,6 +27,10 @@ export class ResultSummaryTableComponent implements OnInit {
     for(const k of keys){
       this.summary_table.push(this.calc.summary_table[k]);
     }
+    // 総括表の高さを設定する
+    const table = document.getElementById("userinput");
+    const height = window.innerHeight;
+    table.style.height = (height *0.9) + 'px';
   }
 
    /* To copy Text from Textbox */

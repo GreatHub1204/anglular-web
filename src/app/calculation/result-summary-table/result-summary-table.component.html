@@ -1,21 +1,12 @@
-<div class="modal-dialog modal-dialog-scrollable" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="helper">
-        <ul>
-          <li>
-            <a class="copy" (click)="copyInputMessage(userinput)"
-              ><i class="far fa-copy"></i
-            ></a>
-          </li>
-        </ul>
-      </div>
-    </div>
     <div class="modal-body">
       <table #userinput id="userinput">
         <thead>
           <tr>
-            <th width="30px" class="top"> </th>
+            <th width="30px" class="top"> 
+              <a class="copy" (click)="copyInputMessage(userinput)">
+                <i class="far fa-copy"></i>
+              </a> 
+            </th>
             <th width="30px" class="top"> </th>
             <th width="200px" class="top"></th>
             <th width="150px" class="top"> </th>
@@ -624,9 +615,3 @@
         </tbody>
       </table>
     </div>
-<!-- 
-    <div class="modal-footer">
-    </div>
--->
-  </div>
-</div>
