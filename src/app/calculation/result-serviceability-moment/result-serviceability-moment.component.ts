@@ -109,12 +109,16 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     }
     this.isJREAST = false;
     this.isJRTT = false;
+
+    const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
-    if(speci2===2 || speci2===5){
-      this.isJREAST = true;
-    }
-    if(speci2===1){
-      this.isJRTT = true;
+    if(speci1==0){
+      if(speci2===2 || speci2===5){
+        this.isJREAST = true;
+      }
+      if(speci2===1){
+        this.isJRTT = true;
+      }
     }
 
     let page: any;

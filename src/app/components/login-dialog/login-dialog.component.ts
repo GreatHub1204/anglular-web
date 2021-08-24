@@ -44,7 +44,7 @@ export class LoginDialogComponent implements OnInit {
     .then(auth => {
       this.connecting = false;
       // メールアドレス確認が済んでいるかどうか
-      if (auth.user.emailVerified) {
+      if (!auth.user.emailVerified) {
         this.auth.signOut();
         // this.user.clear();
         return Promise.reject('メールアドレスが確認できていません。');

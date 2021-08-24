@@ -36,7 +36,7 @@ export class InputBasicInformationService  {
   private default_specification1(): any {
     return [
       { id: 0, title: '鉄道', selected: true },
-      { id: 1, title: '道路', selected: false }
+      { id: 1, title: '土木学会', selected: false }
     ];
   }
   /// get_specification1 によって変わる項目の設定
@@ -82,6 +82,7 @@ export class InputBasicInformationService  {
     let result: any[] = new Array();
     switch (specification1) {
       case 0: // 鉄道
+      case 1: // 土木学会
 
         result = [
           { id: 0, title: '耐久性 縁応力度検討用', no: null},
@@ -96,7 +97,7 @@ export class InputBasicInformationService  {
         ];
         break;
 
-      case 1: // 港湾
+      case 2: // 港湾
 
         result = [
           { id: 0, title: '使用限界 縁応力度検討用', no: null},
@@ -123,6 +124,7 @@ export class InputBasicInformationService  {
     let result: any[] = new Array();
     switch (specification1) {
       case 0: // 鉄道
+      case 1: // 土木学会
         result = [
           { id: 0, title: '耐久性 せん断ひび割れ検討判定用', no: null},
           { id: 1, title: '耐久性 （永久荷重）', no: null},
@@ -135,7 +137,7 @@ export class InputBasicInformationService  {
         ];
         break;
 
-      case 1: // 港湾
+      case 2: // 港湾
         result = [
           { id: 0, title: '使用限界 せん断ひび割れ検討判定用', no: null},
           { id: 1, title: '使用限界 （永久荷重）', no: null},
@@ -167,11 +169,15 @@ export class InputBasicInformationService  {
           { id: 0, title: 'ＪＲ各社', selected: true },
           { id: 1, title: '運輸機構', selected: false },
           { id: 2, title: 'ＪＲ東日本', selected: false },
-          { id: 5, title: 'ＪＲ東日本（既存構造物）', selected: false }
+          // { id: 5, title: 'ＪＲ東日本（既存構造物）', selected: false }
         ];
         break;
 
-      case 1: // 港湾
+      case 1: // 土木学会
+        result = [];
+        break;
+
+      case 2: // 港湾
         result = [];
         break;
       default:
@@ -195,7 +201,8 @@ export class InputBasicInformationService  {
     let result: any[] = new Array();
     switch (specification1) {
       case 0: // 鉄道
-      case 1: // 港湾
+      case 1: // 土木学会
+      case 2: // 港湾
         result =[
           { id: 'JR-001', title: 'ひび割れ幅制限値に用いるかぶりは 100mm を上限とする', selected: true },
           { id: 'JR-003', title: '円形断面で鉄筋を頂点に１本配置する',                 selected: true },
@@ -244,8 +251,8 @@ export class InputBasicInformationService  {
   public get_specification2(): number {
     const sp = this.specification2_list.find(
       value=>value.selected === true);
-
-    return sp.id;
+    const id = (sp !== undefined) ? sp.id: -1;
+    return id;
   }
   public set_specification1(index: number): any {
 
@@ -261,7 +268,13 @@ export class InputBasicInformationService  {
   }
 
   public setSaveData(basic: any){
-    this.specification1_list = basic.specification1_list;
+    this.specification1_list = this.default_specification1();
+    for(const sp1 of this.specification1_list){
+      const _sp1 = basic.specification1_list.find(v=> v.id===sp1.id)
+      if(_sp1 !== undefined){
+        sp1.selected = _sp1.selected;
+      }
+    }
     const sp1 = this.get_specification1();
 
     this.pickup_moment = this.default_pickup_moment(sp1);

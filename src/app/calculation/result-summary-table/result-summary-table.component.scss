@@ -1,107 +1,115 @@
+::ng-deep .modal-dialog {
+  max-width: 90%;
+  width: 90%;
+  max-height: 90%;
+  height: 90%;
+}
+
+.modal-body table {
+  display: block;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
 table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    font-family: "ＭＳ 明朝", serif;
-  }
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: "ＭＳ 明朝", serif;
+}
 
-  .modal-dialog{
-    max-width: 100%;
-    margin: 15px;
-  }
-  
-  .top {
-      border-top: 1px solid black;
-  }
-  
-  .bottom {
-      border-bottom: 1px solid black;
-  }
-  
-  .left {
-    border-left: 1px solid black;
-  }
+.top {
+  border-top: 1px solid black;
+}
 
-  .height3{
-    height: 60px;
-  }
+.bottom {
+  border-bottom: 1px solid black;
+}
 
-  .text-left{
-    text-align: left;
-    padding-left: 10px;
-  }
-  .text-center{
-    text-align: center;
-  }
-  .text-right{
-    text-align: right;
-    padding-right: 15px;
-  }
-  td{
-    white-space: nowrap;
-  }
-  th span{
-    writing-mode: tb-lr;
-    writing-mode: vertical-lr;
-    -webkit-writing-mode: vertical-lr;
-  }
-  td span{
-    writing-mode: tb-lr;
-    writing-mode: vertical-lr;
-    -webkit-writing-mode: vertical-lr;
-  }
+.left {
+  border-left: 1px solid black;
+}
 
-.shape{
+.height3 {
+  height: 60px;
+}
+
+.text-left {
+  text-align: left;
+  padding-left: 10px;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+  padding-right: 15px;
+}
+td {
+  white-space: nowrap;
+}
+th span {
+  writing-mode: tb-lr;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+}
+td span {
+  writing-mode: tb-lr;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+}
+
+.shape {
   position: relative;
   text-align: center;
 }
-  .shape img{
-    padding: 20px;
-    width: 98px;
-    height: 98px;
-  }
-  .shape .tate{
-    font-size: 9px;
-    position:absolute;
-    color: black;
-    transform: rotate( -90deg );
-    top: 33%;
-    left: 65%;
-  }
-  .shape .yoko{
-    font-size: 8px;
-    position:absolute;
-    color: black;
-    top: 65%;
-    left: 33%;
-  }
+.shape img {
+  padding: 20px;
+  width: 98px;
+  height: 98px;
+}
+.shape .tate {
+  font-size: 9px;
+  position: absolute;
+  color: black;
+  transform: rotate(-90deg);
+  top: 33%;
+  left: 65%;
+}
+.shape .yoko {
+  font-size: 8px;
+  position: absolute;
+  color: black;
+  top: 65%;
+  left: 33%;
+}
 
-.band{
+.band {
   writing-mode: tb-rl;
   display: block;
   white-space: nowrap;
 }
 
-
 // コピーボタン
-.copy{
+.copy {
   font-size: 20px;
   color: #555555;
   opacity: 0.3;
-  &:hover{
-      opacity:  1;
-      cursor: pointer;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
   }
 }
 
-.helper{
+.helper {
   padding: 0 16px;
-  ul{
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      li{
-          margin-left: 8px;
-      }
+  ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    li {
+      margin-left: 8px;
+    }
   }
 }
