@@ -539,21 +539,6 @@
             </ng-container>
           </tr>
           <tr>
-            <td colspan="3" rowspan="2" class="bottom text-center">決定ケース</td>
-            <td class="left bottom text-center">曲げ</td>
-            <td class="left bottom text-center">-</td>
-            <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center">{{item.restorabilityShearForce.Ratio}}</td>
-            </ng-container>
-          </tr>
-          <tr class="bottom">
-            <td class="left text-center">せん断</td>
-            <td class="left text-center">-</td>
-            <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center">{{item.restorabilityShearForce.Ratio}}</td>
-            </ng-container>
-          </tr>
-          <tr>
             <td class="text-center" rowspan="7"><span>鉄筋量の照査</span></td>
             <td class="left bottom text-center" rowspan="4"><span>最小</span></td>
             <td class="left bottom text-left">粗骨材の最大寸法</td>
@@ -610,6 +595,21 @@
             <td class="left text-center">%</td>
             <ng-container *ngFor="let item of summary_table; index as i">
               <td class="left bottom text-center">{{item.minimumReinforcement.pc}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td colspan="3" rowspan="2" class="bottom text-center">決定ケース</td>
+            <td class="left bottom text-center">曲げ</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityShearForce.Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr class="bottom">
+            <td class="left text-center">せん断</td>
+            <td class="left text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityShearForce.Ratio}}</td>
             </ng-container>
           </tr>
         </tbody>
