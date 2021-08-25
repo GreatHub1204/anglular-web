@@ -15,10 +15,13 @@
               </span>
             </label>
             <button ngbDropdownItem (click)="fileSave()">ファイルを保存</button>
-            <button ngbDropdownItem (click)="pickup($event)">
-              ピックアップファイルを開く
-            </button>
-          </div>
+            <label style="width: 100%; margin: 0px">
+                <span ngbDropdownItem>
+                ピックアップファイルを開く
+                <input type="file" accept="application/text" (change)="pickup($event)" style="display: none" />
+              </span>
+            </label>
+        </div>
         </div>
       </li>
       <li>
@@ -29,7 +32,7 @@
   </div>
 
   <div class="title">
-    <h1>断面性能照査プログラム ver1.6.3</h1>
+    <h1>断面性能照査プログラム ver1.6.5</h1>
   </div>
 
   <div class="login-area">
