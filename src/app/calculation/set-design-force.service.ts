@@ -420,6 +420,10 @@ export class SetDesignForceService {
   // 変動荷重として max - min の断面力を生成する
   public getLiveload(minDesignForceList: any[], maxDesignForceList: any[]): any[] {
 
+    if(maxDesignForceList.length === 0){
+      return null;
+    } 
+
     const result = JSON.parse(
       JSON.stringify({
         temp: maxDesignForceList
@@ -431,9 +435,17 @@ export class SetDesignForceService {
       // 最大応力 - 最小応力 で変動荷重を求める
       const minForce: any = minDesignForceList[ip];
       const maxForce: any = result[ip];
+
       for (let i = 0; i < minForce.designForce.length; i++) {
+        if (maxForce.designForce.length === i){
+          break;
+        }
         for (const key1 of ['Md', 'Vd', 'Nd']) {
-          maxForce.designForce[i][key1] -= minForce.designForce[i][key1];
+          const maxF = maxForce.designForce[i];
+          const minF = minForce.designForce[i];
+          if(key1 in maxF && key1 in minF){
+            maxF[key1] -= minF[key1];
+          }
         }
         maxForce.designForce[i]['comb'] = "-";
       }
