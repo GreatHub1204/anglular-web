@@ -109,8 +109,13 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
             }
 
             /////////////// まず計算 ///////////////
-            const section = this.result.getSteelStruct("Vd", res[0], safety);
-            const member = section.member;
+            let section: any = null;
+            try {
+              section = this.result.getSteelStruct("Vd", res[0], safety);
+            } catch (e) {
+              continue;
+            }
+         const member = section.member;
             const shape = section.shape;
             const Ast = section.Ast;
 
