@@ -277,10 +277,10 @@ export class ResultSafetyMomentComponent implements OnInit {
       result.Nd = { alien: "right", value: (Math.round(re.Nd*10)/10).toFixed(1) };
     }
     if ("ecu" in re) {
-      result.ecu = { alien: "right", value: re.εcu.toFixed(5) };
+      result.ecu = { alien: "right", value: re.ecu.toFixed(5) };
     }
     if ("es" in re) {
-      result.es = { alien: "right", value: re.εs.toFixed(5) };
+      result.es = { alien: "right", value: re.es.toFixed(5) };
     }
     if ("x" in re) {
       result.x = { alien: "right", value: re.x.toFixed(1) };

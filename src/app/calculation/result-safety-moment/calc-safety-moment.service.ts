@@ -95,8 +95,8 @@ export class CalcSafetyMomentService {
     return {
       Md,
       Nd: force.Nd,
-      εcu: resultData.M.εc,
-      εs: resultData.M.εs,
+      ecu: resultData.M.εc,
+      es: resultData.M.εs,
       x: resultData.M.x,
       Mu,
       rb,
