@@ -111,7 +111,7 @@
     <button
       styleSheetFile="assets/css/result-viewer.component.css"
       printSectionId = "print_section" ngxPrint >Print</button>
-    <ng-container *ngIf="_printSummaryTable">
+    <ng-container *ngIf="printSummaryTable()">
       <button (click)="summaryTableShow()">総括表</button>
     </ng-container>
 
