@@ -115,7 +115,7 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
             } catch (e) {
               continue;
             }
-         const member = section.member;
+            const member = section.member;
             const shape = section.shape;
             const Ast = section.Ast;
 
