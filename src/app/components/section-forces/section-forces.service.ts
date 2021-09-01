@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { InputBasicInformationService } from '../basic-information/basic-information.service';
 import { InputDesignPointsService } from '../design-points/design-points.service';
-import { InputMembersService } from '../members/members.service';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +84,39 @@ export class InputSectionForcesService  {
     return result;
   }
 
+  public getColumnHeaders3(): any {
+    const result: object[] = [
+      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 },
+      { title: "せん断スパン長(mm)", dataType: "float", dataIndx: "La", sortable: false, width: 140 },
+      ];
+
+    let old: string = null;
+    let head: any = null;
+    for(const s of this.basic.pickup_torsional_moment){
+      const titles = s.title.split(' ');
+      if(old !== titles[0]){
+        if( head !== null){
+          result.push(head);
+        }
+        head = { title: titles[0], align: 'center', colModel:[] }
+        old = titles[0];
+      }
+      const key = 'Vd' + s.id;
+      head.colModel.push(
+        { title: titles[1], align: 'center', colModel: [
+          { title: 'Mt<br/>(kN・m)',    dataType: 'float', 'format': '#.00', dataIndx: key + '_Mt', sortable: false, width: 100 },
+          { title: 'Md<br/>(kN・m)', dataType: 'float', 'format': '#.00', dataIndx: key + '_Md', sortable: false, width: 100 },
+          { title: 'Vd<br/>(kN)',    dataType: 'float', 'format': '#.00', dataIndx: key + '_Vd', sortable: false, width: 100 },
+          { title: 'Nd<br/>(kN)',    dataType: 'float', 'format': '#.00', dataIndx: key + '_Nd', sortable: false, width: 100 }
+        ]
+      })
+    }
+    if( head !== null){
+      result.push(head);
+    }
+
+    return result;
+  }
   // １行 のデフォルト値
   public default_column(index: number): any {
 
@@ -102,6 +134,14 @@ export class InputSectionForcesService  {
       const key = 'Vd' + s.id;
       rows[key + '_Vd'] = null;
       rows[key + '_Md'] = null;
+      rows[key + '_Nd'] = null;
+    }
+
+    for(const s of this.basic.pickup_torsional_moment){
+      const key = 'Mt' + s.id;
+      rows[key + '_Mt'] = null;
+      rows[key + '_Md'] = null;
+      rows[key + '_Vd'] = null;
       rows[key + '_Nd'] = null;
     }
 
