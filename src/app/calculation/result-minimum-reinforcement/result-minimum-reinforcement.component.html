@@ -414,6 +414,13 @@
             {{column.Myd.value}}</td>
           </ng-container>
         </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">判定</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.result_Md.alien}} g-right2 g-bottom2">
+            {{column.result_Md.value}}</td>
+          </ng-container>
+        </tr>
       </table>
     </div>
 
@@ -721,6 +728,13 @@
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.pc.alien}} g-right2 g-bottom2">
             {{column.pc.value}}</td>
+          </ng-container>
+        </tr>
+        <tr>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">判定</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <td colspan="2" class="{{column.result_pc.alien}} g-right2 g-bottom2">
+            {{column.result_pc.value}}</td>
           </ng-container>
         </tr>
       </table>

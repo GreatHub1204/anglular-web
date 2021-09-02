@@ -419,6 +419,9 @@ export class CalcSafetyShearForceService {
       Vsd2 = Vsd2 / 1000;
 
       result["Vsd2"] = Vsd2;
+
+      Vyd += Vsd2;
+
     } else {
       // 鉄鋼鋼材の設計せん断耐力
       const fsvyd = fsvyd_IWeb;

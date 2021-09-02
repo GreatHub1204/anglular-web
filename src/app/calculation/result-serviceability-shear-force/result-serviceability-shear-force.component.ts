@@ -239,7 +239,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
               column['Bn'] = resultColumn.Bn;
               column['rbc'] = resultColumn.rbc;
               column['Vcd'] = resultColumn.Vcd;
-              column['Vcd2'] = resultColumn.Vcd2;
               column['Vcd07'] = resultColumn.Vcd07;
               /////////////// せん断応力度 ///////////////
               column['con'] = resultColumn.con;
@@ -325,7 +324,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
       Bn: { alien: "center", value: "-" },
       rbc: { alien: "center", value: "-" },
       Vcd: { alien: "center", value: "-" },
-      Vcd2: { alien: "center", value: "-" },
       Vcd07: { alien: "center", value: "-" },
 
       con: { alien: "center", value: "-" },
@@ -430,9 +428,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     }
     if ("Vcd" in re) {
       result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
-    }
-    if ("Vcd" in re) {
-      result.Vcd2 = { alien: "right", value: re.Vcd.toFixed(1) };
     }
     if ("Vcd07" in re) {
       if (Vhd <= re.Vcd07) {

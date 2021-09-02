@@ -515,14 +515,8 @@
         <th class="cell_name2 g-bottom1 g-left2">Vcd</th>
         <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
-          <ng-container *ngIf="!column.bendFlag">
-            <td colspan="2" class="{{column.Vcd.alien}} g-right2 g-bottom1">
-            {{column.Vcd.value}}</td>
-          </ng-container>
-          <ng-container *ngIf="column.bendFlag">
-            <td class="right g-bottom1">{{column.Vcd.value}}</td>
-            <td class="right g-right2 g-bottom1">{{column.Vcd2.value}}</td>
-          </ng-container>
+          <td colspan="2" class="{{column.Vcd.alien}} g-right2 g-bottom1">
+          {{column.Vcd.value}}</td>
         </ng-container>
       </tr>
       <tr>

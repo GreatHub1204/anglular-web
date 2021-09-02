@@ -586,9 +586,11 @@ export class CalcSummaryTableService {
             columns.minimumReinforcement.Nd = col.Nd.value;
             columns.minimumReinforcement.Mcrd = col.Mcrd_kN.value;
             columns.minimumReinforcement.Myd = col.Myd.value;
+            columns.minimumReinforcement.result_Md = col.result_Md.value;
             columns.minimumReinforcement.pb = col.pb.value;
             columns.minimumReinforcement.pb075 = col.pb075.value;
             columns.minimumReinforcement.pc = col.pc.value;
+            columns.minimumReinforcement.result_pc = col.result_pc.value;
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -656,7 +658,7 @@ export class CalcSummaryTableService {
       restorabilityShearForce: {
         Vd: "-",
         Vyd: "-",
-        Ratio: "-",
+        Vyd_Ratio: "-",
       },
       SafetyFatigueMoment: {
         ri: "-",

@@ -51,6 +51,7 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
       numberCell: { show: true }, // 行番号
       colModel: this.columnHeaders1,
       dataModel: { data: this.table_datas },
+      freezeCols: 1,
       beforeTableView:(evt, ui) => {
         const dataV = this.table_datas.length;
         if (ui.initV == null) {
@@ -73,6 +74,7 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
       numberCell: { show: true }, // 行番号
       colModel: this.columnHeaders2,
       dataModel: { data: this.table_datas },
+      freezeCols: 1,
       beforeTableView:(evt, ui) => {
         const dataV = this.table_datas.length;
         if (ui.initV == null) {

@@ -148,6 +148,7 @@ export class SafetyFactorsMaterialStrengthsComponent
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders1,
         dataModel: { data: this.table1_datas[i] },
+        freezeCols: 1,
       });
       this.option2_list.push({
         width: 550,
@@ -159,6 +160,7 @@ export class SafetyFactorsMaterialStrengthsComponent
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders2,
         dataModel: { data: this.table2_datas[i] },
+        freezeCols: 1,
       });
       this.option3_list.push({
         width: 550,
@@ -170,6 +172,7 @@ export class SafetyFactorsMaterialStrengthsComponent
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders3,
         dataModel: { data: this.table3_datas[i] },
+        freezeCols: 1,
       });
       this.option4_list.push({
         width: 410,
@@ -181,6 +184,7 @@ export class SafetyFactorsMaterialStrengthsComponent
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders4,
         dataModel: { data: this.table4_datas[i] },
+        freezeCols: 1,
       });
       this.option5_list.push({
         width: 570,
@@ -192,6 +196,7 @@ export class SafetyFactorsMaterialStrengthsComponent
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders5,
         dataModel: { data: this.table5_datas[i] },
+        freezeCols: 1,
       });
     }
 
@@ -212,7 +217,7 @@ export class SafetyFactorsMaterialStrengthsComponent
 
   private setTitle(): void {
     this.columnHeaders1 = [
-      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       { title: '曲げ安全係数', align: 'center', colModel: [
         { title: 'γc',  dataType: 'float', 'format':'#.00', dataIndx: 'M_rc', sortable: false, width: 70 },
         { title: 'γs',  dataType: 'float', 'format':'#.00', dataIndx: 'M_rs', sortable: false, width: 70 },
@@ -231,7 +236,7 @@ export class SafetyFactorsMaterialStrengthsComponent
 
     // 鉄筋材料強度
     this.columnHeaders2 = [
-      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       { title: '降伏強度', align: 'center', colModel: [
         { title: 'D25以下', dataType: 'float', dataIndx: 'fsy1', sortable: false, width: 70 },
         { title: 'D29以上', dataType: 'float', dataIndx: 'fsy2', sortable: false, width: 70 }
@@ -257,7 +262,7 @@ export class SafetyFactorsMaterialStrengthsComponent
 
     // 鉄骨材料強度
     this.columnHeaders5 = [
-      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       { title: 't≦16',     dataType: 'float', dataIndx: 'SRCfsyk1', sortable: false, width: 100 },
       { title: '16＜t≦40', dataType: 'float', dataIndx: 'SRCfsyk2', sortable: false, width: 100 },
       { title: '40＜t≦75', dataType: 'float', dataIndx: 'SRCfsyk3', sortable: false, width: 100 }

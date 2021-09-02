@@ -46,6 +46,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
         numberCell: { show: false }, // 行番号
         colModel: this.columnHeaders,
         dataModel: { data: this.table_datas[i] },
+        freezeCols: (this.save.isManual()) ? 2 : 4,
         change: (evt, ui) => {
           for (const property of ui.updateList) {
             for (const key of Object.keys(property.newRow)) {
@@ -89,17 +90,17 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (isManual) {
       // 断面力手入力モードの場合
       this.columnHeaders = [
-        { title: "", align: "left", dataType: "string", dataIndx: "m_no", sortable: false, width: 70, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: "算出点名", dataType: "string", dataIndx: "p_name", sortable: false, width: 250 },
+        { title: "", align: "left", dataType: "string", dataIndx: "m_no", frozen: true, sortable: false, width: 70, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: "算出点名", dataType: "string", dataIndx: "p_name", frozen: true, sortable: false, width: 250 },
         { title: "せん断スパン長(mm)", dataType: "float", dataIndx: "La", sortable: false, width: 140 },
       ];
     } else {
       // ピックアップファイルを使う場合
       this.columnHeaders = [
-        { title: "部材番号", align: "left", dataType: "string", dataIndx: "m_no", sortable: false, width: 70, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: "算出点", dataType: "string", dataIndx: "p_id", sortable: false, width: 85, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: "位置", dataType: "float", format: "#.000", dataIndx: "position", sortable: false, width: 110, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: "算出点名", dataType: "string", dataIndx: "p_name", sortable: false, width: 250 },
+        { title: "部材番号", align: "left", dataType: "string", dataIndx: "m_no", frozen: true, sortable: false, width: 70, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: "算出点", dataType: "string", dataIndx: "p_id", frozen: true, sortable: false, width: 85, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: "位置", dataType: "float", format: "#.000", dataIndx: "position", frozen: true, sortable: false, width: 110, editable: false, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: "算出点名", dataType: "string", dataIndx: "p_name", frozen: true, sortable: false, width: 250 },
       ];
       if (this.save.is3DPickUp()) {
         // 3次元ピックアップファイルの場合
