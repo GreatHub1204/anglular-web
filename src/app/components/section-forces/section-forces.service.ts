@@ -23,7 +23,7 @@ export class InputSectionForcesService  {
 
   public getColumnHeaders1(): any {
     const result: object[] = [
-      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 }
+      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 }
     ];
 
     let old: string = null;
@@ -54,7 +54,7 @@ export class InputSectionForcesService  {
 
   public getColumnHeaders2(): any {
     const result: object[] = [
-      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 },
+      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 },
       { title: "せん断スパン長(mm)", dataType: "float", dataIndx: "La", sortable: false, width: 140 },
       ];
 

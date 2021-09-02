@@ -215,7 +215,8 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             column['x'] = resultColumn.x;
             column['My'] = resultColumn.My;
             column['rb'] = resultColumn.rb;
-            column['Myd'] = resultColumn.Myd; /* this */
+            column['Myd'] = resultColumn.Myd;
+            column['result_Md'] = resultColumn.result_Md;
             /////////////// 最大鉄筋量の照査 ///////////////
             // column['fck'] = resultColumn.fck;
             // column['rc'] = resultColumn.rc;
@@ -230,9 +231,10 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             // column['Nd'] = resultColumn.Nd;
             column['sigma_s'] = resultColumn.sigma_s;
             column['d'] = resultColumn.d;
-            column['pb'] = resultColumn.pb;/* this */
-            column['pb075'] = resultColumn.pb075;/* this */
-            column['pc'] = resultColumn.pc;/* this */
+            column['pb'] = resultColumn.pb;
+            column['pb075'] = resultColumn.pb075;
+            column['pc'] = resultColumn.pc;
+            column['result_pc'] = resultColumn.result_pc;
             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
             column['index'] = position.index;
@@ -294,6 +296,7 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       My: { alien: "center", value: "-" },
       rb: { alien: "center", value: "-" },
       Myd: { alien: "center", value: "-" },
+      result_Md: { alien: "center", value: "-" },
 
       //最大鉄筋量
       //fck: { alien: "center", value: "-" },
@@ -312,6 +315,7 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       pb: { alien: "center", value: "-" },
       pb075: { alien: "center", value: "-" },
       pc: { alien: "center", value: "-" },
+      result_pc: { alien: "center", value: "-" },
 
     };
 
@@ -393,6 +397,13 @@ export class ResultMinimumReinforcementComponent implements OnInit {
     if ("Myd" in re) {
       result.Myd = { alien: "right", value: re.Myd.toFixed(2) };
     }
+    if ( "Mcrd" in re && "Myd" in re ) {
+      if ( (re.Mcrd / 10**6) < re.Myd ) {
+        result.result_Md.value = "OK";
+      } else {
+        result.result_Md.value = "NG";
+      }
+    }
     
     // 最大鉄筋量
     //if ("fck" in re) {
@@ -440,6 +451,13 @@ export class ResultMinimumReinforcementComponent implements OnInit {
     }
     if ("pc" in re) {
       result.pc = { alien: "right", value: re.pc.toFixed(2) };
+    }
+    if ( "Mcrd" in re && "Myd" in re ) {
+      if ( (re.pb * 0.75) > re.pc ) {
+        result.result_pc.value = "OK";
+      } else {
+        result.result_pc.value = "NG";
+      }
     }
 
     return result;

@@ -45,7 +45,8 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
         height: this.tableHeight().toString(),
         numberCell: { show: this.save.isManual() }, // 行番号
         colModel: this.columnHeaders,
-        dataModel: { data: this.table_datas[i] }
+        dataModel: { data: this.table_datas[i] },
+        freezeCols: (this.save.isManual()) ? 2 : 3,
       };
       this.option_list.push(op);
     }
@@ -67,18 +68,18 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
     if (isManual) {
       // 断面力手入力モードの場合
       this.columnHeaders = [
-        { title: '', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: '', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];
     } else {
       this.columnHeaders = [
-        { title: '部材\n番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: '部材\n番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];    
     }
 
     // 共通する項目
     this.columnHeaders.push(
-      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       {
         title: '環境条件', align: 'center', colModel: [
           { title: '上側', dataType: 'integer', dataIndx: 'con_u', sortable: false, width: 60 },
