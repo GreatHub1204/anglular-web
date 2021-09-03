@@ -361,12 +361,14 @@ export class InputBasicInformationService  {
     }
 
     this.pickup_torsional_moment = this.default_pickup_torsional(sp1);
-    for(let i=0; i<basic.pickup_torsional_moment.length; i++){
-      const e = this.pickup_torsional_moment[i];
-      const t = basic.pickup_torsional_moment[i];
-      for(const k of Object.keys(e)){
-        if(k in t){
-          e[k] = t[k];
+    if('pickup_torsional_moment' in basic){
+      for(let i=0; i<basic.pickup_torsional_moment.length; i++){
+        const e = this.pickup_torsional_moment[i];
+        const t = basic.pickup_torsional_moment[i];
+        for(const k of Object.keys(e)){
+          if(k in t){
+            e[k] = t[k];
+          }
         }
       }
     }
