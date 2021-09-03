@@ -486,8 +486,8 @@ export class ResultSafetyShearForceComponent implements OnInit {
 
     if ("Vyd_Ratio" in re) {
       result.Vyd_Ratio = { 
-        alien: "right",
-        value: re.Vyd_Ratio.toFixed(3).toString() + ((re.Vyd_Ratio < 1) ? ' < 1.00' : ' < 1.00')
+        alien: "center",
+        value: re.Vyd_Ratio.toFixed(3).toString() + ((re.Vyd_Ratio < 1) ? ' < 1.00' : ' > 1.00'),
       }
     }
     if ("Vyd_Result" in re) {
@@ -501,7 +501,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
       result.Vwcd = { alien: "right", value: re.Vwcd.toFixed(1) };
     }
     if ("Vwcd_Ratio" in re) {
-      result.Vwcd_Ratio.value = re.Vwcd_Ratio.toFixed(3).toString() + ((re.Vwcd_Ratio < 1) ? ' < 1.00' : ' < 1.00')
+      result.Vwcd_Ratio.value = re.Vwcd_Ratio.toFixed(3).toString() + ((re.Vwcd_Ratio < 1) ? ' < 1.00' : ' > 1.00')
     }
     if ("Vwcd_Result" in re) {
       result.Vwcd_Result = { alien: "center", value: re.Vwcd_Result };

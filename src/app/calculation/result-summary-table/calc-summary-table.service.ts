@@ -397,8 +397,8 @@ export class CalcSummaryTableService {
             columns.steel.H_web = col.steel_H_web.value;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
-            columns.As.AscString = col.AseString.value;
-            columns.As.AseString = col.AscString.value;
+            columns.As.AscString = col.AscString.value;
+            columns.As.AseString = col.AseString.value;
             // 照査結果
             columns.safetyMoment.ri = col.ri.value;
             columns.safetyMoment.Md = col.Md.value;

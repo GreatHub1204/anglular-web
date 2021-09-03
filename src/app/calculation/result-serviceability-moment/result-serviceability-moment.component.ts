@@ -503,7 +503,10 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       result.ri.value = re.ri.toFixed(2);
     }
     if ("ratio" in re) {
-      result.ratio.value = re.ratio.toFixed(3);
+      result.ratio = { 
+        alien: "center",
+        value: re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00'),
+      }
     }
 
     if (re.ratio < 1) {

@@ -303,7 +303,7 @@ export class ResultSafetyMomentComponent implements OnInit {
     if ("ratio" in re) {
       //result.ratio.value = re.ratio.toFixed(3);
       ratio = re.ratio;
-      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' < 1.00');
+      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00');
     }
     if (ratio < 1) {
       result.result.value = "OK";

@@ -42,27 +42,52 @@
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Rectangle'" class="shape">
-                  <img src="./assets/img/rectangle.png" alt="rectangle.png" width="100px" height="100px">
-                  <p class="tate">{{item.shape.H}}</p>
-                  <p class="yoko">{{item.shape.B}}</p>
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/rectangle.png" alt="rectangle.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/rectangle_under.png" alt="rectangle_under.png" width="100px" height="100px">
+                  </ng-container>
+                    <p class="tate">{{item.shape.H}}</p>
+                    <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Tsection'" class="shape">
-                  <img src="./assets/img/tsection.png" alt="tsection.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/tsection.png" alt="tsection.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/tsection_under.png" alt="tsection_under.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='InvertedTsection'" class="shape">
-                  <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/invertedtsection_over.png" alt="invertedtsection_over.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='HorizontalOval'" class="shape">
-                  <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/horizontalOval_over.png" alt="horizontalOval.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='VerticalOval'" class="shape">
-                  <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/verticalOval.png" alt="verticalOval_over.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>

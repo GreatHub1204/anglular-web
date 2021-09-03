@@ -422,7 +422,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
     }
     let ratio = 0;
     if ("ratio" in re) {
-      result.ratio.value = re.ratio.toFixed(3);
+      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00');
       ratio = re.ratio;
     }
     if (ratio < 1) {

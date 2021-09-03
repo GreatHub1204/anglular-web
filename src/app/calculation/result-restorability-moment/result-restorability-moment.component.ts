@@ -305,12 +305,13 @@ export class ResultRestorabilityMomentComponent implements OnInit {
     if ("ri" in re) {
       result.ri = { alien: "right", value: re.ri.toFixed(2) };
     }
-    let ratio = 0;
     if ("ratio" in re) {
-      result.ratio.value = re.ratio.toFixed(3);
-      ratio = re.ratio;
+      result.ratio = { 
+        alien: "center",
+        value: re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00')
+      }
     }
-    if (ratio < 1) {
+    if (re.ratio < 1) {
       result.result.value = "OK";
     } else {
       result.result.value = "NG";
