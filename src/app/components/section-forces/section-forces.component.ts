@@ -27,6 +27,10 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
   private columnHeaders2: object[];
   private options2: pq.gridT.options;
 
+  // ねじりモーメントのグリッド設定変数
+  private columnHeaders3: object[];
+  private options3: pq.gridT.options;
+
 
   ngOnInit() {
     // データを登録する
@@ -35,6 +39,7 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.columnHeaders1 = this.force.getColumnHeaders1();
     this.columnHeaders2 = this.force.getColumnHeaders2();
+    this.columnHeaders3 = this.force.getColumnHeaders3();
 
     // 曲げモーメントグリッドの初期化 --------------------------------------
     this.options1 = {
@@ -70,6 +75,28 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
       colModel: this.columnHeaders2,
       dataModel: { data: this.table_datas },
       freezeCols: 1,
+      beforeTableView:(evt, ui) => {
+        const dataV = this.table_datas.length;
+        if (ui.initV == null) {
+          return;
+        }
+        if (ui.finalV >= dataV - 1) {
+          this.loadData(dataV + this.ROWS_COUNT);
+          this.grid.refreshDataAndView();
+        }
+      }
+    };
+
+    // ねじりモーメントグリッドの初期化 ------------------------------------------
+    this.options3 = {
+      showTop: false,
+      reactive: true,
+      sortable: false,
+      locale: 'jp',
+      height: this.tableHeight().toString(),
+      numberCell: { show: true }, // 行番号
+      colModel: this.columnHeaders3,
+      dataModel: { data: this.table_datas },
       beforeTableView:(evt, ui) => {
         const dataV = this.table_datas.length;
         if (ui.initV == null) {
@@ -122,11 +149,18 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
     return Math.round(containerHeight / 30);
   }
 
-
   public activePageChenge(id: number): void {
-    this.activeButtons(id);
 
-    this.options = (id === 0) ? this.options1 : this.options2;
+    if(id === 0) {
+      this.options = this.options1;
+    } else if (id === 1) {
+      this.options = this.options2;
+    } else if (id === 2) {
+      this.options = this.options3;
+    } else {
+      return;
+    }
+    this.activeButtons(id);
     this.grid.options = this.options;
     this.grid.refreshDataAndView();
   }

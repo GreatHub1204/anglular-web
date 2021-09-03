@@ -23,6 +23,10 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
   private table2_datas: any[] = [];
   public options2: pq.gridT.options;
 
+  @ViewChild('grid3') grid3: SheetComponent;
+  private table3_datas: any[] = [];
+  public options3: pq.gridT.options;
+
   // 適用 に関する変数
   public specification1_list: any[];
 
@@ -54,6 +58,7 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
 
     this.table1_datas = basic.pickup_moment;
     this.table2_datas = basic.pickup_shear_force;
+    this.table3_datas = basic.pickup_torsional_moment;
 
     this.options1 = {
       height: 340,
@@ -77,6 +82,16 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
       dataModel: { data: this.table2_datas },
     };
 
+    this.options3 = {
+      height: 210,
+      showTop: false,
+      reactive: true,
+      sortable: false,
+      locale: 'jp',
+      numberCell: { show: true }, // 行番号
+      colModel: this.columnHeaders,
+      dataModel: { data: this.table3_datas },
+    };
   }
 
   private setTitle(isManual: boolean): void {
@@ -107,6 +122,8 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
     this.basic.setSaveData({
       pickup_moment: this.table1_datas,
       pickup_shear_force: this.table2_datas,
+      pickup_torsional_moment: this.table3_datas,
+
       specification1_list: this.specification1_list, // 適用
       specification2_list: this.specification2_list, // 仕様
       conditions_list: this.conditions_list         // 設計条件
@@ -128,9 +145,11 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
 
     this.table1_datas = basic.pickup_moment;
     this.table2_datas = basic.pickup_shear_force;
+    this.table3_datas = basic.pickup_torsional_moment;
 
     this.grid1.refreshDataAndView();
     this.grid2.refreshDataAndView();
+    this.grid3.refreshDataAndView();
 
     this.specification1_select_id = i;
   }
