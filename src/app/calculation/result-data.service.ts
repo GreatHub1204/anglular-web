@@ -590,7 +590,9 @@ export class ResultDataService {
       return;
     }
 
-    result.I.tension_flange = 't-' + thickness + 'mm';
+    result.flag = true;
+
+    result.I.tension_flange = 't' + thickness + 'mm';
 
     const fsy = this.helper.toNumber(section.steel.fsy.fsy);
     const rs = this.helper.toNumber(section.steel.rs);
@@ -598,6 +600,7 @@ export class ResultDataService {
       result.fsy_tension.fsy = fsy;
       result.fsy_tension.fsd = fsy / rs;
     }
+    
 
     if (mark !== 'Vd') {
       return;
@@ -607,7 +610,7 @@ export class ResultDataService {
       fsvy: null,
       fvyd: null
     }
-    const fvy = this.helper.toNumber(section.steel.fvy);
+    const fvy = this.helper.toNumber(section.steel.fvy.fvy);
     if (fvy !== null && rs !== null) {
       result['fsvy_Iweb'] = {
         fsvy: fvy,
