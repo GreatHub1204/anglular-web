@@ -284,59 +284,6 @@ export class CalcSafetyFatigueShearForceService {
     result['k']  = k;
     result['ar']  = ar;
 
-    // 折り曲げ鉄筋の永久応力度
-/*     if (section.Asb.Asb !== null){
-      const SumCosSin = Math.cos(Math.PI * result.deg2 / 180) + Math.sin(Math.PI * result.deg2 / 180);
-      tmpWrd2 = (result.Aw * result.z) / (result.Ss * SumCosSin**2)
-                + (result.Asb * result.z * SumCosSin) / result.Ss2
-    }
-    let sigma_min2: number = (tmpWrd1 / tmpWrd2) * (tmpWrd3 / tmpWrd4);
-    if (sigma_min2 === null) { return result; }
-    sigma_min2 = sigma_min2 * 1000;
-    result['sigma_min2'] = sigma_min2;
-    const _sigma_min2 = Math.max(sigma_min2, 0);
- */
-    // 折り曲げ鉄筋の変動応力度
-/*     let sigma_rd2: number = (tmpWrd1 / tmpWrd2) * (Vrd / tmpWrd4);
-    if (sigma_rd2 === null) { return result; }
-    sigma_rd2 = sigma_rd2 * 1000;
-    result['sigma_rd2'] = sigma_rd2;
-    const _sigma_rd2 = Math.max(sigma_rd2, 0);
-   */  
-    // 折り曲げ鉄筋のf200 の計算
-/*     let k2 = 0.12;
-
-    const fai2: number = this.helper.toNumber(section.Asb.bending_dia);
-    if (fai2 === null) { return result; }
-
-    const fwud2: number = this.helper.toNumber(section.Asb.fwud);
-    if (fwud2 === null) { return result; }
-    result['fwud2'] = fwud2;
-
-    let r12: number = this.helper.toNumber(inputFatigue.r1_3);
-    if (r12 === null) { r12 = 1.00; }
-    result['r12'] = r12;
-
-    let ar2: number = 3.09 - 0.003 * fai2;
-
-    const tmp203: number = Math.pow(10, ar2) / Math.pow(reference_count, k2);
-    const tmp204: number = 1 - _sigma_min2 / fwud2;
-    const fsr2002: number = r12 * tmp203 * tmp204 / rs;
-    result['fsr2002'] = fsr2002;
-
-    const ratio2002: number = ri * _sigma_rd2 / (fsr2002 / rb);
-    result['ratio2002'] = ratio2002;
-
-    if (ratio2002 < 1) {
-      k2 = 0.06;
-      ar2 = 2.71 - 0.003 * fai;
-    } else {
-      k2 = 0.12;
-      ar2 = 3.09 - 0.003 * fai;
-    }
-    result['k2']  = k2;
-    result['ar2']  = ar2;
- */
     // 標準列車荷重観山の総等価繰返し回数 N の計算
     let T: number = this.helper.toNumber(this.fatigue.service_life);
     if (T === null) { return result; }
@@ -423,29 +370,6 @@ export class CalcSafetyFatigueShearForceService {
     if (section.Asb.Asb !== null) { 
       this.bend(section, result, inputFatigue, reference_count, rb, fai);
     };
-    // frd2（折り曲げ鉄筋） の計算
-/*     if (section.Asb.Asb !== null){
-      const tmpR21_b: number = Math.pow(a, 1 / k2);
-      const tmpR22_b: number = Math.pow(1 - a, 1 / k2);
-      const tmpR23_b: number = (tmpR21_b + tmpR22_b) * ((1 - b) + b);
-      const r2_b: number = Math.pow(1 / tmpR23_b, k2);
-      result['r2'] = r2;
-
-      const tmpfrd1_b: number = Math.pow(10, ar2) / Math.pow(N, k2);
-      const tmpfrd2_b: number = 1 - _sigma_min2 / fwud2;
-      const frd2: number = r12 * r2_b * tmpfrd1_b * tmpfrd2_b / rs;
-      result['frd2'] = frd2;
-
-      if (ratio200 < 1 && N <= reference_count) {
-        return result;
-      }
-
-      const ratio2: number = ri * _sigma_rd2 / (frd2 / rb);
-      if(ratio2 > 0){
-        result['ratio2'] = ratio2;
-      }
-    } */
-  
 
     return result;
 

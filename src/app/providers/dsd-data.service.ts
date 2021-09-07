@@ -268,16 +268,16 @@ export class DsdDataService {
       const intDanmenType = this.readInteger(buff);
       switch(intDanmenType){
         case 1:
-          m.shape = 'RC-矩形';
+          m.shape = '矩形';
           break;
         case 2:
-          m.shape = 'RC-T形';
+          m.shape = 'T形';
           break;
         case 3:
-          m.shape = 'RC-円形';
+          m.shape = '円形';
           break;
         case 4:
-          m.shape = 'RC-小判';
+          m.shape = '小判';
           break;
       }
 
@@ -286,7 +286,7 @@ export class DsdDataService {
       if (isOlder311) { sngDanmen1 *= 10; } // cm --> mm
       if(sngDanmen1 > 0) {
         m.B = sngDanmen1;
-        if ( m.shape === 'RC-円形' ) {
+        if ( m.shape === '円形' ) {
           m.B *= 2;
         }
       }
@@ -653,13 +653,13 @@ export class DsdDataService {
       const iNext = this.readInteger(buff);
       const MageSendan0 = this.readSingle(buff);
       if(MageSendan0 > 0) {
-        if(m.g_no < 2 && m.shape !== 'RC-小判' && m.shape !== 'RC-円形'){
+        if(m.g_no < 2 && m.shape !== '小判' && m.shape !== '円形'){
           bar.haunch_M = MageSendan0;
         }
       }
       const MageSendan1 = this.readSingle(buff);
       if(MageSendan1 > 0) {
-        if(m.g_no < 2 && m.shape !== 'RC-小判' && m.shape !== 'RC-円形'){
+        if(m.g_no < 2 && m.shape !== '小判' && m.shape !== '円形'){
           bar.haunch_V = MageSendan1;
         }
       }
@@ -674,7 +674,7 @@ export class DsdDataService {
         if(JikuR0 > 0) bar.rebar1.rebar_dia = JikuR0;
         const JikuR1 = this.readInteger(buff);
         if(JikuR1 > 0) {
-          if ( m.shape !== 'RC-円形' ) {
+          if ( m.shape !== '円形' ) {
             bar.rebar2.rebar_dia = JikuR1;
           }
         }
@@ -683,7 +683,7 @@ export class DsdDataService {
       if(Math.abs(JikuHON0) > 0) bar.rebar1.rebar_n = JikuHON0;
       const JikuHON1 = this.readSingle(buff);
       if(Math.abs(JikuHON1) > 0) {
-        if ( m.shape !== 'RC-円形' ) {
+        if ( m.shape !== '円形' ) {
           bar.rebar2.rebar_n = JikuHON1;
         }
       }
@@ -693,7 +693,7 @@ export class DsdDataService {
       }
       const JikuKABURI1 = this.readSingle(buff);
       if(JikuKABURI1 > 0) {
-        if ( m.shape !== 'RC-円形' ) {
+        if ( m.shape !== '円形' ) {
           bar.rebar2.rebar_cover = Math.round(JikuKABURI1 * 10)/ 10;
         }
       }
@@ -708,7 +708,7 @@ export class DsdDataService {
         }
         const stDummy7 = this.readByte(buff);
         if(stDummy7 > 0) {
-          if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+          if ( m.g_no < 3 && m.shape !== '円形' ) {
             bar.rebar2.rebar_lines = stDummy7;
           }
         }
@@ -720,7 +720,7 @@ export class DsdDataService {
         } 
         const stDummy9 = this.readSingle(buff);
         if(stDummy9 > 0) {
-          if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+          if ( m.g_no < 3 && m.shape !== '円形' ) {
             bar.rebar2.rebar_space = stDummy9;
           }
         }
@@ -734,7 +734,7 @@ export class DsdDataService {
           }
           const stDummy4 = this.readInteger(buff);
           if(stDummy4 > 0) {
-            if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+            if ( m.g_no < 3 && m.shape !== '円形' ) {
               bar.rebar2.rebar_lines = stDummy4;
             }
           }
@@ -747,7 +747,7 @@ export class DsdDataService {
           }
           const JikuNARABI1 = this.readSingle(buff);
           if(JikuNARABI1 > 0) {
-            if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+            if ( m.g_no < 3 && m.shape !== '円形' ) {
               bar.rebar2.rebar_lines = JikuNARABI1;
             }
           }
@@ -761,7 +761,7 @@ export class DsdDataService {
           }
           const stDummy7 = this.readByte(buff);
           if(stDummy7 > 0) {
-            if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+            if ( m.g_no < 3 && m.shape !== '円形' ) {
               bar.rebar2.rebar_space = stDummy7;
             }
           }
@@ -774,7 +774,7 @@ export class DsdDataService {
           } 
           const JikuAKI1 = this.readSingle(buff);
           if(JikuAKI1 > 0) {
-            if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+            if ( m.g_no < 3 && m.shape !== '円形' ) {
               bar.rebar2.rebar_space = JikuAKI1;
             }
           }
@@ -788,7 +788,7 @@ export class DsdDataService {
       }
       const JikuPITCH1 = this.readSingle(buff);
       if(JikuPITCH1 > 0) {
-        if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+        if ( m.g_no < 3 && m.shape !== '円形' ) {
           bar.rebar2.rebar_ss = Math.round(JikuPITCH1 * 10 )/ 10;
         }
       }
@@ -800,28 +800,28 @@ export class DsdDataService {
       }
       const JikuSHARITU1 = this.readSingle(buff);
       if(JikuSHARITU1 > 0) {
-        if ( m.g_no < 2 && m.shape !== 'RC-円形' ) {
+        if ( m.g_no < 2 && m.shape !== '円形' ) {
           bar.rebar2.cos = Math.round(JikuSHARITU1*1000)/1000;
         }
       }
 
       const SokuR0 = this.readByte(buff);
       if(SokuR0 > 0) {
-        if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+        if ( m.g_no < 3 && m.shape !== '円形' ) {
           bar.sidebar.side_dia = SokuR0;
         }
       }
       const SokuR1 = this.readByte(buff);
       const SokuHON0 = this.readByte(buff);
       if(SokuHON0 > 0) {
-        if ( m.g_no < 3 && m.shape !== 'RC-円形' ) {
+        if ( m.g_no < 3 && m.shape !== '円形' ) {
           bar.sidebar.side_n = SokuHON0;
         }
       }
       const SokuHON1 = this.readByte(buff);
       const SokuKABURI0 = this.readSingle(buff);
       if(SokuKABURI0 > 0) {
-        if ( m.g_no < 2 && m.shape !== 'RC-円形' ) {
+        if ( m.g_no < 2 && m.shape !== '円形' ) {
           const s1 = Math.floor(SokuKABURI0);
           const s2 = Math.ceil((SokuKABURI0 - s1) * 10000);
           if(s1 > 0) bar.sidebar.side_cover = s1;

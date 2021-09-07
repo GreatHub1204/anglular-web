@@ -566,6 +566,63 @@ export class ResultDataService {
     if(!('steel' in section)){
       return result;
     }
+
+    if('I' in section.steel){
+      // 矩形の鉄骨
+      this.getRectSteel(section, result, mark);
+    } else{
+      // 円形の鉄骨
+      this.getCircleSteel(section, result, mark);
+    }
+
+
+    return result
+  }
+
+  // 円形の鉄骨情報
+  private getCircleSteel(section: any, result: any, mark: string): void{
+    
+    const thickness = this.helper.toNumber(section.steel.thickness);
+    if(thickness===null){
+      return;
+    }
+    if(thickness===0){
+      return;
+    }
+
+    result.I.tension_flange = 't-' + thickness + 'mm';
+
+    const fsy = this.helper.toNumber(section.steel.fsy.fsy);
+    const rs = this.helper.toNumber(section.steel.rs);
+    if (fsy !== null && rs !== null) {
+      result.fsy_tension.fsy = fsy;
+      result.fsy_tension.fsd = fsy / rs;
+    }
+
+    if (mark !== 'Vd') {
+      return;
+    }
+
+    result['fsvy_Iweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    const fvy = this.helper.toNumber(section.steel.fvy);
+    if (fvy !== null && rs !== null) {
+      result['fsvy_Iweb'] = {
+        fsvy: fvy,
+        fvyd: fvy / rs
+      }
+    }
+
+    return result
+
+    
+  }
+
+  // 矩形の鉄骨情報
+  private getRectSteel(section: any, result: any, mark: string): void{
+
     // I配置鉄骨
     let target = section.steel.I;
 
@@ -634,32 +691,32 @@ export class ResultDataService {
     }
 
 
-    if (mark === 'Vd') {
-      
+    if (mark !== 'Vd') {
+      return result
+    }
+
+    result['fsvy_Iweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    if(section.steel.I.fvy_web !== null){
       result['fsvy_Iweb'] = {
-        fsvy: null,
-        fvyd: null
+        fsvy: section.steel.I.fvy_web.fvy,
+        fvyd: (section.steel.I.fvy_web.fvy === null) ? null :
+          section.steel.I.fvy_web.fvy / result.rs
       }
-      if(section.steel.I.fvy_web !== null){
-        result['fsvy_Iweb'] = {
-          fsvy: section.steel.I.fvy_web.fvy,
-          fvyd: (section.steel.I.fvy_web.fvy === null) ? null :
-            section.steel.I.fvy_web.fvy / result.rs
-        }
-      }
+    }
 
+    result['fsvy_Hweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    if(section.steel.H.fvy_web !== null){
       result['fsvy_Hweb'] = {
-        fsvy: null,
-        fvyd: null
+        fsvy: section.steel.H.fvy_web.fvy,
+        fvyd: (section.steel.H.fvy_web.fvy === null) ? null :
+          section.steel.H.fvy_web.fvy / result.rs
       }
-      if(section.steel.I.fvy_web !== null){
-        result['fsvy_Hweb'] = {
-          fsvy: section.steel.H.fvy_web.fvy,
-          fvyd: (section.steel.H.fvy_web.fvy === null) ? null :
-            section.steel.H.fvy_web.fvy / result.rs
-        }
-      }
-
     }
 
     return result

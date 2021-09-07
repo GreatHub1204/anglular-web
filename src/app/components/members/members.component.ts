@@ -103,31 +103,28 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
               switch (value) {
                 case '1':
                 case 'RC-矩形':
-                  this.table_datas[row].shape = 'RC-矩形';
+                  this.table_datas[row].shape = '矩形';
                   break;
                 case '2':
                 case 'RC-T形':
-                  this.table_datas[row].shape = 'RC-T形';
+                  this.table_datas[row].shape = 'T形';
                   break;
                 case '3':
                 case 'RC-円形':
-                  this.table_datas[row].shape = 'RC-円形';
+                  this.table_datas[row].shape = '円形';
                   break;
                 case '4':
                 case 'RC-小判':
-                  this.table_datas[row].shape = 'RC-小判';
+                  this.table_datas[row].shape = '小判';
                   break;
                 case '11':
-                case 'SRC-矩形':
-                  this.table_datas[row].shape = 'SRC-矩形';
+                  this.table_datas[row].shape = '矩形鋼';
                   break;
                 case '12':
-                case 'SRC-T形':
-                  this.table_datas[row].shape = 'SRC-T形';
+                  this.table_datas[row].shape = 'T形鋼';
                   break;
                 case '13':
-                case 'SRC-円形':
-                  this.table_datas[row].shape = 'SRC-円形';
+                  this.table_datas[row].shape = '鋼管';
                   break;
                 default:
                   this.table_datas[row].shape = '';

@@ -87,7 +87,6 @@ export class InputSectionForcesService  {
   public getColumnHeaders3(): any {
     const result: object[] = [
       { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 },
-      { title: "せん断スパン長(mm)", dataType: "float", dataIndx: "La", sortable: false, width: 140 },
       ];
 
     let old: string = null;

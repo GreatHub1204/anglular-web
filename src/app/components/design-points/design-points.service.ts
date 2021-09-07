@@ -73,7 +73,11 @@ export class InputDesignPointsService {
           tmp[key] = data[key];
         }
       }
-      this.position_list[i] = tmp;
+      if( i >= 0 ){
+        this.position_list[i] = tmp;
+      } else {
+        this.position_list.push(tmp);
+      }
     }
   }
 

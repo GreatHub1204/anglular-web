@@ -436,10 +436,16 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
     }
 
     if ("sigma_min" in re) {
-      result.sigma_min = { alien: "right", value: re.sigma_min.toFixed(2) };
+      result.sigma_min = { 
+        alien: "right", 
+        value: (re.sigma_min < 0) ? re.sigma_min.toFixed(2) + ' → 0' : re.sigma_min.toFixed(2) 
+      };
     }
     if ("sigma_rd" in re) {
-      result.sigma_rd = { alien: "right", value: re.sigma_rd.toFixed(2) };
+      result.sigma_rd = { 
+        alien: "right", 
+        value: (re.sigma_rd < 0) ? re.sigma_rd.toFixed(2) + ' → 0' : re.sigma_rd.toFixed(2) 
+      };
     }
 
     if ("fsr200" in re) {
