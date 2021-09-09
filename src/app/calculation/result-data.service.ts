@@ -460,6 +460,10 @@ export class ResultDataService {
       Es: 200
     }
 
+    if(!('tension' in section)){
+      return result;
+    }
+
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;

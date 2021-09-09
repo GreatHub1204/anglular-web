@@ -189,7 +189,8 @@ export class DataHelperModule {
     const fck = this.getFck(safety);
 
     return {
-      fck: fck.fcd,     // コンクリート強度
+      fck: fck.fck * fck.rfck,     // コンクリート強度
+      rc: fck.rc,
       Ec: fck.Ec,       // コンクリートの弾性係数
       ElasticID: 'c'      // 材料番号
     };
@@ -198,6 +199,7 @@ export class DataHelperModule {
 
   // 諸々の係数を考慮したコンクリート強度
   public getFck(safety: any): any {
+
     const result = {
       fck: null, rc: null, Ec: null, fcd: null,
       rfck: null, rEc: null, rfbok: null, rVcd: null

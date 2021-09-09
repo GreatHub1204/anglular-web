@@ -225,34 +225,66 @@ export class SetRectService {
         compress = this.helper.rebarInfo(bar.rebar1);
         break;
     }
-    if (tension === null) {
-      throw ("引張鉄筋情報がありません");
+    if (tension !== null) {
+      if (tension.rebar_ss === null) {
+        tension.rebar_ss = result.B / tension.line;
+      }
+      if ('barCenterPosition' in option) {
+        if (option.barCenterPosition) {
+          // 多段配筋を１段に
+          tension.dsc = this.helper.getBarCenterPosition(tension, 1);
+          tension.line = tension.rebar_n;
+          tension.n = 1;
+        }
+      }
+
+      // tension
+      const fsyt = this.helper.getFsyk(
+        tension.rebar_dia,
+        safety.material_bar,
+        "tensionBar"
+      );
+      if (fsyt.fsy === 235) tension.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
+      tension['fsy'] = fsyt;
+      tension['rs'] = safety.safety_factor.rs;
+
+
+      // 登録
+      result['tension'] = tension;
     }
-    if (tension.rebar_ss === null) {
-      tension.rebar_ss = result.B / tension.line;
+
+      // compres
+    if (safety.safety_factor.range >= 2 && compress !== null) {
+      const fsyc = this.helper.getFsyk(
+        compress.rebar_dia,
+        safety.material_bar,
+        "tensionBar"
+      );
+      if (fsyc.fsy === 235) compress.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
+      compress['fsy'] = fsyc;
+      compress['rs'] = safety.safety_factor.rs;;
+      result['compress'] = compress;
     }
-    if ('barCenterPosition' in option) {
-      if (option.barCenterPosition) {
-        // 多段配筋を１段に
-        tension.dsc = this.helper.getBarCenterPosition(tension, 1);
-        tension.line = tension.rebar_n;
-        tension.n = 1;
+
+    // sidebar
+    if (safety.safety_factor.range >= 3) {
+      if (compress === null) { compress = { dsc: 0 } }
+      const sidebar: any = this.helper.sideInfo(bar.sidebar, tension.dsc, compress.dsc, result.H);
+      if (sidebar !== null) {
+        const fsye = this.helper.getFsyk(
+          sidebar.rebar_dia,
+          safety.material_bar,
+          "sidebar"
+        );
+        if (fsye.fsy === 235) sidebar.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
+        sidebar['fsy'] = fsye;
+        sidebar['rs'] = safety.safety_factor.rs;
+        result['sidebar'] = sidebar;
       }
     }
 
-    // tension
-    const fsyt = this.helper.getFsyk(
-      tension.rebar_dia,
-      safety.material_bar,
-      "tensionBar"
-    );
-    if (fsyt.fsy === 235) tension.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
-    tension['fsy'] = fsyt;
-    tension['rs'] = safety.safety_factor.rs;
-
-
-    // 登録
-    result['tension'] = tension;
+    result['stirrup'] = bar.stirrup;
+    result['bend'] = bar.bend;
 
     // steel
     const steel = {
@@ -384,40 +416,6 @@ export class SetRectService {
 
     result['steel'] = steel;
 
-
-
-    // compres
-    if (safety.safety_factor.range >= 2 && compress !== null) {
-      const fsyc = this.helper.getFsyk(
-        compress.rebar_dia,
-        safety.material_bar,
-        "tensionBar"
-      );
-      if (fsyc.fsy === 235) compress.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
-      compress['fsy'] = fsyc;
-      compress['rs'] = safety.safety_factor.rs;;
-      result['compress'] = compress;
-    }
-
-    // sidebar
-    if (safety.safety_factor.range >= 3) {
-      if (compress === null) { compress = { dsc: 0 } }
-      const sidebar: any = this.helper.sideInfo(bar.sidebar, tension.dsc, compress.dsc, result.H);
-      if (sidebar !== null) {
-        const fsye = this.helper.getFsyk(
-          sidebar.rebar_dia,
-          safety.material_bar,
-          "sidebar"
-        );
-        if (fsye.fsy === 235) sidebar.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
-        sidebar['fsy'] = fsye;
-        sidebar['rs'] = safety.safety_factor.rs;
-        result['sidebar'] = sidebar;
-      }
-    }
-
-    result['stirrup'] = bar.stirrup;
-    result['bend'] = bar.bend;
 
     return result;
   }

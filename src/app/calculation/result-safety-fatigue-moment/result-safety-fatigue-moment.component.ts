@@ -204,7 +204,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), 'center');
+            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             column['fsu'] = this.result.alien(section.Ast.fsu, 'center');
             /////////////// 鉄骨情報 ///////////////

@@ -186,7 +186,7 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), 'center');
+            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             /////////////// 最小鉄筋量の照査 ///////////////
             column['dmax'] = resultColumn.dmax;/* this */

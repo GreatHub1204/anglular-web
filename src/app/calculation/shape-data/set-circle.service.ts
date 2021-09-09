@@ -35,7 +35,6 @@ export class SetCircleService {
     // 鋼材情報を集計
     const result2 = this.getCircleBar(section, safety);
 
-
     // 断面情報を集計
     const h = section.H;
 
@@ -53,8 +52,36 @@ export class SetCircleService {
       b1 = b2;
     }
 
-    result.ConcreteElastic.push(this.helper.getConcreteElastic(safety));
 
+    // コンクリート材料情報を集計
+    const ConcreteElastic = this.helper.getConcreteElastic(safety);
+
+    // 鉄骨があれば情報を追加
+    if('steel' in section){
+      const steel = section.steel;
+
+      if(steel.thickness > 0){
+        const SteelElastic = result2.SteelElastic.find((e)=> e.ElasticID === 'st');
+        
+        if(SteelElastic !== undefined){
+          const fsyd = SteelElastic.fsk / SteelElastic.rs;
+
+          // 鋼管により拘束されたコンクリートを考慮するための変数を追加する
+          ConcreteElastic['D'] = section.B;  // 鋼管の外径
+          ConcreteElastic['t'] = steel.thickness;  // 鋼管の板厚
+          ConcreteElastic['fsyd'] = fsyd;  // 鋼管の設計降伏強度
+
+          // 鋼管の降伏着目位置は, 45°位置
+          const ht = h / 2 + steel.thickness / 2;
+          result['dsy'] = h / 2 + ht / Math.sqrt(2);
+        }
+      }
+    }
+
+    result.ConcreteElastic.push(ConcreteElastic);
+
+
+    // 鋼材情報を集計
     for(const key of Object.keys(result2)){
       result[key] = result2[key];
     }
@@ -128,22 +155,23 @@ export class SetCircleService {
 
     // 鉄筋配置
     const h: number = section.H;
-    const tension = section.tension;
-    const fsy = section.tension.fsy;
-    const id = "s" + fsy.id;
+    if('tension' in section){
+      const tension = section.tension;
+      const fsy = section.tension.fsy;
+      const id = "s" + fsy.id;
 
-    // 鉄筋の位置
-    result.Bars = this.getBars(tension, h, id);
-    // 基準となる 鉄筋強度
-    const rs = section.tension.rs;
+      // 鉄筋の位置
+      result.Bars = this.getBars(tension, h, id);
+      // 基準となる 鉄筋強度
+      const rs = section.tension.rs;
 
-    // 鉄筋強度の入力
-    result.SteelElastic.push({
-      fsk: fsy.fsy / rs,
-      Es: 200,
-      ElasticID: id,
-    });
-
+      // 鉄筋強度の入力
+      result.SteelElastic.push({
+        fsk: fsy.fsy / rs,
+        Es: 200,
+        ElasticID: id,
+      });
+    }
 
     // 鉄骨の登録 --------------------------------------- 
     if(steel.thickness > 0){
@@ -151,6 +179,7 @@ export class SetCircleService {
         result.Bars.push(value);
       }
       for (const value of steel.SteelElastic) {
+        value['theta'] = 100; // ひずみ硬化を考慮する時の降伏後の勾配【複合標準 解説図2.3.8】
         result.SteelElastic.push(value);
       }
     }
@@ -221,36 +250,35 @@ export class SetCircleService {
     const bar = this.bars.getCalcData(index);
 
     const tension = this.helper.rebarInfo(bar.rebar1);
-    if(tension === null){
-      throw ("引張鉄筋情報がありません");
-    }
-    if(tension.rebar_ss === null || tension.rebar_ss === 0){
-      const D = result.H - tension.dsc * 2;
-      tension.rebar_ss = D / tension.line;
-    }
-    if( 'barCenterPosition' in option ){
-      if(option.barCenterPosition){
-        // 多段配筋を１段に
-        tension.dsc = this.helper.getBarCenterPosition(tension, 1);
-        tension.line = tension.rebar_n;
-        tension.n = 1;
+    if(tension !== null){
+      if(tension.rebar_ss === null || tension.rebar_ss === 0){
+        const D = result.H - tension.dsc * 2;
+        tension.rebar_ss = D / tension.line;
       }
-    }
+      if( 'barCenterPosition' in option ){
+        if(option.barCenterPosition){
+          // 多段配筋を１段に
+          tension.dsc = this.helper.getBarCenterPosition(tension, 1);
+          tension.line = tension.rebar_n;
+          tension.n = 1;
+        }
+      }
 
-    const fsy = this.helper.getFsyk(
-      tension.rebar_dia,
-      safety.material_bar,
-      "tensionBar"
-    );
-    tension['fsy'] = fsy;
-    tension['rs'] = safety.safety_factor.rs;;
+      const fsy = this.helper.getFsyk(
+        tension.rebar_dia,
+        safety.material_bar,
+        "tensionBar"
+      );
+      tension['fsy'] = fsy;
+      tension['rs'] = safety.safety_factor.rs;;
 
-    // 鉄筋径
-    if (fsy.fsy === 235) {
-      // 鉄筋強度が 235 なら 丸鋼
-      tension.mark = "R";
+      // 鉄筋径
+      if (fsy.fsy === 235) {
+        // 鉄筋強度が 235 なら 丸鋼
+        tension.mark = "R";
+      }
+      result['tension'] = tension;
     }
-    result['tension'] = tension;
     result['stirrup'] = bar.stirrup;
     result['bend'] = bar.bend;
 
