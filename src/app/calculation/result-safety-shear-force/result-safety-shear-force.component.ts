@@ -174,7 +174,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
 
             let SRC_pik = "";
             // 優先順位は、I型下側 ＞ H型左側 ＞ H型右側 ＞ I型上側
-            if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_compress" ;
+            if (this.helper.toNumber(section.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
             if (this.helper.toNumber(section.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
@@ -247,6 +247,9 @@ export class ResultSafetyShearForceComponent implements OnInit {
 
             /////////////// 鉄骨情報 ///////////////
             column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
+            if (section.CFTFlag) {
+              column['fwyd3'] = this.result.alien(this.result.numStr(section.steel["fsvy_Iweb"].fvyd, 1), 'center');
+            }
 
             /////////////// 照査 ///////////////
             column['fvcd'] = resultColumn.fvcd;
@@ -277,6 +280,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
             /////////////// flag用 ///////////////
             column['bendFlag'] = (resultColumn.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
             column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
+            column['CFTFlag'] = (section.CFTFlag);
 
             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
@@ -303,6 +307,8 @@ export class ResultSafetyShearForceComponent implements OnInit {
           for (let aa of Object.keys(page.columns[0])) {
             if (aa === "index" || aa === "side_summary" || aa === "shape_summary") {
               column[aa] = null;
+            } else if (aa === "bendFlag" || aa === "steelFlag" || aa === "CFTFlag"){
+              column[aa] = false;
             } else {
               column[aa] = { alien: 'center', value: '-' };
             }

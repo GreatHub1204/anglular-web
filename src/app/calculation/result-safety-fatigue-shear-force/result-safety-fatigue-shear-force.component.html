@@ -199,37 +199,69 @@
           <th rowspan="3" class="cell_name2 g-right1 g-bottom1 g-left2">I配置<br>鉄骨</th>
           <th class="cell_name3 g-right2 g-bottom1">引張ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
-            {{column.steel_I_tension.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
+              {{column.steel_I_tension.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name3 g-right2 g-bottom1">腹板</th>
+        <th class="cell_name3 g-right2 g-bottom1">腹板</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
-            {{column.steel_I_web.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
+              {{column.steel_I_web.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <!--<td class="{{column.steel_I_tension.alien}} g-right2 g-bottom2" colspan="2">-->
+              <td colspan="2" class="center g-right2">
+              （CFT）</td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th class="cell_name3 g-right2 g-bottom1">圧縮ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
-            {{column.steel_I_compress.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
+              {{column.steel_I_compress.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th rowspan="2" class="cell_name2 g-right1 g-bottom2 g-left2">H配置<br>鉄骨</th>
           <th class="cell_name3 g-right2 g-bottom1">ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
-            {{column.steel_H_tension.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
+              {{column.steel_H_tension.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <!--<td class="{{column.steel_I_tension.alien}} g-right2" colspan="2">-->
+              <td class="center g-right2" colspan="2">
+              厚さ {{column.steel_I_tension.value}} mm</td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th class="cell_name3 g-right2 g-bottom2">腹板</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
-            {{column.steel_H_web.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
+              {{column.steel_H_web.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
       </ng-container>
