@@ -325,6 +325,7 @@ export class SetCircleService {
     result['B'] = h;
 
     // 換算矩形としての鉄筋位置
+    if ('tension' in section) {
     const tension = section.tension;
     const Bars = this.getBars(tension, section.H, null);
     let d = 0.0, n = 0;
@@ -339,6 +340,7 @@ export class SetCircleService {
     const dsc = d / n;
     tension.dsc = h - dsc + dh;
     tension.rebar_n = n;
+    }
 
     return result;
   }

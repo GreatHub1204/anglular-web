@@ -229,9 +229,23 @@ export class CalcSafetyShearForceService {
     }
 
     // 鉄骨情報
-    const web_I_height = this.helper.toNumber(section.steel.I.value.heightW);
-    const web_I_thickness = this.helper.toNumber(section.steel.I.value.thicknessW);
+    // CFT の場合：section.steel.thickness
+    let web_I_height = this.helper.toNumber(section.steel.I.value.heightW);
+    let web_I_thickness = this.helper.toNumber(section.steel.I.value.thicknessW);
+    let Asv = web_I_height * web_I_thickness;
     const fsvyd_IWeb = ('fsvy_Iweb' in section.steel) ? this.helper.toNumber(section.steel.fsvy_Iweb.fvyd): null;
+
+    if (section.shapeName === "Circle") {
+      web_I_height = this.helper.toNumber(section.shape.H); // 鋼材高さ
+      web_I_thickness = this.helper.toNumber(section.steel.I.tension_flange);; // 鋼材厚さ
+      const H = section.member.B;
+      const B = H - web_I_thickness*2;
+      const Hw = ( (-1-Math.PI/4)*H**2 + 2*H*B - (1-Math.PI/4)*B**2 )/( 2*B - 2*H );
+      const Bw = Hw - web_I_thickness * 2;
+      Asv = ( Hw**2 - Bw**2 ) / 2 //鋼材断面積
+    }
+    //result['Hw'] = ( (-1-Math.PI/4)*H**2 + 2*H*result['B'] - (1-Math.PI/4)*result['B']**2)/(2*result['B'] - 2*H);
+    //result['Bw'] = result['Hw'] - result['H'] + result['B'];
 
     // 部材係数
     const Mu = res.Reactions[0].M.Mi;
@@ -264,7 +278,7 @@ export class CalcSafetyShearForceService {
         fcd, d, pc, Nd, h,
         Mu, bw, rbc, rVcd, deg, deg2,
         Aw, Asb, fwyd, fwyd2, Ss, Ss2, rbs,
-        web_I_height, web_I_thickness, fsvyd_IWeb);
+        web_I_height, web_I_thickness, fsvyd_IWeb, Asv);
       for (const key of Object.keys(Vyd)) {
         result[key] = Vyd[key];
       }
@@ -350,7 +364,7 @@ export class CalcSafetyShearForceService {
     fcd: number, d: number, pc: number, Nd: number, H: number,
     Mu: number, B: number, rbc: number, rVcd: number, deg: number, deg2: number,
     Aw: number, Asb: number, fwyd: number, fwyd2: number, Ss: number, Ss2: number, rbs: number,
-    web_I_height: number, web_I_thickness: number, fsvyd_IWeb: number): any {
+    web_I_height: number, web_I_thickness: number, fsvyd_IWeb: number, Asv): any {
     const result = {};
 
     let fvcd: number = 0.2 * Math.pow(fcd, 1 / 3);
@@ -434,10 +448,10 @@ export class CalcSafetyShearForceService {
       const tw = web_I_thickness;
 
       // rb : 部材係数
-      const rb = 1.1
+      const rb = 1.05
 
       // Vsddの計算
-      const Vsdd = fsvyd * hw * tw / rb / 1000;
+      const Vsdd = fsvyd * Asv / rb / 1000;
       result['Vsd2'] = Vsdd;
       Vyd += Vsdd;
     }
