@@ -85,6 +85,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -127,6 +128,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -171,6 +173,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -217,6 +220,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -261,6 +265,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -307,6 +312,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -350,6 +356,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AwString = col.AwString.value;
@@ -395,6 +402,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -439,6 +447,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -487,6 +496,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -531,6 +541,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -577,6 +588,7 @@ export class CalcSummaryTableService {
             columns.steel.I_compress = col.steel_I_compress.value;
             columns.steel.H_flange = col.steel_H_tension.value;
             columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
             // 鉄筋量
             columns.As.AstString = col.AstString.value;
             columns.As.AscString = col.AscString.value;
@@ -626,6 +638,7 @@ export class CalcSummaryTableService {
         I_compress: '-',
         H_flange: '-',
         H_web: '-',
+        CFTFlag: false,
       },
       As: {
         AstString: "-",

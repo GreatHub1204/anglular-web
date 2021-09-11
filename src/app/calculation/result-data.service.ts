@@ -191,7 +191,8 @@ export class ResultDataService {
         t: null,
         Bw: null,
         Hw: null,
-      }
+      },
+      CFTFlag: false,
     };
 
     const index = res.index;
@@ -215,6 +216,7 @@ export class ResultDataService {
           section = this.circle.getCircleShape(member, index, safety, {});
           result['Ast'] = this.getAst(section, safety);
           result.shape.H = section.H;
+          result.shape.B = section.B;
           result.shape.Hw = section.Hw;
         } else {
           section = this.circle.getCircleVdShape(member, index, safety);
@@ -223,6 +225,10 @@ export class ResultDataService {
           result.shape.B = section.B;
           result.shape.Hw = section.Hw;
           result.shape.Bw = section.Bw;
+        }
+        // CFTの判定用のフラグ
+        if ('steel' in  section) {
+          result.CFTFlag = true;
         }
         break;
 
@@ -425,6 +431,11 @@ export class ResultDataService {
       Es: 200
     }
 
+    if ( !('tension' in section) ) {
+      result.rs = safety.safety_factor.rs;
+      return result;
+    }
+
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;
@@ -577,6 +588,7 @@ export class ResultDataService {
     } else{
       // 円形の鉄骨
       this.getCircleSteel(section, result, mark);
+      // 円形鉄骨の仮想矩形の断面積が欲しい
     }
 
 
@@ -596,7 +608,7 @@ export class ResultDataService {
 
     result.flag = true;
 
-    result.I.tension_flange = 't' + thickness + 'mm';
+    result.I.tension_flange = thickness;
 
     const fsy = this.helper.toNumber(section.steel.fsy.fsy);
     const rs = this.helper.toNumber(section.steel.rs);
