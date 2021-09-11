@@ -157,7 +157,7 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
 
             let SRC_pik = "";
             // 優先順位は、I型下側 ＞ H型左側 ＞ H型右側 ＞ I型上側
-            if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_compress" ;
+            if (this.helper.toNumber(section.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
             if (this.helper.toNumber(section.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
@@ -239,7 +239,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
               column['Bn'] = resultColumn.Bn;
               column['rbc'] = resultColumn.rbc;
               column['Vcd'] = resultColumn.Vcd;
-              column['Vcd2'] = resultColumn.Vcd2;
               column['Vcd07'] = resultColumn.Vcd07;
               /////////////// せん断応力度 ///////////////
               column['con'] = resultColumn.con;
@@ -255,6 +254,7 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
               /////////////// flag用 ///////////////
               column['bendFlag'] = (resultColumn.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
               column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
+              column['CFTFlag'] = (section.CFTFlag);
               /////////////// 総括表用 ///////////////
               column['g_name'] = m.g_name;
               column['index'] = position.index;
@@ -280,6 +280,8 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
           for (let aa of Object.keys(page.columns[0])) {
             if (aa === "index" || aa === "side_summary" || aa === "shape_summary") {
               column[aa] = null;
+            } else if (aa === "bendFlag" || aa === "steelFlag" || aa === "CFTFlag"){
+              column[aa] = false;
             } else {
               column[aa] = { alien: 'center', value: '-' };
             }
@@ -325,7 +327,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
       Bn: { alien: "center", value: "-" },
       rbc: { alien: "center", value: "-" },
       Vcd: { alien: "center", value: "-" },
-      Vcd2: { alien: "center", value: "-" },
       Vcd07: { alien: "center", value: "-" },
 
       con: { alien: "center", value: "-" },
@@ -430,9 +431,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     }
     if ("Vcd" in re) {
       result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
-    }
-    if ("Vcd" in re) {
-      result.Vcd2 = { alien: "right", value: re.Vcd.toFixed(1) };
     }
     if ("Vcd07" in re) {
       if (Vhd <= re.Vcd07) {

@@ -84,7 +84,8 @@ export class ResultEarthquakesShearForceComponent implements OnInit {
       this.safetyShearForcePages = this.base.getSafetyPages(
         OutputData,
         "復旧性（地震時）せん断力の照査結果",
-        this.calc.DesignForceList
+        this.calc.DesignForceList,
+        this.calc.safetyID
       );
       return true;
     } catch (e) {

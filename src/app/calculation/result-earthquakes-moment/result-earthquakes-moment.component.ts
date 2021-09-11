@@ -81,7 +81,8 @@ export class ResultEarthquakesMomentComponent implements OnInit {
       this.restorabilityMomentPages = this.base.setRestorabilityPages(
         OutputData,
         "復旧性（地震時）曲げモーメントの照査結果",
-        this.calc.DesignForceList
+        this.calc.DesignForceList,
+        this.calc.safetyID
       );
       return true;
     } catch (e) {

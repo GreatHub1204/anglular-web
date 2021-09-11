@@ -30,7 +30,7 @@ export class ResultViewerComponent implements OnInit {
   // 目次 /////////////////////////////////
   public printcalculate: boolean;
   public printSectionForce: boolean;
-  private _printSummaryTable: boolean;
+  public _printSummaryTable: boolean;
   
   // 印刷時のスタイル /////////////////////////////////
  

@@ -81,7 +81,8 @@ export class ResultDurabilityMomentComponent implements OnInit {
       // 耐久性のページと同じ
       this.serviceabilityMomentPages = this.base.setServiceabilityPages(
         OutputData,
-        "使用性（外観）曲げひび割れの照査結果"
+        "使用性（外観）曲げひび割れの照査結果",
+        this.calc.safetyID
       );
       return true;
     } catch (e) {

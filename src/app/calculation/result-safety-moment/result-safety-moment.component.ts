@@ -145,7 +145,7 @@ export class ResultSafetyMomentComponent implements OnInit {
 
             let SRC_pik = "";
             // 優先順位は、I型下側 ＞ H型左側 ＞ H型右側 ＞ I型上側
-            if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_compress" ;
+            if (this.helper.toNumber(section.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
             if (this.helper.toNumber(section.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
@@ -186,7 +186,7 @@ export class ResultSafetyMomentComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), 'center');
+            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             /////////////// 鉄骨情報 ///////////////
             if(SRC_pik in section.steel) {
@@ -212,6 +212,7 @@ export class ResultSafetyMomentComponent implements OnInit {
 
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag);
+            column['CFTFlag'] = (section.CFTFlag);
 
             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
@@ -237,6 +238,8 @@ export class ResultSafetyMomentComponent implements OnInit {
           for (let aa of Object.keys(page.columns[0])) {
             if (aa === "index" || aa === "side_summary" || aa === "shape_summary") {
               column[aa] = null;
+            } else if (aa === "steelFlag" || aa === "CFTFlag"){
+              column[aa] = false;
             } else {
               column[aa] = { alien: 'center', value: '-' };
             }
@@ -277,10 +280,10 @@ export class ResultSafetyMomentComponent implements OnInit {
       result.Nd = { alien: "right", value: (Math.round(re.Nd*10)/10).toFixed(1) };
     }
     if ("ecu" in re) {
-      result.ecu = { alien: "right", value: re.εcu.toFixed(5) };
+      result.ecu = { alien: "right", value: re.ecu.toFixed(5) };
     }
     if ("es" in re) {
-      result.es = { alien: "right", value: re.εs.toFixed(5) };
+      result.es = { alien: "right", value: re.es.toFixed(5) };
     }
     if ("x" in re) {
       result.x = { alien: "right", value: re.x.toFixed(1) };
@@ -303,7 +306,7 @@ export class ResultSafetyMomentComponent implements OnInit {
     if ("ratio" in re) {
       //result.ratio.value = re.ratio.toFixed(3);
       ratio = re.ratio;
-      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' < 1.00');
+      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00');
     }
     if (ratio < 1) {
       result.result.value = "OK";

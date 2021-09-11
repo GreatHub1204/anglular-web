@@ -199,37 +199,69 @@
           <th rowspan="3" class="cell_name2 g-right1 g-bottom1 g-left2">I配置<br>鉄骨</th>
           <th class="cell_name3 g-right2 g-bottom1">引張ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
-            {{column.steel_I_tension.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom1">
+              {{column.steel_I_tension.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name3 g-right2 g-bottom1">腹板</th>
+        <th class="cell_name3 g-right2 g-bottom1">腹板</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
-            {{column.steel_I_web.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_web.alien}} g-right2 g-bottom1">
+              {{column.steel_I_web.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <!--<td class="{{column.steel_I_tension.alien}} g-right2 g-bottom2" colspan="2">-->
+              <td colspan="2" class="center g-right2">
+              （CFT）</td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th class="cell_name3 g-right2 g-bottom1">圧縮ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
-            {{column.steel_I_compress.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_compress.alien}} g-right2 g-bottom1">
+              {{column.steel_I_compress.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th rowspan="2" class="cell_name2 g-right1 g-bottom2 g-left2">H配置<br>鉄骨</th>
           <th class="cell_name3 g-right2 g-bottom1">ﾌﾗﾝｼﾞ</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
-            {{column.steel_H_tension.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_H_tension.alien}} g-right2 g-bottom1">
+              {{column.steel_H_tension.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <!--<td class="{{column.steel_I_tension.alien}} g-right2" colspan="2">-->
+              <td class="center g-right2" colspan="2">
+              厚さ {{column.steel_I_tension.value}} mm</td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
           <th class="cell_name3 g-right2 g-bottom2">腹板</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
-            {{column.steel_H_web.value}}</td>
+            <ng-container *ngIf="!column.CFTFlag">
+              <td colspan="2" class="{{column.steel_H_web.alien}} g-right2 g-bottom2">
+              {{column.steel_H_web.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.CFTFlag">
+              <td colspan="2" class="{{column.steel_I_tension.alien}} g-right2 g-bottom2">
+              </td>
+            </ng-container>
           </ng-container>
         </tr>
       </ng-container>
@@ -500,10 +532,7 @@
         </ng-container>
       </tr>
       <tr>
-        <ng-container *ngIf="!isSRC">
-          <th class="cell_name2 g-bottom1 g-left2">σ<sub>srd</sub></th>
-        </ng-container>
-        <ng-container *ngIf="isSRC">
+        <ng-container>
           <th class="cell_name2 g-bottom1 g-left2">σ<sub>wpd</sub></th>
         </ng-container>
         <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
@@ -519,10 +548,7 @@
         </ng-container>
       </tr>
       <tr>
-        <ng-container *ngIf="!isSRC">
-          <th class="cell_name2 g-bottom2 g-left2">σ<sub>srd</sub></th>
-        </ng-container>
-        <ng-container *ngIf="isSRC">
+        <ng-container>
           <th class="cell_name2 g-bottom2 g-left2">σ<sub>wrd</sub></th>
         </ng-container>
         <th class="cell_name3 g-right2 g-bottom2">(N/mm<sup>2</sup>)</th>
@@ -537,20 +563,7 @@
           </ng-container>
         </ng-container>
       </tr>
-      <!--<tr>
-        <th class="cell_name2 g-bottom1 g-left2">σsr</th>
-        <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
-        <ng-container *ngFor="let column of pages.columns; index as c">
-          <ng-container *ngIf="!column.bendFlag">
-            <td colspan="2" class="{{column.sigma_r.alien}} g-right2 g-bottom1">
-            {{column.sigma_r.value}}</td>
-          </ng-container>
-          <ng-container *ngIf="column.bendFlag">
-            <td class="right g-bottom1">{{column.sigma_r.value}}</td>
-            <td class="right g-right2 g-bottom1">{{column.sigma_r2.value}}</td>
-          </ng-container>
-        </ng-container>
-      </tr>-->
+
       <tr>
         <th class="cell_name2 g-bottom1 g-left2">f<sub>sr200</sub></th>
         <th class="cell_name3 g-right2 g-bottom1">(N/mm<sup>2</sup>)</th>
@@ -566,10 +579,7 @@
         </ng-container>
       </tr>
       <tr>
-        <ng-container *ngIf="!isSRC">
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σ<sub>srd</sub>/(f<sub>sr200</sub>/γb)</th>
-        </ng-container>
-        <ng-container *ngIf="isSRC">
+        <ng-container>
           <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σ<sub>wrd</sub>/(f<sub>sr200</sub>/γb)</th>
         </ng-container>
         <ng-container *ngFor="let column of pages.columns; index as c">
@@ -712,10 +722,7 @@
         </ng-container>
       </tr>
       <tr>
-        <ng-container *ngIf="!isSRC">
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σ<sub>srd</sub>/(fsrd/γb)</th>
-        </ng-container>
-        <ng-container *ngIf="isSRC">
+        <ng-container>
           <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・σ<sub>wrd</sub>/(fsrd/γb)</th>
         </ng-container>
         <ng-container *ngFor="let column of pages.columns; index as c">
@@ -744,114 +751,6 @@
       </tr>
     </table>
   </div>
-
-<!-- 
-  <ng-container *ngIf="isSRC">
-    <div class="sheet">
-      <div class="sheet-title">
-        <p class="sheet-title indent10">（e）鉄骨に対するせん断力(疲労限)【複合標準 第Ⅱ編 2.3, 鋼標準 第Ⅱ編 2.4】</p>
-        <p class="sheet-title indent30">張出部はa/dが小さく、ディープビーム的な耐荷機構を有する部材である。そのた</p>
-        <p class="sheet-title indent20">め、せん断補強鋼材の役割が通常の棒部材と異なると考えられる。</p>
-        <p class="noword"></p>
-        <p class="sheet-title indent20">②せん断力に対する照査【鋼標準 第Ⅱ編 2.4.4】</p>
-        <p class="sheet-title indent30">疲労限の照査は、設計最大応力範囲⊿τ<sub>fud</sub>を設計応答値、せん断応力の一定振幅</p>
-        <p class="sheet-title indent20">応力に対する応力範囲の打切り限界⊿τ<sub>cod</sub>を応答限界値として、以下に示す式によ</p>
-        <p class="sheet-title indent20">り行う。</p>
-        <div class="margin30">
-          <table class="formula">
-            <tr>
-              <td rowspan="2">γ<sub>i</sub> = </td>
-              <td class="bottom">⊿τ<sub>fud</sub></td>
-              <td rowspan="2">≦ 1.0</td>
-            </tr>
-            <tr>
-              <td>⊿τ<sub>cod</sub></td>
-            </tr>
-          </table>
-        </div>
-        <p class="sheet-title indent30">ここに、γ<sub>i</sub>: 構造物係数（=1.1）</p>
-        <p class="sheet-title indent55">⊿τ<sub>fud</sub>: 設計応力範囲</p>
-        <p class="noword sheet-title indent55">⊿τ<sub>cod</sub>: せん断応力の一定振幅応力に対する応力範囲の打切り限界</p>
-        <p class="sheet-title indent20">1）設計最大応力範囲の算定【鋼標準 第Ⅱ編 2.4.4】</p>
-        <p class="noword sheet-title indent30">疲労限による照査に用いる着目部位の設計最大応力範囲は、次式により求める。</p>
-        <div class="margin30">
-          <table class="formula">
-            <tr>
-              <td rowspan="2">⊿τ<sub>fud</sub> = γ<sub>a</sub>・(τ<sub>max</sub> - τ<sub>min</sub>)</td>
-            </tr>
-          </table>
-        </div>
-        <p class="sheet-title indent30">ここに、γ<sub>a</sub>: 構造解析係数（=1.0）</p>
-        <p class="sheet-title indent65">τ<sub>max</sub>: 絶対値の大きい方の応力方向を正、逆方向を負としたせん断応力</p>
-        <p class="sheet-title indent100">度の最大値ここでは、（τ<sub>srd</sub> + τ<sub>spd</sub>）とする。</p>
-        <p class="sheet-title indent65">τ<sub>min</sub>: 絶対値の大きい方の応力方向を正、逆方向を負としたせん断応力</p>
-        <p class="sheet-title indent100">度の最小値ここでは、τ<sub>spd</sub>とする。</p>
-      </div>
-    </div>
-    
-    <div class="sheet">
-      <div class="sheet-title">
-        <p class="sheet-title indent30">鉄骨の設計せん断応力度は、次式により算定する。【複合標準 第Ⅱ編 2.3】
-        <div align="center">
-          <table class="formula">
-            <tr>
-              <td rowspan="2">τ<sub>srd</sub> ＝</td>
-              <td class="bottom">(α<sub>s</sub>・V<sub>rd</sub>)</td>
-              <td rowspan="2">【複合標準 第Ⅱ編 式(2.3.3)】</td>
-            </tr>
-            <tr>
-              <td>h<sub>w</sub>・t<sub>w</sub></td>
-            </tr>
-            <tr>
-              <td rowspan="2">τ<sub>spd</sub> ＝</td>
-              <td class="bottom">(α<sub>s</sub>・V<sub>pd</sub>)</td>
-              <td rowspan="2">【複合標準 第Ⅱ編 式(2.3.4)】</td>
-            </tr>
-            <tr>
-              <td>h<sub>w</sub>・t<sub>w</sub></td>
-            </tr>
-          </table>
-        </div>
-        <p class="sheet-title indent30">ここに、τ<sub>spd</sub>: 変動作用による鉄骨の設計せん断応力度（N/mm<sup>2</sup>）</p>
-        <p class="sheet-title indent70">τ<sub>spd</sub>: 永久作用による鉄骨の設計せん断応力度（N/mm<sup>2</sup>）</p>
-        <div class="margin70">
-          <table class="formula">
-            <tr>
-              <td rowspan="2">α<sub>s</sub> = </td>
-              <td class="bottom">Z<sub>s</sub></td>
-            </tr>
-            <tr>
-              <td>Z<sub>s</sub> + A<sub>r</sub>・z<sub>r</sub></td>
-            </tr>
-          </table>
-        </div>
-        <p class="sheet-title indent85">Z<sub>s</sub>: 鉄骨の断面係数（mm<sup>3</sup>）</p>
-        <p class="sheet-title indent85">A<sub>r</sub>: 軸方向引張鉄筋の総断面積（mm<sup>2</sup>）</p>
-        <p class="sheet-title indent85">d : 引張鉄筋の有効高さ（mm）</p>
-        <p class="sheet-title indent85">z<sub>r</sub>: 圧縮応力の合力位置から引張鋼材の図芯までの距離(mm)でd/1.15</p>
-        <p class="sheet-title indent105">とする。</p>
-        <p class="sheet-title indent85">t<sub>w</sub>: せん断補強鉄筋の配置間隔（mm）</p>
-        <p class="noword sheet-title indent85">h<sub>w</sub>: 区間sにおけるせん断補強鉄筋の総断面積（mm<sup>2</sup>）</p>
-        <p class="sheet-title indent10">2）せん断応力の一定振幅応力に対する応力範囲の打切り限界</p>
-        <p class="sheet-title textright">【複合標準 第Ⅱ編 2.4.2】</p>
-        <p class="noword sheet-title indent25">せん断応力の一定振幅応力に対する応力範囲の打切り限界は、表5.2.2.21による。</p>
-        <p class="caption">表5.2.2.21 せん断応力を受ける継手の一定振幅応力に対する応力範囲の打切り限界</p>
-        <div align="center">
-          <table border="1" class="title">
-            <tr>
-              <td width="70px">区分</td>
-              <td width="140px">⊿τ<sub>cod</sub>（N/mm<sup>2</sup>）</td>
-            </tr>
-            <tr>
-              <td>S</td>
-              <td>67</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </ng-container>
--->
 </div>
 
 <div *ngIf="err.length > 0" class="sheet">

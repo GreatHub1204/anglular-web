@@ -60,6 +60,7 @@ export class SaveDataService {
     this.bars.clear();
     this.fatigues.clear();
     this.safety.clear();
+    this.force.clear();
   }
 
   // 断面力て入力モードかどうか判定する

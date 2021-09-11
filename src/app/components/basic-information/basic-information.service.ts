@@ -9,6 +9,7 @@ export class InputBasicInformationService  {
   // pick up table に関する変数
   public pickup_moment: any[];
   public pickup_shear_force: any[];
+  public pickup_torsional_moment: any[];
 
   // 適用 に関する変数
   private specification1_list: any[];
@@ -25,6 +26,8 @@ export class InputBasicInformationService  {
   public clear(): void {
     this.pickup_moment = new Array();
     this.pickup_shear_force = new Array();
+    this.pickup_torsional_moment = new Array();
+
     this.specification1_list = new Array();
     this.specification2_list = new Array();
     this.conditions_list = new Array();
@@ -69,6 +72,20 @@ export class InputBasicInformationService  {
       tmp_shear.push(def);
     }
     this.pickup_shear_force = tmp_shear;
+
+    // ねじりモーメントテーブル
+    const keys_torsional = this.default_pickup_torsional(sp1);
+    // 古い入力があれば no の入力を 保持
+    const tmp_torsional: any[] = new Array();
+    for(const def of keys_torsional){
+      const old = this.pickup_torsional_moment.find(v=>v.id===def.id);
+      if(old!==undefined){
+        def.no = old.no;
+      }
+      tmp_torsional.push(def);
+    }
+    this.pickup_torsional_moment = tmp_torsional;
+
 
     this.specification2_list = this.default_specification2(sp1);
 
@@ -160,6 +177,42 @@ export class InputBasicInformationService  {
     target.no = no;
   }
 
+  // ねじりモーメントテーブルの初期値
+  private default_pickup_torsional(specification1: number): any{
+    let result: any[] = new Array();
+    switch (specification1) {
+      case 0: // 鉄道
+      case 1: // 土木学会
+        result = [
+          { id: 0, title: '耐久性 ねじりひび割れ検討判定用', no: null},
+          { id: 1, title: '耐久性 （永久荷重）', no: null},
+          { id: 5, title: '安全性 （破壊）', no: null},
+          { id: 6, title: '復旧性 （損傷）地震時以外', no: null},
+          { id: 7, title: '復旧性 （損傷）地震時', no: null}
+        ];
+        break;
+
+      case 2: // 港湾
+        result = [
+          { id: 0, title: '使用限界 せん断ひび割れ検討判定用', no: null},
+          { id: 1, title: '使用限界 （永久荷重）', no: null},
+          { id: 5, title: '終局限界', no: null},
+          { id: 6, title: '地震時 使用限界', no: null},
+          { id: 7, title: '地震時 終局限界', no: null}
+        ];
+        break;
+      default:
+        // まだ対応していない
+    }
+    return result;
+  }
+  public set_pickup_torsional_moment(id: number, no: number){
+    const target = this.pickup_torsional_moment.find(e => e.id === id);
+    if(target === undefined) return;
+    target.no = no;
+  }
+
+
   // 仕様の初期値
   private default_specification2(specification1: number): any{
     let result: any[] = new Array();
@@ -240,6 +293,13 @@ export class InputBasicInformationService  {
     }
     return null;
   }
+  public pickup_torsional_moment_no(id: number){
+    const old = this.pickup_torsional_moment.find(v=>v.id===id);
+    if(old!==undefined){
+      return this.helper.toNumber(old.no);
+    }
+    return null;
+  }
 
   public get_specification1(): number {
     const sp = this.specification1_list.find(
@@ -300,6 +360,19 @@ export class InputBasicInformationService  {
       }
     }
 
+    this.pickup_torsional_moment = this.default_pickup_torsional(sp1);
+    if('pickup_torsional_moment' in basic){
+      for(let i=0; i<basic.pickup_torsional_moment.length; i++){
+        const e = this.pickup_torsional_moment[i];
+        const t = basic.pickup_torsional_moment[i];
+        for(const k of Object.keys(e)){
+          if(k in t){
+            e[k] = t[k];
+          }
+        }
+      }
+    }
+
     this.specification2_list = basic.specification2_list;
     this.conditions_list = basic.conditions_list;
   }
@@ -311,6 +384,8 @@ export class InputBasicInformationService  {
     return {
       pickup_moment: this.pickup_moment,
       pickup_shear_force: this.pickup_shear_force,
+      pickup_torsional_moment: this.pickup_torsional_moment,
+
       specification1_list: this.specification1_list, // 適用
       specification2_list: this.specification2_list, // 仕様
       conditions_list: this.conditions_list         // 設計条件

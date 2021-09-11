@@ -163,7 +163,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
 
             let SRC_pik = "";
             // 優先順位は、I型下側 ＞ H型左側 ＞ H型右側 ＞ I型上側
-            if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_compress" ;
+            if (this.helper.toNumber(section.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
             if (this.helper.toNumber(section.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
@@ -204,7 +204,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), 'center');
+            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             column['fsu'] = this.result.alien(section.Ast.fsu, 'center');
             /////////////// 鉄骨情報 ///////////////
@@ -267,6 +267,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
 
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag);
+            column['CFTFlag'] = (section.CFTFlag);
 
             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
@@ -293,6 +294,8 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
           for (let aa of Object.keys(page.columns[0])) {
             if (aa === "index" || aa === "side_summary" || aa === "shape_summary") {
               column[aa] = null;
+            } else if (aa === "steelFlag" || aa === "CFTFlag"){
+              column[aa] = false;
             } else {
               column[aa] = { alien: 'center', value: '-' };
             }
@@ -422,7 +425,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
     }
     let ratio = 0;
     if ("ratio" in re) {
-      result.ratio.value = re.ratio.toFixed(3);
+      result.ratio.value = re.ratio.toFixed(3).toString() + ((re.ratio < 1) ? ' < 1.00' : ' > 1.00');
       ratio = re.ratio;
     }
     if (ratio < 1) {

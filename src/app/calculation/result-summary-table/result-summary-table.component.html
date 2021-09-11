@@ -42,27 +42,52 @@
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Rectangle'" class="shape">
-                  <img src="./assets/img/rectangle.png" alt="rectangle.png" width="100px" height="100px">
-                  <p class="tate">{{item.shape.H}}</p>
-                  <p class="yoko">{{item.shape.B}}</p>
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/rectangle.png" alt="rectangle.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/rectangle_under.png" alt="rectangle_under.png" width="100px" height="100px">
+                  </ng-container>
+                    <p class="tate">{{item.shape.H}}</p>
+                    <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Tsection'" class="shape">
-                  <img src="./assets/img/tsection.png" alt="tsection.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/tsection.png" alt="tsection.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/tsection_under.png" alt="tsection_under.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='InvertedTsection'" class="shape">
-                  <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/invertedtsection_over.png" alt="invertedtsection_over.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='HorizontalOval'" class="shape">
-                  <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/horizontalOval_over.png" alt="horizontalOval.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='VerticalOval'" class="shape">
-                  <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
+                  <ng-container *ngIf="item.side=='上側引張'">
+                    <img src="./assets/img/verticalOval.png" alt="verticalOval_over.png" width="100px" height="100px">
+                  </ng-container>
+                  <ng-container *ngIf="item.side=='下側引張'">
+                    <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
+                  </ng-container>
                   <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
                 </div>
@@ -76,21 +101,36 @@
               <th class="left bottom text-center">引張ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_tension}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_tension}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_web}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_web}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center">（CFT）</th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">圧縮ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_compress}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_compress}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
@@ -98,14 +138,24 @@
               <th class="left bottom text-center">ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.H_flange}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.H_flange}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center">厚さ {{item.steel.I_tension}}</th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.H_web}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.H_web}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left bottom text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
           </ng-container>
@@ -539,8 +589,8 @@
             </ng-container>
           </tr>
           <tr>
-            <td class="text-center" rowspan="7"><span>鉄筋量の照査</span></td>
-            <td class="left bottom text-center" rowspan="4"><span>最小</span></td>
+            <td class="text-center bottom" rowspan="9"><span>鉄筋量の照査</span></td>
+            <td class="left bottom text-center" rowspan="5"><span>最小</span></td>
             <td class="left bottom text-left">粗骨材の最大寸法</td>
             <td class="bottom text-right">d<sub>max</sub></td>
             <td class="left bottom text-center">mm</td>
@@ -565,7 +615,7 @@
             </ng-container>
           </tr>
           <tr>
-            <td class="left bottom text-left">○○耐力</td>
+            <td class="left bottom text-left">曲げ降伏耐力</td>
             <td class="bottom text-right">M<sub>yd</sub></td>
             <td class="left bottom text-center">kN・m</td>
             <ng-container *ngFor="let item of summary_table; index as i">
@@ -573,7 +623,14 @@
             </ng-container>
           </tr>
           <tr>
-            <td class="left text-center" rowspan="3"><span>最大</span></td>
+            <td class="left bottom text-center" colspan="2">判定</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.minimumReinforcement.result_Md}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" rowspan="4"><span>最大</span></td>
             <td class="left bottom text-left">釣合鉄筋比</td>
             <td class="bottom text-right">p<sub>b</sub></td>
             <td class="left bottom text-center">-</td>
@@ -595,6 +652,13 @@
             <td class="left text-center">%</td>
             <ng-container *ngFor="let item of summary_table; index as i">
               <td class="left bottom text-center">{{item.minimumReinforcement.pc}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" colspan="2">判定</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.minimumReinforcement.result_pc}}</td>
             </ng-container>
           </tr>
           <tr>

@@ -191,7 +191,8 @@ export class ResultDataService {
         t: null,
         Bw: null,
         Hw: null,
-      }
+      },
+      CFTFlag: false,
     };
 
     const index = res.index;
@@ -215,6 +216,7 @@ export class ResultDataService {
           section = this.circle.getCircleShape(member, index, safety, {});
           result['Ast'] = this.getAst(section, safety);
           result.shape.H = section.H;
+          result.shape.B = section.B;
           result.shape.Hw = section.Hw;
         } else {
           section = this.circle.getCircleVdShape(member, index, safety);
@@ -223,6 +225,10 @@ export class ResultDataService {
           result.shape.B = section.B;
           result.shape.Hw = section.Hw;
           result.shape.Bw = section.Bw;
+        }
+        // CFTの判定用のフラグ
+        if ('steel' in  section) {
+          result.CFTFlag = true;
         }
         break;
 
@@ -425,6 +431,11 @@ export class ResultDataService {
       Es: 200
     }
 
+    if ( !('tension' in section) ) {
+      result.rs = safety.safety_factor.rs;
+      return result;
+    }
+
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;
@@ -458,6 +469,10 @@ export class ResultDataService {
       fsu: null,
       rs: null,
       Es: 200
+    }
+
+    if(!('tension' in section)){
+      return result;
     }
 
     result.tension = section.tension;
@@ -566,6 +581,67 @@ export class ResultDataService {
     if(!('steel' in section)){
       return result;
     }
+
+    if('I' in section.steel){
+      // 矩形の鉄骨
+      this.getRectSteel(section, result, mark);
+    } else{
+      // 円形の鉄骨
+      this.getCircleSteel(section, result, mark);
+      // 円形鉄骨の仮想矩形の断面積が欲しい
+    }
+
+
+    return result
+  }
+
+  // 円形の鉄骨情報
+  private getCircleSteel(section: any, result: any, mark: string): void{
+    
+    const thickness = this.helper.toNumber(section.steel.thickness);
+    if(thickness===null){
+      return;
+    }
+    if(thickness===0){
+      return;
+    }
+
+    result.flag = true;
+
+    result.I.tension_flange = thickness;
+
+    const fsy = this.helper.toNumber(section.steel.fsy.fsy);
+    const rs = this.helper.toNumber(section.steel.rs);
+    if (fsy !== null && rs !== null) {
+      result.fsy_tension.fsy = fsy;
+      result.fsy_tension.fsd = fsy / rs;
+    }
+    
+
+    if (mark !== 'Vd') {
+      return;
+    }
+
+    result['fsvy_Iweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    const fvy = this.helper.toNumber(section.steel.fvy.fvy);
+    if (fvy !== null && rs !== null) {
+      result['fsvy_Iweb'] = {
+        fsvy: fvy,
+        fvyd: fvy / rs
+      }
+    }
+
+    return result
+
+    
+  }
+
+  // 矩形の鉄骨情報
+  private getRectSteel(section: any, result: any, mark: string): void{
+
     // I配置鉄骨
     let target = section.steel.I;
 
@@ -634,32 +710,32 @@ export class ResultDataService {
     }
 
 
-    if (mark === 'Vd') {
-      
+    if (mark !== 'Vd') {
+      return result
+    }
+
+    result['fsvy_Iweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    if(section.steel.I.fvy_web !== null){
       result['fsvy_Iweb'] = {
-        fsvy: null,
-        fvyd: null
+        fsvy: section.steel.I.fvy_web.fvy,
+        fvyd: (section.steel.I.fvy_web.fvy === null) ? null :
+          section.steel.I.fvy_web.fvy / result.rs
       }
-      if(section.steel.I.fvy_web !== null){
-        result['fsvy_Iweb'] = {
-          fsvy: section.steel.I.fvy_web.fvy,
-          fvyd: (section.steel.I.fvy_web.fvy === null) ? null :
-            section.steel.I.fvy_web.fvy / result.rs
-        }
-      }
+    }
 
+    result['fsvy_Hweb'] = {
+      fsvy: null,
+      fvyd: null
+    }
+    if(section.steel.H.fvy_web !== null){
       result['fsvy_Hweb'] = {
-        fsvy: null,
-        fvyd: null
+        fsvy: section.steel.H.fvy_web.fvy,
+        fvyd: (section.steel.H.fvy_web.fvy === null) ? null :
+          section.steel.H.fvy_web.fvy / result.rs
       }
-      if(section.steel.I.fvy_web !== null){
-        result['fsvy_Hweb'] = {
-          fsvy: section.steel.H.fvy_web.fvy,
-          fvyd: (section.steel.H.fvy_web.fvy === null) ? null :
-            section.steel.H.fvy_web.fvy / result.rs
-        }
-      }
-
     }
 
     return result
