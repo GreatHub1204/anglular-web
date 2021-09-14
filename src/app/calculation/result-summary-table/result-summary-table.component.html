@@ -39,7 +39,7 @@
               <td class="left">
                 <div *ngIf="item.shape.name=='Circle'" class="shape">
                   <img src="./assets/img/circle.png" alt="circle.png" width="100px" height="100px">
-                  <p class="yoko">{{item.shape.B}}</p>
+                  <p class="yoko">{{item.shape.B_summary}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Rectangle'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">

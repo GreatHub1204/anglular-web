@@ -377,6 +377,10 @@ export class SetCircleService {
     result['H'] = H; // 外径
     result['B'] = this.helper.toNumber(member.B); // 内径
 
+    ////////// 総括表用 //////////
+    result['H_summary'] = H;
+    result['B_summary'] = this.helper.toNumber(member.B);
+
     //換算した断面の1辺の長さ
     if (this.helper.toNumber(member.H) === null || this.helper.toNumber(member.B) === null) {
       result['Hw'] = Math.sqrt(Math.PI * (H / 2)**2);

@@ -79,6 +79,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -122,6 +124,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -167,6 +171,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -214,6 +220,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -259,6 +267,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -306,6 +316,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -350,6 +362,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -396,6 +410,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -441,6 +457,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -490,6 +508,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -535,6 +555,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -582,6 +604,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -631,6 +655,8 @@ export class CalcSummaryTableService {
         H: "-",
         Bt: "-",
         t: "-",
+        B_summary: "-",
+        H_summary: "-",
       },
       steel: {
         I_tension: '-',

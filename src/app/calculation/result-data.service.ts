@@ -189,8 +189,10 @@ export class ResultDataService {
         H: null,
         Bt: null,
         t: null,
-        Bw: null,
-        Hw: null,
+        Bw: null, // 換算断面情報
+        Hw: null, // 換算断面情報
+        B_summary: null, // 総括表用
+        H_summary: null,  // 総括表用
       },
       CFTFlag: false,
     };
@@ -226,6 +228,8 @@ export class ResultDataService {
           result.shape.Hw = section.Hw;
           result.shape.Bw = section.Bw;
         }
+        result.shape.B_summary = section.B_summary;
+        result.shape.H_summary = section.H_summary;
         // CFTの判定用のフラグ
         if ('steel' in  section) {
           result.CFTFlag = true;
@@ -242,6 +246,8 @@ export class ResultDataService {
         }
         result.shape.H = section.H;
         result.shape.B = section.B;
+        result.shape.B_summary = section.B_summary;
+        result.shape.H_summary = section.H_summary;
         break;
 
       case 'Rectangle':         // 矩形
@@ -267,6 +273,8 @@ export class ResultDataService {
         result.shape.H = section.H;
         result.shape.B = section.B;
         result.shape.Bw = section.Bw;
+        result.shape.B_summary = section.B_summary;
+        result.shape.H_summary = section.H_summary;
         break;
 
       case 'VerticalOval':      // 鉛直方向小判形
@@ -275,6 +283,8 @@ export class ResultDataService {
         result.shape.H = section.H;
         result.shape.Hw = section.Hw;
         result.shape.B = section.B;
+        result.shape.B_summary = section.B_summary;
+        result.shape.H_summary = section.H_summary;
         break;
 
       default:
