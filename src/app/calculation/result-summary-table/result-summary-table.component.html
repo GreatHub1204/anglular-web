@@ -48,8 +48,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/rectangle_under.png" alt="rectangle_under.png" width="100px" height="100px">
                   </ng-container>
-                    <p class="tate">{{item.shape.H}}</p>
                     <p class="yoko">{{item.shape.B}}</p>
+                    <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Tsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -58,8 +58,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/tsection_under.png" alt="tsection_under.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='InvertedTsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -68,8 +68,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='HorizontalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -78,8 +78,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='VerticalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -88,8 +88,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
               </td> 
             </ng-container>
@@ -160,7 +160,7 @@
             </tr>
           </ng-container>
           <tr>
-            <th class="bottom text-center" rowspan="7"><span>鉄筋量</span></th>
+            <th class="bottom text-center" rowspan="5"><span>鉄筋量</span></th>
             <th class="left bottom text-center height3" colspan="2">主鉄筋</th>
             <th class="left bottom text-center height3">径・本数</th>
             <th class="left bottom text-center height3">-</th>

@@ -407,23 +407,87 @@ export class DataHelperModule {
   public table_To_text(wTABLE) {
     var wRcString = "";
     var wTR = wTABLE.rows;
+    let spanList: any = { 1:{row:0, col:0}, 2:{row:0, col:0}, 3:{row:0, col:0} };
     for (var i = 0; i < wTR.length; i++) {
       var wTD = wTABLE.rows[i].cells;
       var wTR_Text = "";
-      for (var j = 0; j < wTD.length; j++) {
-        const a: string = wTD[j].innerText;
-        const b = a.replace(" ", "");
-        const c = b.replace("\n", "");
-        wTR_Text += c;
-        if (j === wTD.length - 1) {
-          wTR_Text += "";
-        } else {
-          wTR_Text += "\t";
+      const rowspan_text = this.getRowSpan(spanList);
+      wTR_Text += rowspan_text;
+      // 断面形状の列のみ、特殊な挙動をする
+      if (wTD[0].innerText !== '断面形状') {
+        for (var j = 0; j < wTD.length; j++) {
+          const a: string = wTD[j].innerText;
+          const b = a.replace(" ", "");
+          const c = b.replace("\n", "");
+          wTR_Text += c;
+          if (j === wTD.length - 1) {
+            wTR_Text += "";
+          } else {
+            wTR_Text += "\t";
+          }
+          // colspanを処理する
+          for (let k = 1 ; k < wTD[j].colSpan; k++) {
+            wTR_Text += "\t";
+          }
+          // rowspanを入手する
+          if (wTD[j].rowSpan > 1) {
+            for (const key of Object.keys(spanList)) {
+              if (spanList[key].row < 2) {
+                spanList[key] = { row:wTD[j].rowSpan, col:wTD[j].colSpan };
+                break;
+          } } };
         }
+      } else {
+      // 断面形状の列のみ、特殊な挙動をする
+        wTR_Text = this.getShapeText(wTD);
       }
       wRcString += wTR_Text + "\r\n";
     }
     return wRcString;
+  }
+
+  private getRowSpan(list): string {
+    let result: string = "";
+
+    for (const key of Object.keys(list)) {
+      if (list[key].row > 1) {
+        for (let i = 0; i < list[key].col; i++) {
+          result += "\t";
+        }
+        list[key].row -= 1;
+      }
+    }
+
+    return result
+  }
+
+  private getShapeText(wTD) {
+    let text: string = ""; 
+    let B_text: string = "";
+    let H_text: string = "";
+
+    const a0: string = wTD[0].innerText;
+    const a1: string = wTD[1].innerText;
+    text += a0 + "\t".repeat(wTD[0].colSpan) + a1;
+
+    for (var j = 2; j < wTD.length; j++) {
+      const a: string = wTD[j].innerText;
+      const b = a.split('\n');
+      B_text += b[0];
+      H_text += b[2];
+
+      if (j === wTD.length - 1) {
+        B_text += "\n";
+        H_text += "";
+      } else {
+        B_text += "\t";
+        H_text += "\t";
+      }
+    }
+    text += '\t';
+
+    const result: string = text + B_text + "\t".repeat(wTD[0].colSpan + wTD[1].colSpan) + H_text;
+    return result;
   }
 
 }
