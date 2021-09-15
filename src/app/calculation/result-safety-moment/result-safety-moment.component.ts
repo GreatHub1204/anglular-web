@@ -134,6 +134,7 @@ export class ResultSafetyMomentComponent implements OnInit {
 
             /////////////// まず計算 ///////////////
             const section = this.result.getSection('Md', res, safety);
+            const shape = section.shape;
 
             const titleColumn = this.result.getTitleString(section.member, position, side)
             const fck: any = this.helper.getFck(safety);
@@ -219,6 +220,8 @@ export class ResultSafetyMomentComponent implements OnInit {
             column['index'] = position.index;
             column['side_summary'] = side;
             column['shape_summary'] = section.shapeName;
+            column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
+            column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
             
             // SRCのデータの有無を確認
             for(const src_key of ['steel_I_tension', 'steel_I_web', 'steel_I_compress',
