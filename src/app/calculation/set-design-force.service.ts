@@ -178,8 +178,12 @@ export class SetDesignForceService {
             }
           }
 
-          const p_name: string =
-            pos.p_name === null ? "" : pos.p_name.toString().toUpperCase();
+          let p_name: string = "";
+          if ( p_name in pos){
+            if ( pos.p_name !== null){
+              p_name = pos.p_name.toString().toUpperCase();
+            }
+          }
 
           if (pos.enable === true && p_name.indexOf("MAX") >= 0) {
             // 着目点名(p_name) に MAX というキーワードが入っていたら END まで対象とする
