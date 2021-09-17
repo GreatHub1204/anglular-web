@@ -356,36 +356,6 @@ export class SectionForceListComponent implements OnInit {
           bottomSideName: bottomName,
         };
 
-        /*for (const pp of pos.designForce) {
-          const pt = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-          if ("Md" in pp) {
-            pt.Md = pp.Md.toFixed(2);
-          }
-          if ("Nd" in pp) {
-            pt.Nd = pp.Nd.toFixed(2);
-          }
-          if ("Vd" in pp) {
-            pt.Vd = pp.Vd.toFixed(2);
-          }
-          if ("comb" in pp) {
-            pt.comb = pp.comb;
-          }
-          switch (pp.side) {
-            case "上側引張":
-              p["upper"] = pt;
-              break;
-            case "下側引張":
-              p["lower"] = pt;
-              break;
-          }
-        }
-
-        if ("upper" in p === false) {
-          p["upper"] = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-        }
-        if ("lower" in p === false) {
-          p["lower"] = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-        }*/
         for (const pp of pos.designForce) {
           let md = { value: "-", position: "center"};
           let nd = { value: "-", position: "center"};

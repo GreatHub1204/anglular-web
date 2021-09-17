@@ -219,7 +219,11 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const old = old_safety_factor.find(v => v.id === tmp.id)
           if (old !== undefined) {
             for (const key of Object.keys(tmp)) {
-              if (key in old) { tmp[key] = old[key]; }
+              if (key in old) { 
+                tmp[key] = old[key]; 
+              } else {
+                tmp[key] = null;
+              }
             }
           }
         }
@@ -231,7 +235,9 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_material_bar[i];
           const old = old_material_bar[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if (key in old) { 
+              tmp[key] = old[key]; 
+            }
           }
         }
       }
@@ -242,7 +248,9 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_material_steel[i];
           const old = old_material_steel[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if (key in old) { 
+              tmp[key] = old[key];
+            }
           }
         }
       }
