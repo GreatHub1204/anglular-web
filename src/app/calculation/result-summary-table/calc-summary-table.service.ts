@@ -94,6 +94,13 @@ export class CalcSummaryTableService {
             columns.As.AseString = col.AseString.value;
             // 照査結果
             columns.durabilityMoment.Wd = col.Wd.value;
+            // summaryのテキスト用
+            columns.durabilityMoment.Wlim = col.Wlim.value;
+            if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
+              columns.durabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
+                col.WdWlim.value.toFixed(2) + ' < 1.00' : 
+                col.WdWlim.value.toFixed(2) + ' > 1.00' ;
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -527,6 +534,29 @@ export class CalcSummaryTableService {
             columns.serviceabilityMoment.sigma_s = col.sigma_s.value;
             columns.serviceabilityMoment.Wd = col.Wd.value;
             columns.serviceabilityMoment.Wlim = col.Wlim.value;
+            // summaryのテキスト用
+            if (col.sigma_b.value !== '-') {
+              columns.serviceabilityMoment.sigma_b_div1 = col.sigma_b_ratio.dividend.toFixed(2);
+              columns.serviceabilityMoment.sigma_b_div2 = col.sigma_b_ratio.divisor.toFixed(2);
+            }
+            if (col.sigma_c.value !== '-') {
+              columns.serviceabilityMoment.sigma_c_div1 = col.sigma_c_ratio.dividend.toFixed(2);
+              columns.serviceabilityMoment.sigma_c_div2 = col.sigma_c_ratio.divisor.toFixed(2);
+            }
+            if (col.sigma_s.value !== '-') {
+              if (col.sigma_s.value !== '全断面圧縮') {
+                columns.serviceabilityMoment.sigma_s_ratio = (col.sigma_s_ratio.value < 1) ?
+                  col.sigma_s_ratio.value.toFixed(2) + ' < 1.00' : 
+                  col.sigma_s_ratio.value.toFixed(2) + ' > 1.00' ;
+                columns.serviceabilityMoment.sigma_s = 
+                  col.sigma_s_ratio.dividend.toFixed(2) + '/' + col.sigma_s_ratio.divisor.toFixed(0);
+              }
+            }
+            if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
+              columns.serviceabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
+                col.WdWlim.value.toFixed(2) + ' < 1.00' : 
+                col.WdWlim.value.toFixed(2) + ' > 1.00' ;
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -674,6 +704,8 @@ export class CalcSummaryTableService {
       },
       durabilityMoment: {
         Wd: "-",
+        Wlim: "-",
+        WdWlim: "-",
       },
       earthquakesMoment: {
         ri: "-",
@@ -733,6 +765,12 @@ export class CalcSummaryTableService {
         sigma_s: "-",
         Wd: "-",
         Wlim: "-",
+        sigma_b_div1: "-",
+        sigma_b_div2: "-",
+        sigma_c_div1: "-",
+        sigma_c_div2: "-",
+        sigma_s_ratio: "-",
+        WdWlim: "-",
       },
       serviceabilityShearForce: {
         Vcd: "-",

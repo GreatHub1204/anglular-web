@@ -281,6 +281,10 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             column['shape_summary'] = section.shapeName;
             column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
             column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
+            column['sigma_b_ratio'] = resultColumn.sigma_b_ratio;
+            column['sigma_c_ratio'] = resultColumn.sigma_c_ratio;
+            column['sigma_s_ratio'] = resultColumn.sigma_s_ratio;
+            column['WdWlim'] = resultColumn.WdWlim;
             // SRCのデータの有無を確認
             for(const src_key of ['steel_I_tension', 'steel_I_web', 'steel_I_compress',
                                   'steel_H_tension','steel_H_web']){
@@ -356,6 +360,12 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       ri: { alien: "center", value: "-" },
       ratio: { alien: "center", value: "-" },
       result: { alien: "center", value: "-" },
+
+      ////////// summary_table用 //////////
+      sigma_b_ratio: { value: 0, dividend: 0, divisor: 1 },
+      sigma_c_ratio: { value: 0, dividend: 0, divisor: 1 },
+      sigma_s_ratio: { value: 0, dividend: 0, divisor: 1 },
+      WdWlim: { value: 0, dividend: 0, divisor: 1 },
     };
 
     // 環境条件
@@ -381,6 +391,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
           re.Sigmac.toFixed(2) + " > " + re.fcd04.toFixed(1);
         result.result.value = "(0.4fcd) NG";
       }
+      result.sigma_c_ratio.dividend = re.Sigmac;
+      result.sigma_c_ratio.divisor  = re.fcd04;
+      result.sigma_c_ratio.value = re.Sigmac / re.fcd04;
     }
 
     // 縁応力の照査
@@ -407,6 +420,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
         }
         result.sigma_b.value =
           SigmabVal.toFixed(2) + " < " + re.Sigmabl.toFixed(2);
+        result.sigma_b_ratio.dividend = SigmabVal;
+        result.sigma_b_ratio.divisor  = re.Sigmabl;
+        result.sigma_b_ratio.value = SigmabVal / re.Sigmabl;
 
         // 鉄筋応力度の照査
         if ("Sigmas" in re && "sigmal1" in re) {
@@ -426,6 +442,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
               re.Sigmas.toFixed(1) + " > " + re.sigmal1.toFixed(1);
             result.result.value = "NG";
           }
+          result.sigma_s_ratio.dividend = re.Sigmas;
+          result.sigma_s_ratio.divisor  = re.sigmal1;
+          result.sigma_s_ratio.value = re.Sigmas / re.sigmal1;
         }
         if (!this.isJRTT){
           return result;
@@ -437,6 +456,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       } else {
         result.sigma_b.value =
           re.Sigmab.toFixed(2) + " > " + re.Sigmabl.toFixed(2);
+        result.sigma_b_ratio.dividend = re.Sigmab;
+        result.sigma_b_ratio.divisor  = re.Sigmabl;
+        result.sigma_b_ratio.value = re.Sigmab / re.Sigmabl;
       }
     }
 
@@ -499,10 +521,15 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     }
     if ("Wd" in re) {
       result.Wd = { alien: "right", value: re.Wd.toFixed(3) };
+      result.WdWlim.dividend = re.Wd;
     }
     // 制限値
     if ("Wlim" in re) {
       result.Wlim = { alien: "right", value: re.Wlim.toFixed(3) };
+      result.WdWlim.divisor = re.Wlim;
+    }
+    if ("Wd" in re && "Wlim" in re) {
+      result.WdWlim.value = re.Wd / re.Wlim;
     }
     if ("ri" in re) {
       result.ri.value = re.ri.toFixed(2);
