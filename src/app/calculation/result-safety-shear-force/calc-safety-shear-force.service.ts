@@ -431,6 +431,9 @@ export class CalcSafetyShearForceService {
       let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / rbs;
 
       Vsd2 = Vsd2 / 1000;
+      
+      // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
+      Vsd2 = Math.min(Vsd2, Vsd);
 
       result["Vsd2"] = Vsd2;
 
@@ -624,6 +627,9 @@ export class CalcSafetyShearForceService {
     let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / rb;
     result["Vsd2"] = Vsd2 / 1000;
 
+    // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
+    Vsd2 = Math.min(Vsd2, Vsd);
+    
     // Vsddの算出
     const Vsdd: number = Bs * (Vsd + Vsd2);
 
