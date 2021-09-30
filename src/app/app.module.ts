@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
-import { HotTableModule } from '@handsontable/angular';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPrintModule } from 'ngx-print';
@@ -95,7 +94,6 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     NgbModule,
     NgxPrintModule,
-    HotTableModule,
     AngularFireModule.initializeApp(environment.firebase),
     DataHelperModule
   ],
