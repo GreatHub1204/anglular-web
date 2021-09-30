@@ -7,8 +7,7 @@
     "build": "ng build --prod --base-href \"https://structuralengine.github.io/WebDanforJS/\" && angular-cli-ghpages",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "e2e": "ng e2e"
   },
   "description": "断面照査プログラム",
   "author": {
