@@ -325,6 +325,7 @@ export class SetCircleService {
     result['B'] = h;
 
     // 換算矩形としての鉄筋位置
+    if ('tension' in section) {
     const tension = section.tension;
     const Bars = this.getBars(tension, section.H, null);
     let d = 0.0, n = 0;
@@ -339,6 +340,7 @@ export class SetCircleService {
     const dsc = d / n;
     tension.dsc = h - dsc + dh;
     tension.rebar_n = n;
+    }
 
     return result;
   }
@@ -374,6 +376,10 @@ export class SetCircleService {
     }
     result['H'] = H; // 外径
     result['B'] = this.helper.toNumber(member.B); // 内径
+
+    ////////// 総括表用 //////////
+    result['H_summary'] = H;
+    result['B_summary'] = this.helper.toNumber(member.B);
 
     //換算した断面の1辺の長さ
     if (this.helper.toNumber(member.H) === null || this.helper.toNumber(member.B) === null) {

@@ -39,7 +39,7 @@
               <td class="left">
                 <div *ngIf="item.shape.name=='Circle'" class="shape">
                   <img src="./assets/img/circle.png" alt="circle.png" width="100px" height="100px">
-                  <p class="yoko">{{item.shape.B}}</p>
+                  <p class="yoko">{{item.shape.B_summary}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Rectangle'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -48,8 +48,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/rectangle_under.png" alt="rectangle_under.png" width="100px" height="100px">
                   </ng-container>
-                    <p class="tate">{{item.shape.H}}</p>
                     <p class="yoko">{{item.shape.B}}</p>
+                    <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='Tsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -58,8 +58,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/tsection_under.png" alt="tsection_under.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='InvertedTsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -68,8 +68,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='HorizontalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -78,8 +78,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='VerticalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
@@ -88,8 +88,8 @@
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
                   </ng-container>
-                  <p class="tate">{{item.shape.H}}</p>
                   <p class="yoko">{{item.shape.B}}</p>
+                  <p class="tate">{{item.shape.H}}</p>
                 </div>
               </td> 
             </ng-container>
@@ -101,21 +101,36 @@
               <th class="left bottom text-center">引張ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_tension}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_tension}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_web}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_web}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center">（CFT）</th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">圧縮ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.I_compress}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.I_compress}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
@@ -123,19 +138,29 @@
               <th class="left bottom text-center">ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.H_flange}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.H_flange}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left text-center">厚さ {{item.steel.I_tension}}</th>
+                </ng-container>
               </ng-container>
             </tr>
             <tr>
               <th class="left bottom text-center">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
-                <th class="left bottom text-center">{{item.steel.H_web}}</th>
+                <ng-container *ngIf="!item.steel.CFTFlag">
+                  <th class="left bottom text-center">{{item.steel.H_web}}</th>
+                </ng-container>
+                <ng-container *ngIf="item.steel.CFTFlag">
+                  <th class="left bottom text-center"></th>
+                </ng-container>
               </ng-container>
             </tr>
           </ng-container>
           <tr>
-            <th class="bottom text-center" rowspan="7"><span>鉄筋量</span></th>
+            <th class="bottom text-center" rowspan="5"><span>鉄筋量</span></th>
             <th class="left bottom text-center height3" colspan="2">主鉄筋</th>
             <th class="left bottom text-center height3">径・本数</th>
             <th class="left bottom text-center height3">-</th>
@@ -262,28 +287,48 @@
             <td class="left text-left" colspan="2">コンクリートの縁引張応力度</td>
             <td class="left text-center">N/mm<sup>2</sup></td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left text-center">{{item.serviceabilityMoment.sigma_b}}</td>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_b_div1!=='-'">
+                <td class="left text-left">{{item.serviceabilityMoment.sigma_b_div1}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_b_div1==='-'">
+                <td class="left text-center">-</td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
             <td class="left bottom text-right" colspan="2">／設計引張強度</td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom"> </td>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_b_div1!=='-'">
+                <td class="left bottom text-right">／{{item.serviceabilityMoment.sigma_b_div2}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_b_div1==='-'">
+                <td class="left bottom"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
             <td class="left text-left" colspan="2">コンクリートの曲げ圧縮応力度</td>
             <td class="left text-center">N/mm<sup>2</sup></td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left text-center">{{item.serviceabilityMoment.sigma_c}}</td>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_c_div1!=='-'">
+                <td class="left text-left">{{item.serviceabilityMoment.sigma_c_div1}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_c_div1==='-'">
+                <td class="left text-center">-</td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
             <td class="left bottom text-right" colspan="2">／0.4f'<sub>cd</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_c_div1!=='-'">
+                <td class="left bottom text-right">／{{item.serviceabilityMoment.sigma_c_div2}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_c_div1==='-'">
+                <td class="left bottom"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr class="text-center">
@@ -299,14 +344,24 @@
             <td class="bottom text-right">σ<sub>s</sub>／σ<sub>sl1</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom"> </td>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_s_ratio!=='-'">
+                <td class="left bottom text-center">{{item.serviceabilityMoment.sigma_s_ratio}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.sigma_s_ratio==='-'">
+                <td class="left bottom"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
             <td class="left text-left" colspan="2">安全性ひび割れ幅</td>
             <td class="left text-center">mm</td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left text-center">{{item.serviceabilityMoment.Wd}}</td>
+              <ng-container *ngIf="item.serviceabilityMoment.Wd!=='-'&&item.serviceabilityMoment.Wlim!=='-'">
+                <td class="left text-center">{{item.serviceabilityMoment.Wd}}/{{item.serviceabilityMoment.Wlim}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.Wd==='-'||item.serviceabilityMoment.Wlim==='-'">
+                <td class="left text-center">-</td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
@@ -314,14 +369,24 @@
             <td class="bottom text-right">W<sub>d</sub>／W<sub>lim</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center">{{item.serviceabilityMoment.Wlim}}</td>
+              <ng-container *ngIf="item.serviceabilityMoment.WdWlim!=='-'">
+                <td class="left bottom text-center">{{item.serviceabilityMoment.WdWlim}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityMoment.WdWlim==='-'">
+                <td class="left bottom"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
             <td class="left text-left" colspan="2">外観ひび割れ幅</td>
             <td class="left text-center">mm</td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left text-center">{{item.durabilityMoment.Wd}}</td>
+              <ng-container *ngIf="item.durabilityMoment.Wd!=='-'&&item.durabilityMoment.Wlim!=='-'">
+                <td class="left text-center">{{item.durabilityMoment.Wd}}/{{item.durabilityMoment.Wlim}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.durabilityMoment.Wd==='-'||item.durabilityMoment.Wlim==='-'">
+                <td class="left text-center">-</td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
@@ -329,7 +394,12 @@
             <td class="bottom text-right">W<sub>d</sub>／0.3</td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngIf="item.durabilityMoment.WdWlim!=='-'">
+                <td class="left bottom text-center">{{item.durabilityMoment.WdWlim}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.durabilityMoment.WdWlim==='-'">
+                <td class="left bottom"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>

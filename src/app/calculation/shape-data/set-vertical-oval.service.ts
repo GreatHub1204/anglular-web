@@ -313,7 +313,9 @@ export class SetVerticalOvalService {
     const result = {
       H: null,
       B: null,
-      Hw: null
+      Hw: null,
+      H_summary: null,  //総括表用
+      B_summary: null,  //総括表用
     };
 
     let h: number = this.helper.toNumber(member.H);
@@ -325,6 +327,10 @@ export class SetVerticalOvalService {
     if (h === null || b === null) {
       throw('形状の入力が正しくありません');
     }
+
+    ////////// 総括表用 //////////
+    result.H_summary = this.helper.toNumber(member.H);
+    result.B_summary = this.helper.toNumber(member.B);
 
     //小判型の断面積Sと簡略化した矩形断面の幅Bw
     const S = (Math.PI * (b/2)**2) / 2 + b*(h - b) + (Math.PI * (b/2)**2) / 2;

@@ -240,6 +240,8 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             column['index'] = position.index;
             column['side_summary'] = side;
             column['shape_summary'] = section.shapeName;
+            column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
+            column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
             
 
             page.columns.push(column);

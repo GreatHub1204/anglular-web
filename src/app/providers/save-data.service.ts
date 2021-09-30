@@ -87,7 +87,7 @@ export class SaveDataService {
       // 各行ごとにカンマで区切った文字列を要素とした二次元配列を生成
       const pickup1 = {};
       let i: number = 0;
-      let oldNo: number = 0;
+      let oldMark: string = '';
       const mode = this.helper.getExt(filename);
 
       for (let j = 1; j < tmp.length; ++j) {
@@ -110,10 +110,10 @@ export class SaveDataService {
             return;
         }
         // 最初の行か判定する
-        if(data.m_no < oldNo){
+        if(data.mark !== oldMark ){
           i = 0;
         }
-        oldNo = data.m_no;
+        oldMark = data.mark;
 
         // 
         if (!(data.pickUpNo in pickup1)) {
