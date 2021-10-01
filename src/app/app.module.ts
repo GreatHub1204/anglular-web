@@ -65,6 +65,8 @@ import { CalcEarthquakesShearForceService } from './calculation/result-earthquak
 import { ResultViewerComponent } from './calculation/result-viewer/result-viewer.component';
 import { ResultSafetyMomentComponent } from './calculation/result-safety-moment/result-safety-moment.component';
 import { ResultSafetyShearForceComponent } from './calculation/result-safety-shear-force/result-safety-shear-force.component';
+import { ResultSafetyTorsionalMomentComponent } from './calculation/result-safety-torsional-moment/result-safety-torsional-moment.component';
+
 import { ResultDurabilityMomentComponent } from './calculation/result-durability-moment/result-durability-moment.component';
 import { ResultSafetyFatigueMomentComponent } from './calculation/result-safety-fatigue-moment/result-safety-fatigue-moment.component';
 import { ResultSafetyFatigueShearForceComponent } from './calculation/result-safety-fatigue-shear-force/result-safety-fatigue-shear-force.component';
@@ -130,7 +132,8 @@ import { environment } from 'src/environments/environment';
     SectionForceListComponent,
     SteelsComponent,
     CrackSettingsComponent,
-    ResultMinimumReinforcementComponent
+    ResultMinimumReinforcementComponent,
+    ResultSafetyTorsionalMomentComponent
   ],
   entryComponents: [
     LoginDialogComponent,

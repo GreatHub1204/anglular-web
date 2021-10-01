@@ -175,6 +175,9 @@ export class SetDesignForceService {
               case "Vd": // せん断力の照査の場合
                 pos["enable"] = pos.isVyCalc === true || pos.isVzCalc === true;
                 break;
+              case "Mt": // ねじりモーメントの照査の場合
+                pos["enable"] = pos.isMtCalc === true;
+                break;
             }
           }
 

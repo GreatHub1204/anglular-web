@@ -10,7 +10,7 @@ export class InputDesignPointsService {
 
   // 着目点情報
   private position_list: any[];
-  // { index, m_no, p_id, position, p_name, isMyCalc, isVyCalc, isMzCalc, isVzCalc, La },
+  // { index, m_no, p_id, position, p_name, isMyCalc, isVyCalc, isMzCalc, isVzCalc, isMtCalc, La },
 
   constructor(
     private members: InputMembersService) {
@@ -114,7 +114,7 @@ export class InputDesignPointsService {
   // グループ別 部材情報
   //  [{m_no, m_len, g_no, g_id, g_name, shape, B, H, Bt, t,
   //   positions:[
-  //    { index, m_no, g_name, position, p_name, isMyCalc, isVyCalc, isMzCalc, isVzCalc, La },
+  //    { index, m_no, g_name, position, p_name, isMyCalc, isVyCalc, isMzCalc, isVzCalc, isMtCalc, La },
   //    ...
   //   }, ...
   public getGroupeList(isManual = false): any[] {
@@ -188,6 +188,7 @@ export class InputDesignPointsService {
       isVyCalc: false,
       isMzCalc: false,
       isVzCalc: false,
+      isMtCalc: false,
       La: null
     };
   }
@@ -235,17 +236,13 @@ export class InputDesignPointsService {
   }
 
   public isEnable(data: any): boolean {
-    if(data.isMyCalc === true){
-      return true;
-    }
-    if(data.isVyCalc === true){
-      return true;
-    }
-    if(data.isMzCalc === true){
-      return true;
-    }
-    if(data.isVzCalc === true){
-      return true;
+
+    for(const key of ['isMyCalc', 'isVyCalc', 'isMzCalc', 'isVzCalc', 'isMtCalc']){
+      if(key in data){
+        if(data[key] === true){
+          return true;
+        }  
+      }
     }
     return false;
   }

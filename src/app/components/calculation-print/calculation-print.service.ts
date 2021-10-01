@@ -19,7 +19,8 @@ export class InputCalclationPrintService {
       print_section_force_checked: false,
       print_summary_table_checked: false,
       calculate_moment_checked: false,
-      calculate_shear_force: false
+      calculate_shear_force: false,
+      calculate_torsional_moment: false
     }
     this.calc_checked = new Array();
   }

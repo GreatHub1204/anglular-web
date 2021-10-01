@@ -26,20 +26,7 @@
           />性能照査
         </label>
       </div>
-<!--
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            name="print_summary_table"
-            id="print_summary_table"
-            [value]="print_summary_table_checked"
-            [(ngModel)]="print_summary_table_checked"
-            [checked]="print_summary_table_checked"
-          />総括表
-        </label>
-      </div>
--->
+
     </fieldset>
   </div>
   <div class="calculate-item">
@@ -67,6 +54,18 @@
             [(ngModel)]="calculate_shear_force_checked"
             [checked]="calculate_shear_force_checked"
           />せん断
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="calculate_torsional_moment"
+            id="calculate_torsional_moment"
+            [value]="calculate_torsional_moment_checked"
+            [(ngModel)]="calculate_torsional_moment_checked"
+            [checked]="calculate_torsional_moment_checked"
+          />ねじり
         </label>
       </div>
     </fieldset>

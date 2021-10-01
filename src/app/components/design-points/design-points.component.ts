@@ -113,6 +113,9 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
             { title: "y軸方向", align: "center", dataType: "bool", dataIndx: "isVyCalc", type: 'checkbox', sortable: false, width: 120 },
             { title: "z軸方向", align: "center", dataType: "bool", dataIndx: "isVzCalc", type: 'checkbox', sortable: false, width: 120 }
           ]},
+          { 
+            title: 'ねじり照査', align: "center", dataType: "bool", dataIndx: "isMtCalc", type: 'checkbox', sortable: false, width: 120 
+          },
         );
       } else {
         // 2次元ピックアップファイルの場合
