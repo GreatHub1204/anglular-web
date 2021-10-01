@@ -561,7 +561,9 @@ export class DsdDataService {
 
     if (iDummyCount !== 0) {
       buff['PickFile'] = this.readString(buff, 100).trim(); // ピックアップファイルのパス
-      const D_Name = this.readString(buff, 100).trim();
+      const strFix100 = this.readString(buff, 100, 'unicode');
+      console.log(strFix100.length);
+      const D_Name = strFix100.trim();
 
       for (let i = 0; i < iDummyCount; i++) {
         const Matr = this.readInteger(buff);
@@ -680,11 +682,17 @@ export class DsdDataService {
         }
       }
       const JikuHON0 = this.readSingle(buff);
-      if(Math.abs(JikuHON0) > 0) bar.rebar1.rebar_n = JikuHON0;
+      if(JikuHON0 > 0){
+        bar.rebar1.rebar_n = JikuHON0;
+      } else if(JikuHON0 < 0){
+        bar.rebar1.rebar_n = -1000 / JikuHON0;
+      }
       const JikuHON1 = this.readSingle(buff);
-      if(Math.abs(JikuHON1) > 0) {
-        if ( m.shape !== '円形' ) {
+      if ( m.shape !== '円形' ) {
+        if(JikuHON1 > 0) {
           bar.rebar2.rebar_n = JikuHON1;
+        } else if(JikuHON1 < 0) {
+          bar.rebar2.rebar_n = -1000 / JikuHON1;
         }
       }
       const JikuKABURI0 = this.readSingle(buff);
@@ -1177,17 +1185,19 @@ export class DsdDataService {
   }
 
   // string型の情報を バイナリから取り出す
-  private readString(buff: any, length: number): string {
+  private readString(buff: any, length: number, encode = 'sjis'): string {
     let str: string = '';
     while (str.length < length) {
-      const tmp = Encord.convert(String.fromCharCode.apply("", buff.u8array.slice(0, 2)), 'unicode', 'sjis');
+      const tmp1 = String.fromCharCode.apply("", buff.u8array.slice(0, 2));
+      const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'unicode', encode) : tmp1;
       if (tmp.length == 1) {
         // ２バイト文字（日本語）
         str += tmp;
         buff.u8array = buff.u8array.slice(2);
       } else {
-        str += Encord.convert(String.fromCharCode.apply("", buff.u8array.slice(0, 1)), 'unicode', 'sjis');
-        // str += String.fromCharCode.apply("", buff.u8array.slice(0, 1));
+        const tmp1 = String.fromCharCode.apply("", buff.u8array.slice(0, 1));
+        const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'unicode', encode) : tmp1;
+        str += tmp;
         buff.u8array = buff.u8array.slice(1);
       }
     }
