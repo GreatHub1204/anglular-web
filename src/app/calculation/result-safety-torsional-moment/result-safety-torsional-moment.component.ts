@@ -162,7 +162,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             const titleColumn = this.result.getTitleString( section.member, position, side );
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.calcVmu( res, section, fck, safety, position.La, force )
             );
 
@@ -180,7 +180,6 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
             
-            const column = {}
             /////////////// タイトル ///////////////
             column['title1'] = { alien: "center", value: titleColumn.title1 };
             column['title2'] = { alien: "center", value: titleColumn.title2 };
@@ -226,60 +225,15 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 断面力 ///////////////
-            column['Md'] = resultColumn.Md;
-            column['Nd'] = resultColumn.Nd;
-            column['Vd'] = resultColumn.Vd;
-            column['La'] = resultColumn.La;
-
-            /////////////// 帯鉄筋情報 ///////////////
-            column['Aw'] = resultColumn.Aw;
-            column['AwString'] = resultColumn.AwString;
-            column['fwyd'] = resultColumn.fwyd;
-            column['deg'] = resultColumn.deg;
-            column['Ss'] = resultColumn.Ss;
-
-            /////////////// 折り曲げ鉄筋情報 ///////////////
-            column['Asb'] = resultColumn.Asb;
-            column['AsbString'] = resultColumn.AsbString;
-            column['fwyd2'] = resultColumn.fwyd2;
-            column['deg2'] = resultColumn.deg2;
-            column['Ss2'] = resultColumn.Ss2;
-
             /////////////// 鉄骨情報 ///////////////
             column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
             if (section.CFTFlag) {
               column['fwyd3'] = this.result.alien(this.result.numStr(section.steel["fsvy_Iweb"].fvyd, 1), 'center');
             }
 
-            /////////////// 照査 ///////////////
-            column['fvcd'] = resultColumn.fvcd;
-            column['Bd'] = resultColumn.Bd;
-            column['Bp'] = resultColumn.Bp;
-            column['Mu'] = resultColumn.Mu;
-            column['Mo'] = resultColumn.Mo;
-            column['Bn'] = resultColumn.Bn;
-            column['ad'] = resultColumn.ad;
-            column['Ba'] = resultColumn.Ba;
-            column['pw'] = resultColumn.pw;
-            column['Bw'] = resultColumn.Bw;
-            column['rbc'] = resultColumn.rbc;
-            column['Vcd'] = resultColumn.Vcd;
-            column['rbs'] = resultColumn.rbs;
-            column['Vsd'] = resultColumn.Vsd;
-            column['Vsd2'] = resultColumn.Vsd2;
-            column['Vyd'] = resultColumn.Vyd;
-            column['ri'] = resultColumn.ri;
-            column['Vyd_Ratio'] = resultColumn.Vyd_Ratio;
-            column['Vyd_Result'] = resultColumn.Vyd_Result;
-
-            column['fwcd'] = resultColumn.fwcd;
-            column['Vwcd'] = resultColumn.Vwcd;
-            column['Vwcd_Ratio'] = resultColumn.Vwcd_Ratio;
-            column['Vwcd_Result'] = resultColumn.Vwcd_Result;
 
             /////////////// flag用 ///////////////
-            column['bendFlag'] = (resultColumn.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
+            column['bendFlag'] = (column.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
             column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
             column['CFTFlag'] = (section.CFTFlag);
 
@@ -369,14 +323,11 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       ftd: { alien: "center", value: "-" },
       Bnt: { alien: "center", value: "-" },
       Mtcd: { alien: "center", value: "-" },
-      Mtud1: { alien: "center", value: "-" },
-      Mtud2: { alien: "center", value: "-" },
-      Mtud3: { alien: "center", value: "-" },
+      Mtud: { alien: "center", value: "-" },
       Mtud_Ratio: { alien: "center", value: "-" },
-      Mtud_Result: { alien: "center", value: "-" },
       Mtvd: { alien: "center", value: "-" },
       Mtvd_Ratio: { alien: "center", value: "-" },
-      Mtvd_Result: { alien: "center", value: "-" },
+      Result: { alien: "center", value: "-" },
     };
 
     // 断面力
@@ -386,17 +337,11 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     if ("Nd" in re) {
       result.Nd = { alien: "right", value: (Math.round(re.Nd*10)/10).toFixed(1) };
     }
-    if ("Vhd" in re) {
-      // tanθc + tanθt があるとき
-      const sVd: string =
-      (Math.round((re.Vd - re.Vhd)*10)/10).toFixed(1) + "(" + (Math.round(re.Vd*10)/10).toFixed(1) + ")";
-      result.Vd = { alien: "right", value: sVd };
-    } else {
+    if ("Vd" in re) {
       result.Vd = { alien: "right", value: (Math.round(re.Vd*10)/10).toFixed(1) };
     }
-
-    if ("La" in re) {
-      result.La = { alien: "right", value: re.La.toFixed(0) };
+    if ("Mt" in re) {
+      result.Mt = { alien: "right", value: (Math.round(re.Mt*10)/10).toFixed(1) };
     }
 
     // 帯鉄筋
@@ -433,95 +378,104 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       result.Ss2 = { alien: "right", value: re.Ss2.toFixed(0) };
     }
 
-    if ("fvcd" in re) {
-      result.fvcd = { alien: "right", value: re.fvcd.toFixed(3) };
+    // 計算結果
+    if ("ri" in re) {
+      result.ri = { alien: "right", value: re.ri.toFixed(2) };
     }
-    if ("fdd" in re) {
-      result.fvcd = { alien: "right", value: re.fdd.toFixed(3) };
+    if ("rbm" in re) {
+      result.rbm = { alien: "right", value: re.rbm.toFixed(2) };
     }
-
-    if ("Bd" in re) {
-      result.Bd = { alien: "right", value: re.Bd.toFixed(3) };
+    if ("rb" in re) {
+      result.rb = { alien: "right", value: re.rb.toFixed(2) };
     }
-    if ("Bp" in re) {
-      result.Bp = { alien: "right", value: re.Bp.toFixed(3) };
+    if ("Mud" in re) {
+      result.Mud = { alien: "right", value: re.Mud.toFixed(1) };
+    }
+    if ("Mudd" in re) {
+      result.Mudd = { alien: "right", value: re.Mudd.toFixed(1) };
+    }
+    if ("rbc" in re) {
+      result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    }
+    if ("rbs" in re) {
+      result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
     }
     if ("Mu" in re) {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
     }
-    if ("Mo" in re) {
-      result.Mo = { alien: "right", value: re.Mo.toFixed(1) };
-    }
-    if ("Bn" in re) {
-      result.Bn = { alien: "right", value: re.Bn.toFixed(3) };
-    }
-    if ("ad" in re) {
-      result.ad = { alien: "right", value: re.ad.toFixed(3) };
-    }
-    if ("Ba" in re) {
-      result.Ba = { alien: "right", value: re.Ba.toFixed(3) };
-    }
-    if ("pw" in re) {
-      result.pw = { alien: "right", value: re.pw.toFixed(5) };
-    }
-    if ("Bw" in re) {
-      result.Bw = { alien: "right", value: re.Bw.toFixed(3) };
-    }
-
-    if ("rbc" in re) {
-      result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
-    }
-
-    if ("Vcd" in re) {
-      result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
-    }
-    if ("Vdd" in re) {
-      result.Vcd = { alien: "right", value: re.Vdd.toFixed(1) };
-    }
-
-    if ("rbs" in re) {
-      result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
-    }
-    if ("Vsd" in re) {
-      result.Vsd = { alien: "right", value: re.Vsd.toFixed(1) };
-    }
-    // Vsd2 : 鉄骨の情報があれば鉄骨の設計せん断耐力、無ければ折り曲げ鉄筋の設計せん断耐力
-    if ("Vsd2" in re) {
-      result.Vsd2 = { alien: "right", value: re.Vsd2.toFixed(1) };
-    }
-
     if ("Vyd" in re) {
       result.Vyd = { alien: "right", value: re.Vyd.toFixed(1) };
     }
-    if ("Vdd" in re) {
-      result.Vdd = { alien: "right", value: re.Vdd.toFixed(1) };
-    }
-
-    if ("ri" in re) {
-      result.ri = { alien: "right", value: re.ri.toFixed(2) };
-    }
-
-    if ("Vyd_Ratio" in re) {
-      result.Vyd_Ratio = { 
-        alien: "center",
-        value: re.Vyd_Ratio.toFixed(3).toString() + ((re.Vyd_Ratio < 1) ? ' < 1.00' : ' > 1.00'),
-      }
-    }
-    if ("Vyd_Result" in re) {
-      result.Vyd_Result = { alien: "center", value: re.Vyd_Result };
-    }
-
     if ("fwcd" in re) {
       result.fwcd = { alien: "right", value: re.fwcd.toFixed(3) };
     }
-    if ("Vwcd" in re) {
-      result.Vwcd = { alien: "right", value: re.Vwcd.toFixed(1) };
+    if ("Kt" in re) {
+      result.Kt = { alien: "right", value: re.Kt.toFixed(3) };
     }
-    if ("Vwcd_Ratio" in re) {
-      result.Vwcd_Ratio.value = re.Vwcd_Ratio.toFixed(3).toString() + ((re.Vwcd_Ratio < 1) ? ' < 1.00' : ' > 1.00')
+    if ("Mtcud" in re) {
+      result.Mtcud = { alien: "right", value: re.Mtcud.toFixed(1) };
     }
-    if ("Vwcd_Result" in re) {
-      result.Vwcd_Result = { alien: "center", value: re.Vwcd_Result };
+    if ("Mtcud_Ratio" in re) {
+      result.Mtcud_Ratio = { 
+        alien: "center",
+        value: re.Mtcud_Ratio.toFixed(3).toString() + ((re.Mtcud_Ratio < 0.2) ? ' < 0.2' : ' > 0.2'),
+      }
+    }
+    if ("bo" in re) {
+      result.bo = { alien: "right", value: re.bo.toFixed(1) };
+    }
+    if ("do" in re) {
+      result.do = { alien: "right", value: re.do.toFixed(1) };
+    }
+    if ("Am" in re) {
+      result.Am = { alien: "right", value: re.Am.toFixed(3) };
+    }
+    if ("qw" in re) {
+      result.qw = { alien: "right", value: re.qw.toFixed(1) };
+    }
+    if ("ql" in re) {
+      result.ql = { alien: "right", value: re.ql.toFixed(1) };
+    }
+    if ("Mtyd" in re) {
+      result.Mtyd = { alien: "right", value: re.Mtyd.toFixed(1) };
+    }
+    if ("Mtu_min" in re) {
+      result.Mtu_min = { alien: "right", value: re.Mtu_min.toFixed(1) };
+    }
+    if ("sigma_hd" in re) {
+      result.sigma_hd = { alien: "right", value: re.sigma_hd.toFixed(1) };
+    }
+    if ("ftd" in re) {
+      result.ftd = { alien: "right", value: re.ftd.toFixed(1) };
+    }
+    if ("Bnt" in re) {
+      result.Bnt = { alien: "right", value: re.Bnt.toFixed(3) };
+    }
+    if ("Mtcd" in re) {
+      result.Mtcd = { alien: "right", value: re.Mtcd.toFixed(1) };
+    }
+    
+    if ("Mtud" in re) {
+      result.Mtud = { alien: "right", value: re.Mtud.toFixed(1) };
+    }
+    if ("Mtud_Ratio" in re) {
+      result.Mtud_Ratio = { 
+        alien: "center",
+        value: re.Mtud_Ratio.toFixed(3).toString() + ((re.Mtud_Ratio < 1) ? ' < 1.00' : ' > 1.00'),
+      }
+    }
+
+    if ("Mtvd" in re) {
+      result.Mtvd = { alien: "right", value: re.Mtvd.toFixed(1) };
+    }
+    if ("Mtvd_Ratio" in re) {
+      result.Mtvd_Ratio = { 
+        alien: "center",
+        value: re.Mtvd_Ratio.toFixed(3).toString() + ((re.Mtvd_Ratio < 1) ? ' < 1.00' : ' > 1.00'),
+      }
+    }
+    if ("Result" in re) {
+      result.Result = { alien: "center", value: re.Result };
     }
 
     return result;
