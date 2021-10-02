@@ -246,8 +246,12 @@ export class SetRectService {
       );
       if (fsyt.fsy === 235) tension.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
       tension['fsy'] = fsyt;
-      tension['rs'] = safety.safety_factor.rs;
 
+      if('M_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.V_rs;
+      }      
 
       // 登録
       result['tension'] = tension;
@@ -262,7 +266,13 @@ export class SetRectService {
       );
       if (fsyc.fsy === 235) compress.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
       compress['fsy'] = fsyc;
-      compress['rs'] = safety.safety_factor.rs;;
+
+      if('M_rs' in safety.safety_factor){
+        compress['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        compress['rs'] = safety.safety_factor.V_rs;
+      }
+
       result['compress'] = compress;
     }
 
@@ -278,7 +288,13 @@ export class SetRectService {
         );
         if (fsye.fsy === 235) sidebar.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
         sidebar['fsy'] = fsye;
-        sidebar['rs'] = safety.safety_factor.rs;
+
+        if('M_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.M_rs;
+        } else if('V_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.V_rs;
+        }        
+
         result['sidebar'] = sidebar;
       }
     }

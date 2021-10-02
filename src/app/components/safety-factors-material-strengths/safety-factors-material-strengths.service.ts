@@ -463,19 +463,33 @@ export class InputSafetyFactorsMaterialStrengthsService {
       }
     }
 
+    const result = {};
+    if(target === 'Md') {
+      // 曲げモーメントの照査の;合
+      result['M_rc'] = current.M_rc;
+      result['M_rs'] = current.M_rs;
+      result['M_rb'] = current.M_rbs;
+    }
+    if(target === 'Vd') {
+        // せん断力の照査の場合
+        result['V_rc'] = current.V_rc;
+        result['V_rs'] = current.V_rs;
+        result['V_rbc'] = current.V_rbc;
+        result['V_rbs'] = current.V_rbs;
+        result['V_rbd'] = current.V_rbv;
+    }
+    if(target === 'Mt') {
+      // ねじり曲げモーメントの照査の;合
+      result['M_rc'] = current.M_rc;
+      result['M_rs'] = current.M_rs;
+      result['M_rb'] = current.M_rbs;
+      result['V_rc'] = current.V_rc;
+      result['V_rs'] = current.V_rs;
+      result['V_rbc'] = current.V_rbc;
+      result['V_rbs'] = current.V_rbs;
+      result['V_rbd'] = current.V_rbv;
+    }
 
-    const result = (target === 'Md' ) ?
-        { // まげモーメントの照査の場合
-          rc: current.M_rc,
-          rs: current.M_rs,
-          rb: current.M_rbs
-        }:{ // せん断力の照査の場合
-          rc: current.V_rc,
-          rs: current.V_rs,
-          rbc: current.V_rbc,
-          rbs: current.V_rbs,
-          rbd: current.V_rbv
-        };
     result['S_rb'] = current.S_rb;
     result['S_rs'] = current.S_rs;
     result['ri'] = current.ri;

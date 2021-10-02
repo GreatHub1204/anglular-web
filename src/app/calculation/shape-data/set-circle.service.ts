@@ -270,7 +270,12 @@ export class SetCircleService {
         "tensionBar"
       );
       tension['fsy'] = fsy;
-      tension['rs'] = safety.safety_factor.rs;;
+
+      if('M_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.V_rs;
+      }
 
       // 鉄筋径
       if (fsy.fsy === 235) {

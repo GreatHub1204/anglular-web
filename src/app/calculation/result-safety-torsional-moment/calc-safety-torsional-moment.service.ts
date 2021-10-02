@@ -55,12 +55,12 @@ export class CalcSafetyTorsionalMomentService {
     }
 
     // 有効なデータかどうか
-    const force1 = this.force.checkEnable('Vd', this.safetyID, this.DesignForceList);
+    const force1 = this.force.checkEnable('Mt', this.safetyID, this.DesignForceList);
 
     // POST 用
     const option = {};
 
-    const postData = this.post.setInputData( "Vd", "耐力", this.safetyID, option, 
+    const postData = this.post.setInputData( "Mt", "耐力", this.safetyID, option, 
     force1[0] );
     
     return postData;
@@ -197,11 +197,11 @@ export class CalcSafetyTorsionalMomentService {
     }
     result["fck"] = fck;
 
-    let rc: number = this.helper.toNumber(fc.rc);
-    if (rc === null) {
-      rc = 1;
+    let V_rc: number = this.helper.toNumber(fc.V_rc);
+    if (V_rc === null) {
+      V_rc = 1;
     }
-    result["rc"] = rc;
+    result["V_rc"] = V_rc;
 
     let fcd: number = this.helper.toNumber(fc.fcd);
     if (fcd === null) {

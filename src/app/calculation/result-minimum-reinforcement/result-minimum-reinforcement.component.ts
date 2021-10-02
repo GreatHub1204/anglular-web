@@ -144,13 +144,12 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             const titleColumn = this.result.getTitleString(section.member, position, side)
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
-               this.calc.getResultValue(
+            const column: any = this.getResultString(
+              this.calc.getResultValue(
               res, section, member, safety, fck, DesignForceList
             ));
 
 
-            const column = {};
             /////////////// タイトル ///////////////
             column['title1'] = { alien: 'center', value: titleColumn.title1 };
             column['title2'] = { alien: 'center', value: titleColumn.title2 };
@@ -182,60 +181,13 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), 'center');
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), 'center');
-            column['rc'] = this.result.alien(fck.rc.toFixed(2), 'center');
+            column['M_rc'] = this.result.alien(fck.M_rc.toFixed(2), 'center');
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
+            column['M_rs'] = this.result.alien(this.result.numStr(section.Ast.M_rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
-            /////////////// 最小鉄筋量の照査 ///////////////
-            column['dmax'] = resultColumn.dmax;/* this */
-            column['fck13'] = resultColumn.fck13;
-            column['GF'] = resultColumn.GF;
-            column['Ec'] = resultColumn.Ec;
-            column['ftk'] = resultColumn.ftk;
-            column['lch'] = resultColumn.lch;
-            column['k0b'] = resultColumn.k0b;
-            column['k1b'] = resultColumn.k1b;
-            column['sigma_crd'] = resultColumn.sigma_crd;
-            column['I'] = resultColumn.I;
-            column['y'] = resultColumn.y;
-            column['Nd'] = resultColumn.Nd;/* this */
-            column['A'] = resultColumn.A;
-            column['Mcrd_N'] = resultColumn.Mcrd_N;
-            column['Mcrd_kN'] = resultColumn.Mcrd_kN;/* this */
-            // column['fck'] = resultColumn.fck;
-            // column['rc'] = resultColumn.rc;
-            // column['fcd'] = resultColumn.fcd;
-            // column['fsyk'] = resultColumn.fsyk;
-            // column['rs'] = resultColumn.rs;
-            // column['fsyd'] = resultColumn.fsyd;
-            column['ecu'] = resultColumn.ecu;
-            column['es'] = resultColumn.es;
-            column['x'] = resultColumn.x;
-            column['My'] = resultColumn.My;
-            column['rb'] = resultColumn.rb;
-            column['Myd'] = resultColumn.Myd;
-            column['result_Md'] = resultColumn.result_Md;
-            /////////////// 最大鉄筋量の照査 ///////////////
-            // column['fck'] = resultColumn.fck;
-            // column['rc'] = resultColumn.rc;
-            // column['fcd'] = resultColumn.fcd;
-            column['a_val'] = resultColumn.a_val;
-            column['a'] = resultColumn.a;
-            column['ecu_val'] = resultColumn.ecu_val;
-            column['ecu_max'] = resultColumn.ecu_max;
-            column['fsyd'] = resultColumn.fsyd;
-            column['Es'] = resultColumn.Es;
-            column['esy'] = resultColumn.esy;
-            // column['Nd'] = resultColumn.Nd;
-            column['sigma_s'] = resultColumn.sigma_s;
-            column['d'] = resultColumn.d;
-            column['pb'] = resultColumn.pb;
-            column['pb075'] = resultColumn.pb075;
-            column['pc'] = resultColumn.pc;
-            column['result_pc'] = resultColumn.result_pc;
-            /////////////// 総括表用 ///////////////
+             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
             column['index'] = position.index;
             column['side_summary'] = side;
@@ -286,12 +238,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       A: { alien: "center", value: "-" },
       Mcrd_N: { alien: "center", value: "-" },
       Mcrd_kN: { alien: "center", value: "-" },
-      //fck: { alien: "center", value: "-" },
-      //rc: { alien: "center", value: "-" },
-      //fcd: { alien: "center", value: "-" },
-      //fsyk: { alien: "center", value: "-" },
-      //rs: { alien: "center", value: "-" },
-      //fsyd: { alien: "center", value: "-" },
       ecu: { alien: "center", value: "-" },
       es: { alien: "center", value: "-" },
       x: { alien: "center", value: "-" },
@@ -301,9 +247,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       result_Md: { alien: "center", value: "-" },
 
       //最大鉄筋量
-      //fck: { alien: "center", value: "-" },
-      //rc: { alien: "center", value: "-" },
-      //fcd: { alien: "center", value: "-" },
       a_val: { alien: "center", value: "-" },
       a: { alien: "center", value: "-" },
       ecu_val: { alien: "center", value: "-" },
@@ -311,7 +254,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       fsyd: { alien: "center", value: "-" },
       Es: { alien: "center", value: "-" },
       esy: { alien: "center", value: "-" },
-      //Nd: { alien: "center", value: "-" },
       sigma_s: { alien: "center", value: "-" },
       d: { alien: "center", value: "-" },
       pb: { alien: "center", value: "-" },
@@ -366,21 +308,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
       result.Mcrd_N = { alien: "right", value: re.Mcrd.toExponential(3) };
       result.Mcrd_kN = { alien: "right", value: (re.Mcrd / 10**6).toFixed(1) };
     }
-    //if ("fck" in re) {
-      //result.fck = { alien: "right", value: re.fck.toFixed(1) };
-    //}
-    //if ("rc" in re) {
-      //result.rc = { alien: "right", value: re.rc.toFixed(1) };
-    //}
-    //if ("fcd" in re) {
-      //result.fcd = { alien: "right", value: re.fcd.toFixed(1) };
-    //}
-    //if ("fsyd" in re) {
-      //result.fsyd = { alien: "right", value: re.fsyd.toFixed(2) };
-    //}
-    //if ("rs" in re) {
-      //result.rs = { alien: "right", value: re.rs.toFixed(1) };
-    //}
     if ("εcu" in re) {
       result.ecu = { alien: "right", value: re.εcu.toFixed(5) };
     }
@@ -408,15 +335,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
     }
     
     // 最大鉄筋量
-    //if ("fck" in re) {
-      //result.fck = { alien: "right", value: re.fck.toFixed(1) };
-    //}
-    //if ("rc" in re) {
-      //result.rc = { alien: "right", value: re.rc.toFixed(5) };
-    //}
-    //if ("fcd" in re) {
-      //result.fcd = { alien: "right", value: re.fcd.toFixed(5) };
-    //}
     if ("a_val" in re) {
       result.a_val = { alien: "right", value: re.a_val.toFixed(3) };
     }
@@ -438,9 +356,6 @@ export class ResultMinimumReinforcementComponent implements OnInit {
     if ("εsy" in re) {
       result.esy = { alien: "right", value: re.εsy.toFixed(5) };
     }
-    //if ("Nd" in re) {
-      //result.Nd = { alien: "right", value: re.Nd.toFixed(1) };
-    //}
     if ("sigma_s" in re) {
       result.sigma_s = { alien: "right", value: re.sigma_s.toFixed(0) };
     }

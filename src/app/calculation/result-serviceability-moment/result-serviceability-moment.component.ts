@@ -168,7 +168,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             const titleColumn = this.result.getTitleString( section.member, position, side );
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.calcWd(
                 res,
                 section,
@@ -187,7 +187,6 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
             
-            const column = {};
             /////////////// タイトル ///////////////
             column['title1'] = { alien: "center", value: titleColumn.title1 };
             column['title2'] = { alien: "center", value: titleColumn.title2 };
@@ -219,11 +218,11 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), "center");
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), "center");
-            column['rc'] = this.result.alien(fck.rc.toFixed(2), "center");
+            column['M_rc'] = this.result.alien(fck.M_rc.toFixed(2), "center");
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), "center");
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), "center");
+            column['M_rs'] = this.result.alien(section.Ast.M_rs.toFixed(2), "center");
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), "center");
             /////////////// 鉄骨情報 ///////////////
             if ( SRC_pik in  section.steel){
@@ -234,41 +233,6 @@ export class ResultServiceabilityMomentComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 照査 ///////////////
-            column['con'] = resultColumn.con;
-
-            column['Mhd'] = resultColumn.Mhd;
-            column['Nhd'] = resultColumn.Nhd;
-            column['sigma_b'] = resultColumn.sigma_b;
-
-            column['Md'] = resultColumn.Md;
-            column['Nd'] = resultColumn.Nd;
-            column['sigma_c'] = resultColumn.sigma_c;
-            column['sigma_s'] = resultColumn.sigma_s;
-
-            column['Pt'] = resultColumn.Pt;
-            column['Mpd'] = resultColumn.Mpd;
-            column['Npd'] = resultColumn.Npd;
-            column['Mrd'] = resultColumn.Mrd;
-            column['Nrd'] = resultColumn.Nrd;
-            column['rd_ratio'] = resultColumn.rd_ratio;
-            column['EsEc'] = resultColumn.EsEc;
-            column['sigma_se'] = resultColumn.sigma_se;
-            column['c'] = resultColumn.c;
-            column['Cs'] = resultColumn.Cs;
-            column['fai'] = resultColumn.fai;
-            column['ecu'] = resultColumn.ecu;
-            column['k1'] = resultColumn.k1;
-            column['k2'] = resultColumn.k2;
-            column['n'] = resultColumn.n;
-            column['k3'] = resultColumn.k3;
-            column['k4'] = resultColumn.k4;
-            column['Wd'] = resultColumn.Wd;
-            column['Wlim'] = resultColumn.Wlim;
-
-            column['ri'] = resultColumn.ri;
-            column['ratio'] = resultColumn.ratio;
-            column['result'] = resultColumn.result;
 
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
@@ -281,10 +245,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             column['shape_summary'] = section.shapeName;
             column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
             column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
-            column['sigma_b_ratio'] = resultColumn.sigma_b_ratio;
-            column['sigma_c_ratio'] = resultColumn.sigma_c_ratio;
-            column['sigma_s_ratio'] = resultColumn.sigma_s_ratio;
-            column['WdWlim'] = resultColumn.WdWlim;
+
             // SRCのデータの有無を確認
             for(const src_key of ['steel_I_tension', 'steel_I_web', 'steel_I_compress',
                                   'steel_H_tension','steel_H_web']){

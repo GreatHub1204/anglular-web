@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { UserInfoService } from "../providers/user-info.service";
 import { InputMembersService } from "../components/members/members.service";
 import { InputSafetyFactorsMaterialStrengthsService } from "../components/safety-factors-material-strengths/safety-factors-material-strengths.service";
-import { HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { InputBasicInformationService } from "../components/basic-information/basic-information.service";
 import { InputDesignPointsService } from "../components/design-points/design-points.service";
 import { DataHelperModule } from "../providers/data-helper.module";
@@ -12,12 +12,15 @@ import { SetHorizontalOvalService } from "./shape-data/set-horizontal-oval.servi
 import { SetVerticalOvalService } from "./shape-data/set-vertical-oval.service";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { environment } from "src/environments/environment";
+import { resolve } from "dns";
+import { rejects } from "assert";
 
 @Injectable({
   providedIn: "root",
 })
 export class SetPostDataService {
   constructor(
+    private http: HttpClient,
     private user: UserInfoService,
     private basic: InputBasicInformationService,
     private members: InputMembersService,
@@ -30,15 +33,37 @@ export class SetPostDataService {
     private vOval: SetVerticalOvalService) { }
 
   // 計算(POST)するときのヘルパー ///////////////////////////////////////////////////////////////////////////
-  public URL: string =
-    "https://przh0fpakg.execute-api.ap-northeast-1.amazonaws.com/prod/RCNonlinear-2";
-
   public options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     })
   };
+
+  public async http_post(inputJson: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.calcURL, inputJson, this.options).subscribe(
+        (response) => {
+          if (response["ErrorException"] !== null) {
+            reject({error: response["ErrorException"] });
+          }
+          resolve(response);
+        },
+        (error) => {
+          let err: string = "";
+          let e: any = error;
+          while('error' in e) {
+            if('message' in e){ err += e.message + '\n'; }
+            if('text' in e){ err += e.text + '\n'; }
+            e = e.error;
+          }
+          if('message' in e){ err += e.message + '\n'; }
+          if('stack' in e){ err += e.stack; }
+          reject(err);
+        }
+      );
+    });
+  }
 
   public parseJsonString(str: string): any {
     let json: any = null;

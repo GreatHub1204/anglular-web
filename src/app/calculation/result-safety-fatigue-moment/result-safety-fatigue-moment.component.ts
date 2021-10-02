@@ -156,7 +156,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             const titleColumn = this.result.getTitleString(section.member, position, side)
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.calcFatigue(
                 res, Ast, steel, safety, fatigueInfo)
             );
@@ -168,7 +168,6 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
 
-            const column = {};
             /////////////// タイトル ///////////////
             column['title1'] = { alien: 'center', value: titleColumn.title1 };
             column['title2'] = { alien: 'center', value: titleColumn.title2 };
@@ -200,11 +199,11 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), 'center');
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), 'center');
-            column['rc'] = this.result.alien(fck.rc.toFixed(2), 'center');
+            column['M_rc'] = this.result.alien(fck.M_rc.toFixed(2), 'center');
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
+            column['M_rs'] = this.result.alien(this.result.numStr(section.Ast.M_rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             column['fsu'] = this.result.alien(section.Ast.fsu, 'center');
             /////////////// 鉄骨情報 ///////////////
@@ -216,54 +215,6 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 照査 ///////////////
-            column['Mdmin'] = resultColumn.Mdmin;
-            column['Ndmin'] = resultColumn.Ndmin;
-            column['sigma_min'] = resultColumn.sigma_min;
-
-            column['Mrd'] = resultColumn.Mrd;
-            column['Nrd'] = resultColumn.Nrd;
-            column['sigma_rd'] = resultColumn.sigma_rd;
-
-            column['fsr200'] = resultColumn.fsr200;
-            column['ratio200'] = resultColumn.ratio200;
-
-            column['k'] = resultColumn.k;
-            column['ar'] = resultColumn.ar;
-            column['N'] = resultColumn.N;
-
-            column['NA'] = resultColumn.NA;
-            column['NB'] = resultColumn.NB;
-
-            column['SASC'] = resultColumn.SASC;
-            column['SBSC'] = resultColumn.SBSC;
-
-            column['r1'] = resultColumn.r1;
-            column['r2'] = resultColumn.r2;
-
-            column['rs2'] = resultColumn.rs;
-            column['frd'] = resultColumn.frd;
-
-            column['ri'] = resultColumn.ri;
-            column['ratio'] = resultColumn.ratio;
-            column['result'] = resultColumn.result;
-
-            /////////////// 疲労限の情報 ///////////////
-            column['MdGen'] = resultColumn.MdGen;
-            column['NdGen'] = resultColumn.NdGen;
-            column['sigma_max_s'] = resultColumn.sigma_max_s;
-            column['sigma_min_s'] = resultColumn.sigma_min_s;
-            column['sigma_fud'] = resultColumn.sigma_fud;
-            column['welding_joint'] = resultColumn.welding_joint;
-            column['class_s'] = resultColumn.class_s;
-            column['sigma_cod'] = resultColumn.sigma_cod;
-            column['fai_s'] = resultColumn.fai_s;
-            column['Cr'] = resultColumn.Cr;
-            column['Ct'] = resultColumn.Ct;
-            column['sigma_cod2'] = resultColumn.sigma_cod2;
-            column['ri_s'] = resultColumn.ri_s;
-            column['ratio_s'] = resultColumn.ratio_s;
-            column['result_s'] = resultColumn.result_s;
 
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag);

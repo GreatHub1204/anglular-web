@@ -47,29 +47,16 @@ export class ResultDurabilityMomentComponent implements OnInit {
     // postする
     console.log(this.title, postData);
     const inputJson: string = this.post.getInputJsonString(postData);
-    this.http.post(this.post.URL, inputJson, this.post.options).subscribe(
+    this.post.http_post(inputJson).then(
       (response) => {
-        if (response["ErrorException"] === null) {
-          this.isFulfilled = this.setPages(response["OutputData"]);
-          this.calc.isEnable = true;
-        } else {
-          this.err = JSON.stringify(response["ErrorException"]);
-        }
+        this.isFulfilled = this.setPages(response["OutputData"]);
+        this.calc.isEnable = true;
         this.isLoading = false;
         this.summary.setSummaryTable("durabilityMoment", this.serviceabilityMomentPages);
         this.user.setUserPoint(response["deduct_points"], response["new_points"]);
-      },
-      (error) => {
-        this.err = 'error!!' + '\n'; 
-        let e: any = error;
-        while('error' in e) {
-          if('message' in e){ this.err += e.message + '\n'; }
-          if('text' in e){ this.err += e.text + '\n'; }
-          e = e.error;
-        }
-        if('message' in e){ this.err += e.message + '\n'; }
-        if('stack' in e){ this.err += e.stack; }
-
+      })
+      .catch((error) => {
+        this.err = 'error!!\n' + error;; 
         this.isLoading = false;
         this.summary.setSummaryTable("durabilityMoment");
       }

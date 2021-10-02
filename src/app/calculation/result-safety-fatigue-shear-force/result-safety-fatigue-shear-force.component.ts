@@ -124,7 +124,7 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
 
             const value = this.calc.calcFatigue(res, section, fck, safety, fatigueInfo);
             if(value.N === 0) continue;
-            const resultColumn: any = this.getResultString(value );
+            const column: any = this.getResultString(value );
 
             let fwyd3: number = 0
             if('fsvy_Hweb' in section.steel) {
@@ -140,7 +140,6 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
                     
-            const column = {};
             /////////////// タイトル ///////////////
             column['title1'] = { alien: "center", value: titleColumn.title1 };
             column['title2'] = { alien: "center", value: titleColumn.title2 };
@@ -162,11 +161,11 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
             column['tcos'] = this.result.alien(this.result.numStr((section.Ast.tension!==null)?section.Ast.tension.cos: 1, 3), "center");
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), "center");
-            column['rc'] = this.result.alien(fck.rc.toFixed(2), "center");
+            column['V_rc'] = this.result.alien(fck.V_rc.toFixed(2), "center");
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋強度情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), "center");
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), "center");
+            column['V_rs'] = this.result.alien(section.Ast.V_rs.toFixed(2), "center");
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), "center");
             column['fwud'] = this.result.alien(section.Aw.fwud, "center");
             /////////////// 鉄骨情報 ///////////////
@@ -178,79 +177,11 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 帯鉄筋情報 ///////////////
-            column['Aw'] = resultColumn.Aw;
-            column['AwString'] = resultColumn.AwString;
-            column['fwyd'] = resultColumn.fwyd;
-            column['deg'] = resultColumn.deg;
-            column['Ss'] = resultColumn.Ss;
-            /////////////// 折り曲げ鉄筋情報 ///////////////
-            column['Asb'] = resultColumn.Asb;
-            column['AsbString'] = resultColumn.AsbString;
-            column['fwyd2'] = resultColumn.fwyd2;
-            column['deg2'] = resultColumn.deg2;
-            column['Ss2'] = resultColumn.Ss2;
             /////////////// 鉄骨情報及びそれに伴う係数 ///////////////
             column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
-            column['Zs'] = resultColumn.Zs;
-            column['ar_steel'] = resultColumn.ar_steel;
-            /////////////// 断面力 ///////////////
-            column['Vpd'] = resultColumn.Vpd;
-            column['Mpd'] = resultColumn.Mpd;
-            column['Npd'] = resultColumn.Npd;
-
-            column['Vrd'] = resultColumn.Vrd;
-            column['Mrd'] = resultColumn.Mrd;
-            column['Nrd'] = resultColumn.Nrd;
-
-            column['fvcd'] = resultColumn.fvcd;
-            column['rbc'] = resultColumn.rbc;
-            column['Vcd'] = resultColumn.Vcd;
-
-            column['kr'] = resultColumn.kr;
-
-            column['sigma_min'] = resultColumn.sigma_min;
-            column['sigma_rd'] = resultColumn.sigma_rd;
-            column['sigma_r'] = resultColumn.sigma_rd;
-
-            column['fsr200'] = resultColumn.fsr200;
-            column['ratio200'] = resultColumn.ratio200;
-
-            column['sigma_min2'] = resultColumn.sigma_min2;
-            column['sigma_rd2'] = resultColumn.sigma_rd2;
-            column['sigma_r2'] = resultColumn.sigma_rd2;
-        
-            column['fsr2002'] = resultColumn.fsr2002;
-            column['ratio2002'] = resultColumn.ratio2002;
-
-            column['k'] = resultColumn.k;
-            column['ar'] = resultColumn.ar;
-            column['ar2'] = resultColumn.ar2;
-            column['N'] = resultColumn.N;
-
-            column['NA'] = resultColumn.NA;
-            column['NB'] = resultColumn.NB;
-
-            column['SASC'] = resultColumn.SASC;
-            column['SBSC'] = resultColumn.SBSC;
-
-            column['r1'] = resultColumn.r1;
-            column['r12'] = resultColumn.r12;
-            column['r2'] = resultColumn.r2;
-
-            column['rs2'] = resultColumn.rs;
-            column['frd'] = resultColumn.frd;
-            column['frd2'] = resultColumn.frd2;
-
-            column['rbs'] = resultColumn.rbs;
-            column['ri'] = resultColumn.ri;
-            column['ratio'] = resultColumn.ratio;
-            column['result'] = resultColumn.result;
-            column['ratio2'] = resultColumn.ratio2;
-            column['result2'] = resultColumn.result2;
 
             /////////////// Flag用 ///////////////
-            column['bendFlag'] = (resultColumn.Asb.value!=='-');  //折り曲げ鉄筋の情報があればtrue、無ければfalse
+            column['bendFlag'] = (column.Asb.value!=='-');  //折り曲げ鉄筋の情報があればtrue、無ければfalse
             column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
             column['CFTFlag'] = (section.CFTFlag);
             /////////////// 総括表用 ///////////////

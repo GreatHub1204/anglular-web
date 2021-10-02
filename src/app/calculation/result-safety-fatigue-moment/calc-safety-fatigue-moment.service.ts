@@ -194,9 +194,9 @@ export class CalcSafetyFatigueMomentService {
     result['sigma_rd'] = sigma_rd;
 
     // f200 の計算
-    let rs = this.helper.toNumber(safety.safety_factor.rs);
-    if (rs === null) { rs = 1.05; }
-    result['rs'] = rs;
+    let M_rs = this.helper.toNumber(safety.safety_factor.rs);
+    if (M_rs === null) { M_rs = 1.05; }
+    result['M_rs'] = M_rs;
 
     let k = 0.12;
 
@@ -226,7 +226,7 @@ export class CalcSafetyFatigueMomentService {
     }
     const tmp201: number = Math.pow(10, ar) / Math.pow(reference_count, k);
     const tmp202: number = 1 - sigma_min / fsu;
-    const fsr200: number = r1 * tmp201 * tmp202 / rs;
+    const fsr200: number = r1 * tmp201 * tmp202 / M_rs;
     result['fsr200'] = fsr200;
 
     let ri: number = safety.safety_factor.ri;
@@ -323,7 +323,7 @@ export class CalcSafetyFatigueMomentService {
 
     const tmpfrd1: number = Math.pow(10, ar) / Math.pow(N, k);
     const tmpfrd2: number = 1 - sigma_min / fsu;
-    const frd: number = r1 * r2 * tmpfrd1 * tmpfrd2 / rs;
+    const frd: number = r1 * r2 * tmpfrd1 * tmpfrd2 / M_rs;
     result['frd'] = frd;
 
     const ratio: number = ri * sigma_rd / (frd / rb);

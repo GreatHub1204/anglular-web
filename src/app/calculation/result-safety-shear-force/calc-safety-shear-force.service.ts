@@ -197,11 +197,11 @@ export class CalcSafetyShearForceService {
     }
     result["fck"] = fck;
 
-    let rc: number = this.helper.toNumber(fc.rc);
-    if (rc === null) {
-      rc = 1;
+    let V_rc: number = this.helper.toNumber(fc.V_rc);
+    if (V_rc === null) {
+      V_rc = 1;
     }
-    result["rc"] = rc;
+    result["V_rc"] = V_rc;
 
     let fcd: number = this.helper.toNumber(fc.fcd);
     if (fcd === null) {
