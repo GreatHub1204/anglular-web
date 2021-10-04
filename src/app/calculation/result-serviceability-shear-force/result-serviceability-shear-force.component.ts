@@ -50,33 +50,19 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     // postする
     console.log(this.title, postData);
     const inputJson: string = this.post.getInputJsonString(postData);
-    this.http.post(this.post.URL, inputJson, this.post.options).subscribe(
+    this.post.http_post(inputJson).then(
       (response) => {
-        if (response["ErrorException"] === null) {
-          this.isFulfilled = this.setPages(response["OutputData"]);
-          this.calc.isEnable = true;
-        } else {
-          this.err = JSON.stringify(response["ErrorException"]);
-        }
-        this.isLoading = false;
+        this.isFulfilled = this.setPages(response["OutputData"]);
+        this.calc.isEnable = true;
         this.summary.setSummaryTable("serviceabilityShearForce", this.serviceabilityShearForcePages);
-        this.user.setUserPoint(response["deduct_points"], response["new_points"]);
-      },
-      (error) => {
-        this.err = 'error!!' + '\n';
-        let e: any = error;
-        while('error' in e) {
-          if('message' in e){ this.err += e.message + '\n'; }
-          if('text' in e){ this.err += e.text + '\n'; }
-          e = e.error;
-        }
-        if('message' in e){ this.err += e.message + '\n'; }
-        if('stack' in e){ this.err += e.stack; }
-
-        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.err = 'error!!\n' + error;; 
         this.summary.setSummaryTable("serviceabilityShearForce");
-      }
-    );
+      })
+      .finally(()=>{
+        this.isLoading = false;
+      });
   }
 
   // 計算結果を集計する

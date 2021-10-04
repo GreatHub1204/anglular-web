@@ -10,10 +10,8 @@ import { SetCircleService } from "./shape-data/set-circle.service";
 import { SetRectService } from "./shape-data/set-rect.service";
 import { SetHorizontalOvalService } from "./shape-data/set-horizontal-oval.service";
 import { SetVerticalOvalService } from "./shape-data/set-vertical-oval.service";
-import { AngularFireAuth } from "@angular/fire/auth";
 import { environment } from "src/environments/environment";
-import { resolve } from "dns";
-import { rejects } from "assert";
+
 
 @Injectable({
   providedIn: "root",
@@ -47,6 +45,7 @@ export class SetPostDataService {
           if (response["ErrorException"] !== null) {
             reject({error: response["ErrorException"] });
           }
+          this.user.setUserPoint(response["deduct_points"], response["new_points"]);
           resolve(response);
         },
         (error) => {

@@ -51,16 +51,15 @@ export class ResultDurabilityMomentComponent implements OnInit {
       (response) => {
         this.isFulfilled = this.setPages(response["OutputData"]);
         this.calc.isEnable = true;
-        this.isLoading = false;
         this.summary.setSummaryTable("durabilityMoment", this.serviceabilityMomentPages);
-        this.user.setUserPoint(response["deduct_points"], response["new_points"]);
       })
       .catch((error) => {
         this.err = 'error!!\n' + error;; 
-        this.isLoading = false;
         this.summary.setSummaryTable("durabilityMoment");
-      }
-    );
+      })
+      .finally(()=>{
+        this.isLoading = false;
+      });
   }
   // 計算結果を集計する
   private setPages(OutputData: any): boolean {
