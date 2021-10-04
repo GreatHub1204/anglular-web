@@ -13,8 +13,8 @@ export class InputCalclationPrintService {
     this.clear();
   }
 
-  public clear(): void {
-    this.print_selected = {
+  private default_print_selected(): any  {
+    return {
       print_calculate_checked: false,
       print_section_force_checked: false,
       print_summary_table_checked: false,
@@ -22,6 +22,10 @@ export class InputCalclationPrintService {
       calculate_shear_force: false,
       calculate_torsional_moment: false
     }
+  }
+
+  public clear(): void {
+    this.print_selected = this.default_print_selected()
     this.calc_checked = new Array();
   }
 
@@ -55,7 +59,12 @@ export class InputCalclationPrintService {
   }
   
   public setSaveData(calc: any): void {
-    this.print_selected = calc;
+    this.print_selected = this.default_print_selected();
+    for(const key in Object.keys(this.print_selected)){
+      if(key in calc){
+        this.print_selected[key] = calc[key];
+      }
+    }
   }
 
 }
