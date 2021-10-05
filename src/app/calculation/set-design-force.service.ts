@@ -253,18 +253,31 @@ export class SetDesignForceService {
     for(const groupe of groupe_list){
 
       const safety = this.safety.getSafetyFactor(target, groupe[0].g_id, safetyID ); // 安全係数
+      let flg = false;
+      if(target === 'Md'){
+        for(const key of ['M_rc', 'M_rs', 'M_rb']){
+          if(this.helper.toNumber(safety[key]) === null){
+            flg = true;
+            break;
+          }
+        }
+      } else if (target === 'Vd'){
+        for(const key of ['V_rc', 'V_rs', 'V_rbc', 'V_rbs']){
+          if(this.helper.toNumber(safety[key]) === null){
+            flg = true;
+            break;
+          }
+        }
+      } else { // Mt
+        for(const key of ['M_rc', 'M_rs', 'M_rb', 'V_rc', 'V_rs', 'V_rbc', 'V_rbs']){
+          if(this.helper.toNumber(safety[key]) === null){
+            flg = true;
+            break;
+          }
+        }
+      }
+      if(flg) continue;
 
-      // 安全係数のチェックは各照査calc で行うこととした
-      // let flg = false;
-      // for(const key of Object.keys(safety)){
-      //   if(key === 'V_rbd') continue;
-      //   if(key === 'V_range') continue;
-      //   if(this.helper.toNumber(safety[key]) === null){
-      //     flg = true;
-      //     break;
-      //   }
-      // }
-      // if(flg) continue;
 
       // 同じインデックスの断面力を登録する
       for( const member of groupe){
@@ -286,8 +299,8 @@ export class SetDesignForceService {
       for (let ip = result.length - 1; ip >= 0; ip--) {
         if( result[ip].isMax === true ){
           const designForce = [
-            { Md: 0, Nd: 0, Vd: 0, side:'上側引張' },
-            { Md: 0, Nd: 0, Vd: 0, side:'下側引張' }
+            { Md: 0, Nd: 0, Vd: 0, Mt: 0, side:'上側引張' },
+            { Md: 0, Nd: 0, Vd: 0, Mt: 0, side:'下側引張' }
           ];
           // max 始まりを探す
           let jp = ip;
@@ -304,10 +317,10 @@ export class SetDesignForceService {
                 } else if( force[target] >= designForce[0][target]){
                   designForce[1] = force;
                 }
-              } else if(target === 'Vd' && Math.abs(force[target]) > Math.abs(designForce[0][target])){
-                if(force.side === '上側引張'){
+              } else {
+                if(force.side === '上側引張' && Math.abs(force[target]) > Math.abs(designForce[0][target])){
                   designForce[0] = force;
-                } else {
+                } else if(Math.abs(force[target]) > Math.abs(designForce[1][target])) {
                   designForce[1] = force;
                 }
               }
@@ -399,6 +412,7 @@ export class SetDesignForceService {
         side,
         target,
         Md: force.Md / n,
+        Mt: force.Mt / n,
         Vd: force.Vd / n,
         Nd: force.Nd / n,
         comb: force.comb,

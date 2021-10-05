@@ -43,9 +43,9 @@ export class CalcSafetyTorsionalMomentService {
       return;
     }
 
-    const No5 = (this.save.isManual()) ? 5 : this.basic.pickup_shear_force_no(5);
+    const No5 = (this.save.isManual()) ? 5 : this.basic.pickup_torsional_moment_no(5);
     this.DesignForceList = this.force.getDesignForceList(
-      "Vd",No5 );
+      "Mt", No5 );
   }
 
   // サーバー POST用データを生成する
