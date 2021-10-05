@@ -161,11 +161,11 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
             column['tcos'] = this.result.alien(this.result.numStr((section.Ast.tension!==null)?section.Ast.tension.cos: 1, 3), "center");
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), "center");
-            column['V_rc'] = this.result.alien(fck.V_rc.toFixed(2), "center");
+            column['rc'] = this.result.alien(fck.rc.toFixed(2), "center");
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋強度情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), "center");
-            column['V_rs'] = this.result.alien(section.Ast.V_rs.toFixed(2), "center");
+            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), "center");
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), "center");
             column['fwud'] = this.result.alien(section.Aw.fwud, "center");
             /////////////// 鉄骨情報 ///////////////
@@ -177,6 +177,7 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
+            column['rs2'] = column.rs;
             /////////////// 鉄骨情報及びそれに伴う係数 ///////////////
             column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
 

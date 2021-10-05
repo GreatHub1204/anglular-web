@@ -166,11 +166,11 @@ export class ResultMinimumReinforcementComponent implements OnInit {
             column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), 'center');
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), 'center');
-            column['M_rc'] = this.result.alien(fck.M_rc.toFixed(2), 'center');
+            column['rc'] = this.result.alien(fck.rc.toFixed(2), 'center');
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['M_rs'] = this.result.alien(this.result.numStr(section.Ast.M_rs, 2), 'center');
+            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
              /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;

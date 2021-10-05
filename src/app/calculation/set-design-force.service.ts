@@ -253,16 +253,18 @@ export class SetDesignForceService {
     for(const groupe of groupe_list){
 
       const safety = this.safety.getSafetyFactor(target, groupe[0].g_id, safetyID ); // 安全係数
-      let flg = false;
-      for(const key of Object.keys(safety)){
-        if(key === 'rbd') continue;
-        if(key === 'range') continue;
-        if(this.helper.toNumber(safety[key]) === null){
-          flg = true;
-          break;
-        }
-      }
-      if(flg) continue;
+
+      // 安全係数のチェックはしないことにした
+      // let flg = false;
+      // for(const key of Object.keys(safety)){
+      //   if(key === 'V_rbd') continue;
+      //   if(key === 'V_range') continue;
+      //   if(this.helper.toNumber(safety[key]) === null){
+      //     flg = true;
+      //     break;
+      //   }
+      // }
+      // if(flg) continue;
 
       // 同じインデックスの断面力を登録する
       for( const member of groupe){

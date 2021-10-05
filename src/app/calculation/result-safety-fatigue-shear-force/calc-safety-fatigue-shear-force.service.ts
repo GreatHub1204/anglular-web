@@ -235,9 +235,9 @@ export class CalcSafetyFatigueShearForceService {
     const _sigma_rd = Math.max(sigma_rd, 0);
 
     // f200 の計算
-    let V_rs = this.helper.toNumber(safety.safety_factor.rs);
-    if (V_rs === null) { V_rs = 1.05; }
-    result['V_rs'] = V_rs;
+    let rs = this.helper.toNumber(safety.safety_factor.rs);
+    if (rs === null) { rs = 1.05; }
+    result['rs'] = rs;
 
     let k = 0.12;
 
@@ -262,7 +262,7 @@ export class CalcSafetyFatigueShearForceService {
     }
     const tmp201: number = Math.pow(10, ar) / Math.pow(reference_count, k);
     const tmp202: number = 1 - _sigma_min / fwud;
-    const fsr200: number = r1 * tmp201 * tmp202 / V_rs;
+    const fsr200: number = r1 * tmp201 * tmp202 / rs;
     result['fsr200'] = fsr200;
 
     const ri: number = safety.safety_factor.ri;
@@ -354,7 +354,7 @@ export class CalcSafetyFatigueShearForceService {
 
     const tmpfrd1: number = Math.pow(10, ar) / Math.pow(N, k);
     const tmpfrd2: number = 1 - _sigma_min / fwud;
-    const frd: number = r1 * r2 * tmpfrd1 * tmpfrd2 / V_rs;
+    const frd: number = r1 * r2 * tmpfrd1 * tmpfrd2 / rs;
     result['frd'] = frd;
 
     if (ratio200 < 1 && N <= reference_count) {

@@ -195,11 +195,11 @@ export class ResultSafetyShearForceComponent implements OnInit {
             column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), "center");
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), "center");
-            column['V_rc'] = this.result.alien(fck.V_rc.toFixed(2), "center");
+            column['rc'] = this.result.alien(fck.rc.toFixed(2), "center");
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋強度情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), "center");
-            column['V_rs'] = this.result.alien(section.Ast.V_rs.toFixed(2), "center");
+            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), "center");
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), "center");
             /////////////// 鉄骨情報 ///////////////
             if ( SRC_pik in section.steel) {
