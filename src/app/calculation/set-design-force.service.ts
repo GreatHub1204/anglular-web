@@ -254,7 +254,7 @@ export class SetDesignForceService {
 
       const safety = this.safety.getSafetyFactor(target, groupe[0].g_id, safetyID ); // 安全係数
 
-      // 安全係数のチェックはしないことにした
+      // 安全係数のチェックは各照査calc で行うこととした
       // let flg = false;
       // for(const key of Object.keys(safety)){
       //   if(key === 'V_rbd') continue;
