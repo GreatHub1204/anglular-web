@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { InputCalclationPrintService } from "../components/calculation-print/calculation-print.service";
-import { InputDesignPointsService } from "../components/design-points/design-points.service";
-import { InputSafetyFactorsMaterialStrengthsService } from "../components/safety-factors-material-strengths/safety-factors-material-strengths.service";
-import { InputSectionForcesService } from "../components/section-forces/section-forces.service";
-import { DataHelperModule } from "../providers/data-helper.module";
-import { SaveDataService } from "../providers/save-data.service";
+import { Injectable } from '@angular/core';
+import { InputCalclationPrintService } from '../components/calculation-print/calculation-print.service';
+import { InputDesignPointsService } from '../components/design-points/design-points.service';
+import { InputSafetyFactorsMaterialStrengthsService } from '../components/safety-factors-material-strengths/safety-factors-material-strengths.service';
+import { InputSectionForcesService } from '../components/section-forces/section-forces.service';
+import { DataHelperModule } from '../providers/data-helper.module';
+import { SaveDataService } from '../providers/save-data.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class SetDesignForceService {
   constructor(
@@ -72,7 +72,7 @@ export class SetDesignForceService {
       }
 
       if( flg === false ){
-        position["designForce"] = [];
+        position['designForce'] = [];
         continue;
       }
 
@@ -84,7 +84,7 @@ export class SetDesignForceService {
         Ndmax: value,
         Ndmin: value,
       });
-      position["designForce"] = temp;
+      position['designForce'] = temp;
     }
 
     return result;
@@ -117,31 +117,39 @@ export class SetDesignForceService {
         return new Array(); // 存在しない着目点がある
       }
 
-      let mKey1 = "mz", mKey2 = "Mdz",  vKey1 = "fy", vKey2 = "Vdy";
-      if ((target === "Md" && position.isMyCalc === true) ||
-          (target === "Vd" && position.isVzCalc === true)) {
+      let mKey1 = 'mz', mKey2 = 'Mdz',  vKey1 = 'fy', vKey2 = 'Vdy';
+      if ((target === 'Md' && position.isMyCalc === true) ||
+          (target === 'Vd' && position.isVzCalc === true)) {
         // 3次元ピックアップファイルで、上記条件の場合
-        mKey1 = "my"; mKey2 = "Mdy"; vKey1 = "fz"; vKey2 = "Vdz";
+        mKey1 = 'my'; mKey2 = 'Mdy'; vKey1 = 'fz'; vKey2 = 'Vdz';
       }
 
       const forceObj = {};
-      const k1 = [mKey1, vKey1, "fx"];
-      const k2 = ["Md", "Vd", "Nd"];
-      for (let i = 0; i < 3; i++) {
-        for (const k3 of ["max", "min"]) {
+      const k1 = [mKey1, vKey1, 'fx'];
+      const k2 = ['Md', 'Vd', 'Nd'];
+      if (target==='Mt') {
+        k1.push('mx');
+        k2.push('Mt');
+      }
+      for (let i = 0; i < k1.length; i++) {
+        for (const k3 of ['max', 'min']) {
           const t = force[k1[i]];
           const m1 = t[k3];
           const k4 = k2[i] + k3;
-          forceObj[k4] = {
+          const tmp = {
             Md: m1[mKey2],
             Vd: m1[vKey2],
             Nd: m1.Nd,
             comb: m1.comb,
           };
+          if (target==='Mt') {
+            tmp['Mt'] = m1.Mtd;
+          }
+          forceObj[k4] = tmp;
         }
       }
 
-      position["designForce"] = this.getSectionForce(target, n, forceObj, isMax);
+      position['designForce'] = this.getSectionForce(target, n, forceObj, isMax);
     }
 
     return result;
@@ -166,36 +174,36 @@ export class SetDesignForceService {
 
         for (const pos of positions) {
           if (maxFlag === true) {
-            pos["enable"] = maxFlag;
+            pos['enable'] = maxFlag;
           } else {
             switch (target) {
-              case "Md": // 曲げモーメントの照査の場合
-                pos["enable"] = pos.isMyCalc === true || pos.isMzCalc === true;
+              case 'Md': // 曲げモーメントの照査の場合
+                pos['enable'] = pos.isMyCalc === true || pos.isMzCalc === true;
                 break;
-              case "Vd": // せん断力の照査の場合
-                pos["enable"] = pos.isVyCalc === true || pos.isVzCalc === true;
+              case 'Vd': // せん断力の照査の場合
+                pos['enable'] = pos.isVyCalc === true || pos.isVzCalc === true;
                 break;
-              case "Mt": // ねじりモーメントの照査の場合
-                pos["enable"] = pos.isMtCalc === true;
+              case 'Mt': // ねじりモーメントの照査の場合
+                pos['enable'] = pos.isMtCalc === true;
                 break;
             }
           }
 
-          let p_name: string = "";
+          let p_name: string = '';
           if ( p_name in pos){
             if ( pos.p_name !== null){
               p_name = pos.p_name.toString().toUpperCase();
             }
           }
 
-          if (pos.enable === true && p_name.indexOf("MAX") >= 0) {
+          if (pos.enable === true && p_name.indexOf('MAX') >= 0) {
             // 着目点名(p_name) に MAX というキーワードが入っていたら END まで対象とする
             maxFlag = true;
           }
 
-          pos["isMax"] = maxFlag; // MAX 区間中は isMaxフラグを付ける
+          pos['isMax'] = maxFlag; // MAX 区間中は isMaxフラグを付ける
 
-          if (p_name.indexOf("END") >= 0) {
+          if (p_name.indexOf('END') >= 0) {
             maxFlag = false;
           }
         }
@@ -367,7 +375,7 @@ export class SetDesignForceService {
           const def = { // 下記の　undefined の 場合の空の値
             side: d0.side,
             target: d0.target,
-            Md: 0, Vd: 0,  Nd: 0, comb: "" };
+            Md: 0, Vd: 0,  Nd: 0, comb: '' };
 
           const pos1 = force1.find(
             (t) => t.index === pos0.index );
@@ -391,8 +399,8 @@ export class SetDesignForceService {
     // 設計断面の数をセット
     const result: any[] = new Array();
 
-    let maxKey: string = target + "max";
-    let minKey: string = target + "min";
+    let maxKey: string = target + 'max';
+    let minKey: string = target + 'min';
 
     if (!(maxKey in forceObj) && !(minKey in forceObj)) {
       return result;
@@ -407,7 +415,7 @@ export class SetDesignForceService {
     // 最大の場合と最小の場合登録する
     for (const k of [maxKey, minKey]) {
       const force = forceObj[k];
-      const side = force.Md > 0 ? "下側引張" : "上側引張";
+      const side = force.Md > 0 ? '下側引張' : '上側引張';
       const f = {
         side,
         target,
@@ -470,7 +478,7 @@ export class SetDesignForceService {
             maxF[key1] -= minF[key1];
           }
         }
-        maxForce.designForce[i]['comb'] = "-";
+        maxForce.designForce[i]['comb'] = '-';
       }
     }
 

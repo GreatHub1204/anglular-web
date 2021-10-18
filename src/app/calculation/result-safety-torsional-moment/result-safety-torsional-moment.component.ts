@@ -61,7 +61,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
         this.summary.setSummaryTable("safetyTorsionalMoment", this.safetyTorsionalMomentPages);
       })
       .catch((error) => {
-        this.err = 'error!!\n' + error;; 
+        this.err = 'error!!\n' + error;
         this.summary.setSummaryTable("safetyTorsionalMoment");
       })
       .finally(()=>{
