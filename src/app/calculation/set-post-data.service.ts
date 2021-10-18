@@ -103,8 +103,8 @@ export class SetPostDataService {
 
     // 基本となる DesignForceList[0] の集計 ---------------------------------------------------------
     const dict = {};
-    let key = 0;                    
-    const list = DesignForceList[0]; 
+    let key = 0;
+    const list = DesignForceList[0];
     for (const position of list) {
 
       // 送信post データの生成
@@ -125,7 +125,7 @@ export class SetPostDataService {
         try {
           const shape = this.getPostData(target, safetyID, force, option);
           data['shape'] = shape; // 一時的に登録
-          
+
           // 断面形状
           data['Concretes'] = shape.Concretes;
           data['ConcreteElastic'] = shape.ConcreteElastic;

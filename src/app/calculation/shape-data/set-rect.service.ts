@@ -251,7 +251,7 @@ export class SetRectService {
         tension['rs'] = safety.safety_factor.M_rs;
       } else if('V_rs' in safety.safety_factor){
         tension['rs'] = safety.safety_factor.V_rs;
-      }      
+      }
 
       // 登録
       result['tension'] = tension;
@@ -293,7 +293,7 @@ export class SetRectService {
           sidebar['rs'] = safety.safety_factor.M_rs;
         } else if('V_rs' in safety.safety_factor){
           sidebar['rs'] = safety.safety_factor.V_rs;
-        }        
+        }
 
         result['sidebar'] = sidebar;
       }

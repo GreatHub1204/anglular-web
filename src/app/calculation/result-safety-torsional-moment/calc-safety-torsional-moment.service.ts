@@ -55,14 +55,38 @@ export class CalcSafetyTorsionalMomentService {
     }
 
     // 有効なデータかどうか
-    const force1 = this.force.checkEnable('Mt', this.safetyID, this.DesignForceList);
+    const force = this.force.checkEnable('Mt', this.safetyID, this.DesignForceList);
 
     // POST 用
     const option = {};
 
-    const postData = this.post.setInputData( "Mt", "耐力", this.safetyID, option, 
-    force1[0] );
-    
+    // 曲げ Mud 用
+    const postData1 = this.post.setInputData( "Md", "耐力", this.safetyID, option, force[0] );
+
+    // 曲げ Mud' 用
+    const force2 = JSON.parse(
+      JSON.stringify({ temp: force[0] })
+    ).temp;
+    for(const d1 of force2){
+      for(const d2 of d1.designForce){
+        d2.side = (d2.side === '上側引張') ? '下側引張' : '上側引張'; // 上下逆にする
+      }
+    }
+    const postData2 = this.post.setInputData( "Md", "耐力", this.safetyID, option, force2 );
+    for(const d1 of postData2){
+      d1.side = (d1.side === '上側引張') ? '下側引張の逆' : '上側引張の逆'; // 逆であることを明記する
+    }
+
+    // せん断 Mu 用
+    const postData3 = this.post.setInputData( "Vd", "耐力", this.safetyID, option, force[0] );
+    for(const d1 of postData3){
+      d1.Nd = 0.0;
+      d1.index *= -1; // せん断照査用は インデックスにマイナスをつける
+    }
+
+
+    // POST 用
+    const postData = postData1.concat(postData2, postData3);
     return postData;
   }
 
