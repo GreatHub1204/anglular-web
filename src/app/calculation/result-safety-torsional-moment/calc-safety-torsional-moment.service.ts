@@ -8,6 +8,7 @@ import { InputCalclationPrintService } from "src/app/components/calculation-prin
 import { InputBasicInformationService } from "src/app/components/basic-information/basic-information.service";
 import { InputSafetyFactorsMaterialStrengthsService } from "src/app/components/safety-factors-material-strengths/safety-factors-material-strengths.service";
 import { CalcSafetyShearForceService } from "../result-safety-shear-force/calc-safety-shear-force.service";
+import { absoluteFrom } from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +140,34 @@ export class CalcSafetyTorsionalMomentService {
     result['rb'] = safety_factor.M_rb;
     result['Mud'] = resultData1.M.Mi;
     result['Mudd'] = resultData2.M.Mi;
+
+    // Kt
+    const bw: number = sectionV.shape.B;
+    const h: number = sectionV.shape.H;
+
+    let Nd: number = this.helper.toNumber(force.Nd);
+    if (Nd === null) {
+      Nd = 0;
+    }
+
+    const sigma_nt = (Nd*1000) / (h * bw); // (N/mm2)
+
+    // コンクリート材料
+    const fck: number = this.helper.toNumber(fc.fck);
+    if (fck === null) {
+      return result;
+    }
+    let rc: number = this.helper.toNumber(fc.rc);
+    if (rc === null) {
+      rc = 1;
+    }
+    const ftk = 0.23 * Math.pow(fck, 2/3);
+    const ftd = ftk / rc;
+    result['ftd'] = ftd;
+
+    const Bnt = Math.sqrt(1-Math.abs(sigma_nt) / ftd);
+    result['Bnt'] = Bnt;
+
 
     return result;
 
