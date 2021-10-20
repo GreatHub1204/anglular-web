@@ -307,7 +307,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       ql: { alien: "center", value: "-" },
       Mtyd: { alien: "center", value: "-" },
       Mtu_min: { alien: "center", value: "-" },
-      sigma_hd: { alien: "center", value: "-" },
+      sigma_nd: { alien: "center", value: "-" },
       ftd: { alien: "center", value: "-" },
       Bnt: { alien: "center", value: "-" },
       Mtcd: { alien: "center", value: "-" },
@@ -434,8 +434,8 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     if ("Mtu_min" in re) {
       result.Mtu_min = { alien: "right", value: re.Mtu_min.toFixed(1) };
     }
-    if ("sigma_hd" in re) {
-      result.sigma_hd = { alien: "right", value: re.sigma_hd.toFixed(1) };
+    if ("sigma_nd" in re) {
+      result.sigma_nd = { alien: "right", value: re.sigma_nd.toFixed(1) };
     }
     if ("ftd" in re) {
       result.ftd = { alien: "right", value: re.ftd.toFixed(1) };

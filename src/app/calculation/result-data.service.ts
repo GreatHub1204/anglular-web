@@ -546,12 +546,14 @@ export class ResultDataService {
       Ase: null,
       AseString: null,
       dse: null,
+      sidebar: null
     }
 
     if (!('sidebar' in section)) {
       return result;
     }
-
+    result.sidebar = section.sidebar;
+    
     const mark = section.sidebar.mark === "R" ? "φ" : "D";
     const AstDia = mark + section.sidebar.side_dia;
     const rebar_n = section.sidebar.n;
