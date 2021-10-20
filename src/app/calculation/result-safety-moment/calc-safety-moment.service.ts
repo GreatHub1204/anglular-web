@@ -86,7 +86,7 @@ export class CalcSafetyMomentService {
 
     const Md: number = Math.abs(force.Md);
     const Mu: number = resultData.M.Mi;
-    const rb: number = safety_factor.rb;
+    const rb: number = safety_factor.M_rb;
     const Mud: number = Mu / rb;
     const ri: number = safety_factor.ri;
     const ratio: number = ri * Md / Mud;

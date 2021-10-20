@@ -62,7 +62,7 @@ export class CalcSafetyShearForceService {
 
     const postData = this.post.setInputData( "Vd", "耐力", this.safetyID, option, 
     force1[0] );
-    
+
     return postData;
   }
 
@@ -201,7 +201,7 @@ export class CalcSafetyShearForceService {
     if (rc === null) {
       rc = 1;
     }
-    result["rc"] = rc;
+    result["rc"] =  rc;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  rc;
 
     let fcd: number = this.helper.toNumber(fc.fcd);
     if (fcd === null) {

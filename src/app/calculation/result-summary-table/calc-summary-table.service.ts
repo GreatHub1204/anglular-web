@@ -26,6 +26,7 @@ export class CalcSummaryTableService {
       safetyFatigueShearForce: false,
       safetyMoment: false,
       safetyShearForce: false,
+      safetyTorsionalMoment: false,
       serviceabilityMoment: false,
       serviceabilityShearForce: false,
       minimumReinforcement: false,
@@ -491,6 +492,10 @@ export class CalcSummaryTableService {
             this.summary_table[key] = columns;
             break;
 
+          case "safetyTorsionalMoment":
+
+            break;
+
           case "serviceabilityMoment":
             // index と side が同じデータだ既に登録されていればそのデータに追加する
             index = col.index;
@@ -758,6 +763,9 @@ export class CalcSummaryTableService {
         Vwcd: "-",
         Vyd_Ratio: "-",
         Vwcd_Ratio: "-",
+      },
+      safetyTorsionalMoment: {
+        // まだ
       },
       serviceabilityMoment: {
         sigma_b: "-",

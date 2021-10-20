@@ -50,33 +50,19 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     // postする
     console.log(this.title, postData);
     const inputJson: string = this.post.getInputJsonString(postData);
-    this.http.post(this.post.URL, inputJson, this.post.options).subscribe(
+    this.post.http_post(inputJson).then(
       (response) => {
-        if (response["ErrorException"] === null) {
-          this.isFulfilled = this.setPages(response["OutputData"]);
-          this.calc.isEnable = true;
-        } else {
-          this.err = JSON.stringify(response["ErrorException"]);
-        }
-        this.isLoading = false;
+        this.isFulfilled = this.setPages(response["OutputData"]);
+        this.calc.isEnable = true;
         this.summary.setSummaryTable("serviceabilityShearForce", this.serviceabilityShearForcePages);
-        this.user.setUserPoint(response["deduct_points"], response["new_points"]);
-      },
-      (error) => {
-        this.err = 'error!!' + '\n';
-        let e: any = error;
-        while('error' in e) {
-          if('message' in e){ this.err += e.message + '\n'; }
-          if('text' in e){ this.err += e.text + '\n'; }
-          e = e.error;
-        }
-        if('message' in e){ this.err += e.message + '\n'; }
-        if('stack' in e){ this.err += e.stack; }
-
-        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.err = 'error!!\n' + error;; 
         this.summary.setSummaryTable("serviceabilityShearForce");
-      }
-    );
+      })
+      .finally(()=>{
+        this.isLoading = false;
+      });
   }
 
   // 計算結果を集計する
@@ -140,7 +126,7 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
             const titleColumn = this.result.getTitleString( section.member, position, side );
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.calcSigma(
                 res,
                 section,
@@ -162,7 +148,6 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
 
-            const column = {};
               /////////////// タイトル ///////////////
               column['title1'] = { alien: "center", value: titleColumn.title1 };
               column['title2'] = { alien: "center", value: titleColumn.title2 };
@@ -208,51 +193,11 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
                 column['fsd_steel'] = { alien: "center", value: "-" };
               }
               column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-              /////////////// 帯鉄筋情報 ///////////////
-              column['Aw'] = resultColumn.Aw;
-              column['AwString'] = resultColumn.AwString;
-              column['fwyd'] = resultColumn.fwyd;
-              column['deg'] = resultColumn.deg;
-              column['Ss'] = resultColumn.Ss;
-              /////////////// 折り曲げ鉄筋情報 ///////////////
-              column['Asb'] = resultColumn.Asb;
-              column['AsbString'] = resultColumn.AsbString;
-              column['fwyd2'] = resultColumn.fwyd2;
-              column['deg2'] = resultColumn.deg2;
-              column['Ss2'] = resultColumn.Ss2;
-              /////////////// 鉄骨情報及びそれに伴う係数 ///////////////
+               /////////////// 鉄骨情報及びそれに伴う係数 ///////////////
               column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
-              column['Zs'] = resultColumn.Zs;
-              column['ar'] = resultColumn.ar;
-              /////////////// 断面力 ///////////////
-              column['Nd'] = resultColumn.Nd;
-              column['Vhd'] = resultColumn.Vhd;
-              column['Vpd'] = resultColumn.Vpd;
-              column['Vrd'] = resultColumn.Vrd;
-              /////////////// せん断耐力 ///////////////
-              column['fvcd'] = resultColumn.fvcd;
-              column['Bd'] = resultColumn.Bd;
-              column['pc'] = resultColumn.pc;
-              column['Bp'] = resultColumn.Bp;
-              column['Mu'] = resultColumn.Mu;
-              column['Mo'] = resultColumn.Mo;
-              column['Bn'] = resultColumn.Bn;
-              column['rbc'] = resultColumn.rbc;
-              column['Vcd'] = resultColumn.Vcd;
-              column['Vcd07'] = resultColumn.Vcd07;
-              /////////////// せん断応力度 ///////////////
-              column['con'] = resultColumn.con;
-              column['kr'] = resultColumn.kr;
-              column['ri'] = resultColumn.ri;
-              column['sigma'] = resultColumn.sigma;
-              column['Ratio'] = resultColumn.Ratio;
-              column['Result'] = resultColumn.Result;
-              column['sigma2'] = resultColumn.sigma2;
-              column['Ratio2'] = resultColumn.Ratio2;
-              column['Result2'] = resultColumn.Result2;
 
               /////////////// flag用 ///////////////
-              column['bendFlag'] = (resultColumn.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
+              column['bendFlag'] = (column.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
               column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
               column['CFTFlag'] = (section.CFTFlag);
               /////////////// 総括表用 ///////////////

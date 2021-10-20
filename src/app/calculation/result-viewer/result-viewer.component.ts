@@ -18,6 +18,7 @@ import { CalcSummaryTableService } from '../result-summary-table/calc-summary-ta
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResultSummaryTableComponent } from '../result-summary-table/result-summary-table.component';
 import { UserInfoService } from 'src/app/providers/user-info.service';
+import { CalcSafetyTorsionalMomentService } from '../result-safety-torsional-moment/calc-safety-torsional-moment.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ResultViewerComponent implements OnInit {
   // 目次 /////////////////////////////////
   public printcalculate: boolean;
   public printSectionForce: boolean;
-  public _printSummaryTable: boolean;
+  private _printSummaryTable: boolean;
   
   // 印刷時のスタイル /////////////////////////////////
  
@@ -47,6 +48,7 @@ export class ResultViewerComponent implements OnInit {
     public safetyFatigueShearForce: CalcSafetyFatigueShearForceService,
     public safetyMoment: CalcSafetyMomentService,
     public safetyShearForce: CalcSafetyShearForceService,
+    public safetyTorsionalMoment: CalcSafetyTorsionalMomentService,
     public serviceabilityMoment: CalcServiceabilityMomentService,
     public serviceabilityShearForce: CalcServiceabilityShearForceService,
     public ResultMinimumReinforcement: CalcMinimumReinforcementService,
@@ -71,6 +73,7 @@ export class ResultViewerComponent implements OnInit {
     this.safetyFatigueShearForce.setDesignForces();
     this.safetyMoment.setDesignForces();
     this.safetyShearForce.setDesignForces();
+    this.safetyTorsionalMoment.setDesignForces();
     this.serviceabilityMoment.setDesignForces();
     this.serviceabilityShearForce.setDesignForces();
     this.ResultMinimumReinforcement.setDesignForces();

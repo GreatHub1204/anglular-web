@@ -216,7 +216,7 @@ export class ResultDataService {
       case 'Circle':            // 円形
         if (target === 'Md') {
           section = this.circle.getCircleShape(member, index, safety, {});
-          result['Ast'] = this.getAst(section, safety);
+          result['Ast'] = this.getAst(section, safety, target);
           result.shape.H = section.H;
           result.shape.B = section.B;
           result.shape.Hw = section.Hw;
@@ -239,9 +239,9 @@ export class ResultDataService {
       case 'Ring':              // 円環
         if (target === 'Md') {
           section = this.circle.getRingShape(member, index, safety, {});
-          result['Ast'] = this.getAst(section, safety);
+          result['Ast'] = this.getAst(section, safety, target);
         } else {
-          result['Ast'] = this.getAstCircleVd(section, safety);
+          result['Ast'] = this.getAstCircleVd(section, safety,);
           section = this.circle.getRingVdShape(member, index, safety);
         }
         result.shape.H = section.H;
@@ -252,7 +252,7 @@ export class ResultDataService {
 
       case 'Rectangle':         // 矩形
         section = this.rect.getRectangleShape(member, target, index, side, safety, {});
-        result['Ast'] = this.getAst(section, safety);
+        result['Ast'] = this.getAst(section, safety, target);
         result.shape.H = section.H;
         result.shape.B = section.B;
         break;
@@ -260,7 +260,7 @@ export class ResultDataService {
       case 'Tsection':          // T形
       case 'InvertedTsection':  // 逆T形
         section = this.rect.getTsectionShape(member, target, index, side, safety, {});
-        result['Ast'] = this.getAst(section, safety);
+        result['Ast'] = this.getAst(section, safety, target);
         result.shape.H = section.H;
         result.shape.B = section.B;
         result.shape.Bt = section.Bt;
@@ -269,7 +269,7 @@ export class ResultDataService {
 
       case 'HorizontalOval':    // 水平方向小判形
         section = this.hOval.getShape(member, index, side, safety, {});
-        result['Ast'] = this.getAst(section, safety);
+        result['Ast'] = this.getAst(section, safety, target);
         result.shape.H = section.H;
         result.shape.B = section.B;
         result.shape.Bw = section.Bw;
@@ -279,7 +279,7 @@ export class ResultDataService {
 
       case 'VerticalOval':      // 鉛直方向小判形
         section = this.vOval.getShape(member, index, side, safety, {});
-        result['Ast'] = this.getAst(section, safety);
+        result['Ast'] = this.getAst(section, safety, target);
         result.shape.H = section.H;
         result.shape.Hw = section.Hw;
         result.shape.B = section.B;
@@ -467,7 +467,7 @@ export class ResultDataService {
 
   }
 
-  private getAst(section: any, safety: any): any {
+  private getAst(section: any, safety: any, target: string): any {
 
     const result = {
       tension: null,
@@ -488,7 +488,12 @@ export class ResultDataService {
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;
-    result.rs = safety.safety_factor.rs;
+    if(target==='Md'){
+      result.rs = safety.safety_factor.M_rs;
+    } else {
+      result.rs = safety.safety_factor.V_rs;
+    }
+
     result.fsd = Math.round(result.fsy / result.rs * 10) / 10;
 
 
@@ -541,12 +546,14 @@ export class ResultDataService {
       Ase: null,
       AseString: null,
       dse: null,
+      sidebar: null
     }
 
     if (!('sidebar' in section)) {
       return result;
     }
-
+    result.sidebar = section.sidebar;
+    
     const mark = section.sidebar.mark === "R" ? "φ" : "D";
     const AstDia = mark + section.sidebar.side_dia;
     const rebar_n = section.sidebar.n;

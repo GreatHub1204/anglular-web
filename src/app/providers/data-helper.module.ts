@@ -211,12 +211,11 @@ export class DataHelperModule {
     result.rfbok = pile !== undefined ? pile.rfbok : 1;
     result.rVcd = pile !== undefined ? pile.rVcd : 1;
 
-    let rc = safety.safety_factor.rc;
-
-    if ("rc" in safety.safety_factor) {
-      result.rc = rc;
-    } else {
-      rc = 1;
+    result.rc = 1;
+    if ("M_rc" in safety.safety_factor) {
+      result.rc = safety.safety_factor.M_rc;
+    } else if ("V_rc" in safety.safety_factor) {
+      result.rc = safety.safety_factor.V_rc;
     }
 
     if ("fck" in safety.material_concrete) {
@@ -224,7 +223,7 @@ export class DataHelperModule {
       result.fck = fck * result.rfck;
       const Ec = this.getEc(result.fck);
       result.Ec = Ec * result.rEc;
-      result.fcd = result.rfck * fck / rc;
+      result.fcd = result.rfck * fck / result.rc;
     }
 
     return result;

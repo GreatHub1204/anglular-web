@@ -95,6 +95,14 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
         { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];    
     }
+    // 3次元モードとマニュアルモードの時は ねじりモーメント照査に対応した表示をする
+    let sideCoverTitle = '上端位置';
+    if(this.save.isManual()){
+      sideCoverTitle = '上端位置<br/>/側かぶり';
+    } else if(this.save.is3DPickUp()){
+      sideCoverTitle = '上端位置<br/>/側かぶり';
+    }
+
     // 共通する項目
     this.beamHeaders.push(
       { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
@@ -109,7 +117,7 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
         title: '軸方向鉄筋', align: 'center', colModel: [
           { title: '鉄筋径', dataType: 'integer', dataIndx: 'rebar_dia', sortable: false, width: 70 },
           { title: '本数', dataType: 'float', dataIndx: 'rebar_n', sortable: false, width: 70 },
-          { title: 'かぶり1<br/>断目', dataType: 'float', dataIndx: 'rebar_cover', sortable: false, width: 70 },
+          { title: 'かぶり<br/>1断目', dataType: 'float', dataIndx: 'rebar_cover', sortable: false, width: 70 },
           { title: 'ならび<br/>本数', dataType: 'float', dataIndx: 'rebar_lines', sortable: false, width: 70 },
           { title: 'アキ', dataType: 'float', dataIndx: 'rebar_space', sortable: false, width: 70 },
           { title: '間隔', dataType: 'float', dataIndx: 'rebar_ss', sortable: false, width: 70 }
@@ -119,7 +127,7 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
         title: '側方鉄筋', align: 'center', colModel: [
           { title: '鉄筋径', dataType: 'integer', dataIndx: 'side_dia', sortable: false, width: 70 },
           { title: '本数片', dataType: 'float', dataIndx: 'side_n', sortable: false, width: 70 },
-          { title: '上端位置', dataType: 'float', dataIndx: 'side_cover', sortable: false, width: 70 },
+          { title: sideCoverTitle, dataType: 'float', dataIndx: 'side_cover', sortable: false, width: 85 },
           { title: '間隔', dataType: 'float', dataIndx: 'side_ss', sortable: false, width: 70 }
         ]
       },
