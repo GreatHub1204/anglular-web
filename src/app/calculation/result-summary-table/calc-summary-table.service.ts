@@ -29,6 +29,7 @@ export class CalcSummaryTableService {
       safetyTorsionalMoment: false,
       serviceabilityMoment: false,
       serviceabilityShearForce: false,
+      serviceabilityTorsionalMoment: false,
       minimumReinforcement: false,
     };
   }
@@ -493,6 +494,10 @@ export class CalcSummaryTableService {
             break;
 
           case "safetyTorsionalMoment":
+
+            break;
+
+          case "serviceabilityTorsionalMoment":
 
             break;
 
