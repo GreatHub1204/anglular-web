@@ -109,7 +109,8 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
         SRCFlag : false,
       };
 
-      const safety = this.calc.getSafetyFactor(g[0].g_id, safetyID);
+      const safetyM = this.calc.getSafetyFactor('Md', g[0].g_id, safetyID);
+      const safetyV = this.calc.getSafetyFactor('Vd', g[0].g_id, safetyID);
 
       let SRCFlag = false;
       for (const m of g) {
@@ -140,31 +141,32 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             }
 
             /////////////// まず計算 ///////////////
-            const section = this.result.getSection("Vd", res, safety);
-            const member = section.member;
-            const shape = section.shape;
-            const Ast = section.Ast;
+            const sectionM = this.result.getSection("Md", res, safetyM);
+            const sectionV = this.result.getSection("Vd", res, safetyV);
+            const member = sectionM.member;
+            const shape = sectionM.shape;
+            const Ast = sectionM.Ast;
 
-            const titleColumn = this.result.getTitleString( section.member, position, side );
-            const fck: any = this.helper.getFck(safety);
+            const titleColumn = this.result.getTitleString( sectionM.member, position, side );
+            const fck: any = this.helper.getFck(safetyM);
 
             const column: any = this.getResultString(
-              this.calc.calcVmu( res, section, fck, safety, position.La, force )
+              this.calc.calcMtud( OutputData, res, sectionM, sectionV, fck, safetyM, safetyV, position.La, force )
             );
 
             let fwyd3: number = 0
-            if('fsvy_Hweb' in section.steel) {
-              fwyd3 = (section.steel.fsvy_Hweb.fvyd !== null) ? 
-              section.steel.fsvy_Hweb.fvyd :
-              section.steel.fsvy_Iweb.fvyd ;
+            if('fsvy_Hweb' in sectionM.steel) {
+              fwyd3 = (sectionM.steel.fsvy_Hweb.fvyd !== null) ? 
+              sectionM.steel.fsvy_Hweb.fvyd :
+              sectionM.steel.fsvy_Iweb.fvyd ;
             }
 
             let SRC_pik = "";
             // 優先順位は、I型下側 ＞ H型左側 ＞ H型右側 ＞ I型上側
-            if (this.helper.toNumber(section.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
-            if (this.helper.toNumber(section.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
-            if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
-            if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
+            if (this.helper.toNumber(sectionM.steel.fsy_compress.fsy) !== null) SRC_pik = "fsy_compress" ;
+            if (this.helper.toNumber(sectionM.steel.fsy_right.fsy) !== null) SRC_pik = "fsy_right" ;
+            if (this.helper.toNumber(sectionM.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
+            if (this.helper.toNumber(sectionM.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
             
             /////////////// タイトル ///////////////
             column['title1'] = { alien: "center", value: titleColumn.title1 };
@@ -174,60 +176,60 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             column['B'] = this.result.alien(this.result.numStr(shape.B,1));
             column['H'] = this.result.alien(this.result.numStr(shape.H,1));
             ///////////////// 鉄骨情報 /////////////////
-            column['steel_I_tension'] = this.result.alien(section.steel.I.tension_flange);
-            column['steel_I_web'] = this.result.alien(section.steel.I.web);
-            column['steel_I_compress'] = this.result.alien(section.steel.I.compress_flange);
-            column['steel_H_tension'] = this.result.alien(section.steel.H.left_flange);
-            column['steel_H_web'] = this.result.alien(section.steel.H.web);
+            column['steel_I_tension'] = this.result.alien(sectionM.steel.I.tension_flange);
+            column['steel_I_web'] = this.result.alien(sectionM.steel.I.web);
+            column['steel_I_compress'] = this.result.alien(sectionM.steel.I.compress_flange);
+            column['steel_H_tension'] = this.result.alien(sectionM.steel.H.left_flange);
+            column['steel_H_web'] = this.result.alien(sectionM.steel.H.web);
             /////////////// 引張鉄筋 ///////////////
-            column['tan'] = this.result.alien(( section.tan === 0 ) ? '-' : section.tan, "center");
-            column['Ast'] = this.result.alien(this.result.numStr(section.Ast.Ast), "center");
-            column['AstString'] = this.result.alien(section.Ast.AstString, "center");
-            column['dst'] = this.result.alien(this.result.numStr(section.Ast.dst, 1), "center");
-            column['tcos'] = this.result.alien(this.result.numStr((section.Ast.tension!==null)?section.Ast.tension.cos: 1, 3), "center");
+            column['tan'] = this.result.alien(( sectionV.tan === 0 ) ? '-' : sectionV.tan, "center");
+            column['Ast'] = this.result.alien(this.result.numStr(sectionM.Ast.Ast), "center");
+            column['AstString'] = this.result.alien(sectionM.Ast.AstString, "center");
+            column['dst'] = this.result.alien(this.result.numStr(sectionM.Ast.dst, 1), "center");
+            column['tcos'] = this.result.alien(this.result.numStr((sectionM.Ast.tension!==null)? sectionM.Ast.tension.cos: 1, 3), "center");
             /////////////// 圧縮鉄筋 ///////////////
-            column['Asc'] = this.result.alien(this.result.numStr(section.Asc.Asc), "center");
-            column['AscString'] = this.result.alien(section.Asc.AscString, "center");
-            column['dsc'] = this.result.alien(this.result.numStr(section.Asc.dsc ,1), "center");
-            column['ccos'] = this.result.alien(this.result.numStr((section.Asc.compress!==null)?section.Asc.compress.cos: 1, 3), "center");
+            column['Asc'] = this.result.alien(this.result.numStr(sectionM.Asc.Asc), "center");
+            column['AscString'] = this.result.alien(sectionM.Asc.AscString, "center");
+            column['dsc'] = this.result.alien(this.result.numStr(sectionM.Asc.dsc ,1), "center");
+            column['ccos'] = this.result.alien(this.result.numStr((sectionM.Asc.compress!==null)? sectionM.Asc.compress.cos: 1, 3), "center");
             /////////////// 側面鉄筋 ///////////////
             // column['Ase'] = this.result.alien(this.result.numStr(Ast.Ase), "center");
-            column['AseString'] = this.result.alien(section.Ase.AseString, "center");
-            column['dse'] = this.result.alien(this.result.numStr(section.Ase.dse, 1), "center");
+            column['AseString'] = this.result.alien(sectionM.Ase.AseString, "center");
+            column['dse'] = this.result.alien(this.result.numStr(sectionM.Ase.dse, 1), "center");
             /////////////// コンクリート情報 ///////////////
             column['fck'] = this.result.alien(fck.fck.toFixed(1), "center");
             column['rc'] = this.result.alien(fck.rc.toFixed(2), "center");
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋強度情報 ///////////////
-            column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), "center");
-            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), "center");
-            column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), "center");
+            column['fsy'] = this.result.alien(this.result.numStr(sectionM.Ast.fsy, 1), "center");
+            column['rs'] = this.result.alien(sectionM.Ast.rs.toFixed(2), "center");
+            column['fsd'] = this.result.alien(this.result.numStr(sectionM.Ast.fsd, 1), "center");
             /////////////// 鉄骨情報 ///////////////
-            if ( SRC_pik in section.steel) {
-              column['fsy_steel'] = this.result.alien(this.result.numStr(section.steel[SRC_pik].fsy, 1), 'center');
-              column['fsd_steel'] = this.result.alien(this.result.numStr(section.steel[SRC_pik].fsd, 1), 'center');
+            if ( SRC_pik in sectionM.steel) {
+              column['fsy_steel'] = this.result.alien(this.result.numStr(sectionM.steel[SRC_pik].fsy, 1), 'center');
+              column['fsd_steel'] = this.result.alien(this.result.numStr(sectionM.steel[SRC_pik].fsd, 1), 'center');
             }else{
               column['fsy_steel'] = { alien: "center", value: "-" };
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
-            column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
+            column['rs_steel'] = this.result.alien(sectionM.steel.rs.toFixed(2), 'center');
             /////////////// 鉄骨情報 ///////////////
             column['fwyd3'] = this.result.alien(this.result.numStr(fwyd3, 0), 'center');
-            if (section.CFTFlag) {
-              column['fwyd3'] = this.result.alien(this.result.numStr(section.steel["fsvy_Iweb"].fvyd, 1), 'center');
+            if (sectionM.CFTFlag) {
+              column['fwyd3'] = this.result.alien(this.result.numStr(sectionM.steel["fsvy_Iweb"].fvyd, 1), 'center');
             }
 
 
             /////////////// flag用 ///////////////
             column['bendFlag'] = (column.Asb.value!=='-'); //折り曲げ鉄筋の情報があればtrue、無ければfalse
-            column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
-            column['CFTFlag'] = (section.CFTFlag);
+            column['steelFlag'] = (sectionM.steel.flag); // 鉄骨情報があればtrue
+            column['CFTFlag'] = (sectionM.CFTFlag);
 
             /////////////// 総括表用 ///////////////
             column['g_name'] = m.g_name;
             column['index'] = position.index;
             column['side_summary'] = side;
-            column['shape_summary'] = section.shapeName;
+            column['shape_summary'] = sectionM.shapeName;
             column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
             column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
             
@@ -315,6 +317,10 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       Mtvd_Ratio: { alien: "center", value: "-" },
       Result: { alien: "center", value: "-" },
     };
+
+    if ( re === null){
+      return result;
+    }
 
     // 断面力
     if ("Md" in re) {
