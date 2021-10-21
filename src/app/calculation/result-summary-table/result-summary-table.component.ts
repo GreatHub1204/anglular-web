@@ -46,7 +46,7 @@ export class ResultSummaryTableComponent implements OnInit {
     selBox.select();
     document.execCommand("copy");
     document.body.removeChild(selBox);
-    
+
     alert("クリップボードにコピーしました!");
   }
 

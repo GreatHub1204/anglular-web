@@ -23,6 +23,8 @@
         <app-result-serviceability-moment></app-result-serviceability-moment>
         <!-- 耐久性 せん断ひび割れの照査表 出力 -->
         <app-result-serviceability-shear-force></app-result-serviceability-shear-force>
+        <!-- 耐久性 ねじりモーメントの照査表 出力 -->
+        <app-result-serviceability-torsional-moment></app-result-serviceability-torsional-moment>
         <!-- 使用性 曲げひび割れの照査表 出力 -->
         <app-result-durability-moment></app-result-durability-moment>
         <!-- 復旧性（地震時以外）曲げモーメントの照査表 出力 -->
@@ -79,6 +81,10 @@
         <ng-container *ngIf="serviceabilityShearForce.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_6">
               耐久性（せん断ひび割れ）</a></li>
+        </ng-container>
+        <ng-container *ngIf="serviceabilityTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_15">
+              耐久性（ねじりひび割れ）</a></li>
         </ng-container>
         <ng-container *ngIf="durabilityMoment.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_7">

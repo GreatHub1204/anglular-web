@@ -83,6 +83,7 @@ import { SectionForceListComponent } from './calculation/section-force-list/sect
 import { SetDesignForceService} from './calculation/set-design-force.service';
 import { SetPostDataService} from './calculation/set-post-data.service';
 import { environment } from 'src/environments/environment';
+import { ResultServiceabilityTorsionalMomentComponent } from './calculation/result-serviceability-torsional-moment/result-serviceability-torsional-moment.component';
 
 @NgModule({
   imports: [
@@ -133,7 +134,8 @@ import { environment } from 'src/environments/environment';
     SteelsComponent,
     CrackSettingsComponent,
     ResultMinimumReinforcementComponent,
-    ResultSafetyTorsionalMomentComponent
+    ResultSafetyTorsionalMomentComponent,
+    ResultServiceabilityTorsionalMomentComponent
   ],
   entryComponents: [
     LoginDialogComponent,

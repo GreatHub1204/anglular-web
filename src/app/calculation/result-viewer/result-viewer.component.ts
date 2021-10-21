@@ -19,6 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResultSummaryTableComponent } from '../result-summary-table/result-summary-table.component';
 import { UserInfoService } from 'src/app/providers/user-info.service';
 import { CalcSafetyTorsionalMomentService } from '../result-safety-torsional-moment/calc-safety-torsional-moment.service';
+import { CalcServiceabilityTorsionalMomentService } from '../result-serviceability-torsional-moment/calc-serviceability-torsional-moment.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ResultViewerComponent implements OnInit {
     public safetyTorsionalMoment: CalcSafetyTorsionalMomentService,
     public serviceabilityMoment: CalcServiceabilityMomentService,
     public serviceabilityShearForce: CalcServiceabilityShearForceService,
+    public serviceabilityTorsionalMoment: CalcServiceabilityTorsionalMomentService,
     public ResultMinimumReinforcement: CalcMinimumReinforcementService,
     private user: UserInfoService
   ) { }
@@ -76,6 +78,7 @@ export class ResultViewerComponent implements OnInit {
     this.safetyTorsionalMoment.setDesignForces();
     this.serviceabilityMoment.setDesignForces();
     this.serviceabilityShearForce.setDesignForces();
+    this.serviceabilityTorsionalMoment.setDesignForces();
     this.ResultMinimumReinforcement.setDesignForces();
 
     this.summary.clear();
