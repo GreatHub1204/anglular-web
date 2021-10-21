@@ -261,31 +261,39 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
 
       Nd: { alien: "center", value: "-" },
       Vhd: { alien: "center", value: "-" },
+      Mthd: { alien: "center", value: "-" },
       Vpd: { alien: "center", value: "-" },
-      Vrd: { alien: "center", value: "-" },
+      Mtpd: { alien: "center", value: "-" },
 
-      fvcd: { alien: "center", value: "-" },
-      Bd: { alien: "center", value: "-" },
-      pc: { alien: "center", value: "-" },
-      Bp: { alien: "center", value: "-" },
       Mu: { alien: "center", value: "-" },
-      Mo: { alien: "center", value: "-" },
-      Bn: { alien: "center", value: "-" },
+      rbs: { alien: "center", value: "-" },
       rbc: { alien: "center", value: "-" },
-      Vcd: { alien: "center", value: "-" },
-      Vcd07: { alien: "center", value: "-" },
+      Vyd: { alien: "center", value: "-" },
+      Mtud07: { alien: "center", value: "-" },
 
-      con: { alien: "center", value: "-" },
-      kr: { alien: "center", value: "-" },
       ri: { alien: "center", value: "-" },
+
+      fwcd: { alien: "center", value: "-" },
+      Kt: { alien: "center", value: "-" },
+      Mtcud: { alien: "center", value: "-" },
+      Mtcud_Ratio: { alien: "center", value: "-" },
+      bo: { alien: "center", value: "-" },
+      do: { alien: "center", value: "-" },
+      Am: { alien: "center", value: "-" },
+      qw: { alien: "center", value: "-" },
+      ql: { alien: "center", value: "-" },
+      Mtyd: { alien: "center", value: "-" },
+      Mtu_min: { alien: "center", value: "-" },
+      sigma_nd: { alien: "center", value: "-" },
+      ftd: { alien: "center", value: "-" },
+      Bnt: { alien: "center", value: "-" },
+      Mtcd: { alien: "center", value: "-" },
+      Mtud: { alien: "center", value: "-" },
+      Mtud_Ratio: { alien: "center", value: "-" },
 
       sigma: { alien: "center", value: "-" },
       Ratio: { alien: "center", value: "-" },
       Result: { alien: "center", value: "-" },
-
-      sigma2: { alien: "center", value: "-" },
-      Ratio2: { alien: "center", value: "-" },
-      Result2: { alien: "center", value: "-" },
     };
 
     // 帯鉄筋
@@ -346,54 +354,17 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
     if ("Vpd" in re) {
       result.Vpd = { alien: "right", value: (Math.round(re.Vpd*10)/10).toFixed(1) };
     }
-    if ("Vrd" in re) {
-      result.Vrd = { alien: "right", value: (Math.round(re.Vrd*10)/10).toFixed(1) };
-    }
 
     // 耐力
-    if ("fvcd" in re) {
-      result.fvcd = { alien: "right", value: re.fvcd.toFixed(3) };
-    }
-    if ("Bd" in re) {
-      result.Bd = { alien: "right", value: re.Bd.toFixed(3) };
-    }
-    if ("pc" in re) {
-      result.pc = { alien: "right", value: re.pc.toFixed(5) };
-    }
-    if ("Bp" in re) {
-      result.Bp = { alien: "right", value: re.Bp.toFixed(3) };
-    }
     if ("Mu" in re) {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
     }
-    if ("Mo" in re) {
-      result.Mo = { alien: "right", value: re.Mo.toFixed(1) };
-    }
-    if ("Bn" in re) {
-      result.Bn = { alien: "right", value: re.Bn.toFixed(3) };
-    }
+
     if ("rbc" in re) {
       result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
     }
-    if ("Vcd" in re) {
-      result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
-    }
-    if ("Vcd07" in re) {
-      if (Vhd <= re.Vcd07) {
-        const str: string = Vhd.toFixed(1) + "<" + re.Vcd07.toFixed(1);
-        result.Vcd07 = { alien: "center", value: str };
-      } else {
-        const str: string = Vhd.toFixed(1) + ">" + re.Vcd07.toFixed(1);
-        result.Vcd07 = { alien: "center", value: str };
-      }
-    }
 
-    if ("con" in re) {
-      result.con = { alien: "center", value: re.con };
-    }
-    if ("kr" in re) {
-      result.kr = { alien: "right", value: re.kr.toFixed(1) };
-    }
+
     if ("ri" in re) {
       result.ri = { alien: "right", value: re.ri.toFixed(2) };
     }
@@ -409,17 +380,6 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       result.Result = { alien: "center", value: re.Result };
     }
 
-    if ("sigmab" in re && "sigma12" in re) {
-      const str: string = re.sigmab.toFixed(1) + "/" + re.sigma12.toFixed(0);
-      result.sigma2 = { alien: "center", value: str };
-    }
-
-    if ("Ratio2" in re) {
-      result.Ratio2 = { alien: "right", value: re.Ratio2.toFixed(3) };
-    }
-    if ("Result2" in re) {
-      result.Result2 = { alien: "center", value: re.Result2 };
-    }
 
     return result;
   }
