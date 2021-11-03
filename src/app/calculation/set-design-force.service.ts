@@ -119,7 +119,8 @@ export class SetDesignForceService {
 
       let mKey1 = 'mz', mKey2 = 'Mdz',  vKey1 = 'fy', vKey2 = 'Vdy';
       if ((target === 'Md' && position.isMyCalc === true) ||
-          (target === 'Vd' && position.isVzCalc === true)) {
+          (target === 'Vd' && position.isVzCalc === true) ||
+          (target === 'Mt' && (position.isMyCalc === true || position.isVzCalc === true))) {
         // 3次元ピックアップファイルで、上記条件の場合
         mKey1 = 'my'; mKey2 = 'Mdy'; vKey1 = 'fz'; vKey2 = 'Vdz';
       }

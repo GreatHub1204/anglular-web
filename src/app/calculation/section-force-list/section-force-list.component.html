@@ -89,7 +89,57 @@
         </tbody>
       </table>
     </div>
-  <div>
+  </div>
+  <div *ngIf="page.tableType == 3">
+    <h5>{{ page.g_name }}</h5>
+    <div *ngFor="let table of page.tables">
+      <div class="cell_title1">{{ table.title }}</div>
+      <table class="spreadsheet">
+        <thead>
+          <tr>
+            <th class="center g-right1 g-bottom2" style="width:40px;" rowspan="2">部材<br>番号</th>
+            <th class="center g-right1 g-bottom2" style="width:40px;" rowspan="2">算出<br>番号</th>
+            <th class="center g-right1 g-bottom2" style="width:64px;" rowspan="2">算出点</th>
+            <th class="center g-right2 g-bottom2" style="width:170px;" colspan="2" rowspan="2">算出点名</th>
+            <th class="center g-right1" style="width:60px;">Mt</th>
+            <th class="center g-right1" style="width:60px;">M</th>
+            <th class="center g-right1" style="width:60px;">V</th>
+            <th class="center g-right1" style="width:60px;">N</th>
+            <th class="center" style="width:40px;">comb</th>
+          </tr>
+          <tr>
+            <th class="center g-right1 g-bottom2">(kN・m)</th>
+            <th class="center g-right1 g-bottom2">(kN・m)</th>
+            <th class="center g-right1 g-bottom2">(kN)</th>
+            <th class="center g-right1 g-bottom2">(kN)</th>
+            <th class="g-bottom2"> </th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let row of table.rows; index as r">
+          <tr>
+            <td class="center g-right1 g-top1" rowspan="2">{{ row.m_no }}</td>
+            <td class="center g-right1 g-top1" rowspan="2">{{ row.p_id }}</td>
+            <td class="center g-right1 g-top1" rowspan="2">{{ row.position }}</td>
+            <td class="left g-right1 g-top1" rowspan="2">{{ row.p_name }}</td>
+            <td class="center g-right2 g-top1" style="width:40px;">{{ row.upperSideName }}</td>
+            <td class="{{row.upper.Mt.position}} g-right1 g-top1">{{ row.upper.Mt.value }}</td>
+            <td class="{{row.upper.Md.position}} g-right1 g-top1">{{ row.upper.Md.value }}</td>
+            <td class="{{row.upper.Vd.position}} g-right1 g-top1">{{ row.upper.Vd.value }}</td>
+            <td class="{{row.upper.Nd.position}} g-right1 g-top1">{{ row.upper.Nd.value }}</td>
+            <td class="{{row.upper.comb.position}} g-top1">{{ row.upper.comb.value }}</td>
+          </tr>
+          <tr>
+            <td class="center g-right2 g-top1" style="width:40px;">{{ row.bottomSideName }}</td>
+            <td class="{{row.lower.Mt.position}} g-right1">{{ row.lower.Mt.value }}</td>
+            <td class="{{row.lower.Md.position}} g-right1">{{ row.lower.Md.value }}</td>
+            <td class="{{row.lower.Vd.position}} g-right1">{{ row.lower.Vd.value }}</td>
+            <td class="{{row.lower.Nd.position}} g-right1">{{ row.lower.Nd.value }}</td>
+            <td class="{{row.lower.comb.position}}">{{ row.lower.comb.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <!--<div>
 

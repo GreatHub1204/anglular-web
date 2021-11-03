@@ -14,7 +14,7 @@ import { absoluteFrom } from "@angular/compiler-cli/src/ngtsc/file_system";
   providedIn: 'root'
 })
 export class CalcSafetyTorsionalMomentService {
-  // 安全性（破壊）せん断力
+  // 安全性（破壊）ねじりモーメント
   public DesignForceList: any[];
   public isEnable: boolean;
   public safetyID: number = 2;
