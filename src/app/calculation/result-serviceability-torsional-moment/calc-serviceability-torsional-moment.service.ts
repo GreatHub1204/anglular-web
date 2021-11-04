@@ -5,7 +5,7 @@ import { InputCrackSettingsService } from 'src/app/components/crack/crack-settin
 import { InputSafetyFactorsMaterialStrengthsService } from 'src/app/components/safety-factors-material-strengths/safety-factors-material-strengths.service';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { SaveDataService } from 'src/app/providers/save-data.service';
-import { CalcServiceabilityShearForceService } from '../result-serviceability-shear-force/calc-serviceability-shear-force.service';
+import { CalcSafetyShearForceService } from '../result-safety-shear-force/calc-safety-shear-force.service';
 import { SetDesignForceService } from '../set-design-force.service';
 import { SetPostDataService } from '../set-post-data.service';
 
@@ -17,7 +17,6 @@ export class CalcServiceabilityTorsionalMomentService {
   // 耐久性 せん断ひび割れ
   public DesignForceList: any[];  // せん断ひび割れ検討判定用
   public DesignForceList1: any[]; // 永久荷重
-  public DesignForceList2: any[]; // 変動荷重
   public isEnable: boolean;
   public safetyID: number = 0;
 
@@ -30,7 +29,7 @@ export class CalcServiceabilityTorsionalMomentService {
     private force: SetDesignForceService,
     private post: SetPostDataService,
     private crack: InputCrackSettingsService,
-    private base: CalcServiceabilityShearForceService) {
+    private base: CalcSafetyShearForceService) {
     this.DesignForceList = null;
     this.isEnable = false;
     }
@@ -44,29 +43,20 @@ export class CalcServiceabilityTorsionalMomentService {
 
     this.DesignForceList= new Array();
 
-    // せん断力が計算対象でない場合は処理を抜ける
-    if (this.calc.print_selected.calculate_shear_force === false) {
+    // ねじりモーメントが計算対象でない場合は処理を抜ける
+    if (this.calc.print_selected.calculate_torsional_moment === false) {
       return;
     }
 
     // せん断ひび割れ検討判定用
     // せん断ひび割れにの検討における Vcd は １つ目の ピックアップ（永久＋変動）の Mu を使う
-    const No0 = (this.save.isManual()) ? 0 : this.basic.pickup_shear_force_no(0);
+    const No0 = (this.save.isManual()) ? 0 : this.basic.pickup_torsional_moment_no(0);
     this.DesignForceList = this.force.getDesignForceList(
-      'Vd', No0);
+      'Mt', No0);
     // 永久荷重
-    const No1 = (this.save.isManual()) ? 1 : this.basic.pickup_shear_force_no(1);
+    const No1 = (this.save.isManual()) ? 1 : this.basic.pickup_torsional_moment_no(1);
     this.DesignForceList1 = this.force.getDesignForceList(
-      'Vd', No1);
-
-    // 変動荷重
-    const No2 = (this.save.isManual()) ? 2 : this.basic.pickup_shear_force_no(2);
-    this.DesignForceList2 = this.force.getDesignForceList(
-      'Vd', No2);
-
-    if (this.DesignForceList2.length < 1){
-      this.DesignForceList2 = this.force.getLiveload(this.DesignForceList , this.DesignForceList1);
-    }
+      'Mt', No1);
 
   }
 
@@ -78,17 +68,17 @@ export class CalcServiceabilityTorsionalMomentService {
     }
 
     // 有効なデータかどうか
-    const force1 = this.force.checkEnable('Vd', this.safetyID, this.DesignForceList1, this.DesignForceList, this.DesignForceList2);
+    const force1 = this.force.checkEnable('Mt', this.safetyID, this.DesignForceList1, this.DesignForceList);
 
     // 複数の断面力の整合性を確認する
-    const force2 = this.force.alignMultipleLists(force1[0], force1[1], force1[2]);
+    const force2 = this.force.alignMultipleLists(force1[0], force1[1]);
 
     // POST 用
     const option = {};
 
     const postData = this.post.setInputData('Vd', '耐力', this.safetyID, option, 
     force2[0]);
-    
+
     return postData;
   }
 
@@ -119,12 +109,7 @@ export class CalcServiceabilityTorsionalMomentService {
       res, section, fc, safety, null, force1);
 
       // 変動荷重
-    let force2 = this.DesignForceList2.find(
-      (v) => v.index === res.index
-    ).designForce.find((v) => v.side === res.side);
-    if(force2 === undefined){
-      force2 = { Md: 0, Nd: 0, Vd: 0}
-    }
+    let force2 = { Md: 0, Nd: 0, Vd: 0};
 
     let Vd: number = Math.abs(force0.Vd);
     result['Vd'] = Vd;

@@ -14,7 +14,7 @@ import { absoluteFrom } from "@angular/compiler-cli/src/ngtsc/file_system";
   providedIn: 'root'
 })
 export class CalcSafetyTorsionalMomentService {
-  // 安全性（破壊）せん断力
+  // 安全性（破壊）ねじりモーメント
   public DesignForceList: any[];
   public isEnable: boolean;
   public safetyID: number = 2;
@@ -41,7 +41,7 @@ export class CalcSafetyTorsionalMomentService {
 
     this.DesignForceList = new Array();
 
-    // せん断力が計算対象でない場合は処理を抜ける
+    // ねじりモーメントが計算対象でない場合は処理を抜ける
     if (this.calc.print_selected.calculate_torsional_moment === false) {
       return;
     }
