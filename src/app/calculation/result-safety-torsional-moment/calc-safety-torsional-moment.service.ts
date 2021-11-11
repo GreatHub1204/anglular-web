@@ -127,9 +127,9 @@ export class CalcSafetyTorsionalMomentService {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force)
     }
 
-    if(!('Mt' in force)){
-      return result;
-    }
+    // if(!('Mt' in force)){
+    //   return result;
+    // }
     const Mt = Math.abs(force.Mt)
     result['Mt'] = Mt;
 
@@ -140,9 +140,9 @@ export class CalcSafetyTorsionalMomentService {
 
     const rb: number = safety_factor.M_rb;
     result['rb'] = rb;
-    const Mud = resultData1.M.Mi;
+    const Mud = resultData1.M.Mi / rb;
     result['Mud'] = Mud;
-    const Mudd = resultData2.M.Mi;
+    const Mudd = resultData2.M.Mi/1.3;
     result['Mudd'] = Mudd;
 
     const Vud = result['Vyd'];
@@ -205,21 +205,21 @@ export class CalcSafetyTorsionalMomentService {
     result['Bnt'] = Bnt;
 
     //Kt = b^2・d／{3.1＋1.8／( d／b )}
-    const kt = Math.pow(bw, 2) * d / (3.1 + (1.8 / (d / bw))); // mm^3
-    const Kt = kt / Math.pow(1000, 3); // m^3
+    const Kt = Math.pow(bw, 2) * d / (3.1 + (1.8 / (d / bw))); // mm^3
+    // const Kt = kt / Math.pow(1000, 3); // m^3
     result['Kt'] = Kt;
 
     // Ｍtcd	=	βnt・Ｋt・ftd／γb	
-    const Mtcud = Bnt * Kt * ftd * 1000 / rb;
-    result['Mtcud'] = Mtcud;
+    const Mtcud = Bnt * Kt * ftd  / 1.3/1000000; // γbを1.3に固定
+    result['Mtcd'] = Mtcud;
 
     const Mtcud_Ratio: number = ri * Mt / Mtcud;
     result["Mtcud_Ratio"] = Mtcud_Ratio;
 
-    if (Mtcud_Ratio >= 1) {
-      result['Result'] = "NG";
-      return result;
-    }
+    // if (Mtcud_Ratio >= 1) {
+    //   result['Result'] = "NG";
+    //   return result;
+    // }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
   	// Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
@@ -231,16 +231,16 @@ export class CalcSafetyTorsionalMomentService {
     const Mtud2	=	Mtcud * ( 1 - 0.8 * ri * Vd / Vud );
     const Mtud2_Ratio: number = ri * Mt / Mtud2;
 
-    if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
-      // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
-      result['Mtud'] = Mtud1;
-      result['Mtud_Ratio'] = Mtud1_Ratio;
+    // if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
+    //   // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
+    //   result['Mtud'] = Mtud1;
+    //   result['Mtud_Ratio'] = Mtud1_Ratio;
 
-      result['Mtvd'] = Mtud2;
-      result['Mtvd_Ratio'] = Mtud2_Ratio;
+    //   result['Mtvd'] = Mtud2;
+    //   result['Mtvd_Ratio'] = Mtud2_Ratio;
 
-      return result; 
-    }
+    //   return result; 
+    // }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力
 
@@ -250,10 +250,10 @@ export class CalcSafetyTorsionalMomentService {
     result['fwcd'] = fwcd;
 
     // Ｍtcud	=	Ｋt・fwcd／ γb
-    const Mtcd =	Kt * (fwcd * 1000) / rb;
+    const Mtcd =	Kt * fwcd / 1.3 / 1000000;
     const Mtcd_Ratio: number = ri * Mt / Mtcd;
-    result['Mtcd'] = Mtcd;
-    result['Mtcd_Ratio'] = Mtcd_Ratio;
+    result['Mtcud'] = Mtcd;
+    result['Mtcud_Ratio'] = Mtcd_Ratio;
     
     // ② 設計ねじり耐力
 
@@ -348,7 +348,7 @@ export class CalcSafetyTorsionalMomentService {
     // ql	=	ΣAtl・fiyd／u
     const Atl = (Ast*fsyt) + (Asc*fsyc) + (Ase*fsye*2);
     const u = 2 * (b0 + d0);
-    let ql = Atl / u;
+    let ql = Atl * 345/ u;      //345追加
     const _ql = 1.25 * qw;
     if(ql > _ql){
       ql = _ql;
@@ -356,7 +356,7 @@ export class CalcSafetyTorsionalMomentService {
     result['ql'] = ql;
 
     // Ｍtyd	=	2・Ａm・(qw・ql)1/2 ／γb
-    const Mtyd = 2 * Am * Math.pow(qw * ql, 0.5) / rb;
+    const Mtyd = 2 * Am * Math.pow(qw * ql, 0.5) / 1.3;
     result['Mtyd'] = Mtyd;
 
     // ③ 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
@@ -372,12 +372,12 @@ export class CalcSafetyTorsionalMomentService {
       } else {
         // (b) Ｍud ≧ Ｍ'ud かつ Ｍud-Ｍ'ud ≦ γi･Ｍd ≦ Ｍud の場合
         // Ｍtud =	( Ｍtu.min-0.2･Ｍtcd )・( (Ｍud-γi･Ｍd)／Ｍ'ud )1/2 ＋0.2・Ｍtcd
-        Mtud = ( Mtu_min - 0.2 * Mtcd ) * Math.pow( (Mud - ri * Md) / Mudd, 1/2 ) + 0.2 * Mtcd;
+        Mtud = ( Mtu_min - 0.2 * Mtcud ) * Math.pow( (Mud - ri * Md) / Mudd, 1/2 ) + 0.2 * Mtcd;
       }
     } else {
       // (c) Ｍud ＜ Ｍ'ud かつ γi･Ｍd ≦ Ｍud の場合
       // Ｍtud	=	( Ｍtu.min-0.2･Ｍtcd )・( 1-γi･Ｍd／Ｍud )1/2 ＋0.2・Ｍtcd
-      Mtud = ( Mtu_min - 0.2 * Mtcd ) * Math.pow(1 - (ri * Md / Mud), 1/2 ) + 0.2 * Mtcd;
+      Mtud = ( Mtu_min - 0.2 * Mtcud ) * Math.pow(1 - (ri * Md / Mud), 1/2 ) + 0.2 * Mtcd;
     }
     result['Mtud'] = Mtud;
 
@@ -386,7 +386,7 @@ export class CalcSafetyTorsionalMomentService {
 
     // ④ 設計せん断力が同時に作用する場合の設計ねじり耐力
     // Ｍtud	=	Ｍtu.min・( 1-γi･Ｖd／Ｖud )＋0.2・Ｍtcd・γi･Ｖd／Ｖud
-    const Mtvd = Mtu_min * (1 - ri * Vd / Vud) + 0.2 * Mtcd * ri * Vd / Vud;
+    const Mtvd = Mtu_min * (1 - ri * Vd / Vud) + 0.2 * Mtcud * ri * Vd / Vud;
     result['Mtvd'] = Mtvd;
 
     const Mtvd_Ratio: number = ri * Mt / Mtvd;
