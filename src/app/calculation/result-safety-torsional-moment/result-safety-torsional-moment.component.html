@@ -351,8 +351,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>b</sub></th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td class="right g-bottom1">{{column.rbm.value}}</td>
-            <td class="right g-right2 g-bottom1">{{column.rb.value}}</td>
+            <!-- <td class="right g-bottom1">{{column.rbm.value}}</td> -->
+            <td colspan="2" class="right g-right2 g-bottom1">{{column.M_rb.value}}</td>
           </ng-container>
         </tr>
         <tr>
@@ -372,8 +372,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γbc γbs</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td class="right g-bottom1">{{column.rbc.value}}</td>
-            <td class="right g-right2 g-bottom1">{{column.rbs.value}}</td>
+            <td class="right g-bottom1">{{column.V_rbc.value}}</td>
+            <td class="right g-right2 g-bottom1">{{column.V_rbs.value}}</td>
           </ng-container>
         </tr>
         <tr>

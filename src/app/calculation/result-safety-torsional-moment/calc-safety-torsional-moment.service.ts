@@ -11,7 +11,7 @@ import { CalcSafetyShearForceService } from "../result-safety-shear-force/calc-s
 import { absoluteFrom } from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CalcSafetyTorsionalMomentService {
   // 安全性（破壊）ねじりモーメント
@@ -46,9 +46,10 @@ export class CalcSafetyTorsionalMomentService {
       return;
     }
 
-    const No5 = (this.save.isManual()) ? 5 : this.basic.pickup_torsional_moment_no(5);
-    this.DesignForceList = this.force.getDesignForceList(
-      "Mt", No5 );
+    const No5 = this.save.isManual()
+      ? 5
+      : this.basic.pickup_torsional_moment_no(5);
+    this.DesignForceList = this.force.getDesignForceList("Mt", No5);
   }
 
   // サーバー POST用データを生成する
@@ -58,37 +59,57 @@ export class CalcSafetyTorsionalMomentService {
     }
 
     // 有効なデータかどうか
-    const force = this.force.checkEnable('Mt', this.safetyID, this.DesignForceList);
+    const force = this.force.checkEnable(
+      "Mt",
+      this.safetyID,
+      this.DesignForceList
+    );
 
     // POST 用
     const option = {};
 
     // 曲げ Mud 用
-    const postData1 = this.post.setInputData( "Md", "耐力", this.safetyID, option, force[0] );
+    const postData1 = this.post.setInputData(
+      "Md",
+      "耐力",
+      this.safetyID,
+      option,
+      force[0]
+    );
 
     // 曲げ Mud' 用
-    const force2 = JSON.parse(
-      JSON.stringify({ temp: force[0] })
-    ).temp;
-    for(const d1 of force2){
-      for(const d2 of d1.designForce){
-        d2.side = (d2.side === '上側引張') ? '下側引張' : '上側引張'; // 上下逆にする
+    const force2 = JSON.parse(JSON.stringify({ temp: force[0] })).temp;
+    for (const d1 of force2) {
+      for (const d2 of d1.designForce) {
+        d2.side = d2.side === "上側引張" ? "下側引張" : "上側引張"; // 上下逆にする
       }
     }
-    const postData2 = this.post.setInputData( "Md", "耐力", this.safetyID, option, force2 );
-    for(const d1 of postData2){
-      d1.side = (d1.side === '上側引張') ? '下側引張の反対側' : '上側引張の反対側'; // 逆であることを明記する
+    const postData2 = this.post.setInputData(
+      "Md",
+      "耐力",
+      this.safetyID,
+      option,
+      force2
+    );
+    for (const d1 of postData2) {
+      d1.side =
+        d1.side === "上側引張" ? "下側引張の反対側" : "上側引張の反対側"; // 逆であることを明記する
       d1.memo = "曲げ Mud' 用";
     }
 
     // せん断 Mu 用
-    const postData3 = this.post.setInputData( "Vd", "耐力", this.safetyID, option, force[0] );
-    for(const d1 of postData3){
+    const postData3 = this.post.setInputData(
+      "Vd",
+      "耐力",
+      this.safetyID,
+      option,
+      force[0]
+    );
+    for (const d1 of postData3) {
       d1.Nd = 0.0;
       d1.index *= -1; // せん断照査用は インデックスにマイナスをつける
-      d1.memo = 'せん断 Mu 用';
+      d1.memo = "せん断 Mu 用";
     }
-
 
     // POST 用
     const postData = postData1.concat(postData2, postData3);
@@ -101,51 +122,54 @@ export class CalcSafetyTorsionalMomentService {
 
   // 変数の整理と計算
   public calcMtud(
-    OutputData: any, 
-    res1: any, 
-    sectionM: any, 
-    sectionV: any, 
+    OutputData: any,
+    res1: any,
+    sectionM: any,
+    sectionV: any,
     fc: any,
     safetyM: any,
     safetyV: any,
     Laa: number,
     force: any
-  ){
-
+  ) {
     // 曲げ Mud' 用
     const res2 = OutputData.find(
-      (e) => e.index === res1.index && e.side === (res1.side + 'の反対側')
+      (e) => e.index === res1.index && e.side === res1.side + "の反対側"
     );
-    
+
     // せん断 Mu 用
     const res3 = OutputData.find(
-      (e) => e.index === (-1 * res1.index) && e.side === res1.side
+      (e) => e.index === -1 * res1.index && e.side === res1.side
     );
 
     let result = {};
     if (!(res3 === undefined || res3.length < 1)) {
-      result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force)
+      result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
     }
 
     // if(!('Mt' in force)){
     //   return result;
     // }
-    const Mt = Math.abs(force.Mt)
-    result['Mt'] = Mt;
+    const Mt = Math.abs(force.Mt);
+    result["Mt"] = Mt;
 
     // 部材係数
     const resultData1 = res1.Reactions[0];
     const resultData2 = res2.Reactions[0];
     const safety_factor = safetyM.safety_factor;
 
-    const rb: number = safety_factor.M_rb;
-    result['rb'] = rb;
-    const Mud = resultData1.M.Mi / rb;
-    result['Mud'] = Mud;
-    const Mudd = resultData2.M.Mi/1.3;
-    result['Mudd'] = Mudd;
+    const M_rb: number = safety_factor.M_rb;
+    const V_rbc: number = safety_factor.M_rc;
+    const V_rbs:number = safety_factor.S_rb;
+    result["M_rb"] = M_rb;
+    result["V_rbc"] = V_rbc;
+    result["V_rbs"] = V_rbs;
+    const Mud = resultData1.M.Mi / M_rb;
+    result["Mud"] = Mud;
+    const Mudd = resultData2.M.Mi / M_rb;
+    result["Mudd"] = Mudd;
 
-    const Vud = result['Vyd'];
+    const Vud = result["Vyd"];
 
     const bw: number = sectionV.shape.B;
     const h: number = sectionV.shape.H;
@@ -168,9 +192,9 @@ export class CalcSafetyTorsionalMomentService {
     }
     const fcd = fck / rc;
 
-    const ftk = 0.23 * Math.pow(fck, 2/3);
+    const ftk = 0.23 * Math.pow(fck, 2 / 3);
     const ftd = ftk / rc;
-    result['ftd'] = ftd;
+    result["ftd"] = ftd;
 
     let ri: number = 0;
     ri = this.helper.toNumber(safety_factor.ri);
@@ -179,7 +203,6 @@ export class CalcSafetyTorsionalMomentService {
     }
     result["ri"] = ri;
 
-    
     let Nd: number = this.helper.toNumber(force.Nd);
     if (Nd === null) {
       Nd = 0;
@@ -198,38 +221,38 @@ export class CalcSafetyTorsionalMomentService {
     Vd = Math.abs(Vd);
 
     // ① 設計純ねじり耐力
-    const sigma_nd = (Nd*1000) / (h * bw); // (N/mm2)
-    result['sigma_nd'] = sigma_nd;
+    const sigma_nd = (Nd * 1000) / (h * bw); // (N/mm2)
+    result["sigma_nd"] = sigma_nd;
 
-    const Bnt = Math.sqrt(1 - (Math.abs(sigma_nd) / ftd));
-    result['Bnt'] = Bnt;
+    const Bnt = Math.sqrt(1 - Math.abs(sigma_nd) / ftd);
+    result["Bnt"] = Bnt;
 
     //Kt = b^2・d／{3.1＋1.8／( d／b )}
-    const Kt = Math.pow(bw, 2) * d / (3.1 + (1.8 / (d / bw))); // mm^3
+    const Kt = (Math.pow(bw, 2) * d) / (3.1 + 1.8 / (d / bw)); // mm^3
     // const Kt = kt / Math.pow(1000, 3); // m^3
-    result['Kt'] = Kt;
+    result["Kt"] = Kt;
 
-    // Ｍtcd	=	βnt・Ｋt・ftd／γb	
-    const Mtcud = Bnt * Kt * ftd  / 1.3/1000000; // γbを1.3に固定
-    result['Mtcd'] = Mtcud;
+    // Ｍtcd	=	βnt・Ｋt・ftd／γb
+    const Mtcd = (Bnt * Kt * ftd) / V_rbc / 1000000; // γbを1.3に固定
+    result["Mtcd"] = Mtcd;
 
-    const Mtcud_Ratio: number = ri * Mt / Mtcud;
-    result["Mtcud_Ratio"] = Mtcud_Ratio;
+    const Mtcd_Ratio: number = (ri * Mt) / Mtcd;
+    result["Mtcd_Ratio"] = Mtcd_Ratio;
 
-    // if (Mtcud_Ratio >= 1) {
+    // if (Mtcd_Ratio >= 1) {
     //   result['Result'] = "NG";
     //   return result;
     // }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
-  	// Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
-    const Mtud1	=	Mtcud * ( 0.2 + 0.8 * Math.pow( 1 - ri * Md / Mud, 0.5));
-    const Mtud1_Ratio: number = ri * Mt / Mtud1;
+    // Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
+    const Mtud1 = Mtcd * (0.2 + 0.8 * Math.pow(1 - (ri * Md) / Mud, 0.5));
+    const Mtud1_Ratio: number = (ri * Mt) / Mtud1;
 
     // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
-    // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud ) 
-    const Mtud2	=	Mtcud * ( 1 - 0.8 * ri * Vd / Vud );
-    const Mtud2_Ratio: number = ri * Mt / Mtud2;
+    // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
+    const Mtud2 = Mtcd * (1 - (0.8 * ri * Vd) / Vud);
+    const Mtud2_Ratio: number = (ri * Mt) / Mtud2;
 
     // if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
     //   // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
@@ -239,7 +262,7 @@ export class CalcSafetyTorsionalMomentService {
     //   result['Mtvd'] = Mtud2;
     //   result['Mtvd_Ratio'] = Mtud2_Ratio;
 
-    //   return result; 
+    //   return result;
     // }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力
@@ -247,76 +270,76 @@ export class CalcSafetyTorsionalMomentService {
     // ① 設計斜め圧縮破壊耐力
     // fwcd =	1.25・(f'cd)1/2
     const fwcd = 1.25 * Math.pow(fcd, 0.5);
-    result['fwcd'] = fwcd;
+    result["fwcd"] = fwcd;
 
     // Ｍtcud	=	Ｋt・fwcd／ γb
-    const Mtcd =	Kt * fwcd / 1.3 / 1000000;
-    const Mtcd_Ratio: number = ri * Mt / Mtcd;
-    result['Mtcud'] = Mtcd;
-    result['Mtcud_Ratio'] = Mtcd_Ratio;
-    
+    const Mtcud = (Kt * fwcd) / 1.3 / 1000000;
+    const Mtcud_Ratio: number = (ri * Mt) / Mtcud;
+    result["Mtcud"] = Mtcud;
+    result["Mtcud_Ratio"] = Mtcud_Ratio;
+
     // ② 設計ねじり耐力
 
     /// 引張鉄筋の情報
-    const tension = sectionM['Ast']['tension'];
+    const tension = sectionM["Ast"]["tension"];
     let dt = 0;
     let Ast_dia = 0;
     let Ast = 0;
     let fsyt = 0;
     if (!(tension === null)) {
-      dt = this.helper.toNumber(tension['dsc']);
+      dt = this.helper.toNumber(tension["dsc"]);
       if (dt === null) {
         dt = 0;
       } else {
-        Ast_dia = this.helper.toNumber(tension['rebar_dia']);
-        Ast = this.helper.toNumber(sectionM['Ast']['Ast']);
-        fsyt = this.helper.toNumber(sectionM['Ast']['fsd']);
+        Ast_dia = this.helper.toNumber(tension["rebar_dia"]);
+        Ast = this.helper.toNumber(sectionM["Ast"]["Ast"]);
+        fsyt = this.helper.toNumber(sectionM["Ast"]["fsd"]);
       }
     }
 
     /// 圧縮鉄筋の情報
-    const compress = sectionM['Asc']['compress'];
+    const compress = sectionM["Asc"]["compress"];
     let dc = 0;
     let Asc_dia = 0;
     let Asc = 0;
     let fsyc = 0;
     if (!(compress === null)) {
-      dc = this.helper.toNumber(compress['dsc']);
+      dc = this.helper.toNumber(compress["dsc"]);
       Asc_dia = 0;
       if (dc === null) {
         dc = 0;
       } else {
-        Asc_dia = this.helper.toNumber(compress['rebar_dia']);
-        Asc = this.helper.toNumber(sectionM['Asc']['Asc']);
-        fsyc = this.helper.toNumber(compress['fsy']['fsy'] / compress.rs);
+        Asc_dia = this.helper.toNumber(compress["rebar_dia"]);
+        Asc = this.helper.toNumber(sectionM["Asc"]["Asc"]);
+        fsyc = this.helper.toNumber(compress["fsy"]["fsy"] / compress.rs);
       }
     }
 
     /// 側面鉄筋の情報
-    const sidebar = sectionM['Ase']['sidebar'];
+    const sidebar = sectionM["Ase"]["sidebar"];
     let de = 0;
     let Ase_dia = 0;
     let Ase = 0;
     let fsye = 0;
     if (!(sidebar === null)) {
-      de = this.helper.toNumber(sidebar['cover']);
+      de = this.helper.toNumber(sidebar["cover"]);
       if (de === null) {
         de = 0;
       } else {
-        Ase_dia = this.helper.toNumber(sidebar['side_dia']);
-        Ase = this.helper.toNumber(sectionM['Ase']['Ase']);
-        fsye = this.helper.toNumber(sidebar['fsy']['fsy'] / sidebar.rs);
+        Ase_dia = this.helper.toNumber(sidebar["side_dia"]);
+        Ase = this.helper.toNumber(sectionM["Ase"]["Ase"]);
+        fsye = this.helper.toNumber(sidebar["fsy"]["fsy"] / sidebar.rs);
       }
     }
 
     // スターラップ
-    const Aw = sectionV['Aw'];
+    const Aw = sectionV["Aw"];
     let stirrup_dia = 0;
     let Atw = 0;
     let Ss = Number.MAX_VALUE;
     let fwyd = 0;
     if (!(Aw === null)) {
-      stirrup_dia = this.helper.toNumber(Aw['stirrup_dia']);
+      stirrup_dia = this.helper.toNumber(Aw["stirrup_dia"]);
       if (stirrup_dia === null) {
         stirrup_dia = 0;
       } else {
@@ -326,77 +349,84 @@ export class CalcSafetyTorsionalMomentService {
       }
     }
     // 純かぶりと鉄筋辺長
-    const dtt = Math.max(dt - Ast_dia/2 - stirrup_dia/2 ,0);
-    const dct = Math.max(dc - Asc_dia/2 - stirrup_dia/2 ,0);
-    const det = Math.max(de - Ase_dia/2 - stirrup_dia/2 ,0);
+    const dtt = Math.max(dt - Ast_dia / 2 - stirrup_dia / 2, 0);
+    const dct = Math.max(dc - Asc_dia / 2 - stirrup_dia / 2, 0);
+    const det = Math.max(de - Ase_dia / 2 - stirrup_dia / 2, 0);
     let d0: number = h - dtt - dct; // 鉄筋長辺
-    let b0: number = bw - det * 2;  // 鉄筋短辺
-    if(d0 < b0){
+    let b0: number = bw - det * 2; // 鉄筋短辺
+    if (d0 < b0) {
       [d0, b0] = [b0, d0];
     }
-    result['bo'] = b0;
-    result['do'] = d0;
-    
-    const Am = b0 * d0 / Math.pow(1000, 2);
+    result["bo"] = b0;
+    result["do"] = d0;
 
-    result['Am'] = Am;
+    const Am = (b0 * d0) / Math.pow(1000, 2);
+
+    result["Am"] = Am;
 
     // qw	=	Ａtw・fwyd／s
-    const qw = Atw * fwyd / Ss;
-    result['qw'] = qw;
+    let qw = (Atw * fwyd) / Ss;
 
     // ql	=	ΣAtl・fiyd／u
-    const Atl = (Ast*fsyt) + (Asc*fsyc) + (Ase*fsye*2);
+    const Atl = Ast * fsyt + Asc * fsyc + Ase * fsye * 2;
     const u = 2 * (b0 + d0);
-    let ql = Atl * 345/ u;      //345追加
+    let ql = Atl / u; //345追加
     const _ql = 1.25 * qw;
-    if(ql > _ql){
+    const _qw = 1.25 * ql;
+    if (qw > _qw) {
+      qw = _qw;
+    }
+    if (ql > _ql) {
       ql = _ql;
     }
-    result['ql'] = ql;
+    result["qw"] = qw;
+    result["ql"] = ql;
 
-    // Ｍtyd	=	2・Ａm・(qw・ql)1/2 ／γb
-    const Mtyd = 2 * Am * Math.pow(qw * ql, 0.5) / 1.3;
-    result['Mtyd'] = Mtyd;
+    // Ｍtyd	=	2・Ａm・(qw・ql)1/2 / γb
+    const Mtyd = (2 * Am * Math.pow(qw * ql, 0.5)) / V_rbc;
+    result["Mtyd"] = Mtyd;
 
     // ③ 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
-    const Mtu_min = Math.min(Mtcd, Mtyd);
-    result['Mtu_min'] = Mtu_min;
+    const Mtu_min = Math.min(Mtcud, Mtyd);
+    result["Mtu_min"] = Mtu_min;
 
     let Mtud = 0;
-    if( Mud >= Mudd ){
-      if( ri * Md <= Mud-Mudd ){
+    if (Mud >= Mudd) {
+      if (ri * Md <= Mud - Mudd) {
         // (a) Ｍud ≧ Ｍ'ud かつ γi･Ｍd ≦ Ｍud‐Ｍ'ud の場合
         // Ｍtud	=	Ｍtu.min
         Mtud = Mtu_min;
       } else {
         // (b) Ｍud ≧ Ｍ'ud かつ Ｍud-Ｍ'ud ≦ γi･Ｍd ≦ Ｍud の場合
         // Ｍtud =	( Ｍtu.min-0.2･Ｍtcd )・( (Ｍud-γi･Ｍd)／Ｍ'ud )1/2 ＋0.2・Ｍtcd
-        Mtud = ( Mtu_min - 0.2 * Mtcud ) * Math.pow( (Mud - ri * Md) / Mudd, 1/2 ) + 0.2 * Mtcd;
+        Mtud =
+          (Mtu_min - 0.2 * Mtcd) * Math.pow((Mud - ri * Md) / Mudd, 1 / 2) +
+          0.2 * Mtcd;
       }
     } else {
       // (c) Ｍud ＜ Ｍ'ud かつ γi･Ｍd ≦ Ｍud の場合
       // Ｍtud	=	( Ｍtu.min-0.2･Ｍtcd )・( 1-γi･Ｍd／Ｍud )1/2 ＋0.2・Ｍtcd
-      Mtud = ( Mtu_min - 0.2 * Mtcud ) * Math.pow(1 - (ri * Md / Mud), 1/2 ) + 0.2 * Mtcd;
+      Mtud =
+        (Mtu_min - 0.2 * Mtcd) * Math.pow(1 - (ri * Md) / Mud, 1 / 2) +
+        0.2 * Mtcd;
     }
-    result['Mtud'] = Mtud;
+    result["Mtud"] = Mtud;
 
-    const Mtud_Ratio: number = ri * Mt / Mtud;
-    result['Mtud_Ratio'] = Mtud_Ratio;
+    const Mtud_Ratio: number = (ri * Mt) / Mtud;
+    result["Mtud_Ratio"] = Mtud_Ratio;
 
     // ④ 設計せん断力が同時に作用する場合の設計ねじり耐力
     // Ｍtud	=	Ｍtu.min・( 1-γi･Ｖd／Ｖud )＋0.2・Ｍtcd・γi･Ｖd／Ｖud
-    const Mtvd = Mtu_min * (1 - ri * Vd / Vud) + 0.2 * Mtcud * ri * Vd / Vud;
-    result['Mtvd'] = Mtvd;
+    const Mtvd =
+      Mtu_min * (1 - (ri * Vd) / Vud) + (0.2 * Mtcd * ri * Vd) / Vud;
+    result["Mtvd"] = Mtvd;
 
-    const Mtvd_Ratio: number = ri * Mt / Mtvd;
-    result['Mtvd_Ratio'] = Mtvd_Ratio;
+    const Mtvd_Ratio: number = (ri * Mt) / Mtvd;
+    result["Mtvd_Ratio"] = Mtvd_Ratio;
 
     // 計算結果
-    result['Result'] = (Math.max(Mtud_Ratio, Mtvd_Ratio) > 1) ? 'NG' : 'OK';
+    result["Result"] = Math.max(Mtud_Ratio, Mtvd_Ratio) > 1 ? "NG" : "OK";
 
     return result;
   }
-
-
 }

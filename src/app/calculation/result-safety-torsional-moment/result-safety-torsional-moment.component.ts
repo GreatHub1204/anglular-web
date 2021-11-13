@@ -288,12 +288,12 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       Ss2: { alien: "center", value: "-" },
 
       ri: { alien: "center", value: "-" },
-      rbm: { alien: "center", value: "-" },
-      rb: { alien: "center", value: "-" },
+      M_rb: { alien: "center", value: "-" },
+      // rb: { alien: "center", value: "-" },
       Mud: { alien: "center", value: "-" },
       Mudd: { alien: "center", value: "-" },
-      rbc: { alien: "center", value: "-" },
-      rbs: { alien: "center", value: "-" },
+      V_rbc: { alien: "center", value: "-" },
+      V_rbs: { alien: "center", value: "-" },
       Mu: { alien: "center", value: "-" },
       Vyd: { alien: "center", value: "-" },
       fwcd: { alien: "center", value: "-" },
@@ -374,23 +374,32 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     if ("ri" in re) {
       result.ri = { alien: "right", value: re.ri.toFixed(2) };
     }
-    if ("rbm" in re) {
-      result.rbm = { alien: "right", value: re.rbm.toFixed(2) };
+    // if ("rbm" in re) {
+    //   result.rbm = { alien: "right", value: re.rbm.toFixed(2) };
+    // }
+    if ("M_rb" in re) {
+      result.M_rb = { alien: "right", value: re.M_rb.toFixed(2) };
     }
-    if ("rb" in re) {
-      result.rb = { alien: "right", value: re.rb.toFixed(2) };
-    }
+    // if ("rb" in re) {
+    //   result.rb = { alien: "right", value: re.rb.toFixed(2) };
+    // }
     if ("Mud" in re) {
       result.Mud = { alien: "right", value: re.Mud.toFixed(1) };
     }
     if ("Mudd" in re) {
       result.Mudd = { alien: "right", value: re.Mudd.toFixed(1) };
     }
-    if ("rbc" in re) {
-      result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    // if ("rbc" in re) {
+    //   result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    // }
+    // if ("rbs" in re) {
+    //   result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
+    // }
+    if ("V_rbc" in re) {
+      result.V_rbc = { alien: "right", value: re.V_rbc.toFixed(2) };
     }
-    if ("rbs" in re) {
-      result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
+    if ("V_rbs" in re) {
+      result.V_rbs = { alien: "right", value: re.V_rbs.toFixed(2) };
     }
     if ("Mu" in re) {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
