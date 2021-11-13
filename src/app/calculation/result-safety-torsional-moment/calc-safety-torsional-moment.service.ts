@@ -239,10 +239,10 @@ export class CalcSafetyTorsionalMomentService {
     const Mtcd_Ratio: number = (ri * Mt) / Mtcd;
     result["Mtcd_Ratio"] = Mtcd_Ratio;
 
-    // if (Mtcd_Ratio >= 1) {
-    //   result['Result'] = "NG";
-    //   return result;
-    // }
+    if (Mtcd_Ratio >= 1) {
+      result['Result'] = "NG";
+      return result;
+    }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
     // Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
@@ -254,16 +254,16 @@ export class CalcSafetyTorsionalMomentService {
     const Mtud2 = Mtcd * (1 - (0.8 * ri * Vd) / Vud);
     const Mtud2_Ratio: number = (ri * Mt) / Mtud2;
 
-    // if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
-    //   // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
-    //   result['Mtud'] = Mtud1;
-    //   result['Mtud_Ratio'] = Mtud1_Ratio;
+    if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
+      // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
+      result['Mtud'] = Mtud1;
+      result['Mtud_Ratio'] = Mtud1_Ratio;
 
-    //   result['Mtvd'] = Mtud2;
-    //   result['Mtvd_Ratio'] = Mtud2_Ratio;
+      result['Mtvd'] = Mtud2;
+      result['Mtvd_Ratio'] = Mtud2_Ratio;
 
-    //   return result;
-    // }
+      return result;
+    }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力
 
