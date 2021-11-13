@@ -116,7 +116,6 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       for (const m of g) {
         for (const position of m.positions) {
           for (const side of ["上側引張", "下側引張"]) {
-
             const res = OutputData.find(
               (e) => e.index === position.index && e.side === side
             );

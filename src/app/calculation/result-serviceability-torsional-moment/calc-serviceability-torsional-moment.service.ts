@@ -6,6 +6,7 @@ import { InputSafetyFactorsMaterialStrengthsService } from 'src/app/components/s
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import { CalcSafetyShearForceService } from '../result-safety-shear-force/calc-safety-shear-force.service';
+import { CalcSafetyTorsionalMomentService } from '../result-safety-torsional-moment/calc-safety-torsional-moment.service';
 import { SetDesignForceService } from '../set-design-force.service';
 import { SetPostDataService } from '../set-post-data.service';
 
@@ -29,7 +30,7 @@ export class CalcServiceabilityTorsionalMomentService {
     private force: SetDesignForceService,
     private post: SetPostDataService,
     private crack: InputCrackSettingsService,
-    private base: CalcSafetyShearForceService) {
+    private base: CalcSafetyTorsionalMomentService) {
     this.DesignForceList = null;
     this.isEnable = false;
     }
@@ -76,21 +77,60 @@ export class CalcServiceabilityTorsionalMomentService {
     // POST 用
     const option = {};
 
-    const postData = this.post.setInputData('Vd', '耐力', this.safetyID, option, 
-    force2[0]);
+    // 曲げ Mud 用
+    const postData1 = this.post.setInputData(
+      "Md",
+      "耐力",
+      this.safetyID,
+      option,
+      force1[0]
+    );
 
+    // 曲げ Mud' 用
+    const force3 = JSON.parse(JSON.stringify({ temp: force1[0] })).temp;
+    for (const d1 of force3) {
+      for (const d2 of d1.designForce) {
+        d2.side = d2.side === "上側引張" ? "下側引張" : "上側引張"; // 上下逆にする
+      }
+    }
+    const postData2 = this.post.setInputData(
+      "Md",
+      "耐力",
+      this.safetyID,
+      option,
+      force3
+    );
+    for (const d1 of postData2) {
+      d1.side =
+        d1.side === "上側引張" ? "下側引張の反対側" : "上側引張の反対側"; // 逆であることを明記する
+      d1.memo = "曲げ Mud' 用";
+    }
+
+    // せん断 Mu 用
+    const postData3 = this.post.setInputData(
+      "Vd",
+      "耐力",
+      this.safetyID,
+      option,
+      force2[0]
+    );
+
+    for (const d1 of postData3) {
+      d1.Nd = 0.0;
+      d1.index *= -1; // せん断照査用は インデックスにマイナスをつける
+      d1.memo = "せん断 Mu 用";
+    }
+
+    const postData = postData1.concat(postData2, postData3);
     return postData;
   }
 
-  public getSafetyFactor(g_id: any) {
-    return this.safety.getCalcData('Vd', g_id, this.safetyID);
+  public getSafetyFactor(target: string, g_id: any, safetyID: number) {
+    return this.safety.getCalcData(target, g_id, safetyID);
   }
 
   public calcSigma(
-    res: any,
-    section: any,
-    fc: any,
-    safety: any): any {
+    OutputData, res, sectionM, sectionV, fck, safetyM, safetyV, La, force): any {
 
     // せん断ひび割れ検討判定用
     let force0 = this.DesignForceList.find(
@@ -105,8 +145,8 @@ export class CalcServiceabilityTorsionalMomentService {
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
     // せん断耐力
-    const result: any = this.base.calcVmu(
-      res, section, fc, safety, null, force1);
+    const result: any = this.base.calcMtud(
+      OutputData, res, sectionM, sectionV, fck, safetyM, safetyV, La, force);
 
       // 変動荷重
     let force2 = { Md: 0, Nd: 0, Vd: 0};
@@ -142,15 +182,15 @@ export class CalcServiceabilityTorsionalMomentService {
     let sigma12: number = 120;
     switch (conNum) {
       case 1:
-        sigma12 = (section.Aw.fwyd !== 235) ? 120 : 100;
+        sigma12 = (sectionM.Aw.fwyd !== 235) ? 120 : 100;
         result['con'] = '一般の環境';
         break;
       case 2:
-        sigma12 = (section.Aw.fwyd !== 235) ? 100 : 80;
+        sigma12 = (sectionM.Aw.fwyd !== 235) ? 100 : 80;
         result['con'] = '腐食性環境';
         break;
       case 3:
-        sigma12 = (section.Aw.fwyd !== 235) ? 80 : 60;
+        sigma12 = (sectionM.Aw.fwyd !== 235) ? 80 : 60;
         result['con'] = '厳しい腐食';
         break;
     }
@@ -158,9 +198,9 @@ export class CalcServiceabilityTorsionalMomentService {
 
     // 鉄骨の計算に用いる係数ar
     let ar = 1;
-    if ('Zs' in section.steel) { 
-      const Zs = section.steel.Zs;
-      ar = (section.Ast.Ast * result.z) / (Zs + section.Ast.Ast * result.z);
+    if ('Zs' in sectionM.steel) { 
+      const Zs = sectionM.steel.Zs;
+      ar = (sectionM.Ast.Ast * result.z) / (Zs + sectionM.Ast.Ast * result.z);
       result['Zs'] = Zs;
       result['ar'] = ar;
     }
