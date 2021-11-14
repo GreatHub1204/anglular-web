@@ -255,6 +255,7 @@ export class InputDesignPointsService {
       for(const p of g){
           p.isMzCalc = true;
           p.isVyCalc = true;
+          p.isMtCalc = true;
           data.push(p);
       }
     }

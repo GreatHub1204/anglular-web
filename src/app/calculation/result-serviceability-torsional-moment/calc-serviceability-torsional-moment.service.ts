@@ -191,43 +191,43 @@ export class CalcServiceabilityTorsionalMomentService {
     let Mtud07: number = 0.7 * result.Mtud;
     result["Mtud07"] = Mtud07;
 
-    // if (Mthd <= Mtud07) {
-    //   // せん断 Mu 用
-    //   const res3 = OutputData.find(
-    //     (e) => e.index === -1 * res.index && e.side === res.side
-    //   );
+    if (Mthd <= Mtud07) {
+      // せん断 Mu 用
+      const res3 = OutputData.find(
+        (e) => e.index === -1 * res.index && e.side === res.side
+      );
 
-    //   let result2 = {};
-    //   if (!(res3 === undefined || res3.length < 1)) {
-    //     result2 = this.vmu.calcVmu(res3, sectionV, fck, safetyV, null, force);
-    //   }
-    //   result2["Mt"] = result.Mt;
-    //   result2["V_rbc"] = result.V_rbc;
-    //   result2["V_rbs"] = result.V_rbs;
-    //   result2["Vyd"] = result.Vyd;
-    //   result2["ftd"] = result.ftd;
-    //   result2["ri"] = result.ri;
-    //   result2["sigma_nd"] = result.sigma_nd;
-    //   result2["Bnt"] = result.Bnt;
-    //   result2["Kt"] = result.Kt;
-    //   result2["Mtud"] = result.Mtud;
-    //   result2["comMtud07"] =
-    //     Math.round(result.Mthd * 10) / 10 +
-    //     "<" +
-    //     Math.round(result.Mtud07 * 10) / 10;
-    //   result2["Mthd"] = Mthd;
-    //   result2["Mtpd"] = Mtpd;
-    //   result2["Vhd"] = Vhd;
-    //   result2["Vpd"] = Vpd;
-    //   result2["Result"] = "OK";
+      let result2 = {};
+      if (!(res3 === undefined || res3.length < 1)) {
+        result2 = this.vmu.calcVmu(res3, sectionV, fck, safetyV, null, force);
+      }
+      result2["Mt"] = result.Mt;
+      result2["V_rbc"] = result.V_rbc;
+      result2["V_rbs"] = result.V_rbs;
+      result2["Vyd"] = result.Vyd;
+      result2["ftd"] = result.ftd;
+      result2["ri"] = result.ri;
+      result2["sigma_nd"] = result.sigma_nd;
+      result2["Bnt"] = result.Bnt;
+      result2["Kt"] = result.Kt;
+      result2["Mtud"] = result.Mtud;
+      result2["comMtud07"] =
+        Math.round(result.Mthd * 10) / 10 +
+        "<" +
+        Math.round(result.Mtud07 * 10) / 10;
+      result2["Mthd"] = Mthd;
+      result2["Mtpd"] = Mtpd;
+      result2["Vhd"] = Vhd;
+      result2["Vpd"] = Vpd;
+      result2["Result"] = "OK";
 
-    //   return result2;
-    // } else {
-    //   result["comMtud07"] =
-    //     Math.round(result.Mthd * 10) / 10 +
-    //     "≧" +
-    //     Math.round(result.Mtud07 * 10) / 10;
-    // }
+      return result2;
+    } else {
+      result["comMtud07"] =
+        Math.round(result.Mthd * 10) / 10 +
+        "≧" +
+        Math.round(result.Mtud07 * 10) / 10;
+    }
     let Mt1 = result.Mtcd * (1 - (0.8 * result.Vpd) / result.Vyd);
     let Mt2 =
       (result.Mtyd * (1 - result.Vpd / result.Vyd)) +

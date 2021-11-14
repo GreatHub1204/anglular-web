@@ -1061,6 +1061,7 @@ export class DsdDataService {
       position.p_name = strfix32.trim();
       position.isMzCalc = true;
       position.isVyCalc = true;
+      position.isMtCalc = true;
 
       // 断面力
       const force = this.force.getTable1Columns(index);

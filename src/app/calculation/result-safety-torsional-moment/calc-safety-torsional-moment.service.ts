@@ -241,7 +241,7 @@ export class CalcSafetyTorsionalMomentService {
 
     if (Mtcd_Ratio >= 1) {
       result['Result'] = "NG";
-      // return result; //1114
+      return result; //1114
     }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
@@ -262,7 +262,7 @@ export class CalcSafetyTorsionalMomentService {
       result['Mtvd'] = Mtud2;
       result['Mtvd_Ratio'] = Mtud2_Ratio;
 
-      // return result; //1114
+      return result; //1114
     }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力
