@@ -147,9 +147,9 @@ export class CalcSafetyTorsionalMomentService {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
     }
 
-    // if(!('Mt' in force)){
-    //   return result;
-    // }
+    if(!('Mt' in force)){
+      return result;
+    }
     const Mt = Math.abs(force.Mt);
     result["Mt"] = Mt;
 
@@ -241,7 +241,7 @@ export class CalcSafetyTorsionalMomentService {
 
     if (Mtcd_Ratio >= 1) {
       result['Result'] = "NG";
-      return result;
+      // return result; //1114
     }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
@@ -262,7 +262,7 @@ export class CalcSafetyTorsionalMomentService {
       result['Mtvd'] = Mtud2;
       result['Mtvd_Ratio'] = Mtud2_Ratio;
 
-      return result;
+      // return result; //1114
     }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力

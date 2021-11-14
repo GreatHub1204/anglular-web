@@ -165,7 +165,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
             let fwyd3: number = 0;
             if ("fsvy_Hweb" in sectionM.steel) {
               fwyd3 =
-              sectionM.steel.fsvy_Hweb.fvyd !== null
+                sectionM.steel.fsvy_Hweb.fvyd !== null
                   ? sectionM.steel.fsvy_Hweb.fvyd
                   : sectionM.steel.fsvy_Iweb.fvyd;
             }
@@ -370,6 +370,8 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       deg2: { alien: "center", value: "-" },
       Ss2: { alien: "center", value: "-" },
 
+      // M_rb: { alien: "center", value: "-" },
+
       Zs: { alien: "center", value: "-" },
       ar: { alien: "center", value: "-" },
 
@@ -380,10 +382,12 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       Mtpd: { alien: "center", value: "-" },
 
       Mu: { alien: "center", value: "-" },
-      rbs: { alien: "center", value: "-" },
-      rbc: { alien: "center", value: "-" },
+      // rbs: { alien: "center", value: "-" },
+      // rbc: { alien: "center", value: "-" },
+      V_rbc: { alien: "center", value: "-" },
+      V_rbs: { alien: "center", value: "-" },
       Vyd: { alien: "center", value: "-" },
-      Mtud07: { alien: "center", value: "-" },
+      comMtud07: { alien: "center", value: "-" },
 
       ri: { alien: "center", value: "-" },
 
@@ -406,6 +410,10 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       Mtud_Ratio: { alien: "center", value: "-" },
 
       sigma: { alien: "center", value: "-" },
+
+      sigma_wpd:{alien:"right",value:"-"},
+      sigma_12:{alien:"right",value:"-"},
+
       Ratio: { alien: "center", value: "-" },
       Result: { alien: "center", value: "-" },
     };
@@ -459,23 +467,32 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
         value: (Math.round(re.Nd * 10) / 10).toFixed(1),
       };
     }
-    let Vhd: number = re.Vd;
+
     if ("Vhd" in re) {
-      // tanθc + tanθt があるとき
-      Vhd = Math.round((re.Vd - re.Vhd) * 10) / 10;
-      const sVd: string =
-        Vhd.toFixed(1) + "(" + (Math.round(re.Vd * 10) / 10).toFixed(1) + ")";
-      result.Vhd = { alien: "right", value: sVd };
-    } else {
       result.Vhd = {
         alien: "right",
-        value: (Math.round(Vhd * 10) / 10).toFixed(1),
+        value: Math.round((re.Vhd * 10) / 10).toFixed(1),
       };
     }
+
     if ("Vpd" in re) {
       result.Vpd = {
         alien: "right",
-        value: (Math.round(re.Vpd * 10) / 10).toFixed(1),
+        value: Math.round((re.Vpd * 10) / 10).toFixed(1),
+      };
+    }
+
+    if ("Mthd" in re) {
+      result.Mthd = {
+        alien: "right",
+        value: Math.round((re.Mthd * 10) / 10).toFixed(1),
+      };
+    }
+
+    if ("Mtpd" in re) {
+      result.Mtpd = {
+        alien: "right",
+        value: Math.round((re.Mtpd * 10) / 10).toFixed(1),
       };
     }
 
@@ -484,21 +501,129 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
     }
 
-    if ("rbc" in re) {
-      result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    // if ("rbc" in re) {
+    //   result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    // }
+
+    if("comMtud07" in re){
+      result.comMtud07 = { alien: "center", value: re.comMtud07};
     }
 
+
+    // if ("sigma_wpd" in re && "sigma_12" in re) {
+    //   const str: string = re.sigma_wpd.toFixed(1) + "/" + re.sigma12.toFixed(0);
+    //   result.sigma = { alien: "center", value: str };
+    // }
+
+    if("sigma_wpd" in re){
+      const str : string = re.sigma_wpd.toFixed(1);
+      result.sigma_wpd = {alien:"right",value:str};
+    }
+
+    if("sigma_12" in re){
+      const str : string = re.sigma_12.toFixed(1);
+      result.sigma_12 = {alien:"right",value:str};
+    }
+
+    // 計算結果
     if ("ri" in re) {
       result.ri = { alien: "right", value: re.ri.toFixed(2) };
     }
-
-    if ("sigmaw" in re && "sigma12" in re) {
-      const str: string = re.sigmaw.toFixed(1) + "/" + re.sigma12.toFixed(0);
-      result.sigma = { alien: "center", value: str };
+    // if ("rbm" in re) {
+    //   result.rbm = { alien: "right", value: re.rbm.toFixed(2) };
+    // }
+    // if ("M_rb" in re) {
+    //   result.M_rb = { alien: "right", value: re.M_rb.toFixed(2) };
+    // }
+    // if ("rb" in re) {
+    //   result.rb = { alien: "right", value: re.rb.toFixed(2) };
+    // }
+    // if ("rbc" in re) {
+    //   result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
+    // }
+    // if ("rbs" in re) {
+    //   result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
+    // }
+    if ("V_rbc" in re) {
+      result.V_rbc = { alien: "right", value: re.V_rbc.toFixed(2) };
     }
+    if ("V_rbs" in re) {
+      result.V_rbs = { alien: "right", value: re.V_rbs.toFixed(2) };
+    }
+    if ("Mu" in re) {
+      result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
+    }
+    if ("Vyd" in re) {
+      result.Vyd = { alien: "right", value: re.Vyd.toFixed(1) };
+    }
+    if ("fwcd" in re) {
+      result.fwcd = { alien: "right", value: re.fwcd.toFixed(3) };
+    }
+    if ("Kt" in re) {
+      result.Kt = { alien: "right", value: re.Kt.toFixed(3) };
+    }
+    if ("Mtcud" in re) {
+      result.Mtcud = { alien: "right", value: re.Mtcud.toFixed(1) };
+    }
+    if ("Mtcud_Ratio" in re) {
+      result.Mtcud_Ratio = {
+        alien: "center",
+        value:
+          re.Mtcud_Ratio.toFixed(3).toString() +
+          (re.Mtcud_Ratio < 0.2 ? " < 0.2" : " > 0.2"),
+      };
+    }
+    if ("bo" in re) {
+      result.bo = { alien: "right", value: re.bo.toFixed(1) };
+    }
+    if ("do" in re) {
+      result.do = { alien: "right", value: re.do.toFixed(1) };
+    }
+    if ("Am" in re) {
+      result.Am = { alien: "right", value: re.Am.toFixed(3) };
+    }
+    if ("qw" in re) {
+      result.qw = { alien: "right", value: re.qw.toFixed(1) };
+    }
+    if ("ql" in re) {
+      result.ql = { alien: "right", value: re.ql.toFixed(1) };
+    }
+    if ("Mtyd" in re) {
+      result.Mtyd = { alien: "right", value: re.Mtyd.toFixed(1) };
+    }
+    if ("Mtu_min" in re) {
+      result.Mtu_min = { alien: "right", value: re.Mtu_min.toFixed(1) };
+    }
+    if ("sigma_nd" in re) {
+      result.sigma_nd = { alien: "right", value: re.sigma_nd.toFixed(1) };
+    }
+    if ("ftd" in re) {
+      result.ftd = { alien: "right", value: re.ftd.toFixed(1) };
+    }
+    if ("Bnt" in re) {
+      result.Bnt = { alien: "right", value: re.Bnt.toFixed(3) };
+    }
+    if ("Mtcd" in re) {
+      result.Mtcd = { alien: "right", value: re.Mtcd.toFixed(1) };
+    }
+
+    if ("Mtud" in re) {
+      result.Mtud = { alien: "right", value: re.Mtud.toFixed(1) };
+    }
+    if ("Mtud_Ratio" in re) {
+      result.Mtud_Ratio = {
+        alien: "center",
+        value:
+          re.Mtud_Ratio.toFixed(3).toString() +
+          (re.Mtud_Ratio < 1 ? " < 1.00" : " > 1.00"),
+      };
+    }
+
+    
     if ("Ratio" in re) {
       result.Ratio = { alien: "right", value: re.Ratio.toFixed(3) };
     }
+
     if ("Result" in re) {
       result.Result = { alien: "center", value: re.Result };
     }

@@ -263,6 +263,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
         result.push(page);
       }
     }
+    
     return result;
   }
 
