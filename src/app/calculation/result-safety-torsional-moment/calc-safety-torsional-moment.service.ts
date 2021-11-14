@@ -228,7 +228,7 @@ export class CalcSafetyTorsionalMomentService {
     result["Bnt"] = Bnt;
 
     //Kt = b^2・d／{3.1＋1.8／( d／b )}
-    const Kt = (Math.pow(bw, 2) * d) / (3.1 + 1.8 / (d / bw)); // mm^3
+    const Kt = (Math.pow(bw, 2) * h) / (3.1 + 1.8 / (h / bw)); // mm^3
     // const Kt = kt / Math.pow(1000, 3); // m^3
     result["Kt"] = Kt;
 
