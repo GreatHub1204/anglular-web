@@ -127,6 +127,9 @@ export class InputMembersService  {
     for(let m_no = 1; m_no <= n; m_no++){
       // 同じ部材番号を抽出
       const tar = members.filter((v,i,a) => v.m_no === m_no);
+      if(tar.length === 0){
+        continue;
+      }
       let pos = 0;
       tar.forEach((v,i,a) => {
         pos = Math.max(pos, v.position);
