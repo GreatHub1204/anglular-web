@@ -147,7 +147,7 @@ export class CalcSafetyTorsionalMomentService {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
     }
 
-    if(!('Mt' in force)){
+    if (!('Mt' in force)) {
       return result;
     }
     const Mt = Math.abs(force.Mt);
@@ -160,7 +160,7 @@ export class CalcSafetyTorsionalMomentService {
 
     const M_rb: number = safety_factor.M_rb;
     const V_rbc: number = safety_factor.M_rc;
-    const V_rbs:number = safety_factor.S_rb;
+    const V_rbs: number = safety_factor.S_rb;
     result["M_rb"] = M_rb;
     result["V_rbc"] = V_rbc;
     result["V_rbs"] = V_rbs;
@@ -239,9 +239,11 @@ export class CalcSafetyTorsionalMomentService {
     const Mtcd_Ratio: number = (ri * Mt) / Mtcd;
     result["Mtcd_Ratio"] = Mtcd_Ratio;
 
-    if (Mtcd_Ratio >= 1) {
-      result['Result'] = "NG";
+    if (result["Mtcd_Ratio"] < 0.2) {
+      result['Mtcd_Result'] = "検討省略";
       return result; //1114
+    } else {
+      result['Mtcd_Result'] = "省略不可";
     }
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
@@ -254,16 +256,17 @@ export class CalcSafetyTorsionalMomentService {
     const Mtud2 = Mtcd * (1 - (0.8 * ri * Vd) / Vud);
     const Mtud2_Ratio: number = (ri * Mt) / Mtud2;
 
-    if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
-      // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
-      result['Mtud'] = Mtud1;
-      result['Mtud_Ratio'] = Mtud1_Ratio;
+    // if (Math.max(Mtud1_Ratio, Mtud2_Ratio) < 0.5) {
+    // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
+    result['Mtud1'] = Mtud1;
+    result['Mtud1_Ratio'] = Mtud1_Ratio;
+    result['Mtud1_Result'] = Mtud1_Ratio <= 0.5 ? "OK" : "NG";
 
-      result['Mtvd'] = Mtud2;
-      result['Mtvd_Ratio'] = Mtud2_Ratio;
-
-      return result; //1114
-    }
+    result['Mtud2'] = Mtud2;
+    result['Mtud2_Ratio'] = Mtud2_Ratio;
+    result['Mtud2_Result'] = Mtud2_Ratio <= 0.5 ? "OK" : "NG";
+    // return result; //1114
+    // }
 
     // 2) ねじり補強鉄筋がある場合の設計ねじり耐力
 
@@ -362,7 +365,7 @@ export class CalcSafetyTorsionalMomentService {
 
     const Am = (b0 * d0) / Math.pow(1000, 2);
 
-    result["Am"] = Am;
+    result["Am"] = b0 * d0;
 
     // qw	=	Ａtw・fwyd／s
     let qw = (Atw * fwyd) / Ss;
@@ -379,6 +382,9 @@ export class CalcSafetyTorsionalMomentService {
     if (ql > _ql) {
       ql = _ql;
     }
+    result["Atw"] = Atw;
+    result["Atl"] = Atl;
+    result["u"] = u;
     result["qw"] = qw;
     result["ql"] = ql;
 
@@ -410,19 +416,21 @@ export class CalcSafetyTorsionalMomentService {
         (Mtu_min - 0.2 * Mtcd) * Math.pow(1 - (ri * Md) / Mud, 1 / 2) +
         0.2 * Mtcd;
     }
-    result["Mtud"] = Mtud;
+    result["Mtud3"] = Mtud;
 
     const Mtud_Ratio: number = (ri * Mt) / Mtud;
-    result["Mtud_Ratio"] = Mtud_Ratio;
+    result["Mtud3_Ratio"] = Mtud_Ratio;
+    result["Mtud3_Result"] = Mtud_Ratio > 1 ? "NG" : "OK"
 
     // ④ 設計せん断力が同時に作用する場合の設計ねじり耐力
     // Ｍtud	=	Ｍtu.min・( 1-γi･Ｖd／Ｖud )＋0.2・Ｍtcd・γi･Ｖd／Ｖud
     const Mtvd =
       Mtu_min * (1 - (ri * Vd) / Vud) + (0.2 * Mtcd * ri * Vd) / Vud;
-    result["Mtvd"] = Mtvd;
+    result["Mtud4"] = Mtvd;
 
     const Mtvd_Ratio: number = (ri * Mt) / Mtvd;
-    result["Mtvd_Ratio"] = Mtvd_Ratio;
+    result["Mtud4_Ratio"] = Mtvd_Ratio;
+    result["Mtud4_Result"] = Mtvd_Ratio > 1 ? "NG" : "OK";
 
     // 計算結果
     result["Result"] = Math.max(Mtud_Ratio, Mtvd_Ratio) > 1 ? "NG" : "OK";
