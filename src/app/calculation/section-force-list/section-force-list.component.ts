@@ -430,20 +430,28 @@ export class SectionForceListComponent implements OnInit {
           let mt = { value: "-", position: "center"};
           let comb = { value: "-", position: "center"};
           if ("Md" in pp) {
-            md.value = pp.Md.toFixed(2);
-            md.position = "right";
+            if(!isNaN(pp.Md) && pp.Md !== null){
+              md.value = pp.Md.toFixed(2);
+              md.position = "right";
+            }
           }
           if ("Nd" in pp) {
-            nd.value = pp.Nd.toFixed(2);
-            nd.position = "right";
+            if(!isNaN(pp.Nd) && pp.Nd !== null){
+              nd.value = pp.Nd.toFixed(2);
+              nd.position = "right";
+            }
           }
           if ("Vd" in pp) {
-            vd.value = pp.Vd.toFixed(2);
-            vd.position = "right";
+            if(!isNaN(pp.Vd) && pp.Vd !== null){
+              vd.value = pp.Vd.toFixed(2);
+              vd.position = "right";
+            }
           }
           if ("Mt" in pp) {
-            mt.value = pp.Mt.toFixed(2);
-            mt.position = "right";
+            if(!isNaN(pp.Mt) && pp.Mt !== null){
+              mt.value = pp.Mt.toFixed(2);
+              mt.position = "right";
+            }
           }
           if ("comb" in pp) {
             comb.value = pp.comb;
