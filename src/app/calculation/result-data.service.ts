@@ -85,7 +85,7 @@ export class ResultDataService {
     const section = this.getSection(target, res, safety);
 
     const steel: any = this.steel.getCalcData(res.index); // 鉄骨
-    if(steel === null){
+    if (steel === null) {
       return section;
     }
 
@@ -94,41 +94,55 @@ export class ResultDataService {
     let steel_Ay = 0;
     let I = 0;
     const Zs_data = {
-      Ic : {b: steel.I.lower_width, 
-            h: steel.I.lower_thickness, 
-            yi: steel.I.upper_thickness + steel.I.web_height + steel.I.lower_thickness/2, 
-            A: null, 
-            Io: null, },
-      Iw : {b: steel.I.web_thickness , 
-            h: steel.I.web_height,
-            yi: steel.I.upper_thickness + steel.I.web_height / 2,  
-            A: null, 
-            Io: null, },
-      It : {b: steel.I.upper_width , 
-            h: steel.I.upper_thickness, 
-            yi: steel.I.upper_thickness / 2, 
-            A: null, 
-            Io: null, },
-      Hl : {b: steel.H.left_thickness, 
-            h: steel.H.left_width,
-            yi: null, 
-            A: null,  
-            Io: null, },
-      Hw : {b: steel.H.web_height , 
-            h: steel.H.web_thickness,
-            yi: null, 
-            A: null,  
-            Io: null, },
-      Hr : {b: steel.H.right_thickness , 
-            h: steel.H.right_width, 
-            yi: null,
-            A: null,  
-            Io: null, },
-      IH : {b: steel.I.web_thickness, 
-            h: steel.H.web_thickness, 
-            yi: null, 
-            A: null, 
-            Io: null, }
+      Ic: {
+        b: steel.I.lower_width,
+        h: steel.I.lower_thickness,
+        yi: steel.I.upper_thickness + steel.I.web_height + steel.I.lower_thickness / 2,
+        A: null,
+        Io: null,
+      },
+      Iw: {
+        b: steel.I.web_thickness,
+        h: steel.I.web_height,
+        yi: steel.I.upper_thickness + steel.I.web_height / 2,
+        A: null,
+        Io: null,
+      },
+      It: {
+        b: steel.I.upper_width,
+        h: steel.I.upper_thickness,
+        yi: steel.I.upper_thickness / 2,
+        A: null,
+        Io: null,
+      },
+      Hl: {
+        b: steel.H.left_thickness,
+        h: steel.H.left_width,
+        yi: null,
+        A: null,
+        Io: null,
+      },
+      Hw: {
+        b: steel.H.web_height,
+        h: steel.H.web_thickness,
+        yi: null,
+        A: null,
+        Io: null,
+      },
+      Hr: {
+        b: steel.H.right_thickness,
+        h: steel.H.right_width,
+        yi: null,
+        A: null,
+        Io: null,
+      },
+      IH: {
+        b: steel.I.web_thickness,
+        h: steel.H.web_thickness,
+        yi: null,
+        A: null,
+        Io: null,
+      }
     }
     // H型鋼の中心位置を調整
     let yi: number = 0
@@ -152,8 +166,8 @@ export class ResultDataService {
 
     // 総断面積の算出
     for (let key of Object.keys(Zs_data)) {
-      Zs_data[key].A = Zs_data[key].b * Zs_data[key].h ;
-      if (key !== 'IH'){
+      Zs_data[key].A = Zs_data[key].b * Zs_data[key].h;
+      if (key !== 'IH') {
         steel_A += Zs_data[key].A;
         steel_Ay += Zs_data[key].A * Zs_data[key].yi;
       } else {
@@ -168,9 +182,9 @@ export class ResultDataService {
       Zs_data[key].Io = (Zs_data[key].b * Zs_data[key].h ** 3) / 12;
       const Ayeyi = Zs_data[key].A * (ye - Zs_data[key].yi) ** 2;
       if (key !== 'IH') {
-        I += ( Zs_data[key].Io + Ayeyi );
+        I += (Zs_data[key].Io + Ayeyi);
       } else {
-        I -= ( Zs_data[key].Io + Ayeyi );
+        I -= (Zs_data[key].Io + Ayeyi);
       }
     }
     const Zs = I / ye;
@@ -231,7 +245,7 @@ export class ResultDataService {
         result.shape.B_summary = section.B_summary;
         result.shape.H_summary = section.H_summary;
         // CFTの判定用のフラグ
-        if ('steel' in  section) {
+        if ('steel' in section) {
           result.CFTFlag = true;
         }
         break;
@@ -253,6 +267,7 @@ export class ResultDataService {
       case 'Rectangle':         // 矩形
         section = this.rect.getRectangleShape(member, target, index, side, safety, {});
         result['Ast'] = this.getAst(section, safety, target);
+        result['Ase'] = this.getAse(section);
         result.shape.H = section.H;
         result.shape.B = section.B;
         break;
@@ -441,7 +456,7 @@ export class ResultDataService {
       Es: 200
     }
 
-    if ( !('tension' in section) ) {
+    if (!('tension' in section)) {
       result.rs = safety.safety_factor.rs;
       return result;
     }
@@ -481,14 +496,14 @@ export class ResultDataService {
       Es: 200
     }
 
-    if(!('tension' in section)){
+    if (!('tension' in section)) {
       return result;
     }
 
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;
-    if(target==='Md'){
+    if (target === 'Md') {
       result.rs = safety.safety_factor.M_rs;
     } else {
       result.rs = safety.safety_factor.V_rs;
@@ -546,6 +561,7 @@ export class ResultDataService {
       Ase: null,
       AseString: null,
       dse: null,
+      de: null,
       sidebar: null
     }
 
@@ -553,7 +569,7 @@ export class ResultDataService {
       return result;
     }
     result.sidebar = section.sidebar;
-    
+
     const mark = section.sidebar.mark === "R" ? "φ" : "D";
     const AstDia = mark + section.sidebar.side_dia;
     const rebar_n = section.sidebar.n;
@@ -564,10 +580,11 @@ export class ResultDataService {
     result.AseString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
 
     const cover = section.sidebar.cover;
+    const cover2 = section.sidebar.cover2;
     const space = section.sidebar.space;
 
     result.dse = cover + (space * (rebar_n - 1)) / 2;
-
+    result.de = cover2;
     return result;
 
   }
@@ -595,14 +612,14 @@ export class ResultDataService {
       rs: safety.safety_factor.S_rs,
       flag: false,
     }
-    if(!('steel' in section)){
+    if (!('steel' in section)) {
       return result;
     }
 
-    if('I' in section.steel){
+    if ('I' in section.steel) {
       // 矩形の鉄骨
       this.getRectSteel(section, result, mark);
-    } else{
+    } else {
       // 円形の鉄骨
       this.getCircleSteel(section, result, mark);
       // 円形鉄骨の仮想矩形の断面積が欲しい
@@ -613,13 +630,13 @@ export class ResultDataService {
   }
 
   // 円形の鉄骨情報
-  private getCircleSteel(section: any, result: any, mark: string): void{
-    
+  private getCircleSteel(section: any, result: any, mark: string): void {
+
     const thickness = this.helper.toNumber(section.steel.thickness);
-    if(thickness===null){
+    if (thickness === null) {
       return;
     }
-    if(thickness===0){
+    if (thickness === 0) {
       return;
     }
 
@@ -633,7 +650,7 @@ export class ResultDataService {
       result.fsy_tension.fsy = fsy;
       result.fsy_tension.fsd = fsy / rs;
     }
-    
+
 
     if (mark !== 'Vd') {
       return;
@@ -653,11 +670,11 @@ export class ResultDataService {
 
     return result
 
-    
+
   }
 
   // 矩形の鉄骨情報
-  private getRectSteel(section: any, result: any, mark: string): void{
+  private getRectSteel(section: any, result: any, mark: string): void {
 
     // I配置鉄骨
     let target = section.steel.I;
@@ -688,7 +705,7 @@ export class ResultDataService {
       result.I.value['heightW'] = target.web_height;
       result.I.value['thicknessW'] = target.web_thickness;
     }
-    
+
     if (target.fsy_tension !== null && target.fsy_tension.fsy !== null) {
       result.fsy_tension.fsy = target.fsy_tension.fsy;
       result.fsy_tension.fsd = target.fsy_tension.fsy / result.rs;
@@ -735,7 +752,7 @@ export class ResultDataService {
       fsvy: null,
       fvyd: null
     }
-    if(section.steel.I.fvy_web !== null){
+    if (section.steel.I.fvy_web !== null) {
       result['fsvy_Iweb'] = {
         fsvy: section.steel.I.fvy_web.fvy,
         fvyd: (section.steel.I.fvy_web.fvy === null) ? null :
@@ -747,7 +764,7 @@ export class ResultDataService {
       fsvy: null,
       fvyd: null
     }
-    if(section.steel.H.fvy_web !== null){
+    if (section.steel.H.fvy_web !== null) {
       result['fsvy_Hweb'] = {
         fsvy: section.steel.H.fvy_web.fvy,
         fvyd: (section.steel.H.fvy_web.fvy === null) ? null :

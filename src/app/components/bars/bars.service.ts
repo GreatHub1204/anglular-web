@@ -25,15 +25,15 @@ export class InputBarsService {
   // 鉄筋情報
   private default_bars(id: number): any {
     const result = this.default(id);
-    result['m_no'] =  null;
-    result['position'] =  null;
-    result['g_name'] =  null;
-    result['p_name'] =  null;
-    result['b'] =  null;
-    result['h'] =  null;
+    result['m_no'] = null;
+    result['position'] = null;
+    result['g_name'] = null;
+    result['p_name'] = null;
+    result['b'] = null;
+    result['h'] = null;
     return result;
   }
- 
+
   private default(id: number): any {
     return {
       index: id,
@@ -41,7 +41,8 @@ export class InputBarsService {
       haunch_V: null,
       rebar1: this.default_rebar('上側'),
       rebar2: this.default_rebar('下側'),
-      sidebar: this.default_sidebar(),
+      sidebar1: this.default_sidebar(),
+      sidebar2: this.default_sidebar(),
       stirrup: this.default_stirrup(),
       bend: this.default_bend(),
       tan: null
@@ -117,7 +118,7 @@ export class InputBarsService {
           // データを2行に分ける
           const column1 = {};
           const column2 = {};
-          column1['m_no'] = (count === 0) ? data.m_no: ''; // 最初の行には 部材番号を表示する
+          column1['m_no'] = (count === 0) ? data.m_no : ''; // 最初の行には 部材番号を表示する
           // 1行目
           column1['index'] = data.index;
           const a: number = this.helper.toNumber(data.position);
@@ -137,10 +138,10 @@ export class InputBarsService {
           column1['cos'] = data['rebar1'].cos;
           column1['enable'] = data['rebar1'].enable;
 
-          column1['side_dia'] = data['sidebar'].side_dia;
-          column1['side_n'] = data['sidebar'].side_n;
-          column1['side_cover'] = data['sidebar'].side_cover;
-          column1['side_ss'] = data['sidebar'].side_ss;
+          column1['side_dia'] = data['sidebar1'].side_dia;
+          column1['side_n'] = data['sidebar1'].side_n;
+          column1['side_cover'] = data['sidebar1'].side_cover;
+          column1['side_ss'] = data['sidebar1'].side_ss;
 
           column1['stirrup_dia'] = data['stirrup'].stirrup_dia;
           column1['stirrup_n'] = data['stirrup'].stirrup_n;
@@ -169,12 +170,16 @@ export class InputBarsService {
           column2['cos'] = data['rebar2'].cos;
           column2['enable'] = data['rebar2'].enable;
 
+          column2['side_cover'] = data['sidebar2'].side_cover;
+
           table_groupe.push(column2);
           count++;
         }
       }
       table_datas.push(table_groupe);
     }
+
+    
     return table_datas;
   }
 
@@ -199,25 +204,25 @@ export class InputBarsService {
     ).temp;
 
     const positions = this.points.getSameGroupePoints(index);
-    const start = positions.findIndex(v=>v.index === index);
+    const start = positions.findIndex(v => v.index === index);
 
     for (let ip = start; ip >= 0; ip--) {
       const pos = positions[ip];
-      if(!this.points.isEnable(pos)){
+      if (!this.points.isEnable(pos)) {
         continue; // 計算対象ではなければスキップ
       }
       // barデータに（部材、着目点など）足りない情報を追加する
       const data: any = bar_list.find((v) => v.index === pos.index);
-      if(data === undefined){
+      if (data === undefined) {
         continue;
       }
-      if(result === null) {
+      if (result === null) {
         // 当該入力行 の情報を入手
         result = this.default(index);
-        for(const key of Object.keys(result)){
-          if(['rebar1', 'rebar2', 'sidebar', 'stirrup', 'bend'].includes(key)){
-            for(const k of Object.keys(result[key])){
-              if(k in data[key]){
+        for (const key of Object.keys(result)) {
+          if (['rebar1', 'rebar2', 'sidebar1', 'sidebar2', 'stirrup', 'bend'].includes(key)) {
+            for (const k of Object.keys(result[key])) {
+              if (k in data[key]) {
                 result[key][k] = data[key][k];
               }
             }
@@ -228,18 +233,18 @@ export class InputBarsService {
       }
       // 当該入力行より上の行
       let endFlg = true;
-      for(const key of ['rebar1', 'rebar2', 'sidebar', 'stirrup']){
+      for (const key of ['rebar1', 'rebar2', 'sidebar1', 'sidebar2', 'stirrup']) {
         const rebar = data[key];
         const re = result[key];
-        for(const k of Object.keys(re)){
-          if(k==='cos' || k==='enable'|| k==='title') continue;
-          if(re[k] === null && k in rebar){
+        for (const k of Object.keys(re)) {
+          if (k === 'cos' || k === 'enable' || k === 'title') continue;
+          if (re[k] === null && k in rebar) {
             re[k] = this.helper.toNumber(rebar[k]);
             endFlg = false; // まだ終わらない
           }
         }
       }
-      if( endFlg === true){
+      if (endFlg === true) {
         // 全ての値に有効な数値(null以外)が格納されたら終了する
         break;
       }
@@ -287,10 +292,12 @@ export class InputBarsService {
       b.rebar2.cos = column2.cos;
       b.rebar2.enable = column2.enable;
 
-      b.sidebar.side_dia = column1.side_dia;
-      b.sidebar.side_n = column1.side_n;
-      b.sidebar.side_cover = column1.side_cover;
-      b.sidebar.side_ss = column1.side_ss;
+      b.sidebar1.side_dia = column1.side_dia;
+      b.sidebar1.side_n = column1.side_n;
+      b.sidebar1.side_cover = column1.side_cover;
+      b.sidebar1.side_ss = column1.side_ss;
+
+      b.sidebar2.side_cover = column2.side_cover;
 
       b.stirrup.stirrup_dia = column1.stirrup_dia;
       b.stirrup.stirrup_n = column1.stirrup_n;
@@ -303,16 +310,16 @@ export class InputBarsService {
 
       b.tan = column1.tan;
 
-      for(const key1 of Object.keys(b)){
+      for (const key1 of Object.keys(b)) {
         const value1 = b[key1];
-        if(['rebar1', 'rebar2', 'sidebar', 'stirrup', 'bend'].includes(key1)){
-          for(const key2 of Object.keys(value1)){
+        if (['rebar1', 'rebar2', 'sidebar1', 'sidebar2', 'stirrup', 'bend'].includes(key1)) {
+          for (const key2 of Object.keys(value1)) {
             const value2 = value1[key2];
-            if( value2 === undefined ){
+            if (value2 === undefined) {
               value1[key2] = null;
             }
           }
-        } else if( value1 === undefined ){
+        } else if (value1 === undefined) {
           b[key1] = null;
         }
       }

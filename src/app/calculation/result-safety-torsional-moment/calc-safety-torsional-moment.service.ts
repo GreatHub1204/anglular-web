@@ -325,7 +325,7 @@ export class CalcSafetyTorsionalMomentService {
     let Ase = 0;
     let fsye = 0;
     if (!(sidebar === null)) {
-      de = this.helper.toNumber(sidebar["cover"]);
+      de = this.helper.toNumber(sidebar["cover2"]);
       if (de === null) {
         de = 0;
       } else {

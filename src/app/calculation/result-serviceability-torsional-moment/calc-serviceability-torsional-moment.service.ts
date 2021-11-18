@@ -238,6 +238,8 @@ export class CalcServiceabilityTorsionalMomentService {
       result2["sigma_nd"] = result.sigma_nd;
       result2["Bnt"] = result.Bnt;
       result2["Kt"] = result.Kt;
+      result2["Mtud1"] = result.Mtud1;
+      result2["Mtud2"] = result.Mtud2;
       result2["Mtud"] = result.Mtud;
       result2["comMtud07"] =
         Math.round(result.Mthd * 10) / 10 +
@@ -252,7 +254,7 @@ export class CalcServiceabilityTorsionalMomentService {
         Math.round(result.Mtud07 * 10) / 10;
       result2["comMtud07_Result"] = "検討省略";
 
-      return { result2 };
+      return result2 ;
     } else {
       result["comMtud07_Ratio"] =
         Math.round(result.Mthd * 10) / 10 +
@@ -269,7 +271,7 @@ export class CalcServiceabilityTorsionalMomentService {
     result["sigma_wpd"] = sigma_wpd;
 
     // 鋼材の種類
-    result["steel_type"] = "異形鉄筋"　// 修正が必要
+    result["steel_type"] = sectionV.Asc.compress.mark === "D"?"異形鉄筋":"丸鋼";　// 修正が必要
 
     // 環境条件
     const crackInfo = this.crack.getTableColumn(res.index);
