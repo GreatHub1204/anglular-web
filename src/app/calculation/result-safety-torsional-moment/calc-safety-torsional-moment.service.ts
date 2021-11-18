@@ -241,7 +241,7 @@ export class CalcSafetyTorsionalMomentService {
 
     if (result["Mtcd_Ratio"] < 0.2) {
       result['Mtcd_Result'] = "検討省略";
-      return result; //1114
+      // return result; //1114
     } else {
       result['Mtcd_Result'] = "省略不可";
     }

@@ -188,6 +188,21 @@ export class CalcServiceabilityTorsionalMomentService {
     }
     result["Vpd"] = Vpd;
 
+    if (!(result.Mtud1 in result)) {
+      // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
+      // Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
+      const Mtud1 = (1 - (result.ri * result.Md) / result.Mud) > 0 ? result.Mtcd * (0.2 + 0.8 * Math.pow(1 - (result.ri * result.Md) / result.Mud, 0.5)) : 0;
+
+      // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
+      // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
+      const Mtud2 = result.Mtcd * (1 - (0.8 * result.ri * result.Vd) / result.Vud);
+
+      result["Mtud1"] = Mtud1;
+      result["mtud2"] = Mtud2;
+    }
+
+    result["Mtud"] = result.Mtud1 > result.Mtud2 ? result.Mtud2 : result.Mtud1;
+
     let Mtud07: number = 0.7 * result.Mtud;
     result["Mtud07"] = Mtud07;
 
@@ -202,6 +217,19 @@ export class CalcServiceabilityTorsionalMomentService {
         result2 = this.vmu.calcVmu(res3, sectionV, fck, safetyV, null, force);
       }
       result2["Mt"] = result.Mt;
+      result2["fvcd"] = result.fvcd;
+      result2["Bd"] = result.Bd;
+      result2["pc"] = result.pc;
+      result2["Bp"] = result.Bp;
+      result2["Mo"] = result.Mo;
+      result2["Bn"] = result.Bn;
+      result2["Vcd"] = result.Vcd;
+      result2["Vsd"] = result.Vsd;
+      result2["Vyd"] = result.Vyd;
+      result2["fwcd"] = result.fwcd;
+      result2["Mtcd"] = result.Mtcd;
+      result2["Mud"] = result.Mud;
+
       result2["V_rbc"] = result.V_rbc;
       result2["V_rbs"] = result.V_rbs;
       result2["Vyd"] = result.Vyd;
@@ -219,22 +247,29 @@ export class CalcServiceabilityTorsionalMomentService {
       result2["Mtpd"] = Mtpd;
       result2["Vhd"] = Vhd;
       result2["Vpd"] = Vpd;
-      result2["Result"] = "OK";
-
-      return result2;
-    } else {
-      result["comMtud07"] =
-        Math.round(result.Mthd * 10) / 10 +
-        "≧" +
+      result2["comMtud07_Ratio"] = Math.round(result.Mthd * 10) / 10 +
+        "≦" +
         Math.round(result.Mtud07 * 10) / 10;
+      result2["comMtud07_Result"] = "検討省略";
+
+      return { result2 };
+    } else {
+      result["comMtud07_Ratio"] =
+        Math.round(result.Mthd * 10) / 10 +
+        ">" +
+        (Math.round(result.Mtud07 * 10) / 10).toFixed(1);
+      result["comMtud07_Result"] = "省略不可";
     }
-    let Mt1 = result.Mtcd * (1 - (0.8 * result.Vpd) / result.Vyd);
-    let Mt2 =
+    result["Mt1"] = result.Mtcd * (1 - (0.8 * result.Vpd) / result.Vyd);
+    result["Mt2"] =
       (result.Mtyd * (1 - result.Vpd / result.Vyd)) +
       ((0.2 * result.Mtcd * result.Vpd) / result.Vyd);
     let sigma_wpd =
-      ((result.Mtpd - 0.7 * Mt1) / (Mt2 - 0.7 * Mt1)) * result.fwyd;
+      ((result.Mtpd - 0.7 * result.Mt1) / (result.Mt2 - 0.7 * result.Mt1)) * result.fwyd;
     result["sigma_wpd"] = sigma_wpd;
+
+    // 鋼材の種類
+    result["steel_type"] = "異形鉄筋"　// 修正が必要
 
     // 環境条件
     const crackInfo = this.crack.getTableColumn(res.index);
@@ -260,17 +295,17 @@ export class CalcServiceabilityTorsionalMomentService {
     }
     result['sigma_12'] = sigma_12;
 
-    if(result.Asb !== undefined){
-       // 安全率
-      const Ratio2: number = result.ri * sigma_wpd / sigma_12;
-      result['Ratio'] = Ratio2;
 
-      let Result2: string = 'NG';
-      if (Ratio2 < 1) {
-        Result2 = 'OK';
-      }
-      result['Result'] = Result2;
+    // 安全率
+    const Ratio2: string = result.ri * sigma_wpd / sigma_12 <= 1 ? (result.ri * sigma_wpd / sigma_12).toFixed(3) + "≦ 1.000":(result.ri * sigma_wpd / sigma_12).toFixed(3) + "> 1.000";
+    result['sigma_Ratio'] = Ratio2;
+
+    let Result2: string = 'NG';
+    if (result.ri * sigma_wpd / sigma_12 <= 1) {
+      Result2 = 'OK';
     }
+    result['sigma_Result'] = Result2;
+
 
     return result;
   }
