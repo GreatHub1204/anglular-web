@@ -313,37 +313,44 @@ export class DataHelperModule {
   }
 
   // 側方鉄筋の情報を整理して返す
-  public sideInfo(barInfo: any, dst: number, dsc: number, height: number){
+  public sideInfo(barInfo1: any,barInfo2:any, dst: number, dsc: number, height: number){
 
     if(height===null){
       return null; // 円形など側鉄筋を用いない形状はスキップ
     }
 
     // 鉄筋径の入力が ない場合は スキップ
-    if (barInfo.side_dia === null) {
+    if (barInfo1.side_dia === null) {
       return null;
     }
-    const dia = Math.abs(barInfo.side_dia);
+    const dia = Math.abs(barInfo1.side_dia);
 
     // 異形鉄筋:D, 丸鋼: R
-    const mark = barInfo.side_dia > 0 ? "D" : "R";
+    const mark = barInfo1.side_dia > 0 ? "D" : "R";
 
     // 鉄筋段数
-    const n = barInfo.side_n;
+    const n = barInfo1.side_n;
     if (n === 0) {
       return null; // 鉄筋段数の入力が 0 の場合は スキップ
     }
 
     // 鉄筋間隔
-    let space = barInfo.side_ss;
+    let space = barInfo1.side_ss;
     if (this.toNumber(space) === null) {
       space = (height - dst - dsc) / (n + 1);
     }
 
     // 鉄筋かぶり
-    let cover = barInfo.side_cover;
+    let cover = barInfo1.side_cover;
     if (this.toNumber(cover) === null) {
       cover = dsc + space;
+    }
+
+
+    //　1118追加
+    let cover2 = barInfo2.side_cover;
+    if (this.toNumber(cover2) === null) {
+      cover2 =0;
     }
 
     // 1段当りの本数
@@ -355,6 +362,7 @@ export class DataHelperModule {
       n,
       space,
       cover,
+      cover2,
       line
     }
   }

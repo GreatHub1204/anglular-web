@@ -133,7 +133,7 @@ export class SetHorizontalOvalService {
 
     // sidebar
     if (safety.safety_factor.range >= 3) {
-      const sidebar: any = this.helper.sideInfo(bar.sidebar, tension.dsc, compress.dsc, result.H);
+      const sidebar: any = this.helper.sideInfo(bar.sidebar1,bar.sidebar2, tension.dsc, compress.dsc, result.H);
       if(sidebar !== null){
         const fsye = this.helper.getFsyk(
           sidebar.rebar_dia,
