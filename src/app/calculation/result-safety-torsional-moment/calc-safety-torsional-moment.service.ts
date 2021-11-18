@@ -335,6 +335,14 @@ export class CalcSafetyTorsionalMomentService {
       }
     }
 
+    // 折り曲げ鉄筋
+    const Asb = sectionV["Asb"];
+    let Atsb = 0;
+    if(!(Asb === null)){
+      Atsb = this.helper.toNumber(Asb.Asb);
+    }
+
+
     // スターラップ
     const Aw = sectionV["Aw"];
     let stirrup_dia = 0;
@@ -371,9 +379,10 @@ export class CalcSafetyTorsionalMomentService {
     let qw = (Atw * fwyd) / Ss;
 
     // ql	=	ΣAtl・fiyd／u
-    const Atl = Ast * fsyt + Asc * fsyc + Ase * fsye * 2;
+    const Atl = Ast + Asc + Ase;
+    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * fsye * 2 + Atsb * fwyd;
     const u = 2 * (b0 + d0);
-    let ql = Atl / u; //345追加
+    let ql = ΣAtl_fiyd / u; //345追加
     const _ql = 1.25 * qw;
     const _qw = 1.25 * ql;
     if (qw > _qw) {
