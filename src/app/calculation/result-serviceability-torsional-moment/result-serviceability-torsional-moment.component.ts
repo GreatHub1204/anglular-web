@@ -517,6 +517,13 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       };
     }
 
+    if("steel_type" in re){
+      result.steel_type = {
+        alien:"center",
+        value:re.steel_type
+      }
+    }
+
     // 耐力
     if ("Mu" in re) {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
@@ -611,7 +618,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       result.fwcd = { alien: "right", value: re.fwcd.toFixed(3) };
     }
     if ("Kt" in re) {
-      result.Kt = { alien: "right", value: re.Kt.toFixed(3) };
+      result.Kt = { alien: "right", value: re.Kt.toFixed(0) };
     }
     if ("Mtcud" in re) {
       result.Mtcud = { alien: "right", value: re.Mtcud.toFixed(1) };
@@ -631,7 +638,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       result.do = { alien: "right", value: re.do.toFixed(1) };
     }
     if ("Am" in re) {
-      result.Am = { alien: "right", value: re.Am.toFixed(3) };
+      result.Am = { alien: "right", value: re.Am.toFixed(0) };
     }
     if ("qw" in re) {
       result.qw = { alien: "right", value: re.qw.toFixed(1) };
@@ -683,7 +690,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
     }
 
     if ("con" in re) {
-      result.con = { alien: "right", value: re.con };
+      result.con = { alien: "center", value: re.con };
     }
     
     if ("comMtud07_Ratio" in re) {

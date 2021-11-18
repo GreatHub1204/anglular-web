@@ -191,7 +191,7 @@ export class CalcServiceabilityTorsionalMomentService {
     if (!(result.Mtud1 in result)) {
       // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
       // Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
-      const Mtud1 = result.Mtcd * (0.2 + 0.8 * Math.pow(1 - (result.ri * result.Md) / result.Mud, 0.5));
+      const Mtud1 = (1 - (result.ri * result.Md) / result.Mud) > 0 ? result.Mtcd * (0.2 + 0.8 * Math.pow(1 - (result.ri * result.Md) / result.Mud, 0.5)) : 0;
 
       // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
       // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
@@ -254,10 +254,10 @@ export class CalcServiceabilityTorsionalMomentService {
 
       return { result2 };
     } else {
-      result["comMtud07"] =
+      result["comMtud07_Ratio"] =
         Math.round(result.Mthd * 10) / 10 +
         ">" +
-        Math.round(result.Mtud07 * 10) / 10;
+        (Math.round(result.Mtud07 * 10) / 10).toFixed(1);
       result["comMtud07_Result"] = "省略不可";
     }
     result["Mt1"] = result.Mtcd * (1 - (0.8 * result.Vpd) / result.Vyd);
@@ -267,6 +267,9 @@ export class CalcServiceabilityTorsionalMomentService {
     let sigma_wpd =
       ((result.Mtpd - 0.7 * result.Mt1) / (result.Mt2 - 0.7 * result.Mt1)) * result.fwyd;
     result["sigma_wpd"] = sigma_wpd;
+
+    // 鋼材の種類
+    result["steel_type"] = "異形鉄筋"　// 修正が必要
 
     // 環境条件
     const crackInfo = this.crack.getTableColumn(res.index);
@@ -294,11 +297,11 @@ export class CalcServiceabilityTorsionalMomentService {
 
 
     // 安全率
-    const Ratio2: number = result.ri * sigma_wpd / sigma_12;
+    const Ratio2: string = result.ri * sigma_wpd / sigma_12 <= 1 ? (result.ri * sigma_wpd / sigma_12).toFixed(3) + "≦ 1.000":(result.ri * sigma_wpd / sigma_12).toFixed(3) + "> 1.000";
     result['sigma_Ratio'] = Ratio2;
 
     let Result2: string = 'NG';
-    if (Ratio2 < 1) {
+    if (result.ri * sigma_wpd / sigma_12 <= 1) {
       Result2 = 'OK';
     }
     result['sigma_Result'] = Result2;

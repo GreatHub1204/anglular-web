@@ -162,7 +162,8 @@ export class SetRectService {
       B: null,
       Bt: null,
       t: null,
-      tan: null
+      tan: null,
+      member:null,
     };
 
     const bar: any = this.bars.getCalcData(index);

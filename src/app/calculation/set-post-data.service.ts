@@ -98,7 +98,7 @@ export class SetPostDataService {
     const post_keys = [ 
       'index', 'side', 'Nd','Md',
       'ConcreteElastic', 'Concretes',
-      'SteelElastic', 'Bars', 'Steels'
+      'SteelElastic', 'Bars', 'Steels','shape'
     ];
 
     // 基本となる DesignForceList[0] の集計 ---------------------------------------------------------
@@ -243,7 +243,7 @@ export class SetPostDataService {
     const post_keys = [ 
       'index', 'side', 'Nd','Md',
       'ConcreteElastic', 'Concretes',
-      'SteelElastic', 'Bars', 'Steels'
+      'SteelElastic', 'Bars', 'Steels','shape'
     ];
 
     const dict = {};
