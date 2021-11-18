@@ -106,6 +106,7 @@ export class InputBarsService {
           if (!this.points.isEnable(pos)) {
             continue;
           }
+          
           // barデータに（部材、着目点など）足りない情報を追加する
           const data: any = this.getTableColumn(pos.index);
           data.m_no = member.m_no;
@@ -114,6 +115,10 @@ export class InputBarsService {
           data.position = pos.position;
           data.g_name = pos.g_name;
           data.p_name = pos.p_name;
+
+          if("sidebar" in data){
+            data["sidebar1"] = data["sidebar"]; 
+          }
 
           // データを2行に分ける
           const column1 = {};
@@ -169,8 +174,9 @@ export class InputBarsService {
           column2['rebar_ss'] = data['rebar2'].rebar_ss;
           column2['cos'] = data['rebar2'].cos;
           column2['enable'] = data['rebar2'].enable;
-
-          column2['side_cover'] = data['sidebar2'].side_cover;
+          if("sidebar2" in data){ 
+            column2['side_cover'] = data['sidebar2'].side_cover;
+          }
 
           table_groupe.push(column2);
           count++;
