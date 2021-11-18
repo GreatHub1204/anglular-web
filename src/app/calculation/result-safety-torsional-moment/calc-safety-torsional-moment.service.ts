@@ -346,7 +346,7 @@ export class CalcSafetyTorsionalMomentService {
       if (stirrup_dia === null) {
         stirrup_dia = 0;
       } else {
-        Atw = this.helper.toNumber(Aw.Aw);
+        Atw = this.helper.toNumber(Aw.Aw)/2;
         Ss = this.helper.toNumber(Aw.Ss);
         fwyd = this.helper.toNumber(Aw.fwyd);
       }
@@ -354,7 +354,7 @@ export class CalcSafetyTorsionalMomentService {
     // 純かぶりと鉄筋辺長
     const dtt = Math.max(dt - Ast_dia / 2 - stirrup_dia / 2, 0);
     const dct = Math.max(dc - Asc_dia / 2 - stirrup_dia / 2, 0);
-    const det = Math.max(de - Ase_dia / 2 - stirrup_dia / 2, 0);
+    const det = Math.max(de - Ast_dia / 2 - stirrup_dia / 2, 0);
     let d0: number = h - dtt - dct; // 鉄筋長辺
     let b0: number = bw - det * 2; // 鉄筋短辺
     if (d0 < b0) {

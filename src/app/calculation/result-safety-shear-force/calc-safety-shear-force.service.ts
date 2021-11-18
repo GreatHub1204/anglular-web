@@ -252,50 +252,50 @@ export class CalcSafetyShearForceService {
     result["Mu"] = Mu;
 
     // せん断耐力の照査
-    let rbc: number = 1;
-    rbc = this.helper.toNumber(safety.safety_factor.rbc);
-    if (rbc === null) {
-      rbc = 1;
+    let V_rbc: number = 1;
+    V_rbc = this.helper.toNumber(safety.safety_factor.V_rbc);
+    if (V_rbc === null) {
+      V_rbc = 1;
     }
 
-    const Vwcd: any = this.calcVwcd(fcd, (bw2 === null) ? bw : bw2, d, rbc);
+    const Vwcd: any = this.calcVwcd(fcd, (bw2 === null) ? bw : bw2, d, V_rbc);
     for (const key of Object.keys(Vwcd)) {
       result[key] = Vwcd[key];
     }
         
     if (La / d >= 2) {
 
-      result["rbc"] = rbc;
+      result["rbc"] = V_rbc;
 
-      let rbs: number = 1;
-      rbs = this.helper.toNumber(safety.safety_factor.rbs);
-      if (rbs === null) {
-        rbs = 1;
+      let V_rbs: number = 1;
+      V_rbs = this.helper.toNumber(safety.safety_factor.V_rbs);
+      if (V_rbs === null) {
+        V_rbs = 1;
       }
-      result["rbs"] = rbs;
+      result["rbs"] = V_rbs;
 
       const Vyd: any = this.calcVyd(
         fcd, d, pc, Nd, h,
-        Mu, bw, rbc, rVcd, deg, deg2,
-        Aw, Asb, fwyd, fwyd2, Ss, Ss2, rbs,
+        Mu, bw, V_rbc, rVcd, deg, deg2,
+        Aw, Asb, fwyd, fwyd2, Ss, Ss2, V_rbs,
         web_I_height, web_I_thickness, fsvyd_IWeb, Asv);
       for (const key of Object.keys(Vyd)) {
         result[key] = Vyd[key];
       }
     } else {
       // La / d < 2 の場合
-      let rbs: number = 1;
-      rbs = this.helper.toNumber(safety.safety_factor.rbs);
-      if (rbs === null) {
-        rbs = 1;
+      let V_rbs: number = 1;
+      V_rbs = this.helper.toNumber(safety.safety_factor.rbs);
+      if (V_rbs === null) {
+        V_rbs = 1;
       }
-      result["rbs"] = rbs;
+      result["rbs"] = V_rbs;
 
-      rbc = this.helper.toNumber(safety.safety_factor.rbd);
-      if (rbc === null) {
-        rbc = 1.2;
+      V_rbc = this.helper.toNumber(safety.safety_factor.rbd);
+      if (V_rbc === null) {
+        V_rbc = 1.2;
       }
-      result["rbc"] = rbc;
+      result["rbc"] = V_rbc;
 
       const speci1 = this.basic.get_specification1();
       const speci2 = this.basic.get_specification2();
@@ -303,7 +303,7 @@ export class CalcSafetyShearForceService {
         // JR東日本の場合
         const Vydd = this.calcVydd(
           fcd, d, La, pc, Nd, h, hw2,
-          Mu, bw, bw2, rbc, rVcd, deg, deg2,
+          Mu, bw, bw2, V_rbc, rVcd, deg, deg2,
           Aw, Asb, fwyd, fwyd2, Ss, Ss2)
 
         for (const key of Object.keys(Vydd)) {
@@ -314,7 +314,7 @@ export class CalcSafetyShearForceService {
         // 標準の式
         const Vdd: any = this.calcVdd(
           fcd, d, Aw, bw, Ss,
-          La, Nd, h, Mu, pc, rbc);
+          La, Nd, h, Mu, pc, V_rbc);
         for (const key of Object.keys(Vdd)) {
           result[key] = Vdd[key];
         }
@@ -362,8 +362,8 @@ export class CalcSafetyShearForceService {
   // 標準せん断耐力
   private calcVyd(
     fcd: number, d: number, pc: number, Nd: number, H: number,
-    Mu: number, B: number, rbc: number, rVcd: number, deg: number, deg2: number,
-    Aw: number, Asb: number, fwyd: number, fwyd2: number, Ss: number, Ss2: number, rbs: number,
+    Mu: number, B: number, V_rbc: number, rVcd: number, deg: number, deg2: number,
+    Aw: number, Asb: number, fwyd: number, fwyd2: number, Ss: number, Ss2: number, V_rbs: number,
     web_I_height: number, web_I_thickness: number, fsvyd_IWeb: number, Asv): any {
     const result = {};
 
@@ -397,7 +397,7 @@ export class CalcSafetyShearForceService {
     }
     result["Bn"] = Bn;
 
-    let Vcd = (Bd * Bp * Bn * fvcd * B * d) / rbc;
+    let Vcd = (Bd * Bp * Bn * fvcd * B * d) / V_rbc;
     Vcd = Vcd / 1000;
     Vcd = Vcd * rVcd; // 杭の施工条件
     result["Vcd"] = Vcd;
@@ -412,7 +412,7 @@ export class CalcSafetyShearForceService {
     result["sinCos"] = sinCos;
 
     let Vsd =
-      (((Aw * fwyd * sinCos) / Ss) * z) / rbs;
+      (((Aw * fwyd * sinCos) / Ss) * z) / V_rbs;
 
     Vsd = Vsd / 1000;
 
@@ -428,7 +428,7 @@ export class CalcSafetyShearForceService {
         Math.cos(this.helper.Radians(deg2));
       result["sinCos2"] = sinCos2;
 
-      let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / rbs;
+      let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / V_rbs;
 
       Vsd2 = Vsd2 / 1000;
       
