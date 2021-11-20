@@ -10,7 +10,6 @@ import { CalcSummaryTableService } from "../result-summary-table/calc-summary-ta
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
 
-
 @Component({
   selector: 'app-result-safety-torsional-moment',
   templateUrl: './result-safety-torsional-moment.component.html',
@@ -70,7 +69,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
   }
 
   // 計算結果を集計する
-  private setPages(OutputData: any): boolean {
+  public setPages(OutputData: any): boolean {
     try {
       this.safetyTorsionalMomentPages = this.getSafetyPages(OutputData);
       return true;
