@@ -460,7 +460,8 @@
           <th class="cell_name2 g-bottom1 g-left2">Vsd</th>
           <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
+            <td class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
+            <td class="{{column.Vsd2.alien}} g-right2 g-bottom1">{{column.Vsd2.value}}</td>
           </ng-container>
         </tr>
         <tr>
