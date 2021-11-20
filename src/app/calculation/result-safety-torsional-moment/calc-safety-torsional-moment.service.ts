@@ -358,7 +358,8 @@ export class CalcSafetyTorsionalMomentService {
         Ss = this.helper.toNumber(Aw.Ss);
         fwyd = this.helper.toNumber(Aw.fwyd);
       }
-    }
+    } 
+
     // 純かぶりと鉄筋辺長
     const dtt = Math.max(dt - Ast_dia / 2 - stirrup_dia / 2, 0);
     const dct = Math.max(dc - Asc_dia / 2 - stirrup_dia / 2, 0);
@@ -380,7 +381,7 @@ export class CalcSafetyTorsionalMomentService {
 
     // ql	=	ΣAtl・fiyd／u
     const Atl = Ast + Asc + Ase;
-    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * fsye * 2 + Atsb * fwyd;
+    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * fsye;
     const u = 2 * (b0 + d0);
     let ql = ΣAtl_fiyd / u; //345追加
     const _ql = 1.25 * qw;
