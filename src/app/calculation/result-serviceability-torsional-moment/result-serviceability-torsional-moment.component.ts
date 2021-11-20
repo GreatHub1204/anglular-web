@@ -102,6 +102,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
         columns: new Array(),
         SRCFlag: false,
       };
+      
 
       const safetyM = this.calc.getSafetyFactor("Md", g[0].g_id, safetyID);
       const safetyV = this.calc.getSafetyFactor("Vd", g[0].g_id, safetyID);

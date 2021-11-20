@@ -45,7 +45,7 @@ export class CalcSafetyShearForceService {
 
     const No5 = (this.save.isManual()) ? 5 : this.basic.pickup_shear_force_no(5);
     this.DesignForceList = this.force.getDesignForceList(
-      "Vd",No5 );
+      "Vd", No5);
   }
 
   // サーバー POST用データを生成する
@@ -60,8 +60,8 @@ export class CalcSafetyShearForceService {
     // POST 用
     const option = {};
 
-    const postData = this.post.setInputData( "Vd", "耐力", this.safetyID, option, 
-    force1[0] );
+    const postData = this.post.setInputData("Vd", "耐力", this.safetyID, option,
+      force1[0]);
 
     return postData;
   }
@@ -83,24 +83,27 @@ export class CalcSafetyShearForceService {
     const result: any = {}; // 印刷用
 
     // 断面力
-    let Md1: number = this.helper.toNumber(force.Md);
-    if (Md1 === null) {
-      Md1 = 0;
+    let Md1: number = 0;
+    if (force !== void 0) {
+      Md1 = this.helper.toNumber(force.Md);
     }
     let Md = Math.abs(Md1);
     if (Md !== 0) {
       result["Md"] = Md;
     }
 
-    let Nd: number = this.helper.toNumber(force.Nd);
-    if (Nd === null) {
-      Nd = 0;
+    let Nd: number = 0;
+    if(force !== void 0){
+      Nd = this.helper.toNumber(force.Nd);
     }
     if (Nd !== 0) {
       result["Nd"] = Nd;
     }
 
-    let Vd: number = Math.abs(this.helper.toNumber(force.Vd));
+    let Vd: number = 0
+    if(force !== void 0){
+      Vd = Math.abs(this.helper.toNumber(force.Vd));
+    }
     if (Vd === null) {
       return result;
     }
@@ -111,20 +114,20 @@ export class CalcSafetyShearForceService {
     const h: number = section.shape.H;
     result["H"] = h;
     let hw2 = null; //小判型における換算断面の幅
-    if(section.shape.Hw !== null) {
+    if (section.shape.Hw !== null) {
       hw2 = section.shape.Hw
     }
 
     const bw: number = section.shape.B;
     result["B"] = bw;
     let bw2 = null; //小判型における換算断面の幅
-    if(section.shape.Bw !== null) {
+    if (section.shape.Bw !== null) {
       bw2 = section.shape.Bw
     }
 
     // 有効高さ
     const dsc = section.Ast.dst;
-    let d: number = (hw2 === null) ? h - dsc: hw2 - dsc;;
+    let d: number = (hw2 === null) ? h - dsc : hw2 - dsc;;
     result["d"] = d;
 
     //  tanθc + tanθt
@@ -201,7 +204,7 @@ export class CalcSafetyShearForceService {
     if (rc === null) {
       rc = 1;
     }
-    result["rc"] =  rc;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  rc;
+    result["rc"] = rc; rc;
 
     let fcd: number = this.helper.toNumber(fc.fcd);
     if (fcd === null) {
@@ -233,16 +236,16 @@ export class CalcSafetyShearForceService {
     let web_I_height = this.helper.toNumber(section.steel.I.value.heightW);
     let web_I_thickness = this.helper.toNumber(section.steel.I.value.thicknessW);
     let Asv = web_I_height * web_I_thickness;
-    const fsvyd_IWeb = ('fsvy_Iweb' in section.steel) ? this.helper.toNumber(section.steel.fsvy_Iweb.fvyd): null;
+    const fsvyd_IWeb = ('fsvy_Iweb' in section.steel) ? this.helper.toNumber(section.steel.fsvy_Iweb.fvyd) : null;
 
     if (section.shapeName === "Circle") {
       web_I_height = this.helper.toNumber(section.shape.H); // 鋼材高さ
       web_I_thickness = this.helper.toNumber(section.steel.I.tension_flange);; // 鋼材厚さ
       const H = section.member.B;
-      const B = H - web_I_thickness*2;
-      const Hw = ( (-1-Math.PI/4)*H**2 + 2*H*B - (1-Math.PI/4)*B**2 )/( 2*B - 2*H );
+      const B = H - web_I_thickness * 2;
+      const Hw = ((-1 - Math.PI / 4) * H ** 2 + 2 * H * B - (1 - Math.PI / 4) * B ** 2) / (2 * B - 2 * H);
       const Bw = Hw - web_I_thickness * 2;
-      Asv = ( Hw**2 - Bw**2 ) / 2 //鋼材断面積
+      Asv = (Hw ** 2 - Bw ** 2) / 2 //鋼材断面積
     }
     //result['Hw'] = ( (-1-Math.PI/4)*H**2 + 2*H*result['B'] - (1-Math.PI/4)*result['B']**2)/(2*result['B'] - 2*H);
     //result['Bw'] = result['Hw'] - result['H'] + result['B'];
@@ -262,7 +265,7 @@ export class CalcSafetyShearForceService {
     for (const key of Object.keys(Vwcd)) {
       result[key] = Vwcd[key];
     }
-        
+
     if (La / d >= 2) {
 
       result["rbc"] = V_rbc;
@@ -299,7 +302,7 @@ export class CalcSafetyShearForceService {
 
       const speci1 = this.basic.get_specification1();
       const speci2 = this.basic.get_specification2();
-      if ( speci1=== 0 && (speci2 === 2 || speci2 === 5 )) {
+      if (speci1 === 0 && (speci2 === 2 || speci2 === 5)) {
         // JR東日本の場合
         const Vydd = this.calcVydd(
           fcd, d, La, pc, Nd, h, hw2,
@@ -309,7 +312,7 @@ export class CalcSafetyShearForceService {
         for (const key of Object.keys(Vydd)) {
           result[key] = Vydd[key];
         }
-        
+
       } else {
         // 標準の式
         const Vdd: any = this.calcVdd(
@@ -421,7 +424,7 @@ export class CalcSafetyShearForceService {
     let Vyd: number = Vcd + Vsd;
 
     //鉄骨鋼材の情報があれば鉄骨鋼材の値、無ければ折り曲げ鉄筋の値を算出する
-    if (web_I_height === null){
+    if (web_I_height === null) {
       //折り曲げ鉄筋のの設計せん断耐力
       let sinCos2: number =
         Math.sin(this.helper.Radians(deg2)) +
@@ -431,7 +434,7 @@ export class CalcSafetyShearForceService {
       let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / V_rbs;
 
       Vsd2 = Vsd2 / 1000;
-      
+
       // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
       Vsd2 = Math.min(Vsd2, Vsd);
 
@@ -564,12 +567,12 @@ export class CalcSafetyShearForceService {
     result["Bd"] = Bd;
 
     //let Bp: number = (1 + Math.pow(100 * pc, 1/3)) / 2;
-    let Bp: number = (0 + Math.pow(100 * pc, 1/3));
+    let Bp: number = (0 + Math.pow(100 * pc, 1 / 3));
     Bp = Math.min(Bp, 1.5);
     result["Bp"] = Bp;
 
     //M0 = NDD / AC * iC / Y
-    let Mo: number = (Hw === null) ? (Nd * H) / 6000: (Nd * Hw) / 6000;
+    let Mo: number = (Hw === null) ? (Nd * H) / 6000 : (Nd * Hw) / 6000;
     result["Mo"] = Mo;
 
     let Bn: number;
@@ -587,7 +590,7 @@ export class CalcSafetyShearForceService {
     //let pw: number = Aw / (B * Ss);
     //result["pw"] = pw;
     //if (pw < 0.002) {
-      //pw = 0;
+    //pw = 0;
     //}
 
     //せん断スパン比
@@ -599,8 +602,8 @@ export class CalcSafetyShearForceService {
     //result["Bw"] = Bw;
 
     // Vcddの算出
-    const Vcdd: number = (Bw === null) ? 0.65 * Ba * fvcd * Bd * Bp * Bn * B  * d / rbc :
-                                          0.65 * Ba * fvcd * Bd * Bp * Bn * Bw * d / rbc ;
+    const Vcdd: number = (Bw === null) ? 0.65 * Ba * fvcd * Bd * Bp * Bn * B * d / rbc :
+      0.65 * Ba * fvcd * Bd * Bp * Bn * Bw * d / rbc;
     result["Vdd"] = Vcdd / 1000;
 
     let Bs: number = (La / d < 0) ? 0.0 : (La / d > 1) ? 1.0 : 2 * (La / d - 0.5);
@@ -629,7 +632,7 @@ export class CalcSafetyShearForceService {
 
     // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
     Vsd2 = Math.min(Vsd2, Vsd);
-    
+
     // Vsddの算出
     const Vsdd: number = Bs * (Vsd + Vsd2);
 

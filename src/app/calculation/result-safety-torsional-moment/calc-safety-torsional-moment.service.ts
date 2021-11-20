@@ -147,6 +147,10 @@ export class CalcSafetyTorsionalMomentService {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
     }
 
+    if (force === void 0) {
+      return result;
+    }
+
     if (!('Mt' in force)) {
       return result;
     }
@@ -338,7 +342,7 @@ export class CalcSafetyTorsionalMomentService {
     // 折り曲げ鉄筋
     const Asb = sectionV["Asb"];
     let Atsb = 0;
-    if(!(Asb === null)){
+    if (!(Asb === null)) {
       Atsb = this.helper.toNumber(Asb.Asb);
     }
 
@@ -354,11 +358,11 @@ export class CalcSafetyTorsionalMomentService {
       if (stirrup_dia === null) {
         stirrup_dia = 0;
       } else {
-        Atw = this.helper.toNumber(Aw.Aw)/2;
+        Atw = this.helper.toNumber(Aw.Aw) / 2;
         Ss = this.helper.toNumber(Aw.Ss);
         fwyd = this.helper.toNumber(Aw.fwyd);
       }
-    } 
+    }
 
     // 純かぶりと鉄筋辺長
     const dtt = Math.max(dt - Ast_dia / 2 - stirrup_dia / 2, 0);
