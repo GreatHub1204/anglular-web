@@ -399,6 +399,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
       Mo: { alien: "center", value: "-" },
       Vcd: { alien: "center", value: "-" },
       Vsd: { alien: "center", value: "-" },
+      Vsd2:{alien:"center",value:"-"},
 
       ri: { alien: "center", value: "-" },
 
@@ -583,6 +584,9 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
     }
     if("Vsd" in re){
       result.Vsd = { alien: "right", value: re.Vsd.toFixed(1) };
+    }
+    if("Vsd2" in re){
+      result.Vsd2 = { alien: "right", value: re.Vsd2.toFixed(1) };
     }
     if ("ri" in re) {
       result.ri = { alien: "right", value: re.ri.toFixed(2) };
