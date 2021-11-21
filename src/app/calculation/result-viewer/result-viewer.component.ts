@@ -21,6 +21,7 @@ import { UserInfoService } from 'src/app/providers/user-info.service';
 import { CalcSafetyTorsionalMomentService } from '../result-safety-torsional-moment/calc-safety-torsional-moment.service';
 import { CalcServiceabilityTorsionalMomentService } from '../result-serviceability-torsional-moment/calc-serviceability-torsional-moment.service';
 import { CalcRestorabilityTorsionalMomentService } from '../result-restorability-torsional-moment/calc-restorability-torsional-moment.service';
+import { CalcEarthquakesTosionalMomentService } from '../result-earthquakes-torsional-moment/calc-earthquakes-tosional-moment.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class ResultViewerComponent implements OnInit {
     public durabilityMoment: CalcDurabilityMomentService,
     public earthquakesMoment: CalcEarthquakesMomentService,
     public earthquakesShearForce: CalcEarthquakesShearForceService,
+    public earthquakesTorsionalMoment:CalcEarthquakesTosionalMomentService,
     public restorabilityMoment: CalcRestorabilityMomentService,
     public restorabilityShearForce: CalcRestorabilityShearForceService,
     public restorabilityTorsionalMoment:CalcRestorabilityTorsionalMomentService,
@@ -71,6 +73,7 @@ export class ResultViewerComponent implements OnInit {
     this.durabilityMoment.setDesignForces();
     this.earthquakesMoment.setDesignForces();
     this.earthquakesShearForce.setDesignForces();
+    this.earthquakesTorsionalMoment.setDesignForces();
     this.restorabilityMoment.setDesignForces();
     this.restorabilityShearForce.setDesignForces();
     this.restorabilityTorsionalMoment.setDesignForces();

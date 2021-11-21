@@ -188,6 +188,7 @@ import { ResultEarthquakesTorsionalMomentComponent } from './calculation/result-
     ResultRestorabilityShearForceComponent,
     ResultServiceabilityMomentComponent,
     ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent,
   ],
   bootstrap: [
     AppComponent

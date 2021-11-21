@@ -20,6 +20,7 @@ export class CalcSummaryTableService {
       durabilityMoment: false,
       earthquakesMoment: false,
       earthquakesShearForce: false,
+      earthquakesTorsionalMoment:false,
       restorabilityMoment: false,
       restorabilityShearForce: false,
       restorabilityTorsionalMoment: false,
@@ -206,6 +207,9 @@ export class CalcSummaryTableService {
             this.summary_table[key] = columns;
             break;
 
+          case "earthquakesTorsionalMoment":
+            break;
+
           case "restorabilityMoment":
             // index と side が同じデータだ既に登録されていればそのデータに追加する
             index = col.index;
@@ -301,7 +305,7 @@ export class CalcSummaryTableService {
 
             this.summary_table[key] = columns;
             break;
-          case "restorabilityTosionalMomentForce":
+          case "restorabilityTorsionalMoment":
             break;
 
           case "SafetyFatigueMoment":
@@ -744,7 +748,10 @@ export class CalcSummaryTableService {
         Vyd: "-",
         Vyd_Ratio: "-",
       },
-      restorabilityTorsionalMoment:{
+      restorabilityTorsionalMoment: {
+        //あとで
+      },
+      earthquakesTorsionalMoment: {
         //あとで
       },
       SafetyFatigueMoment: {
