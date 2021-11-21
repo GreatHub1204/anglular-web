@@ -61,6 +61,7 @@ import { CalcRestorabilityMomentService } from './calculation/result-restorabili
 import { CalcRestorabilityShearForceService } from './calculation/result-restorability-shear-force/calc-restorability-shear-force.service';
 import { CalcEarthquakesMomentService } from './calculation/result-earthquakes-moment/calc-earthquakes-moment.service';
 import { CalcEarthquakesShearForceService } from './calculation/result-earthquakes-shear-force/calc-earthquakes-shear-force.service';
+import { CalcRestorabilityTorsionalMomentService } from './calculation/result-restorability-torsional-moment/calc-restorability-torsional-moment.service';
 
 import { ResultViewerComponent } from './calculation/result-viewer/result-viewer.component';
 import { ResultSafetyMomentComponent } from './calculation/result-safety-moment/result-safety-moment.component';
@@ -84,6 +85,8 @@ import { SetDesignForceService} from './calculation/set-design-force.service';
 import { SetPostDataService} from './calculation/set-post-data.service';
 import { environment } from 'src/environments/environment';
 import { ResultServiceabilityTorsionalMomentComponent } from './calculation/result-serviceability-torsional-moment/result-serviceability-torsional-moment.component';
+import { ResultRestorabilityTorsionalMomentComponent } from './calculation/result-restorability-torsional-moment/result-restorability-torsional-moment.component';
+import { ResultEarthquakesTorsionalMomentComponent } from './calculation/result-earthquakes-torsional-moment/result-earthquakes-torsional-moment.component';
 
 @NgModule({
   imports: [
@@ -135,7 +138,9 @@ import { ResultServiceabilityTorsionalMomentComponent } from './calculation/resu
     CrackSettingsComponent,
     ResultMinimumReinforcementComponent,
     ResultSafetyTorsionalMomentComponent,
-    ResultServiceabilityTorsionalMomentComponent
+    ResultServiceabilityTorsionalMomentComponent,
+    ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent
   ],
   entryComponents: [
     LoginDialogComponent,
@@ -177,10 +182,13 @@ import { ResultServiceabilityTorsionalMomentComponent } from './calculation/resu
     // declarations だけではなくココ(providers) にも宣言して
     // 他のコンポーネントから機能の一部を使えるようにする
     ResultSafetyShearForceComponent,
+    ResultSafetyTorsionalMomentComponent,
     ResultSafetyMomentComponent,
     ResultRestorabilityMomentComponent,
     ResultRestorabilityShearForceComponent,
     ResultServiceabilityMomentComponent,
+    ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent,
   ],
   bootstrap: [
     AppComponent

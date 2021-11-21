@@ -11,7 +11,7 @@ export class CalcSummaryTableService {
   // 計算終了フラグ
   private summaryDone: any;
 
-  constructor() {}
+  constructor() { }
 
   public clear() {
     this.summary_table = {};
@@ -20,8 +20,10 @@ export class CalcSummaryTableService {
       durabilityMoment: false,
       earthquakesMoment: false,
       earthquakesShearForce: false,
+      earthquakesTorsionalMoment:false,
       restorabilityMoment: false,
       restorabilityShearForce: false,
+      restorabilityTorsionalMoment: false,
       SafetyFatigueMoment: false,
       safetyFatigueShearForce: false,
       safetyMoment: false,
@@ -100,8 +102,8 @@ export class CalcSummaryTableService {
             columns.durabilityMoment.Wlim = col.Wlim.value;
             if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
               columns.durabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
-                col.WdWlim.value.toFixed(2) + ' < 1.00' : 
-                col.WdWlim.value.toFixed(2) + ' > 1.00' ;
+                col.WdWlim.value.toFixed(2) + ' < 1.00' :
+                col.WdWlim.value.toFixed(2) + ' > 1.00';
             }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
@@ -205,6 +207,9 @@ export class CalcSummaryTableService {
             this.summary_table[key] = columns;
             break;
 
+          case "earthquakesTorsionalMoment":
+            break;
+
           case "restorabilityMoment":
             // index と side が同じデータだ既に登録されていればそのデータに追加する
             index = col.index;
@@ -299,6 +304,8 @@ export class CalcSummaryTableService {
             if (col.steelFlag) this.isSRC = true;
 
             this.summary_table[key] = columns;
+            break;
+          case "restorabilityTorsionalMoment":
             break;
 
           case "SafetyFatigueMoment":
@@ -556,16 +563,16 @@ export class CalcSummaryTableService {
             if (col.sigma_s.value !== '-') {
               if (col.sigma_s.value !== '全断面圧縮') {
                 columns.serviceabilityMoment.sigma_s_ratio = (col.sigma_s_ratio.value < 1) ?
-                  col.sigma_s_ratio.value.toFixed(2) + ' < 1.00' : 
-                  col.sigma_s_ratio.value.toFixed(2) + ' > 1.00' ;
-                columns.serviceabilityMoment.sigma_s = 
+                  col.sigma_s_ratio.value.toFixed(2) + ' < 1.00' :
+                  col.sigma_s_ratio.value.toFixed(2) + ' > 1.00';
+                columns.serviceabilityMoment.sigma_s =
                   col.sigma_s_ratio.dividend.toFixed(2) + '/' + col.sigma_s_ratio.divisor.toFixed(0);
               }
             }
             if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
               columns.serviceabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
-                col.WdWlim.value.toFixed(2) + ' < 1.00' : 
-                col.WdWlim.value.toFixed(2) + ' > 1.00' ;
+                col.WdWlim.value.toFixed(2) + ' < 1.00' :
+                col.WdWlim.value.toFixed(2) + ' > 1.00';
             }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
@@ -672,7 +679,7 @@ export class CalcSummaryTableService {
 
             this.summary_table[key] = columns;
             break;
-  
+
         }
       }
     }
@@ -740,6 +747,12 @@ export class CalcSummaryTableService {
         Vd: "-",
         Vyd: "-",
         Vyd_Ratio: "-",
+      },
+      restorabilityTorsionalMoment: {
+        //あとで
+      },
+      earthquakesTorsionalMoment: {
+        //あとで
       },
       SafetyFatigueMoment: {
         ri: "-",
@@ -812,7 +825,7 @@ export class CalcSummaryTableService {
     return true;
   }
 
-  private zeroPadding(NUM: number, LEN = 9){
-    return ( Array(LEN).join('0') + NUM ).slice( -LEN );
+  private zeroPadding(NUM: number, LEN = 9) {
+    return (Array(LEN).join('0') + NUM).slice(-LEN);
   }
 }

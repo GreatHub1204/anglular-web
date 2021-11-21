@@ -317,6 +317,7 @@ export class SetDesignForceService {
           "V_rs",
           "V_rbc",
           "V_rbs",
+          "T_rbt"
         ]) {
           if (this.helper.toNumber(safety[key]) === null) {
             flg = true;
