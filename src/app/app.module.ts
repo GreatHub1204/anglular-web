@@ -86,6 +86,7 @@ import { SetPostDataService} from './calculation/set-post-data.service';
 import { environment } from 'src/environments/environment';
 import { ResultServiceabilityTorsionalMomentComponent } from './calculation/result-serviceability-torsional-moment/result-serviceability-torsional-moment.component';
 import { ResultRestorabilityTorsionalMomentComponent } from './calculation/result-restorability-torsional-moment/result-restorability-torsional-moment.component';
+import { ResultEarthquakesTorsionalMomentComponent } from './calculation/result-earthquakes-torsional-moment/result-earthquakes-torsional-moment.component';
 
 @NgModule({
   imports: [
@@ -138,7 +139,8 @@ import { ResultRestorabilityTorsionalMomentComponent } from './calculation/resul
     ResultMinimumReinforcementComponent,
     ResultSafetyTorsionalMomentComponent,
     ResultServiceabilityTorsionalMomentComponent,
-    ResultRestorabilityTorsionalMomentComponent
+    ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent
   ],
   entryComponents: [
     LoginDialogComponent,

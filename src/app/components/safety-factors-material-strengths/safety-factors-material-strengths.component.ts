@@ -96,6 +96,7 @@ export class SafetyFactorsMaterialStrengthsComponent
           id: col.id, title: col.title,
           M_rc: col.M_rc, M_rs: col.M_rs, M_rbs: col.M_rbs,
           V_rc: col.V_rc, V_rs: col.V_rs, V_rbc: col.V_rbc, V_rbs: col.V_rbs, V_rbv: col.V_rbv,
+          T_rbt:col.T_rbt,
           ri: col.ri, range: col.range
         });
         steel.push({
@@ -230,6 +231,9 @@ export class SafetyFactorsMaterialStrengthsComponent
         { title: 'γbs', dataType: 'float', 'format':'#.00', dataIndx: 'V_rbs', sortable: false, width: 70 },
         { title: 'γbd', dataType: 'float', 'format':'#.00', dataIndx: 'V_rbv', sortable: false, width: 70 }
       ]},
+      {title:'ねじり安全係数',align:'center',colModel:[
+        {title:'γbt',dataType:'float', 'format':'#.00', dataIndx: 'T_rbt', sortable: false, width: 70 }
+      ]},
       { title: '係数γi', dataType: 'float', 'format':'#.00', dataIndx: 'ri', sortable: false, width: 70 },
       { title: '鉄筋配置', dataType: 'string'              , dataIndx: 'range', sortable: false, width: 100 },
     ];
@@ -295,6 +299,7 @@ export class SafetyFactorsMaterialStrengthsComponent
           id: bar.id, title: bar.title,
           M_rc: bar.M_rc, M_rs: bar.M_rs, M_rbs: bar.M_rbs,
           V_rc: bar.V_rc, V_rs: bar.V_rs, V_rbc: bar.V_rbc, V_rbs: bar.V_rbs, V_rbv: bar.V_rbv,
+          T_rbt:bar.T_rbt,
           ri: bar.ri, range: bar.range,
           S_rs: steel.S_rs, S_rb: steel.S_rb
         })

@@ -146,7 +146,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             const Ast = sectionM.Ast;
 
             const titleColumn = this.result.getTitleString(sectionM.member, position, side);
-            const fck: any = this.helper.getFck(safetyM);
+            const fck: any = this.helper.getFck(safetyV);
 
             const column: any = this.getResultString(
               this.calc.calcMtud(OutputData, res, sectionM, sectionV, fck, safetyM, safetyV, position.La, force)
@@ -200,7 +200,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), "center");
             /////////////// 鉄筋強度情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(sectionM.Ast.fsy, 1), "center");
-            column['rs'] = this.result.alien(sectionM.Ast.rs.toFixed(2), "center");
+            column['rs'] = this.result.alien(sectionV.Ast.rs.toFixed(2), "center");
             column['fsd'] = this.result.alien(this.result.numStr(sectionM.Ast.fsd, 1), "center");
             /////////////// 鉄骨情報 ///////////////
             if (SRC_pik in sectionM.steel) {
@@ -283,8 +283,8 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
 
       Aw: { alien: "center", value: "-" },
       AwString: { alien: "center", value: "-" },
-      Atw:{alien:"center",value:"-"},
-      Atl:{alien:"center",value:"-"},
+      Atw: { alien: "center", value: "-" },
+      Atl: { alien: "center", value: "-" },
 
 
       Ab: { alien: "center", value: "-" },
@@ -292,8 +292,8 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       deg: { alien: "center", value: "-" },
       Ss: { alien: "center", value: "-" },
 
-      s:{alien:"center",value:"-"},
-      u:{alien:"center",value:"-"},
+      s: { alien: "center", value: "-" },
+      u: { alien: "center", value: "-" },
 
 
       Asb: { alien: "center", value: "-" },
@@ -313,7 +313,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       Mo: { alien: "center", value: "-" },
       Vcd: { alien: "center", value: "-" },
       Vsd: { alien: "center", value: "-" },
-      Vsd2:{alien:"center",value:"-"},
+      Vsd2: { alien: "center", value: "-" },
 
       ri: { alien: "center", value: "-" },
       Vyd_ratio: { alien: "center", value: "-" },
@@ -322,8 +322,10 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       // rb: { alien: "center", value: "-" },
       Mud: { alien: "center", value: "-" },
       Mudd: { alien: "center", value: "-" },
+      V_rbt: { alien: "center", value: "-" },
       V_rbc: { alien: "center", value: "-" },
       V_rbs: { alien: "center", value: "-" },
+      T_rbt: {alien:"center",value:"-"},
       Mu: { alien: "center", value: "-" },
       Vyd: { alien: "center", value: "-" },
       fwcd: { alien: "center", value: "-" },
@@ -349,7 +351,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       Mtcd: { alien: "center", value: "-" },
       Mtcd_Ratio: { alien: "center", value: "-" },
       Mtcd_Result: { alien: "center", value: "-" },
-     
+
       Mtud1: { alien: "center", value: "-" },
       Mtud1_Ratio: { alien: "center", value: "-" },
       Mtud1_Result: { alien: "center", value: "-" },
@@ -424,31 +426,31 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     }
 
     // 計算結果   
-    if("fvcd" in re){
+    if ("fvcd" in re) {
       result.fvcd = { alien: "right", value: re.fvcd.toFixed(3) };
     }
-    if("Bd" in re){
+    if ("Bd" in re) {
       result.Bd = { alien: "right", value: re.Bd.toFixed(3) };
     }
-    if("pc" in re){
+    if ("pc" in re) {
       result.pc = { alien: "right", value: re.pc.toFixed(3) };
     }
-    if("Bp" in re){
+    if ("Bp" in re) {
       result.Bp = { alien: "right", value: re.Bp.toFixed(3) };
     }
-    if("Mo" in re){
+    if ("Mo" in re) {
       result.Mo = { alien: "right", value: re.Mo.toFixed(1) };
     }
-    if("Bn" in re){
+    if ("Bn" in re) {
       result.Bn = { alien: "right", value: re.Bn.toFixed(3) };
     }
-    if("Vcd" in re){
+    if ("Vcd" in re) {
       result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
     }
-    if("Vsd" in re){
+    if ("Vsd" in re) {
       result.Vsd = { alien: "right", value: re.Vsd.toFixed(1) };
     }
-    if("Vsd2" in re){
+    if ("Vsd2" in re) {
       result.Vsd2 = { alien: "right", value: re.Vsd2.toFixed(1) };
     }
     if ("ri" in re) {
@@ -475,12 +477,19 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     // if ("rbs" in re) {
     //   result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
     // }
+    if ("V_rbt" in re) {
+      result.V_rbt = { alien: "right", value: re.V_rbt.toFixed(2) };
+    }
     if ("V_rbc" in re) {
       result.V_rbc = { alien: "right", value: re.V_rbc.toFixed(2) };
     }
     if ("V_rbs" in re) {
       result.V_rbs = { alien: "right", value: re.V_rbs.toFixed(2) };
     }
+    if("T_rbt" in re){
+      result.T_rbt = {alien:"right",value:re.T_rbt.toFixed(2)};
+    }
+
     if ("Mu" in re) {
       result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
     }
@@ -511,13 +520,13 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     if ("Am" in re) {
       result.Am = { alien: "right", value: re.Am.toFixed(0) };
     }
-    if("Atw" in re){
+    if ("Atw" in re) {
       result.Atw = { alien: "right", value: re.Atw.toFixed(1) };
     }
-    if("Atl" in re){
+    if ("Atl" in re) {
       result.Atl = { alien: "right", value: re.Atl.toFixed(0) };
     }
-    if("u" in re){
+    if ("u" in re) {
       result.u = { alien: "right", value: re.u.toFixed(0) };
     }
     if ("qw" in re) {
@@ -562,8 +571,8 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
       }
     }
     if ("Mtud1_Result" in re) {
-        result.Mtud1_Result = { alien: "center", value: re.Mtud1_Result };
-      }
+      result.Mtud1_Result = { alien: "center", value: re.Mtud1_Result };
+    }
 
     if ("Mtud2" in re) {
       result.Mtud2 = { alien: "right", value: re.Mtud2.toFixed(1) };

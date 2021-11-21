@@ -160,12 +160,14 @@ export class CalcSafetyTorsionalMomentService {
     // 部材係数
     const resultData1 = res1.Reactions[0];
     const resultData2 = res2.Reactions[0];
-    const safety_factor = safetyM.safety_factor;
+    const safetyM_factor = safetyM.safety_factor;
+    const safetyV_factor = safetyV.safety_factor;
 
-    const M_rb: number = safety_factor.M_rb;
-    const V_rbc: number = safety_factor.M_rc;
-    const V_rbs: number = safety_factor.S_rb;
-    result["M_rb"] = M_rb;
+    const M_rb: number = safetyM_factor.M_rb;
+    const V_rbc: number = safetyV_factor.V_rbc;
+    const V_rbs: number = safetyV_factor.V_rbs;
+    const T_rbt: number = safetyV_factor.T_rbt;
+    result["T_rbt"] = T_rbt;
     result["V_rbc"] = V_rbc;
     result["V_rbs"] = V_rbs;
     const Mud = resultData1.M.Mi / M_rb;
@@ -201,7 +203,7 @@ export class CalcSafetyTorsionalMomentService {
     result["ftd"] = ftd;
 
     let ri: number = 0;
-    ri = this.helper.toNumber(safety_factor.ri);
+    ri = this.helper.toNumber(safetyV_factor.ri);
     if (ri === null) {
       ri = 1;
     }
@@ -237,7 +239,7 @@ export class CalcSafetyTorsionalMomentService {
     result["Kt"] = Kt;
 
     // Ｍtcd	=	βnt・Ｋt・ftd／γb
-    const Mtcd = (Bnt * Kt * ftd) / V_rbc / 1000000; // γbを1.3に固定
+    const Mtcd = (Bnt * Kt * ftd) / T_rbt / 1000000;
     result["Mtcd"] = Mtcd;
 
     const Mtcd_Ratio: number = (ri * Mt) / Mtcd;
@@ -280,7 +282,7 @@ export class CalcSafetyTorsionalMomentService {
     result["fwcd"] = fwcd;
 
     // Ｍtcud	=	Ｋt・fwcd／ γb
-    const Mtcud = (Kt * fwcd) / 1.3 / 1000000;
+    const Mtcud = (Kt * fwcd) / T_rbt / 1000000;
     const Mtcud_Ratio: number = (ri * Mt) / Mtcud;
     result["Mtcud"] = Mtcud;
     result["Mtcud_Ratio"] = Mtcud_Ratio;
@@ -384,8 +386,8 @@ export class CalcSafetyTorsionalMomentService {
     let qw = (Atw * fwyd) / Ss;
 
     // ql	=	ΣAtl・fiyd／u
-    const Atl = Ast + Asc + Ase;
-    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * fsye;
+    const Atl = Ast + Asc + Ase * 2;
+    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * 2 * fsye;
     const u = 2 * (b0 + d0);
     let ql = ΣAtl_fiyd / u; //345追加
     const _ql = 1.25 * qw;
@@ -403,7 +405,7 @@ export class CalcSafetyTorsionalMomentService {
     result["ql"] = ql;
 
     // Ｍtyd	=	2・Ａm・(qw・ql)1/2 / γb
-    const Mtyd = (2 * Am * Math.pow(qw * ql, 0.5)) / V_rbc;
+    const Mtyd = (2 * Am * Math.pow(qw * ql, 0.5)) / T_rbt;
     result["Mtyd"] = Mtyd;
 
     // ③ 設計曲げモーメントが同時に作用する場合の設計ねじり耐力

@@ -232,6 +232,7 @@ export class CalcServiceabilityTorsionalMomentService {
 
       result2["V_rbc"] = result.V_rbc;
       result2["V_rbs"] = result.V_rbs;
+      result2["T_rbt"] = result.T_rbt;
       result2["Vyd"] = result.Vyd;
       result2["ftd"] = result.ftd;
       result2["ri"] = result.ri;
