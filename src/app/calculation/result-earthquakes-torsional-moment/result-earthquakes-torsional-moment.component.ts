@@ -16,7 +16,7 @@ styleUrls: ["../result-viewer/result-viewer.component.scss"]
 })
 export class ResultEarthquakesTorsionalMomentComponent implements OnInit {
   public title: string = "復旧性（地震時）";
-  public page_index = "ap_16";
+  public page_index = "ap_17";
   public isLoading = true;
   public isFulfilled = false;
   public err: string;

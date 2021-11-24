@@ -509,8 +509,13 @@
           <th class="cell_name2 g-bottom1 g-left2">Vsd</th>
           <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
-            <td class="{{column.Vsd2.alien}} g-right2 g-bottom1">{{column.Vsd2.value}}</td>
+            <ng-container *ngIf="!column.bendFlag">
+              <td colspan="2" class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.bendFlag">
+              <td class="{{column.Vsd.alien}}  g-bottom1">{{column.Vsd.value}}</td>
+              <td class="{{column.Vsd2.alien}} g-right2 g-bottom1">{{column.Vsd2.value}}</td>
+            </ng-container>
           </ng-container>
         </tr>
         <tr>
@@ -620,7 +625,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">γ<sub>i</sub>・Mtcd/Mtcd<0.2</th>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">γ<sub>i</sub>・Mtd/Mtcd<0.2</th>
               <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.Mtcd_Ratio.alien}} g-right2 g-bottom2">{{column.Mtcd_Ratio.value}}</td>
           </ng-container>
@@ -676,7 +681,7 @@
               {{column.B.value}}</td>
           </ng-container>
         </tr>
-        
+
         <!-- <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">tanθ<sub>c</sub> + tanθ<sub></sub>t</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
@@ -947,7 +952,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦0.5</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud1_Ratio.alien}} g-right2 g-bottom1">{{column.Mtud1_Ratio.value}}</td>
+            <td rowspan="2" colspan="2" class="{{column.Mtud1_Ratio.alien}} g-right2 g-bottom1">
+              {{column.Mtud1_Ratio.value}}</td>
           </ng-container>
         </tr>
         <tr>
@@ -969,7 +975,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦0.5</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud2_Ratio.alien}} g-right2 g-bottom1">{{column.Mtud2_Ratio.value}}</td>
+            <td rowspan="2" colspan="2" class="{{column.Mtud2_Ratio.alien}} g-right2 g-bottom1">
+              {{column.Mtud2_Ratio.value}}</td>
           </ng-container>
         </tr>
         <tr>
@@ -1042,7 +1049,7 @@
           <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <!-- <ng-container *ngIf="!column.bendFlag"> -->
-              <td colspan="2" class="{{column.Ss.alien}} g-right2 g-bottom1">{{column.Ss.value}}</td>
+            <td colspan="2" class="{{column.Ss.alien}} g-right2 g-bottom1">{{column.Ss.value}}</td>
             <!-- </ng-container> -->
           </ng-container>
         </tr>
@@ -1051,7 +1058,7 @@
           <th class="cell_name3 g-right2 g-bottom1">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <!-- <ng-container *ngIf="!column.bendFlag"> -->
-              <td colspan="2" class="{{column.u.alien}} g-right2 g-bottom1">{{column.u.value}}</td>
+            <td colspan="2" class="{{column.u.alien}} g-right2 g-bottom1">{{column.u.value}}</td>
             <!-- </ng-container> -->
           </ng-container>
         </tr>
@@ -1074,7 +1081,7 @@
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.Mud.alien}} g-right2 g-bottom1">{{column.Mud.value}}</td>
           </ng-container>
-        </tr>        
+        </tr>
         <tr>
           <th class="cell_name2 g-bottom1 g-left2">Mud'</th>
           <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
@@ -1099,7 +1106,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦1.0</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud3_Ratio.alien}} g-right2 g-bottom1">{{column.Mtud3_Ratio.value}}</td>
+            <td rowspan="2" colspan="2" class="{{column.Mtud3_Ratio.alien}} g-right2 g-bottom1">
+              {{column.Mtud3_Ratio.value}}</td>
           </ng-container>
         </tr>
         <tr>
@@ -1121,7 +1129,8 @@
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦1.0</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud4_Ratio.alien}} g-right2 g-bottom1">{{column.Mtud4_Ratio.value}}</td>
+            <td rowspan="2" colspan="2" class="{{column.Mtud4_Ratio.alien}} g-right2 g-bottom1">
+              {{column.Mtud4_Ratio.value}}</td>
           </ng-container>
         </tr>
         <tr>
