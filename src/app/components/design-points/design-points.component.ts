@@ -69,9 +69,6 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
                 if (key === "isVzCalc") {
                   target["isVyCalc"] = false;
                 }
-                if (key === "isMtCalc") {
-                  target["isMtCalc"] = false;
-                }
               }
             }
           }
