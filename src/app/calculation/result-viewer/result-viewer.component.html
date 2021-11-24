@@ -102,6 +102,10 @@
           <li><a routerLink="/result-viewer" fragment="ap_9">
               復旧性（損傷）せん断</a></li>
         </ng-container>
+        <ng-container *ngIf="restorabilityTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_16">
+              復旧性（損傷）ねじりモーメント</a></li>
+        </ng-container>
         <ng-container *ngIf="earthquakesMoment.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_10">
               復旧性（地震時）曲げ</a></li>
@@ -109,6 +113,10 @@
         <ng-container *ngIf="earthquakesShearForce.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_11">
               復旧性（地震時）せん断</a></li>
+        </ng-container>
+        <ng-container *ngIf="earthquakesTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_17">
+              復旧性（地震時）ねじりモーメント</a></li>
         </ng-container>
         
         <ng-container *ngIf="ResultMinimumReinforcement.isEnable">

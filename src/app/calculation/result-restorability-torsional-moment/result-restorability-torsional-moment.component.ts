@@ -16,7 +16,7 @@ import { UserInfoService } from "src/app/providers/user-info.service";
 })
 export class ResultRestorabilityTorsionalMomentComponent implements OnInit {
   public title: string = "復旧性（地震時以外）";
-  public page_index = "ap_15";
+  public page_index = "ap_16";
   public isLoading = true;
   public isFulfilled = false;
   public err: string;
