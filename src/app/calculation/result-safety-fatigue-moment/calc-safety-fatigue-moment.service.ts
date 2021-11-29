@@ -144,7 +144,14 @@ export class CalcSafetyFatigueMomentService {
   }
 
   public calcFatigue(
-    res: any, Ast: any, steel: any, safety: any, tmpFatigue: any ): any {
+    res: any, Ast: any, steel: any, safety: any, tmpFatigue: any, option: any = {} ): any {
+
+    // 運輸機構モードの場合 k=0.12を固定とする
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+    if(speci1==0 && speci2===1){
+      option['k12'] = true; 
+    }
 
     // 応力度
     let resMin: any = res[0];
@@ -227,7 +234,9 @@ export class CalcSafetyFatigueMomentService {
     const tmp201: number = Math.pow(10, ar) / Math.pow(reference_count, k);
     const tmp202: number = 1 - sigma_min / fsu;
     const fsr200: number = r1 * tmp201 * tmp202 / rs;
-    result['fsr200'] = fsr200;
+    if(option['k12'] === false){
+      result['fsr200'] = fsr200;
+    }
 
     let ri: number = safety.safety_factor.ri;
     result['ri'] = ri;
@@ -236,11 +245,15 @@ export class CalcSafetyFatigueMomentService {
     if (rb === null) { rb = 1; }
 
     const ratio200: number = ri * sigma_rd / (fsr200 / rb);
-    result['ratio200'] = ratio200;
-
-    if (ratio200 < 1) {
-      k = 0.06;
-      ar = 2.71 - 0.003 * fai;
+    if(option['k12'] === false){
+      result['ratio200'] = ratio200;
+      if (ratio200 < 1) {
+        k = 0.06;
+        ar = 2.71 - 0.003 * fai;
+      } else {
+        k = 0.12;
+        ar = 3.09 - 0.003 * fai;
+      }
     } else {
       k = 0.12;
       ar = 3.09 - 0.003 * fai;

@@ -154,7 +154,14 @@ export class CalcSafetyFatigueShearForceService {
     return this.safety.getCalcData('Vd', g_id, this.safetyID);
   }
 
-  public calcFatigue( res: any, section: any, fc: any, safety: any, tmpFatigue: any ): any {
+  public calcFatigue( res: any, section: any, fc: any, safety: any, tmpFatigue: any, option: any = {} ): any {
+
+    // 運輸機構モードの場合 k=0.12を固定とする
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+    if(speci1==0 && speci2===1){
+      option['k12'] = true; 
+    }
 
     const resMin: any = res[0];
     const resMax: any = res[1];
@@ -263,7 +270,9 @@ export class CalcSafetyFatigueShearForceService {
     const tmp201: number = Math.pow(10, ar) / Math.pow(reference_count, k);
     const tmp202: number = 1 - _sigma_min / fwud;
     const fsr200: number = r1 * tmp201 * tmp202 / rs;
-    result['fsr200'] = fsr200;
+    if(option['k12'] === false){
+      result['fsr200'] = fsr200;
+    }
 
     const ri: number = safety.safety_factor.ri;
     result['ri'] = ri;
@@ -272,11 +281,15 @@ export class CalcSafetyFatigueShearForceService {
     if (rb === null) { rb = 1; }
 
     const ratio200: number = ri * _sigma_rd / (fsr200 / rb);
-    result['ratio200'] = ratio200;
-
-    if (ratio200 < 1) {
-      k = 0.06;
-      ar = 2.71 - 0.003 * fai;
+    if(option['k12'] === false){    
+      result['ratio200'] = ratio200;
+      if (ratio200 < 1) {
+        k = 0.06;
+        ar = 2.71 - 0.003 * fai;
+      } else {
+        k = 0.12;
+        ar = 3.09 - 0.003 * fai;
+      }
     } else {
       k = 0.12;
       ar = 3.09 - 0.003 * fai;
