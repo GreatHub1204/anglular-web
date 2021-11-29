@@ -228,3 +228,35 @@ table .spreadsheet td .g-top2{ border-top: 1px solid black; }
 table .spreadsheet td .g-right2{ border-right: 1px solid black; }
 table .spreadsheet td .g-bottom2{ border-bottom: 1px solid black; }
 table .spreadsheet td .g-left2{ border-left: 1px solid black; }*/
+
+.sheet-title2 {
+  margin: 0; 
+  font-size: 14px; 
+  text-align: left;
+  .pad05{padding-left: 0.5em;}
+  .pad10{padding-left: 1.0em;}
+  .pad20{padding-left: 2.0em;}
+  .pad30{padding-left: 3.0em;}
+  .pad35{padding-left: 3.5em;}
+  .pad40{padding-left: 4.0em;}
+  .pad45{padding-left: 4.5em;}
+  .pad50{padding-left: 5.0em;}
+  .pad55{padding-left: 5.5em;}
+
+  .indent10{text-indent: 1.0em;}
+
+  img.flow{
+    width: 50%;
+    height: 50%;
+  }
+  p.flow-align{
+    text-align: center;
+  }
+
+  table {
+    font-size: 14px;
+    .left{text-align: left; vertical-align: top;}
+    .center{text-align: center; vertical-align: top;}
+    .right{text-align: right; vertical-align: top;}
+  }
+}
