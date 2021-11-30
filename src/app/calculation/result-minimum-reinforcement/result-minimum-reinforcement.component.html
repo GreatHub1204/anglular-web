@@ -69,6 +69,142 @@
       </div>
     </div>
 
+    <!--A 現在書き直し-->
+    <!--<div class="sheet">
+      <div class="sheet-title2" >
+        <p class="sheet-title2 pad10">(4) 照査の前提</p>
+        <p class="sheet-title2 pad20">(b) 最小鉄筋量【RC標準 11.4.1】</p>
+        <p class="sheet-title2 pad20">(i) コンクリートの収縮や温度によるひび割れを有害でない程度に抑える</p>
+        <p class="sheet-title2 pad20 indent10">一般に、軸方向鉄筋は、コンクリート部材のいかなる断面に対してもコンクリートの全断面積の.15%以上となるように配置する【RC標準 11.4.1】</p>
+        <p class="sheet-title2 pad30">・コンクリート全断面積に対する軸方向鉄筋量の算出</p>
+        <p class="sheet-title2 pad40">p<sub>c</sub> = A<sub>s</sub> / (b・h)</p>
+        <div align="left" class="pad40">
+          <table>
+            <tr>
+              <td nowrap class="left top">ここに、</td>
+              <td class="center top">A<sub>s</sub></td>
+              <td class="center top">：</td>
+              <td class="left top">軸方向鉄筋の量</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="center top">b</td>
+              <td class="center top">：</td>
+              <td class="left top">部材の幅</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="center top">h</td>
+              <td class="center top">：</td>
+              <td class="left top">断面高さ</td>
+            </tr>
+          </table>
+        </div>
+        <p></p>
+        <p class="sheet-title2 pad30">(b)曲げひび割れ発生と同時に部材が脆性的に破壊することを防止する</p>
+        <p class="sheet-title2 pad30 indent10">一般に、設計曲げ降伏耐力M<sub>yd</sub>が曲げひび割れ耐力M<sub>crd</sub>を超えるように引張鉄筋を配置する。【RC標準 11.4.1】</p>
+        <p class="sheet-title2 pad40">1) 曲げひび割れ耐力M<sub>crd</sub>の算定</p>
+        <div class="sheet-title2 pad50">
+          <table class="formula">
+            <tr>
+              <td rowspan="2">M<sub>crd</sub></td>
+              <td rowspan="2"> = </td>
+              <td class="bottom">I</td>
+              <td rowspan="2">(</td>
+              <td rowspan="2">σ<sub>crd</sub></td>
+              <td rowspan="2">+</td>
+              <td class="bottom">N<sub>d</sub></td>
+              <td rowspan="2">)</td>
+              <td rowspan="2">/</td>
+              <td rowspan="2">γ<sub>b</sub></td>
+            </tr>
+            <tr>
+              <td>y</td>
+              <td>A</td>
+            </tr>
+          </table>
+        </div>
+        <div align="left" class="pad50">
+          <table>
+            <tr>
+              <td nowrap class="left top">ここに、</td>
+              <td class="center top">I</td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">断面二次モーメント</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="center top">y</td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">中立軸の高さ</td>
+            </tr>
+            <tr>
+              <td class="right top" colspan="2">σ<sub>crd</sub></td>
+              <td class="center top"> = </td>
+              <td class="center top">f<sub>bck</sub></td>
+              <td class="center top"> = </td>
+              <td class="left top" colspan="3">k<sub>0b</sub>・k<sub>1b</sub>・f<sub>tk</sub></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="center middle">k<sub>0b</sub></td>
+              <td class="center middle"> = </td>
+              <td class="center middle">1</td>
+              <td class="center middle">+</td>
+              <td class="left middle">
+                <table class="formula">
+                  <tr>
+                    <td class="bottom">1</td>
+                  </tr>
+                  <tr>
+                    <td>0.85 + 4.5(h/l<sub>ch</sub>)</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="center top">h</td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">部材高さ</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="right top">l<sub>ch</sub></td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">特性長さ</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="center top"> = </td>
+              <td class="left top" colspan="5">1000G<sub>F</sub>・E<sub>c</sub> / f<sub>tk</sub><sup>2</sup></td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td class="center top">G<sub>F</sub></td>
+              <td class="center top">=</td>
+              <td class="center top" colspan="5">1/100・(d<sub>max</sub>)<sup>1/3</sup>・f'<sub>ck</sub><sup>1/3</sup>【RC標準式 式(5.3.8)】</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td class="right top" colspan="3">d<sub>max</sub></td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">粗骨材の最大寸法</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td class="right top" colspan="3">f'<sub>ck</sub></td>
+              <td class="center top">：</td>
+              <td class="left top" colspan="5">圧縮強度の特性値 (設計基準強度)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>-->
+
     <!--B-->
     <div *ngFor="let pages of ResultMinimumReinforcementPages; index as i" class="sheet-table">
       <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
