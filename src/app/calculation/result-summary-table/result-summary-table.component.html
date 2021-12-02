@@ -41,9 +41,9 @@
                   <img src="./assets/img/circle.png" alt="circle.png" width="100px" height="100px">
                   <p class="yoko">{{item.shape.B_summary}}</p>
                 </div>
-                <div *ngIf="item.shape.name=='Rectangle'" class="shape">
+                <div *ngIf="item.shape.name=='Rectangle'" class="shape" id="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
-                    <img src="./assets/img/rectangle.png" alt="rectangle.png" width="100px" height="100px">
+                    <img src="./assets/img/rectangle_upper.png" alt="rectangle_upper.png" width="100px" height="100px">
                   </ng-container>
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/rectangle_under.png" alt="rectangle_under.png" width="100px" height="100px">
@@ -53,7 +53,7 @@
                 </div>
                 <div *ngIf="item.shape.name=='Tsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
-                    <img src="./assets/img/tsection.png" alt="tsection.png" width="100px" height="100px">
+                    <img src="./assets/img/tsection_upper.png" alt="tsection_upper.png" width="100px" height="100px">
                   </ng-container>
                   <ng-container *ngIf="item.side=='下側引張'">
                     <img src="./assets/img/tsection_under.png" alt="tsection_under.png" width="100px" height="100px">
@@ -63,30 +63,30 @@
                 </div>
                 <div *ngIf="item.shape.name=='InvertedTsection'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
-                    <img src="./assets/img/invertedtsection_over.png" alt="invertedtsection_over.png" width="100px" height="100px">
+                    <img src="./assets/img/invertedtsection_upper.png" alt="invertedtsection_upper.png" width="100px" height="100px">
                   </ng-container>
                   <ng-container *ngIf="item.side=='下側引張'">
-                    <img src="./assets/img/invertedtsection.png" alt="invertedtsection.png" width="100px" height="100px">
+                    <img src="./assets/img/invertedtsection_under.png" alt="invertedtsection_under.png" width="100px" height="100px">
                   </ng-container>
                   <p class="yoko">{{item.shape.B}}</p>
                   <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='HorizontalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
-                    <img src="./assets/img/horizontalOval_over.png" alt="horizontalOval.png" width="100px" height="100px">
+                    <img src="./assets/img/horizontalOval_upper.png" alt="horizontalOval_upper.png" width="100px" height="100px">
                   </ng-container>
                   <ng-container *ngIf="item.side=='下側引張'">
-                    <img src="./assets/img/horizontalOval.png" alt="horizontalOval.png" width="100px" height="100px">
+                    <img src="./assets/img/horizontalOval_under.png" alt="horizontalOval_under.png" width="100px" height="100px">
                   </ng-container>
                   <p class="yoko">{{item.shape.B}}</p>
                   <p class="tate">{{item.shape.H}}</p>
                 </div>
                 <div *ngIf="item.shape.name=='VerticalOval'" class="shape">
                   <ng-container *ngIf="item.side=='上側引張'">
-                    <img src="./assets/img/verticalOval.png" alt="verticalOval_over.png" width="100px" height="100px">
+                    <img src="./assets/img/verticalOval_upper.png" alt="verticalOval_upper.png" width="100px" height="100px">
                   </ng-container>
                   <ng-container *ngIf="item.side=='下側引張'">
-                    <img src="./assets/img/verticalOval.png" alt="verticalOval.png" width="100px" height="100px">
+                    <img src="./assets/img/verticalOval_under.png" alt="verticalOval_under.png" width="100px" height="100px">
                   </ng-container>
                   <p class="yoko">{{item.shape.B}}</p>
                   <p class="tate">{{item.shape.H}}</p>
@@ -201,7 +201,7 @@
         </thead>
         <tbody>          
           <tr>
-            <td class="bottom" rowspan="10"><span>破壊</span></td>
+            <td class="bottom" rowspan="15"><span>破壊</span></td>
             <td class="left bottom"> </td>
             <td class="bottom text-left">構造物係数</td>
             <td class="bottom text-right">γ<sub>i</sub></td>
@@ -282,7 +282,46 @@
             </ng-container>
           </tr>
           <tr>
-            <td class="bottom text-center" rowspan="14"><span>使用性・耐久性</span></td>
+            <td class="left bottom text-center" rowspan="5"><span>ねじり</span></td>
+            <td class="left bottom text-left">設計曲げモーメント</td>
+            <td class="bottom text-right">M<sub>d</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.safetyTorsionalMoment.Md}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計せん断力</td>
+            <td class="bottom text-right">V<sub>d</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.safetyTorsionalMoment.Vd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計ねじりモーメント</td>
+            <td class="bottom text-right">M<sub>td</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.safetyTorsionalMoment.Mtd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+V<sub>td</sub>）</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.safetyTorsionalMoment.Mtud3_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr class="bottom">
+            <td class="left text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+M<sub>td</sub>）</td>
+            <td class="left text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.safetyTorsionalMoment.Mtud4_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="bottom text-center" rowspan="18"><span>使用性・耐久性</span></td>
             <td class="left bottom text-center" rowspan="10"><span>曲げ</span></td>
             <td class="left text-left" colspan="2">コンクリートの縁引張応力度</td>
             <td class="left text-center">N/mm<sup>2</sup></td>
@@ -451,6 +490,38 @@
             <td class="left"> </td>
           </tr>-->
           <tr>
+            <td class="left bottom text-center" rowspan="4"><span>ねじり</span></td>
+            <td class="left text-left">補強鋼材を用いないねじり耐力</td>
+            <td class="text-right">M<sub>td</sub></td>
+            <td class="left text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left text-center">{{item.serviceabilityTorsionalMoment.Mtud}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left" colspan="2">M<sub>td</sub>：0.7・M<sub>tud</sub></td>
+            <td class="left bottom"> </td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.serviceabilityTorsionalMoment.comMtud07_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left text-left">永久荷重</td>
+            <td class="text-right">鉄筋引張応力度</td>
+            <td class="left text-center">N/mm<sup>2</sup></td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left text-center">{{item.serviceabilityTorsionalMoment.sigma_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">安　全　度</td>
+            <td class="bottom text-right">σ<sub>wpd</sub>：σ<sub>sl2</sub></td>
+            <td class="left bottom"> </td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center"> </td>
+            </ng-container>
+          </tr>
+          <tr>
             <td class="bottom" rowspan="10"><span>疲労破壊</span></td>
             <!--<td> </td>
             <td class="left bottom" colspan="3">構造物係数 γi</td>-->
@@ -568,7 +639,7 @@
             <td class="left">-</td>
           </tr>-->
           <tr>
-            <td class="text-center" rowspan="8"><span>復旧性</span></td>
+            <td class="text-center" rowspan="13"><span>復旧性（常時）</span></td>
             <td class="left bottom"> </td>
             <td class="bottom text-left">構造物係数</td>
             <td class="bottom text-right">γ<sub>i</sub></td>
@@ -631,6 +702,150 @@
             <td class="left text-center">-</td>
             <ng-container *ngFor="let item of summary_table; index as i">
               <td class="left bottom text-center">{{item.restorabilityShearForce.Vyd_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" rowspan="5"><span>ねじり</span></td>
+            <td class="left bottom text-left">設計曲げモーメント</td>
+            <td class="bottom text-right">M<sub>d</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityTorsionalMoment.Md}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計せん断力</td>
+            <td class="bottom text-right">V<sub>d</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityTorsionalMoment.Vd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計ねじりモーメント</td>
+            <td class="bottom text-right">M<sub>td</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityTorsionalMoment.Mtd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+V<sub>td</sub>）</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityTorsionalMoment.Mtud3_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr class="bottom">
+            <td class="left text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+M<sub>td</sub>）</td>
+            <td class="left text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.restorabilityTorsionalMoment.Mtud4_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="text-center" rowspan="13"><span>復旧性（地震時）</span></td>
+            <td class="left bottom"> </td>
+            <td class="bottom text-left">構造物係数</td>
+            <td class="bottom text-right">γ<sub>i</sub></td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesMoment.ri}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" rowspan="4"><span>曲げ</span></td>
+            <td class="left bottom text-left">設計曲げモーメント</td>
+            <td class="bottom text-right">M<sub>d</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesMoment.Md}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計軸方向力</td>
+            <td class="bottom text-right">N'<sub>d</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesMoment.Nd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">降伏曲げ耐力</td>
+            <td class="bottom text-right">M<sub>yd</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesMoment.Myd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" colspan="2">γ<sub>i</sub>・M<sub>d</sub>/M<sub>yd</sub> (γ<sub>i</sub>・T<sub>d</sub>/T<sub>yd</sub>)</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesMoment.ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left text-center" rowspan="3"><span>せん断</span></td>
+            <td class="left bottom text-left">設計せん断力</td>
+            <td class="bottom text-right">V<sub>d</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesShearForce.Vd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計せん断耐力</td>
+            <td class="bottom text-right">V<sub>yd</sub>(V<sub>dd</sub>)</td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesShearForce.Vyd}}</td>
+            </ng-container>
+          </tr>
+          <tr class="bottom">
+            <td class="left text-center" colspan="2">γ<sub>i</sub>・V<sub>d</sub>／V<sub>yd</sub>(V<sub>dd</sub>)</td>
+            <td class="left text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesShearForce.Vyd_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" rowspan="5"><span>ねじり</span></td>
+            <td class="left bottom text-left">設計曲げモーメント</td>
+            <td class="bottom text-right">M<sub>d</sub></td>
+            <td class="left bottom text-center">kN・m</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesTorsionalMoment.Md}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計せん断力</td>
+            <td class="bottom text-right">V<sub>d</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesTorsionalMoment.Vd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-left">設計ねじりモーメント</td>
+            <td class="bottom text-right">M<sub>td</sub></td>
+            <td class="left bottom text-center">kN</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesTorsionalMoment.Mtd}}</td>
+            </ng-container>
+          </tr>
+          <tr>
+            <td class="left bottom text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+V<sub>td</sub>）</td>
+            <td class="left bottom text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesTorsionalMoment.Mtud3_Ratio}}</td>
+            </ng-container>
+          </tr>
+          <tr class="bottom">
+            <td class="left text-center" colspan="2">γ<sub>i</sub>・Mtd/Mtcd＜1.0（補強鉄筋有：V<sub>d</sub>+M<sub>td</sub>）</td>
+            <td class="left text-center">-</td>
+            <ng-container *ngFor="let item of summary_table; index as i">
+              <td class="left bottom text-center">{{item.earthquakesTorsionalMoment.Mtud4_Ratio}}</td>
             </ng-container>
           </tr>
           <tr>

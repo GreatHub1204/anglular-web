@@ -447,6 +447,9 @@ export class DataHelperModule {
       } else {
       // 断面形状の列のみ、特殊な挙動をする
         wTR_Text = this.getShapeText(wTD);
+        //以下のlink imgでurlを取得
+        // const link = document.images[0].alt;
+        // const img = document.getElementById('shape');
       }
       wRcString += wTR_Text + "\r\n";
     }
@@ -472,12 +475,17 @@ export class DataHelperModule {
     let text: string = ""; 
     let B_text: string = "";
     let H_text: string = "";
+    let side: string = "";
+    let shape: string = "";
 
     const a0: string = wTD[0].innerText;
     const a1: string = wTD[1].innerText;
-    text += a0 + "\t".repeat(wTD[0].colSpan) + a1;
+    text += "\t".repeat(wTD[0].colSpan - 1) + '幅\t' + a1;
+    side += "\t".repeat(wTD[0].colSpan + wTD[1].colSpan);
+    shape += a0 + "\t".repeat(wTD[0].colSpan + wTD[1].colSpan);
 
     for (var j = 2; j < wTD.length; j++) {
+      // size
       const a: string = wTD[j].innerText;
       const b = a.split('\n');
       B_text += b[0];
@@ -490,10 +498,48 @@ export class DataHelperModule {
         B_text += "\t";
         H_text += "\t";
       }
+
+      // side
+      const target = wTD[j].getElementsByTagName("DIV");
+      let target2: any;
+      // HTMLCollectionやNodeListでは処理できないため、以下のコードで対応
+      for (let i = 0; i < target[0].children.length; i++ ) {
+        if (target[0].children[i].tagName === 'IMG') {
+          target2 = target[0].children[i];
+          break;
+        }
+      }
+      const link = target2.alt
+      if (link === '' || link == undefined) {
+        side += '\t'
+      }
+      if (link.indexOf('under') !== -1) {
+        side += "下側引張\t"
+      } else if (link.indexOf('upper') !== -1) {
+        side += "上側引張\t"
+      }// else if (link.indexOf('circle') !== -1) {
+      //  ss = "円環引張"
+      //}
+
+      // shape
+      if (link.indexOf('rectangle') !== -1) {
+        shape += '矩形\t'
+      } else if (link.indexOf('tsection') !== -1) {
+        shape += 'T型\t'
+      } else if (link.indexOf('circle') !== -1) {
+        shape += '円形\t'
+      } else if (link.indexOf('Oval') !== -1) {
+        shape += '小判型\t'
+      }
     }
     text += '\t';
+    side += '\n';
+    shape += '\n';
 
-    const result: string = text + B_text + "\t".repeat(wTD[0].colSpan + wTD[1].colSpan) + H_text;
+    const size: string = text + B_text + "\t".repeat(wTD[0].colSpan - 1) + '高さ\t\t' + H_text;
+
+    const result: string = side + shape + size; 
+
     return result;
   }
 
