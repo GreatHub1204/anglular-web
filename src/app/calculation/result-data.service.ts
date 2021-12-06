@@ -606,8 +606,10 @@ export class ResultDataService {
         title: 'I',
       },
       fsy_tension: { fsy: null, fsd: null },
+      fsy_Iweb: { fsy: null, fsd: null },
       fsy_compress: { fsy: null, fsd: null },
       fsy_left: { fsy: null, fsd: null },
+      fsy_Hweb: { fsy: null, fsd: null },
       fsy_right: { fsy: null, fsd: null },
       rs: safety.safety_factor.S_rs,
       flag: false,
@@ -684,7 +686,7 @@ export class ResultDataService {
         + "×"
         + target.tension_thickness.toString();
       result.flag = true;
-      result.I.value['heightT'] = target.tension_height;
+      result.I.value['widthT'] = target.tension_width;
       result.I.value['thicknessT'] = target.tension_thickness;
     }
     if (target.compress_thickness !== null && target.compress_width !== null) {
@@ -692,7 +694,7 @@ export class ResultDataService {
         + "×"
         + target.compress_thickness.toString();
       result.flag = true;
-      result.I.value['heightC'] = target.compress_height;
+      result.I.value['widthC'] = target.compress_width;
       result.I.value['thicknessC'] = target.compress_thickness;
     }
 
@@ -706,14 +708,17 @@ export class ResultDataService {
       result.I.value['thicknessW'] = target.web_thickness;
     }
 
-    if (target.fsy_tension !== null && target.fsy_tension.fsy !== null) {
-      result.fsy_tension.fsy = target.fsy_tension.fsy;
-      result.fsy_tension.fsd = target.fsy_tension.fsy / result.rs;
+    for (const key of ['fsy_tension', 'fsy_compress']) {
+      if (target[key] !== null && target[key].fsy !== null) {
+        result[key].fsy = target[key].fsy;
+        result[key].fsd = target[key].fsy / result.rs;
+      }
     }
-    if (target.fsy_compress !== null && target.fsy_compress.fsy !== null) {
-      result.fsy_compress.fsy = target.fsy_compress.fsy;
-      result.fsy_compress.fsd = target.fsy_compress.fsy / result.rs;
+    if (target.fsy_web !== null && target.fsy_web.fsy !== null) {
+      result.fsy_Iweb.fsy = target.fsy_web.fsy;
+      result.fsy_Iweb.fsd = target.fsy_web.fsy / result.rs;
     }
+
 
     // H配置鉄骨
     target = section.steel.H;
@@ -742,7 +747,10 @@ export class ResultDataService {
         result[key].fsd = target[key].fsy / result.rs;
       }
     }
-
+    if (target.fsy_web !== null && target.fsy_web.fsy !== null) {
+      result.fsy_Hweb.fsy = target.fsy_web.fsy;
+      result.fsy_Hweb.fsd = target.fsy_web.fsy / result.rs;
+    }
 
     if (mark !== 'Vd') {
       return result

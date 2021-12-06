@@ -348,7 +348,6 @@ export class CalcSafetyTorsionalMomentService {
       Atsb = this.helper.toNumber(Asb.Asb);
     }
 
-
     // スターラップ
     const Aw = sectionV["Aw"];
     let stirrup_dia = 0;
@@ -382,12 +381,54 @@ export class CalcSafetyTorsionalMomentService {
 
     result["Am"] = b0 * d0;
 
+    // ql	=	ΣAtl・fiyd／u
+    let Atl = Ast + Asc + Ase * 2;
+    let ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * 2 * fsye;
+
+    // 鉄骨 I型配置 を考慮する ----------------------------------------------------------------
+    const I = sectionM.steel.I.value;
+    let I_tension_width       = this.helper.toNumber(I.widthT);
+    let I_tension_thickness   = this.helper.toNumber(I.thicknessT);
+    let I_compress_width      = this.helper.toNumber(I.widthC);
+    let I_compress_thickness  = this.helper.toNumber(I.thicknessC);
+    let I_web_height          = this.helper.toNumber(I.heightW);
+    let I_web_thickness       = this.helper.toNumber(I.thicknessW);
+    I_tension_width       = (I_tension_width===null)? 0: I_tension_width
+    I_tension_thickness   = (I_tension_thickness===null)? 0: I_tension_thickness
+    I_compress_width      = (I_compress_width===null)? 0: I_compress_width
+    I_compress_thickness  = (I_compress_thickness===null)? 0: I_compress_thickness
+    I_web_height          = (I_web_height===null)? 0: I_web_height
+    I_web_thickness       = (I_web_thickness===null)? 0: I_web_thickness
+
+    let fsy_tension = ('fsy_tension' in sectionM.steel) ? this.helper.toNumber(sectionM.steel.fsy_tension.fsy) : null;
+    let fsy_compress = ('fsy_compress' in sectionM.steel) ? this.helper.toNumber(sectionM.steel.fsy_compress.fsy) : null;
+    let fsy_Iweb = ('fsy_Iweb' in sectionM.steel) ? this.helper.toNumber(sectionM.steel.fsy_Iweb.fsy) : null;
+    fsy_tension   = (fsy_tension===null)? 0: fsy_tension
+    fsy_compress  = (fsy_compress===null)? 0: fsy_compress
+    fsy_Iweb      = (fsy_Iweb===null)? 0: fsy_Iweb
+
+    // スターラップ Atw に鉄骨を加算
+    const _Atw = I_web_thickness * Ss * fsy_Iweb / fwyd
+    Atw += _Atw;
+
+    // 軸方向鉄筋 Atl に追加
+    const tension_Atl   = (fsy_tension !== 0 )?   I_tension_width * I_tension_thickness : 0;
+    const compress_Atl  = (fsy_compress !== 0 )?  I_compress_width * I_compress_thickness : 0;
+    const web_Atl       = (fsy_Iweb !== 0 )?      I_web_height * I_web_thickness : 0;
+
+    Atl += (tension_Atl + compress_Atl + web_Atl)
+
+    const tension_ΣAtl_fiyd = tension_Atl * fsy_tension;
+    const compress_ΣAtl_fiyd = compress_Atl * fsy_compress;
+    const web_ΣAtl_fiyd = web_Atl * fsy_Iweb;
+
+    ΣAtl_fiyd += (tension_ΣAtl_fiyd + compress_ΣAtl_fiyd + web_ΣAtl_fiyd)
+
+    // ------------------------------------------------------------------------------------------
+
     // qw	=	Ａtw・fwyd／s
     let qw = (Atw * fwyd) / Ss;
 
-    // ql	=	ΣAtl・fiyd／u
-    const Atl = Ast + Asc + Ase * 2;
-    const ΣAtl_fiyd = Ast * fsyt + Asc * fsyc + Ase * 2 * fsye;
     const u = 2 * (b0 + d0);
     let ql = ΣAtl_fiyd / u; //345追加
     const _ql = 1.25 * qw;

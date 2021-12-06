@@ -27,7 +27,6 @@ export class MenuComponent implements OnInit {
   public fileName: string;
   public pickup_file_name: string;
 
-
   constructor(
     private modalService: NgbModal,
     private app: AppComponent,
@@ -52,6 +51,9 @@ export class MenuComponent implements OnInit {
   renew(): void {
     this.router.navigate(['/blank-page']);
     this.app.deactiveButtons();
+
+    this.fileName = '断面性能照査プログラム ver1.7.4';
+    this.pickup_file_name = '';
 
     setTimeout(()=>{
       this.save.clear();
