@@ -106,6 +106,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
         g_name: groupeName,
         columns: new Array(),
         SRCFlag : false,
+        
       };
 
       const safety = this.calc.getSafetyFactor(g[0].g_id, safetyID);

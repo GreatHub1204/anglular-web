@@ -153,10 +153,10 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
             );
 
             let fwyd3: number = 0
-            if ('fsvy_Hweb' in sectionM.steel) {
-              fwyd3 = (sectionM.steel.fsvy_Hweb.fvyd !== null) ?
-                sectionM.steel.fsvy_Hweb.fvyd :
-                sectionM.steel.fsvy_Iweb.fvyd;
+            if ('fsvy_Hweb' in sectionV.steel) {
+              fwyd3 = (sectionV.steel.fsvy_Hweb.fvyd !== null) ?
+                sectionV.steel.fsvy_Hweb.fvyd :
+                sectionV.steel.fsvy_Iweb.fvyd;
             }
 
             let SRC_pik = "";
@@ -567,7 +567,7 @@ export class ResultSafetyTorsionalMomentComponent implements OnInit {
     if ("Mtud1_Ratio" in re) {
       result.Mtud1_Ratio = {
         alien: "center",
-        value: re.Mtud1_Ratio.toFixed(3).toString() + ((re.Mtud1_Ratio <= 0.5) ? ' < 0.5' : ' > 0.5'),
+        value: re.Mtud1_Ratio.toFixed(3).toString() + ((re.Mtud1_Ratio <= 0.5) ? ' <= 0.5' : ' > 0.5'),
       }
     }
     if ("Mtud1_Result" in re) {
