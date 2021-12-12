@@ -196,7 +196,7 @@
       </div>
       <p></p>
       <p class="sheet-title2 pad30">ⅰ) 設計曲げモーメントM<sub>d</sub>を同時に受ける場合の設計ねじり耐力M<sub>tud</sub></p>
-      <p class="sheet-title2 pad45">M<sub>ud</sub> = M<sub>tcd</sub>・(0.2 + 0.8(1 - γ<sub>i</sub>・M<sub>d</sub> / M<sub>ud</sub>)<sup>1/2</sup> )</p>
+      <p class="sheet-title2 pad45">M<sub>tud1</sub> = M<sub>tcd</sub>・(0.2 + 0.8(1 - γ<sub>i</sub>・M<sub>d</sub> / M<sub>ud</sub>)<sup>1/2</sup> )</p>
       <div align="left" class="pad50">
         <table>
           <tr>
@@ -215,7 +215,7 @@
       </div>
       <p></p>
       <p class="sheet-title2 pad30">ⅱ) 設計せん断力V<sub>d</sub>を同時に受ける場合の設計ねじり耐力M<sub>tud</sub></p>
-      <p class="sheet-title2 pad45">M<sub>ud</sub> = M<sub>tcd</sub>・(1 - 0.8γ<sub>i</sub>・V<sub>d</sub> / V<sub>yd</sub>)</p>
+      <p class="sheet-title2 pad45">M<sub>tud2</sub> = M<sub>tcd</sub>・(1 - 0.8γ<sub>i</sub>・V<sub>d</sub> / V<sub>yd</sub>)</p>
       <div align="left" class="pad50">
         <table>
           <tr>
@@ -313,7 +313,7 @@
           </tr>
           <tr>
             <td></td>
-            <td class="center top">γ<sub>b</sub></td>
+            <td class="center top">γ<sub>bt</sub></td>
             <td class="center top">：</td>
             <td class="left top">構造物係数</td>
           </tr>
@@ -323,13 +323,13 @@
       <p class="sheet-title2 pad30">ⅲ) 設計曲げモーメントが同時に作用する場合の設計ねじり耐力<p>
       <p></p>
       <p class="sheet-title2 pad40">・M<sub>ud</sub>≧M'<sub>ud</sub> かつ γ<sub>i</sub>・|M<sub>d</sub>|≦M<sub>ud</sub>-M'<sub>ud</sub>の場合</p>
-      <p class="sheet-title2 pad55">M<sub>tud</sub> = M<sub>tu.min</sub></p>
+      <p class="sheet-title2 pad55">M<sub>tud3</sub> = M<sub>tu.min</sub></p>
       <p></p>
       <p class="sheet-title2 pad40">・M<sub>ud</sub>≧M'<sub>ud</sub> かつ M<sub>ud</sub>-M'<sub>ud</sub>≦γ<sub>i</sub>・|M<sub>d</sub>|≦M<sub>ud</sub>の場合</p>
-      <p class="sheet-title2 pad55">M<sub>tud</sub> = (M<sub>tu.min</sub> - 0.2M<sub>tcd</sub>)・( (M<sub>ud</sub>-γ<sub>i</sub>・M<sub>d</sub>)/M'<sub>ud</sub> )<sup>1/2</sup> + 0.2M<sub>tcd</sub></p>
+      <p class="sheet-title2 pad55">M<sub>tud3</sub> = (M<sub>tu.min</sub> - 0.2M<sub>tcd</sub>)・( (M<sub>ud</sub>-γ<sub>i</sub>・M<sub>d</sub>)/M'<sub>ud</sub> )<sup>1/2</sup> + 0.2M<sub>tcd</sub></p>
       <p></p>
       <p class="sheet-title2 pad40">・M<sub>ud</sub>＜M'<sub>ud</sub> かつ γ<sub>i</sub>・|M<sub>d</sub>|≦M<sub>ud</sub>の場合</p>
-      <p class="sheet-title2 pad55">M<sub>tud</sub> = (M<sub>tu.min</sub> - 0.2M<sub>tcd</sub>)・(1 - γ<sub>i</sub>・|M<sub>d</sub>|/M<sub>ud</sub>)<sup>1/2</sup> + 0.2M<sub>tcd</sub></p>
+      <p class="sheet-title2 pad55">M<sub>tud3</sub> = (M<sub>tu.min</sub> - 0.2M<sub>tcd</sub>)・(1 - γ<sub>i</sub>・|M<sub>d</sub>|/M<sub>ud</sub>)<sup>1/2</sup> + 0.2M<sub>tcd</sub></p>
       <p></p>
       <div align="left" class="pad50">
         <table>
@@ -352,7 +352,7 @@
           </tr>
           <tr>
             <td></td>
-            <td class="center top">γ<sub>b</sub></td>
+            <td class="center top">γ<sub>bt</sub></td>
             <td class="center top">：</td>
             <td class="left top">構造物係数</td>
           </tr>
@@ -360,7 +360,7 @@
       </div>
       <p></p>
       <p class="sheet-title2 pad30">Ⅳ) 長方形、円形及び円環断面の部材において、設計せん断力V<sub>d</sub>を同時に受ける場合の設計ねじり耐力M<sub>tud</sub></p>
-      <p class="sheet-title2 pad45">M<sub>tud</sub> = M<sub>tu.min</sub>・(1 - γ<sub>i</sub>・V<sub>d</sub>/V<sub>yd</sub>) + 0.2M<sub>tcd</sub>・γ<sub>i</sub>・V<sub>d</sub>・V<sub>yd</sub></p>
+      <p class="sheet-title2 pad45">M<sub>tud4</sub> = M<sub>tu.min</sub>・(1 - γ<sub>i</sub>・V<sub>d</sub>/V<sub>yd</sub>) + 0.2M<sub>tcd</sub>・γ<sub>i</sub>・V<sub>d</sub>・V<sub>yd</sub></p>
       <div align="left" class="pad50">
         <table>
           <tr>
@@ -614,13 +614,13 @@
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="column.steelFlag">
               <td class="{{column.fsd_steel.alien}} g-bottom1">
-                {{column.fsd_steel.value}}</td>
+                {{column.fsy_steel.value}}</td>
               <td class="{{column.fsd.alien}} g-right2 g-bottom1">
-                {{column.fsd.value}}</td>
+                {{column.fsy.value}}</td>
             </ng-container>
             <ng-container *ngIf="!column.steelFlag">
               <td colspan="2" class="{{column.fsd.alien}} g-right2 g-bottom1">
-                {{column.fsd.value}}</td>
+                {{column.fsy.value}}</td>
             </ng-container>
           </ng-container>
         </tr>
@@ -887,16 +887,33 @@
             <td class="right g-right2 g-bottom1">{{column.V_rbs.value}}</td>
           </ng-container>
         </tr>
-        <tr>
+        <!-- <tr>
           <th class="cell_name2 g-bottom1 g-left2">Vsd</th>
           <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.bendFlag">
               <td colspan="2" class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
             </ng-container>
-            <ng-container *ngIf="column.bendFlag">
+            <ng-container *ngIf="column.bendFlag &&">
               <td class="{{column.Vsd.alien}}  g-bottom1">{{column.Vsd.value}}</td>
               <td class="{{column.Vsd2.alien}} g-right2 g-bottom1">{{column.Vsd2.value}}</td>
+            </ng-container>
+          </ng-container>
+        </tr> -->
+        <tr>
+          <th class="cell_name2 g-bottom1 g-left2">Vsd</th>
+          <th class="cell_name3 g-right2 g-bottom1">(kN)</th>
+          <ng-container *ngFor="let column of pages.columns; index as c">
+            <ng-container *ngIf="!column.bendFlag && !column.steelFlag">
+              <td colspan="2" class="{{column.Vsd.alien}} g-right2 g-bottom1">{{column.Vsd.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.steelFlag">
+              <td class="right g-bottom1">{{column.Vsd2.value}}</td>
+              <td class="right g-right2 g-bottom1">{{column.Vsd.value}}</td>
+            </ng-container>
+            <ng-container *ngIf="column.bendFlag && !column.steelFlag">
+              <td class="right g-bottom1">{{column.Vsd.value}}</td>
+              <td class="right g-right2 g-bottom1">{{column.Vsd2.value}}</td>
             </ng-container>
           </ng-container>
         </tr>
@@ -1332,14 +1349,11 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦0.5</th>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・Mtd/Mtud1≦0.5</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud1_Ratio.alien}} g-right2 g-bottom1">
+            <td colspan="2" class="{{column.Mtud1_Ratio.alien}} g-right2 g-bottom1">
               {{column.Mtud1_Ratio.value}}</td>
           </ng-container>
-        </tr>
-        <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">（補強鉄筋無：M<sub>d</sub>+M<sub>td</sub>）</th>
         </tr>
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
@@ -1355,14 +1369,11 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦0.5</th>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・Mtd/Mtud2≦0.5</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud2_Ratio.alien}} g-right2 g-bottom1">
+            <td colspan="2" class="{{column.Mtud2_Ratio.alien}} g-right2 g-bottom1">
               {{column.Mtud2_Ratio.value}}</td>
           </ng-container>
-        </tr>
-        <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">（補強鉄筋無：V<sub>d</sub>+V<sub>td</sub>）</th>
         </tr>
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
@@ -1391,10 +1402,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2 g-bottom1 g-left2">Mtcud</th>
-          <th class="cell_name3 g-right2 g-bottom1">(kN･m)</th>
+          <th class="cell_name2 g-bottom2 g-left2">Mtcud</th>
+          <th class="cell_name3 g-right2 g-bottom2">(kN･m)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.Mtcud.alien}} g-right2 g-bottom1">{{column.Mtcud.value}}</td>
+            <td colspan="2" class="{{column.Mtcud.alien}} g-right2 g-bottom2">{{column.Mtcud.value}}</td>
           </ng-container>
         </tr>
         <tr>
@@ -1486,14 +1497,11 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦1.0</th>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・Mtd/Mtud3≦1.0</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud3_Ratio.alien}} g-right2 g-bottom1">
+            <td colspan="2" class="{{column.Mtud3_Ratio.alien}} g-right2 g-bottom1">
               {{column.Mtud3_Ratio.value}}</td>
           </ng-container>
-        </tr>
-        <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">（補強鉄筋有：V<sub>d</sub>+V<sub>td</sub>）</th>
         </tr>
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>
@@ -1509,14 +1517,11 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom3 g-left2">γ<sub>i</sub>・Mtd/Mtud≦1.0</th>
+          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">γ<sub>i</sub>・Mtd/Mtud4≦1.0</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td rowspan="2" colspan="2" class="{{column.Mtud4_Ratio.alien}} g-right2 g-bottom1">
+            <td colspan="2" class="{{column.Mtud4_Ratio.alien}} g-right2 g-bottom1">
               {{column.Mtud4_Ratio.value}}</td>
           </ng-container>
-        </tr>
-        <tr>
-          <th colspan="2" class="cell_name1 g-right2 g-bottom1 g-left2">（補強鉄筋有：V<sub>d</sub>+M<sub>td</sub>）</th>
         </tr>
         <tr>
           <th colspan="2" class="cell_name1 g-right2 g-bottom2 g-left2">照査結果</th>

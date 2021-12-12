@@ -266,11 +266,11 @@ export class CalcSafetyTorsionalMomentService {
     // 安全率が 0.5 以下なら 最小ねじり補強筋を配置して検討省略する
     result['Mtud1'] = Mtud1;
     result['Mtud1_Ratio'] = Mtud1_Ratio;
-    result['Mtud1_Result'] = Mtud1_Ratio <= 0.5 ? "OK" : "NG";
+    result['Mtud1_Result'] = Mtud1_Ratio <= 0.5 ? "検討省略" : "省略不可";
 
     result['Mtud2'] = Mtud2;
     result['Mtud2_Ratio'] = Mtud2_Ratio;
-    result['Mtud2_Result'] = Mtud2_Ratio <= 0.5 ? "OK" : "NG";
+    result['Mtud2_Result'] = Mtud2_Ratio <= 0.5 ? "検討省略" : "省略不可";
     // return result; //1114
     // }
 
