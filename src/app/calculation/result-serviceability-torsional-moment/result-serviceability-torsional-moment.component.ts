@@ -164,11 +164,11 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
             );
 
             let fwyd3: number = 0;
-            if ("fsvy_Hweb" in sectionM.steel) {
+            if ("fsvy_Hweb" in sectionV.steel) {
               fwyd3 =
-                sectionM.steel.fsvy_Hweb.fvyd !== null
-                  ? sectionM.steel.fsvy_Hweb.fvyd
-                  : sectionM.steel.fsvy_Iweb.fvyd;
+                sectionV.steel.fsvy_Hweb.fvyd !== null
+                  ? sectionV.steel.fsvy_Hweb.fvyd
+                  : sectionV.steel.fsvy_Iweb.fvyd;
             }
 
             let SRC_pik = "";
