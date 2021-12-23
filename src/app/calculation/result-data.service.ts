@@ -464,7 +464,7 @@ export class ResultDataService {
     result.tension = section.tension;
     result.fsy = section.tension.fsy.fsy;
     result.fsu = section.tension.fsy.fsu;
-    result.rs = safety.safety_factor.rs;
+    result.rs = section.tension.rs;
     result.fsd = Math.round(result.fsy / result.rs * 10) / 10;
 
 

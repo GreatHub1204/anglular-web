@@ -204,7 +204,7 @@ export class CalcSafetyShearForceService {
     if (rc === null) {
       rc = 1;
     }
-    result["rc"] = rc; rc;
+    result["rc"] = rc;
 
     let fcd: number = this.helper.toNumber(fc.fcd);
     if (fcd === null) {
@@ -235,18 +235,23 @@ export class CalcSafetyShearForceService {
     // CFT の場合：section.steel.thickness
     let web_I_height = this.helper.toNumber(section.steel.I.value.heightW);
     let web_I_thickness = this.helper.toNumber(section.steel.I.value.thicknessW);
-    let Asv = web_I_height * web_I_thickness;
-    const fsvyd_IWeb = ('fsvy_Iweb' in section.steel) ? this.helper.toNumber(section.steel.fsvy_Iweb.fvyd) : null;
+    let fsvyd_IWeb = null;
+    let Asv = null;
+    if(web_I_thickness !== null){
+      Asv = web_I_height * web_I_thickness;
+      fsvyd_IWeb = ('fsvy_Iweb' in section.steel) ? this.helper.toNumber(section.steel.fsvy_Iweb.fvyd) : null;
 
-    if (section.shapeName === "Circle") {
-      web_I_height = this.helper.toNumber(section.shape.H); // 鋼材高さ
-      web_I_thickness = this.helper.toNumber(section.steel.I.tension_flange);; // 鋼材厚さ
-      const H = section.member.B;
-      const B = H - web_I_thickness * 2;
-      const Hw = ((-1 - Math.PI / 4) * H ** 2 + 2 * H * B - (1 - Math.PI / 4) * B ** 2) / (2 * B - 2 * H);
-      const Bw = Hw - web_I_thickness * 2;
-      Asv = (Hw ** 2 - Bw ** 2) / 2 //鋼材断面積
+      if (section.shapeName === "Circle") {
+        web_I_height = this.helper.toNumber(section.shape.H); // 鋼材高さ
+        web_I_thickness = this.helper.toNumber(section.steel.I.tension_flange);; // 鋼材厚さ
+        const H = section.member.B;
+        const B = H - web_I_thickness * 2;
+        const Hw = ((-1 - Math.PI / 4) * H ** 2 + 2 * H * B - (1 - Math.PI / 4) * B ** 2) / (2 * B - 2 * H);
+        const Bw = Hw - web_I_thickness * 2;
+        Asv = (Hw ** 2 - Bw ** 2) / 2 //鋼材断面積
+      }
     }
+
     //result['Hw'] = ( (-1-Math.PI/4)*H**2 + 2*H*result['B'] - (1-Math.PI/4)*result['B']**2)/(2*result['B'] - 2*H);
     //result['Bw'] = result['Hw'] - result['H'] + result['B'];
 
@@ -270,8 +275,7 @@ export class CalcSafetyShearForceService {
 
       result["rbc"] = V_rbc;
 
-      let V_rbs: number = 1;
-      V_rbs = this.helper.toNumber(safety.safety_factor.V_rbs);
+      let V_rbs: number = this.helper.toNumber(safety.safety_factor.V_rbs);
       if (V_rbs === null) {
         V_rbs = 1;
       }
@@ -287,8 +291,7 @@ export class CalcSafetyShearForceService {
       }
     } else {
       // La / d < 2 の場合
-      let V_rbs: number = 1;
-      V_rbs = this.helper.toNumber(safety.safety_factor.rbs);
+      let V_rbs: number = this.helper.toNumber(safety.safety_factor.rbs);
       if (V_rbs === null) {
         V_rbs = 1;
       }
@@ -326,8 +329,7 @@ export class CalcSafetyShearForceService {
     }
 
 
-    let ri: number = 0;
-    ri = this.helper.toNumber(safety.safety_factor.ri);
+    let ri: number = this.helper.toNumber(safety.safety_factor.ri);
     if (ri === null) {
       ri = 1;
     }

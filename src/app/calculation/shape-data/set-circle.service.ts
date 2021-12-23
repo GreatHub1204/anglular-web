@@ -454,8 +454,14 @@ export class SetCircleService {
       SteelElastic: new Array(),
     };
 
+    if(!('steel' in section)){
+      return result;
+    }
+    if(!('thickness' in section.steel)){
+      return result;
+    }
     const thickness = section.steel.thickness;
-    if(thickness === 0){
+    if(thickness === 0 || thickness === null){
       return result;
     }
     result.thickness = thickness;
