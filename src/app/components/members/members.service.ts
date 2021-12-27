@@ -80,22 +80,32 @@ export class InputMembersService  {
 
   public setTableColumns(table_datas: any, isManual: boolean = false) {
  
-    if (!isManual) {
-      // 断面力手入力モードじゃない場合
-      this.member_list = table_datas;
-      return;
-    }
-
     // 断面力手入力モードの場合に適用する
     this.member_list = new Array();
 
-    for (const column of table_datas) {
-      if (this.isEnable(column)) {
-        // グループNo の入力がない入力行には、仮のグループid をつける
-        if (column.g_no === null) {
-          column.g_id = 'blank'; //'row' + column.m_no; //仮のグループid
+    if (!isManual) {
+      // 断面力手入力モードじゃない場合
+      for (const column of table_datas) {
+        if (this.isEnable(column)) {
+          if (column.g_no === null) {
+            column.g_id = '';
+          }
+          this.member_list.push(column)
+        } else {
+          const def = this.default_member(column.m_no);
+          def.m_len = column.m_len;
+          this.member_list.push(def);
         }
-        this.member_list.push(column)
+      }
+    } else {
+      for (const column of table_datas) {
+        if (this.isEnable(column)) {
+          // グループNo の入力がない入力行には、仮のグループid をつける
+          if (column.g_no === null) {
+            column.g_id = 'blank'; //'row' + column.m_no; //仮のグループid
+          }
+          this.member_list.push(column)
+        }
       }
     }
   }
@@ -117,6 +127,9 @@ export class InputMembersService  {
     for(let m_no = 1; m_no <= n; m_no++){
       // 同じ部材番号を抽出
       const tar = members.filter((v,i,a) => v.m_no === m_no);
+      if(tar.length === 0){
+        continue;
+      }
       let pos = 0;
       tar.forEach((v,i,a) => {
         pos = Math.max(pos, v.position);

@@ -270,7 +270,12 @@ export class SetCircleService {
         "tensionBar"
       );
       tension['fsy'] = fsy;
-      tension['rs'] = safety.safety_factor.rs;;
+
+      if('M_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.V_rs;
+      }
 
       // 鉄筋径
       if (fsy.fsy === 235) {
@@ -377,6 +382,10 @@ export class SetCircleService {
     result['H'] = H; // 外径
     result['B'] = this.helper.toNumber(member.B); // 内径
 
+    ////////// 総括表用 //////////
+    result['H_summary'] = H;
+    result['B_summary'] = this.helper.toNumber(member.B);
+
     //換算した断面の1辺の長さ
     if (this.helper.toNumber(member.H) === null || this.helper.toNumber(member.B) === null) {
       result['Hw'] = Math.sqrt(Math.PI * (H / 2)**2);
@@ -445,8 +454,14 @@ export class SetCircleService {
       SteelElastic: new Array(),
     };
 
+    if(!('steel' in section)){
+      return result;
+    }
+    if(!('thickness' in section.steel)){
+      return result;
+    }
     const thickness = section.steel.thickness;
-    if(thickness === 0){
+    if(thickness === 0 || thickness === null){
       return result;
     }
     result.thickness = thickness;

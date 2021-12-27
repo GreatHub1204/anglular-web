@@ -18,6 +18,10 @@ import { CalcSummaryTableService } from '../result-summary-table/calc-summary-ta
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResultSummaryTableComponent } from '../result-summary-table/result-summary-table.component';
 import { UserInfoService } from 'src/app/providers/user-info.service';
+import { CalcSafetyTorsionalMomentService } from '../result-safety-torsional-moment/calc-safety-torsional-moment.service';
+import { CalcServiceabilityTorsionalMomentService } from '../result-serviceability-torsional-moment/calc-serviceability-torsional-moment.service';
+import { CalcRestorabilityTorsionalMomentService } from '../result-restorability-torsional-moment/calc-restorability-torsional-moment.service';
+import { CalcEarthquakesTosionalMomentService } from '../result-earthquakes-torsional-moment/calc-earthquakes-tosional-moment.service';
 
 
 @Component({
@@ -30,7 +34,7 @@ export class ResultViewerComponent implements OnInit {
   // 目次 /////////////////////////////////
   public printcalculate: boolean;
   public printSectionForce: boolean;
-  public _printSummaryTable: boolean;
+  private _printSummaryTable: boolean;
   
   // 印刷時のスタイル /////////////////////////////////
  
@@ -41,14 +45,18 @@ export class ResultViewerComponent implements OnInit {
     public durabilityMoment: CalcDurabilityMomentService,
     public earthquakesMoment: CalcEarthquakesMomentService,
     public earthquakesShearForce: CalcEarthquakesShearForceService,
+    public earthquakesTorsionalMoment:CalcEarthquakesTosionalMomentService,
     public restorabilityMoment: CalcRestorabilityMomentService,
     public restorabilityShearForce: CalcRestorabilityShearForceService,
+    public restorabilityTorsionalMoment:CalcRestorabilityTorsionalMomentService,
     public SafetyFatigueMoment: CalcSafetyFatigueMomentService,
     public safetyFatigueShearForce: CalcSafetyFatigueShearForceService,
     public safetyMoment: CalcSafetyMomentService,
     public safetyShearForce: CalcSafetyShearForceService,
+    public safetyTorsionalMoment: CalcSafetyTorsionalMomentService,
     public serviceabilityMoment: CalcServiceabilityMomentService,
     public serviceabilityShearForce: CalcServiceabilityShearForceService,
+    public serviceabilityTorsionalMoment: CalcServiceabilityTorsionalMomentService,
     public ResultMinimumReinforcement: CalcMinimumReinforcementService,
     private user: UserInfoService
   ) { }
@@ -65,14 +73,18 @@ export class ResultViewerComponent implements OnInit {
     this.durabilityMoment.setDesignForces();
     this.earthquakesMoment.setDesignForces();
     this.earthquakesShearForce.setDesignForces();
+    this.earthquakesTorsionalMoment.setDesignForces();
     this.restorabilityMoment.setDesignForces();
     this.restorabilityShearForce.setDesignForces();
+    this.restorabilityTorsionalMoment.setDesignForces();
     this.SafetyFatigueMoment.setDesignForces();
     this.safetyFatigueShearForce.setDesignForces();
     this.safetyMoment.setDesignForces();
     this.safetyShearForce.setDesignForces();
+    this.safetyTorsionalMoment.setDesignForces();
     this.serviceabilityMoment.setDesignForces();
     this.serviceabilityShearForce.setDesignForces();
+    this.serviceabilityTorsionalMoment.setDesignForces();
     this.ResultMinimumReinforcement.setDesignForces();
 
     this.summary.clear();

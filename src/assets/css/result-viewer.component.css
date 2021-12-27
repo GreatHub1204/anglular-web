@@ -326,3 +326,46 @@ table.spreadsheet .g-top2{ border-top: 1px solid black; }
 table.spreadsheet .g-right2{ border-right: 1px solid black; }
 table.spreadsheet .g-bottom2{ border-bottom: 1px solid black; }
 table.spreadsheet .g-left2{ border-left: 1px solid black; }
+
+.sheet-title2 {
+  margin: 0; 
+  font-size: 14px; 
+  text-align: left;
+}
+.sheet-title2.pad05{padding-left: 0.5em;}
+.sheet-title2.pad10{padding-left: 1.0em;}
+.sheet-title2.pad20{padding-left: 2.0em;}
+.sheet-title2.pad30{padding-left: 3.0em;}
+.sheet-title2.pad35{padding-left: 3.5em;}
+.sheet-title2.pad40{padding-left: 4.0em;}
+.sheet-title2.pad45{padding-left: 4.5em;}
+.sheet-title2.pad50{padding-left: 5.0em;}
+.sheet-title2.pad55{padding-left: 5.5em;}
+
+.sheet-title2.indent10{text-indent: 1.0em;}
+
+.sheet-title2 img.flow{
+  width: 60%;
+  height: 60%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.sheet-title2 img.flow2{
+  width: 600px;
+  height: 263px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.sheet-title2 div.flow-align{
+  text-align: center;
+}
+
+.sheet-title2 table {
+  font-size: 14px;
+}
+
+.sheet-title2 table.left{text-align: left; vertical-align: top;}
+.sheet-title2 table.center{text-align: center; vertical-align: top;}
+.sheet-title2 table.right{text-align: right; vertical-align: top;}

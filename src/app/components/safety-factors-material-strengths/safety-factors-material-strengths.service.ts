@@ -43,6 +43,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 0, title: '耐久性, 使用性',
             M_rc: 1.00, M_rs: 1.00, M_rbs: 1.00,
             V_rc: 1.00, V_rs: 1.00, V_rbc: 1.00, V_rbs: 1.00, V_rbv: null,
+            T_rbt:1.00,
             ri: 1.00, range: 1,
             S_rs: 1.0, S_rb: 1.0
           },
@@ -50,6 +51,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 2, title: '安全性 （疲労破壊）',
             M_rc: 1.30, M_rs: 1.05, M_rbs: 1.00,
             V_rc: 1.30, V_rs: 1.05, V_rbc: 1.30, V_rbs: 1.0, V_rbv: null,
+            T_rbt:1.00,
             ri: 1.10, range: 2,
             S_rs: 1.0, S_rb: 1.1
           },
@@ -57,6 +59,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 5, title: '安全性 （破壊）',
             M_rc: 1.30, M_rs: 1.0, M_rbs: 1.10,
             V_rc: 1.30, V_rs: 1.0, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
+            T_rbt:1.00,
             ri: 1.20, range: 2,
             S_rs: 1.05, S_rb: 1.1
           },
@@ -64,6 +67,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 6, title: '復旧性 （損傷）地震時以外',
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.0,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
+            T_rbt:1.00,
             ri: 1.20, range: 3,
             S_rs: 1.05, S_rb: 1.1
           },
@@ -71,6 +75,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 7, title: '復旧性 （損傷）地震時',
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.00,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.00, V_rbv: 1.20,
+            T_rbt:1.00,
             ri: 1.00, range: 3,
             S_rs: 1.05, S_rb: 1.1
           },
@@ -78,6 +83,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             id: 8, title: '最小鉄筋量',
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.00,
             V_rc: null, V_rs: null, V_rbc: null, V_rbs: null, V_rbv: null,
+            T_rbt:null,
             ri: 1.00, range: 3,
             S_rs: 1.05, S_rb: 1.1
           }
@@ -219,7 +225,11 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const old = old_safety_factor.find(v => v.id === tmp.id)
           if (old !== undefined) {
             for (const key of Object.keys(tmp)) {
-              if (key in old) { tmp[key] = old[key]; }
+              if (key in old) { 
+                tmp[key] = old[key]; 
+              } else {
+                tmp[key] = null;
+              }
             }
           }
         }
@@ -231,7 +241,9 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_material_bar[i];
           const old = old_material_bar[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if (key in old) { 
+              tmp[key] = old[key]; 
+            }
           }
         }
       }
@@ -242,7 +254,9 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_material_steel[i];
           const old = old_material_steel[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if (key in old) { 
+              tmp[key] = old[key];
+            }
           }
         }
       }
@@ -455,19 +469,35 @@ export class InputSafetyFactorsMaterialStrengthsService {
       }
     }
 
+    const result = {};
+    if(target === 'Md') {
+      // 曲げモーメントの照査の;合
+      result['M_rc'] = current.M_rc;
+      result['M_rs'] = current.M_rs;
+      result['M_rb'] = current.M_rbs;
+    }
+    if(target === 'Vd') {
+        // せん断力の照査の場合
+        result['V_rc'] = current.V_rc;
+        result['V_rs'] = current.V_rs;
+        result['V_rbc'] = current.V_rbc;
+        result['V_rbs'] = current.V_rbs;
+        result['V_rbd'] = current.V_rbv;
+        result['T_rbt'] = current.T_rbt;
+    }
+    if(target === 'Mt') {
+      // ねじり曲げモーメントの照査の;合
+      result['M_rc'] = current.M_rc;
+      result['M_rs'] = current.M_rs;
+      result['M_rb'] = current.M_rbs;
+      result['V_rc'] = current.V_rc;
+      result['V_rs'] = current.V_rs;
+      result['V_rbc'] = current.V_rbc;
+      result['V_rbs'] = current.V_rbs;
+      result['V_rbd'] = current.V_rbv;
+      result['T_rbt'] = current.T_rbt;
+    }
 
-    const result = (target === 'Md' ) ?
-        { // まげモーメントの照査の場合
-          rc: current.M_rc,
-          rs: current.M_rs,
-          rb: current.M_rbs
-        }:{ // せん断力の照査の場合
-          rc: current.V_rc,
-          rs: current.V_rs,
-          rbc: current.V_rbc,
-          rbs: current.V_rbs,
-          rbd: current.V_rbv
-        };
     result['S_rb'] = current.S_rb;
     result['S_rs'] = current.S_rs;
     result['ri'] = current.ri;

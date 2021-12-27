@@ -162,7 +162,8 @@ export class SetRectService {
       B: null,
       Bt: null,
       t: null,
-      tan: null
+      tan: null,
+      member:null,
     };
 
     const bar: any = this.bars.getCalcData(index);
@@ -246,8 +247,12 @@ export class SetRectService {
       );
       if (fsyt.fsy === 235) tension.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
       tension['fsy'] = fsyt;
-      tension['rs'] = safety.safety_factor.rs;
 
+      if('M_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        tension['rs'] = safety.safety_factor.V_rs;
+      }
 
       // 登録
       result['tension'] = tension;
@@ -262,14 +267,20 @@ export class SetRectService {
       );
       if (fsyc.fsy === 235) compress.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
       compress['fsy'] = fsyc;
-      compress['rs'] = safety.safety_factor.rs;;
+
+      if('M_rs' in safety.safety_factor){
+        compress['rs'] = safety.safety_factor.M_rs;
+      } else if('V_rs' in safety.safety_factor){
+        compress['rs'] = safety.safety_factor.V_rs;
+      }
+
       result['compress'] = compress;
     }
 
     // sidebar
     if (safety.safety_factor.range >= 3) {
       if (compress === null) { compress = { dsc: 0 } }
-      const sidebar: any = this.helper.sideInfo(bar.sidebar, tension.dsc, compress.dsc, result.H);
+      const sidebar: any = this.helper.sideInfo(bar.sidebar1,bar.sidebar2, tension.dsc, compress.dsc, result.H);
       if (sidebar !== null) {
         const fsye = this.helper.getFsyk(
           sidebar.rebar_dia,
@@ -278,11 +289,22 @@ export class SetRectService {
         );
         if (fsye.fsy === 235) sidebar.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
         sidebar['fsy'] = fsye;
-        sidebar['rs'] = safety.safety_factor.rs;
+
+        if('M_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.M_rs;
+        } else if('V_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.V_rs;
+        }
+
         result['sidebar'] = sidebar;
       }
     }
-
+    // ねじり用側面かぶり
+    const side_cover: number = this.helper.toNumber(bar.sidebar2.side_cover);
+    if(side_cover !== null){
+      result['side_cover'] = side_cover;
+    }
+    //
     result['stirrup'] = bar.stirrup;
     result['bend'] = bar.bend;
 

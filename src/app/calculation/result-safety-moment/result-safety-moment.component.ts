@@ -49,33 +49,19 @@ export class ResultSafetyMomentComponent implements OnInit {
     // postする
     console.log(this.title, postData);
     const inputJson: string = this.post.getInputJsonString(postData);
-    this.http.post(this.post.URL, inputJson, this.post.options).subscribe(
+    this.post.http_post(inputJson).then(
       (response) => {
-        if (response["ErrorException"] === null) {
-          this.isFulfilled = this.setPages(response["OutputData"]);
-          this.calc.isEnable = true;
-        } else {
-          this.err = JSON.stringify(response["ErrorException"]);
-        }
-        this.isLoading = false;
+        this.isFulfilled = this.setPages(response["OutputData"]);
+        this.calc.isEnable = true;
         this.summary.setSummaryTable("safetyMoment", this.safetyMomentPages);
-        this.user.setUserPoint(response["deduct_points"], response["new_points"]);
-      },
-      (error) => {
-        this.err = 'error!!' + '\n';
-        let e: any = error;
-        while('error' in e) {
-          if('message' in e){ this.err += e.message + '\n'; }
-          if('text' in e){ this.err += e.text + '\n'; }
-          e = e.error;
-        }
-        if('message' in e){ this.err += e.message + '\n'; }
-        if('stack' in e){ this.err += e.stack; }
-
-        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.err = 'error!!\n' + error;; 
         this.summary.setSummaryTable("safetyMoment");
-      }
-    );
+      })
+      .finally(()=>{
+        this.isLoading = false;
+      });
   }
 
   // 計算結果を集計する
@@ -134,11 +120,12 @@ export class ResultSafetyMomentComponent implements OnInit {
 
             /////////////// まず計算 ///////////////
             const section = this.result.getSection('Md', res, safety);
+            const shape = section.shape;
 
             const titleColumn = this.result.getTitleString(section.member, position, side)
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.getResultValue(
               res, safety
             ));
@@ -150,7 +137,7 @@ export class ResultSafetyMomentComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
 
-            const column = {};
+
             /////////////// タイトル ///////////////
             column['title1'] = { alien: 'center', value: titleColumn.title1 };
             column['title2'] = { alien: 'center', value: titleColumn.title2 };
@@ -186,7 +173,7 @@ export class ResultSafetyMomentComponent implements OnInit {
             column['fcd'] = this.result.alien(fck.fcd.toFixed(1), 'center');
             /////////////// 鉄筋情報 ///////////////
             column['fsy'] = this.result.alien(this.result.numStr(section.Ast.fsy, 1), 'center');
-            column['rs'] = this.result.alien(this.result.numStr(section.Ast.rs, 2), 'center');
+            column['rs'] = this.result.alien(section.Ast.rs.toFixed(2), 'center');
             column['fsd'] = this.result.alien(this.result.numStr(section.Ast.fsd, 1), 'center');
             /////////////// 鉄骨情報 ///////////////
             if(SRC_pik in section.steel) {
@@ -197,19 +184,6 @@ export class ResultSafetyMomentComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 照査 ///////////////
-            column['Md'] = resultColumn.Md;
-            column['Nd'] = resultColumn.Nd;
-            column['ecu'] = resultColumn.ecu;
-            column['es'] = resultColumn.es;
-            column['x'] = resultColumn.x;
-            column['Mu'] = resultColumn.Mu;
-            column['rb'] = resultColumn.rb;
-            column['Mud'] = resultColumn.Mud;
-            column['ri'] = resultColumn.ri;
-            column['ratio'] = resultColumn.ratio;
-            column['result'] = resultColumn.result;
-
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag);
             column['CFTFlag'] = (section.CFTFlag);
@@ -219,6 +193,8 @@ export class ResultSafetyMomentComponent implements OnInit {
             column['index'] = position.index;
             column['side_summary'] = side;
             column['shape_summary'] = section.shapeName;
+            column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
+            column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
             
             // SRCのデータの有無を確認
             for(const src_key of ['steel_I_tension', 'steel_I_web', 'steel_I_compress',

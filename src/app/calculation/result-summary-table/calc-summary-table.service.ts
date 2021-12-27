@@ -11,7 +11,7 @@ export class CalcSummaryTableService {
   // 計算終了フラグ
   private summaryDone: any;
 
-  constructor() {}
+  constructor() { }
 
   public clear() {
     this.summary_table = {};
@@ -20,14 +20,18 @@ export class CalcSummaryTableService {
       durabilityMoment: false,
       earthquakesMoment: false,
       earthquakesShearForce: false,
+      earthquakesTorsionalMoment:false,
       restorabilityMoment: false,
       restorabilityShearForce: false,
+      restorabilityTorsionalMoment: false,
       SafetyFatigueMoment: false,
       safetyFatigueShearForce: false,
       safetyMoment: false,
       safetyShearForce: false,
+      safetyTorsionalMoment: false,
       serviceabilityMoment: false,
       serviceabilityShearForce: false,
+      serviceabilityTorsionalMoment: false,
       minimumReinforcement: false,
     };
   }
@@ -79,6 +83,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -92,6 +98,13 @@ export class CalcSummaryTableService {
             columns.As.AseString = col.AseString.value;
             // 照査結果
             columns.durabilityMoment.Wd = col.Wd.value;
+            // summaryのテキスト用
+            columns.durabilityMoment.Wlim = col.Wlim.value;
+            if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
+              columns.durabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
+                col.WdWlim.value.toFixed(2) + ' < 1.00' :
+                col.WdWlim.value.toFixed(2) + ' > 1.00';
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -122,6 +135,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -167,6 +182,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -184,6 +201,55 @@ export class CalcSummaryTableService {
             columns.earthquakesShearForce.Vd = col.Vd.value;
             columns.earthquakesShearForce.Vyd = col.Vyd.value;
             columns.earthquakesShearForce.Vyd_Ratio = col.Vyd_Ratio.value;
+            //鉄骨情報のフラグ
+            if (col.steelFlag) this.isSRC = true;
+
+            this.summary_table[key] = columns;
+            break;
+
+          case "earthquakesTorsionalMoment":
+            index = col.index;
+            if (index === null) {
+              continue;
+            }
+            side = col.side_summary;
+            key = this.zeroPadding(index) + "-" + side;
+            columns =
+              key in this.summary_table
+                ? this.summary_table[key]
+                : this.default(index, side);
+
+            // 断面位置
+            columns.title.title0 = col.g_name;
+            columns.title.title1 = col.title1.value;
+            columns.title.title2 = col.title2.value;
+            columns.title.title3 = col.title3.value;
+            // 断面形状
+            columns.shape.name = col.shape_summary;
+            columns.shape.B = col.B.value;
+            columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
+            // 鉄骨情報
+            columns.steel.I_tension = col.steel_I_tension.value;
+            columns.steel.I_web = col.steel_I_web.value;
+            columns.steel.I_compress = col.steel_I_compress.value;
+            columns.steel.H_flange = col.steel_H_tension.value;
+            columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
+            // 鉄筋量
+            columns.As.AstString = col.AstString.value;
+            columns.As.AscString = col.AscString.value;
+            columns.As.AseString = col.AseString.value;
+            columns.As.AwString = col.AwString.value;
+            columns.As.Ss = col.Ss.value;
+            // 照査結果
+            columns.earthquakesMoment.ri = col.ri.value;
+            columns.earthquakesTorsionalMoment.Md = col.Md.value;
+            columns.earthquakesTorsionalMoment.Vd = col.Vd.value;
+            columns.earthquakesTorsionalMoment.Mtd = col.Mt.value;
+            columns.earthquakesTorsionalMoment.Mtud3_Ratio = col.Mtud3_Ratio.value;
+            columns.earthquakesTorsionalMoment.Mtud4_Ratio = col.Mtud4_Ratio.value;
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -214,6 +280,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -259,6 +327,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -276,6 +346,55 @@ export class CalcSummaryTableService {
             columns.restorabilityShearForce.Vd = col.Vd.value;
             columns.restorabilityShearForce.Vyd = col.Vyd.value;
             columns.restorabilityShearForce.Vyd_Ratio = col.Vyd_Ratio.value;
+            //鉄骨情報のフラグ
+            if (col.steelFlag) this.isSRC = true;
+
+            this.summary_table[key] = columns;
+            break;
+
+          case "restorabilityTorsionalMoment":
+            index = col.index;
+            if (index === null) {
+              continue;
+            }
+            side = col.side_summary;
+            key = this.zeroPadding(index) + "-" + side;
+            columns =
+              key in this.summary_table
+                ? this.summary_table[key]
+                : this.default(index, side);
+
+            // 断面位置
+            columns.title.title0 = col.g_name;
+            columns.title.title1 = col.title1.value;
+            columns.title.title2 = col.title2.value;
+            columns.title.title3 = col.title3.value;
+            // 断面形状
+            columns.shape.name = col.shape_summary;
+            columns.shape.B = col.B.value;
+            columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
+            // 鉄骨情報
+            columns.steel.I_tension = col.steel_I_tension.value;
+            columns.steel.I_web = col.steel_I_web.value;
+            columns.steel.I_compress = col.steel_I_compress.value;
+            columns.steel.H_flange = col.steel_H_tension.value;
+            columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
+            // 鉄筋量
+            columns.As.AstString = col.AstString.value;
+            columns.As.AscString = col.AscString.value;
+            columns.As.AseString = col.AseString.value;
+            columns.As.AwString = col.AwString.value;
+            columns.As.Ss = col.Ss.value;
+            // 照査結果
+            columns.restorabilityMoment.ri = col.ri.value;
+            columns.restorabilityTorsionalMoment.Md = col.Md.value;
+            columns.restorabilityTorsionalMoment.Vd = col.Vd.value;
+            columns.restorabilityTorsionalMoment.Mtd = col.Mt.value;
+            columns.restorabilityTorsionalMoment.Mtud3_Ratio = col.Mtud3_Ratio.value;
+            columns.restorabilityTorsionalMoment.Mtud4_Ratio = col.Mtud4_Ratio.value;
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -306,6 +425,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -350,6 +471,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -396,6 +519,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -441,6 +566,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -464,6 +591,56 @@ export class CalcSummaryTableService {
             if (col.steelFlag) this.isSRC = true;
 
             this.summary_table[key] = columns;
+            break;
+
+          case "safetyTorsionalMoment":// index と side が同じデータだ既に登録されていればそのデータに追加する
+            index = col.index;
+            if (index === null) {
+              continue;
+            }
+            side = col.side_summary;
+            key = this.zeroPadding(index) + "-" + side;
+            columns =
+              key in this.summary_table
+                ? this.summary_table[key]
+                : this.default(index, side);
+
+            // 断面位置
+            columns.title.title0 = col.g_name;
+            columns.title.title1 = col.title1.value;
+            columns.title.title2 = col.title2.value;
+            columns.title.title3 = col.title3.value;
+            // 断面形状
+            columns.shape.name = col.shape_summary;
+            columns.shape.B = col.B.value;
+            columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
+            // 鉄骨情報
+            columns.steel.I_tension = col.steel_I_tension.value;
+            columns.steel.I_web = col.steel_I_web.value;
+            columns.steel.I_compress = col.steel_I_compress.value;
+            columns.steel.H_flange = col.steel_H_tension.value;
+            columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
+            // 鉄筋量
+            columns.As.AstString = col.AstString.value;
+            columns.As.AscString = col.AscString.value;
+            columns.As.AseString = col.AseString.value;
+            columns.As.AwString = col.AwString.value;
+            columns.As.Ss = col.Ss.value;
+            // 照査結果
+            columns.safetyMoment.ri = col.ri.value;
+            columns.safetyTorsionalMoment.Md = col.Md.value;
+            columns.safetyTorsionalMoment.Vd = col.Vd.value;
+            columns.safetyTorsionalMoment.Mtd = col.Mt.value;
+            columns.safetyTorsionalMoment.Mtud3_Ratio = col.Mtud3_Ratio.value;
+            columns.safetyTorsionalMoment.Mtud4_Ratio = col.Mtud4_Ratio.value;
+            //鉄骨情報のフラグ
+            if (col.steelFlag) this.isSRC = true;
+
+            this.summary_table[key] = columns;
+
             break;
 
           case "serviceabilityMoment":
@@ -490,6 +667,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -507,6 +686,29 @@ export class CalcSummaryTableService {
             columns.serviceabilityMoment.sigma_s = col.sigma_s.value;
             columns.serviceabilityMoment.Wd = col.Wd.value;
             columns.serviceabilityMoment.Wlim = col.Wlim.value;
+            // summaryのテキスト用
+            if (col.sigma_b.value !== '-') {
+              columns.serviceabilityMoment.sigma_b_div1 = col.sigma_b_ratio.dividend.toFixed(2);
+              columns.serviceabilityMoment.sigma_b_div2 = col.sigma_b_ratio.divisor.toFixed(2);
+            }
+            if (col.sigma_c.value !== '-') {
+              columns.serviceabilityMoment.sigma_c_div1 = col.sigma_c_ratio.dividend.toFixed(2);
+              columns.serviceabilityMoment.sigma_c_div2 = col.sigma_c_ratio.divisor.toFixed(2);
+            }
+            if (col.sigma_s.value !== '-') {
+              if (col.sigma_s.value !== '全断面圧縮') {
+                columns.serviceabilityMoment.sigma_s_ratio = (col.sigma_s_ratio.value < 1) ?
+                  col.sigma_s_ratio.value.toFixed(2) + ' < 1.00' :
+                  col.sigma_s_ratio.value.toFixed(2) + ' > 1.00';
+                columns.serviceabilityMoment.sigma_s =
+                  col.sigma_s_ratio.dividend.toFixed(2) + '/' + col.sigma_s_ratio.divisor.toFixed(0);
+              }
+            }
+            if (col.Wd.value !== '-' && col.Wlim.value !== '-') {
+              columns.serviceabilityMoment.WdWlim = (col.WdWlim.value < 1) ?
+                col.WdWlim.value.toFixed(2) + ' < 1.00' :
+                col.WdWlim.value.toFixed(2) + ' > 1.00';
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -535,6 +737,8 @@ export class CalcSummaryTableService {
             columns.shape.name = col.shape_summary;
             columns.shape.B = col.B.value;
             columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -556,6 +760,54 @@ export class CalcSummaryTableService {
             if (col.steelFlag) this.isSRC = true;
 
             this.summary_table[key] = columns;
+            break;
+
+          case "serviceabilityTorsionalMoment":
+            // index と side が同じデータだ既に登録されていればそのデータに追加する
+            index = col.index;
+            if (index === null) {
+              continue;
+            }
+            side = col.side_summary;
+            key = this.zeroPadding(index) + "-" + side;
+            columns =
+              key in this.summary_table
+                ? this.summary_table[key]
+                : this.default(index, side);
+
+            // 断面位置
+            columns.title.title0 = col.g_name;
+            columns.title.title1 = col.title1.value;
+            columns.title.title2 = col.title2.value;
+            columns.title.title3 = col.title3.value;
+            // 断面形状
+            columns.shape.name = col.shape_summary;
+            columns.shape.B = col.B.value;
+            columns.shape.H = col.H.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
+            // 鉄骨情報
+            columns.steel.I_tension = col.steel_I_tension.value;
+            columns.steel.I_web = col.steel_I_web.value;
+            columns.steel.I_compress = col.steel_I_compress.value;
+            columns.steel.H_flange = col.steel_H_tension.value;
+            columns.steel.H_web = col.steel_H_web.value;
+            columns.steel.CFTFlag = col.CFTFlag;
+            // 鉄筋量
+            columns.As.AstString = col.AstString.value;
+            columns.As.AscString = col.AscString.value;
+            columns.As.AseString = col.AseString.value;
+            columns.As.AwString = col.AwString.value;
+            columns.As.Ss = col.Ss.value;
+            // 照査結果
+            columns.serviceabilityTorsionalMoment.Mtud = col.Mtud.value;
+            columns.serviceabilityTorsionalMoment.comMtud07_Ratio = col.comMtud07_Ratio.value;
+            columns.serviceabilityTorsionalMoment.sigma_Ratio = col.sigma_Ratio.value;
+            //鉄骨情報のフラグ
+            if (col.steelFlag) this.isSRC = true;
+
+            this.summary_table[key] = columns;
+            
             break;
 
           case "minimumReinforcement":
@@ -582,6 +834,8 @@ export class CalcSummaryTableService {
             columns.shape.H = col.H.value;
             columns.shape.Bt = col.Bt.value;
             columns.shape.t = col.t.value;
+            columns.shape.B_summary = col.B_summary;
+            columns.shape.H_summary = col.H_summary;
             // 鉄骨情報
             columns.steel.I_tension = col.steel_I_tension.value;
             columns.steel.I_web = col.steel_I_web.value;
@@ -608,7 +862,7 @@ export class CalcSummaryTableService {
 
             this.summary_table[key] = columns;
             break;
-  
+
         }
       }
     }
@@ -631,6 +885,8 @@ export class CalcSummaryTableService {
         H: "-",
         Bt: "-",
         t: "-",
+        B_summary: "-",
+        H_summary: "-",
       },
       steel: {
         I_tension: '-',
@@ -648,6 +904,8 @@ export class CalcSummaryTableService {
       },
       durabilityMoment: {
         Wd: "-",
+        Wlim: "-",
+        WdWlim: "-",
       },
       earthquakesMoment: {
         ri: "-",
@@ -661,6 +919,13 @@ export class CalcSummaryTableService {
         Vyd: "-",
         Ratio: "-",
       },
+      earthquakesTorsionalMoment: {
+        Md: "-",
+        Vd: "-",
+        Mtd: "-",
+        Mtud3_Ratio: "-",
+        Mtud4_Ratio: "-",
+      },
       restorabilityMoment: {
         ri: "-",
         Md: "-",
@@ -672,6 +937,13 @@ export class CalcSummaryTableService {
         Vd: "-",
         Vyd: "-",
         Vyd_Ratio: "-",
+      },
+      restorabilityTorsionalMoment: {
+        Md: "-",
+        Vd: "-",
+        Mtd: "-",
+        Mtud3_Ratio: "-",
+        Mtud4_Ratio: "-",
       },
       SafetyFatigueMoment: {
         ri: "-",
@@ -701,17 +973,35 @@ export class CalcSummaryTableService {
         Vyd_Ratio: "-",
         Vwcd_Ratio: "-",
       },
+      safetyTorsionalMoment: {
+        Md: "-",
+        Vd: "-",
+        Mtd: "-",
+        Mtud3_Ratio: "-",
+        Mtud4_Ratio: "-",
+      },
       serviceabilityMoment: {
         sigma_b: "-",
         sigma_c: "-",
         sigma_s: "-",
         Wd: "-",
         Wlim: "-",
+        sigma_b_div1: "-",
+        sigma_b_div2: "-",
+        sigma_c_div1: "-",
+        sigma_c_div2: "-",
+        sigma_s_ratio: "-",
+        WdWlim: "-",
       },
       serviceabilityShearForce: {
         Vcd: "-",
         Vcd07: "-",
         sigma: "-",
+      },
+      serviceabilityTorsionalMoment: {
+        Mtud: "-",
+        comMtud07_Ratio: "-",
+        sigma_Ratio: "-",
       },
       minimumReinforcement: {
         dmax: "-",
@@ -735,7 +1025,7 @@ export class CalcSummaryTableService {
     return true;
   }
 
-  private zeroPadding(NUM: number, LEN = 9){
-    return ( Array(LEN).join('0') + NUM ).slice( -LEN );
+  private zeroPadding(NUM: number, LEN = 9) {
+    return (Array(LEN).join('0') + NUM).slice(-LEN);
   }
 }

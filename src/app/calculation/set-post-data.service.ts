@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { UserInfoService } from "../providers/user-info.service";
 import { InputMembersService } from "../components/members/members.service";
 import { InputSafetyFactorsMaterialStrengthsService } from "../components/safety-factors-material-strengths/safety-factors-material-strengths.service";
-import { HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { InputBasicInformationService } from "../components/basic-information/basic-information.service";
 import { InputDesignPointsService } from "../components/design-points/design-points.service";
 import { DataHelperModule } from "../providers/data-helper.module";
@@ -10,14 +10,15 @@ import { SetCircleService } from "./shape-data/set-circle.service";
 import { SetRectService } from "./shape-data/set-rect.service";
 import { SetHorizontalOvalService } from "./shape-data/set-horizontal-oval.service";
 import { SetVerticalOvalService } from "./shape-data/set-vertical-oval.service";
-import { AngularFireAuth } from "@angular/fire/auth";
 import { environment } from "src/environments/environment";
+
 
 @Injectable({
   providedIn: "root",
 })
 export class SetPostDataService {
   constructor(
+    private http: HttpClient,
     private user: UserInfoService,
     private basic: InputBasicInformationService,
     private members: InputMembersService,
@@ -30,15 +31,33 @@ export class SetPostDataService {
     private vOval: SetVerticalOvalService) { }
 
   // 計算(POST)するときのヘルパー ///////////////////////////////////////////////////////////////////////////
-  public URL: string =
-    "https://przh0fpakg.execute-api.ap-northeast-1.amazonaws.com/prod/RCNonlinear-2";
-
   public options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     })
   };
+
+  public async http_post(inputJson: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.calcURL, inputJson, this.options).subscribe(
+        (response) => {
+          if (response["ErrorException"] !== null) {
+            reject({error: response["ErrorException"] });
+          }
+          this.user.setUserPoint(response["deduct_points"], response["new_points"]);
+          resolve(response);
+        },
+        (error) => {
+          let err: string = "";
+          let e: any = error;
+          if('message' in e){ err += e.message + '\n'; }
+          if('text' in e){ err += e.text + '\n'; }
+          reject(err);
+        }
+      );
+    });
+  }
 
   public parseJsonString(str: string): any {
     let json: any = null;
@@ -74,13 +93,13 @@ export class SetPostDataService {
     const post_keys = [ 
       'index', 'side', 'Nd','Md',
       'ConcreteElastic', 'Concretes',
-      'SteelElastic', 'Bars', 'Steels'
+      'SteelElastic', 'Bars', 'Steels','shape'
     ];
 
     // 基本となる DesignForceList[0] の集計 ---------------------------------------------------------
     const dict = {};
-    let key = 0;                    
-    const list = DesignForceList[0]; 
+    let key = 0;
+    const list = DesignForceList[0];
     for (const position of list) {
 
       // 送信post データの生成
@@ -101,7 +120,7 @@ export class SetPostDataService {
         try {
           const shape = this.getPostData(target, safetyID, force, option);
           data['shape'] = shape; // 一時的に登録
-          
+
           // 断面形状
           data['Concretes'] = shape.Concretes;
           data['ConcreteElastic'] = shape.ConcreteElastic;
@@ -219,7 +238,7 @@ export class SetPostDataService {
     const post_keys = [ 
       'index', 'side', 'Nd','Md',
       'ConcreteElastic', 'Concretes',
-      'SteelElastic', 'Bars', 'Steels'
+      'SteelElastic', 'Bars', 'Steels','shape'
     ];
 
     const dict = {};

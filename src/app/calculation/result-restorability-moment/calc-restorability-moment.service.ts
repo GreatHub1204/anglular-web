@@ -85,7 +85,7 @@ export class CalcRestorabilityMomentService {
 
     const Md: number = Math.abs(force.Md);
     const My: number = resultData.Y.Mi;
-    const rb: number = safety_factor.rb;
+    const rb: number = safety_factor.M_rb;
     const Myd: number = My / rb;
     const ri: number = safety_factor.ri;
     const ratio: number = ri * Md / Myd;

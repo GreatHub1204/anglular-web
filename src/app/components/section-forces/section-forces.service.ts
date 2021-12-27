@@ -100,7 +100,7 @@ export class InputSectionForcesService  {
         head = { title: titles[0], align: 'center', colModel:[] }
         old = titles[0];
       }
-      const key = 'Vd' + s.id;
+      const key = 'Mt' + s.id;
       head.colModel.push(
         { title: titles[1], align: 'center', colModel: [
           { title: 'Mt<br/>(kN・m)',    dataType: 'float', 'format': '#.00', dataIndx: key + '_Mt', sortable: false, width: 100 },

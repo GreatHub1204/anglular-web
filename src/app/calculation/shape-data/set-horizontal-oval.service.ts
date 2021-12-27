@@ -96,7 +96,12 @@ export class SetHorizontalOvalService {
     );
     if (fsyt.fsy === 235)  tension.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
     tension['fsy'] = fsyt;
-    tension['rs'] = safety.safety_factor.rs;;
+    
+    if('M_rs' in safety.safety_factor){
+      tension['rs'] = safety.safety_factor.M_rs;
+    } else if('V_rs' in safety.safety_factor){
+      tension['rs'] = safety.safety_factor.V_rs;
+    }
     
     // 登録
     result['tension'] = tension;
@@ -111,7 +116,13 @@ export class SetHorizontalOvalService {
         );
         if (fsyc.fsy === 235) compress.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
         compress['fsy'] = fsyc;
-        compress['rs'] = safety.safety_factor.rs;
+
+        if('M_rs' in safety.safety_factor){
+          compress['rs'] = safety.safety_factor.M_rs;
+        } else if('V_rs' in safety.safety_factor){
+          compress['rs'] = safety.safety_factor.V_rs;
+        }
+
         result['compress'] = compress;
       }
     }
@@ -122,7 +133,7 @@ export class SetHorizontalOvalService {
 
     // sidebar
     if (safety.safety_factor.range >= 3) {
-      const sidebar: any = this.helper.sideInfo(bar.sidebar, tension.dsc, compress.dsc, result.H);
+      const sidebar: any = this.helper.sideInfo(bar.sidebar1,bar.sidebar2, tension.dsc, compress.dsc, result.H);
       if(sidebar !== null){
         const fsye = this.helper.getFsyk(
           sidebar.rebar_dia,
@@ -131,7 +142,13 @@ export class SetHorizontalOvalService {
         );
         if (fsye.fsy === 235) sidebar.mark = "R"; // 鉄筋強度が 235 なら 丸鋼
         sidebar['fsy'] = fsye;
-        sidebar['rs'] = safety.safety_factor.rs;
+
+        if('M_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.M_rs;
+        } else if('V_rs' in safety.safety_factor){
+          sidebar['rs'] = safety.safety_factor.V_rs;
+        }        
+
         result['sidebar'] = sidebar;
       }
     }
@@ -149,7 +166,9 @@ export class SetHorizontalOvalService {
     const result = {
       H: null,
       B: null,
-      Bw: null
+      Bw: null,
+      H_summary: null,  //総括表用
+      B_summary: null,  //総括表用
     };
 
     let h: number = this.helper.toNumber(member.H);
@@ -161,6 +180,10 @@ export class SetHorizontalOvalService {
     if (h === null || b === null) {
       throw('形状の入力が正しくありません');
     }
+    
+    ////////// 総括表用 //////////
+    result.H_summary = this.helper.toNumber(member.H);
+    result.B_summary = this.helper.toNumber(member.B);
 
     //小判型の断面積Sと簡略化した矩形断面の幅Bw
     const S = (Math.PI * (h/2)**2) / 2 + h*(b - h) + (Math.PI * (h/2)**2) / 2;

@@ -154,7 +154,14 @@ export class CalcSafetyFatigueShearForceService {
     return this.safety.getCalcData('Vd', g_id, this.safetyID);
   }
 
-  public calcFatigue( res: any, section: any, fc: any, safety: any, tmpFatigue: any ): any {
+  public calcFatigue( res: any, section: any, fc: any, safety: any, tmpFatigue: any, option: any = {} ): any {
+
+    // 運輸機構モードの場合 k=0.12を固定とする
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+    if(speci1==0 && speci2===1){
+      option['k12'] = true; 
+    }
 
     const resMin: any = res[0];
     const resMax: any = res[1];
@@ -263,7 +270,9 @@ export class CalcSafetyFatigueShearForceService {
     const tmp201: number = Math.pow(10, ar) / Math.pow(reference_count, k);
     const tmp202: number = 1 - _sigma_min / fwud;
     const fsr200: number = r1 * tmp201 * tmp202 / rs;
-    result['fsr200'] = fsr200;
+    if(option['k12'] === false){
+      result['fsr200'] = fsr200;
+    }
 
     const ri: number = safety.safety_factor.ri;
     result['ri'] = ri;
@@ -272,11 +281,15 @@ export class CalcSafetyFatigueShearForceService {
     if (rb === null) { rb = 1; }
 
     const ratio200: number = ri * _sigma_rd / (fsr200 / rb);
-    result['ratio200'] = ratio200;
-
-    if (ratio200 < 1) {
-      k = 0.06;
-      ar = 2.71 - 0.003 * fai;
+    if(option['k12'] === false){    
+      result['ratio200'] = ratio200;
+      if (ratio200 < 1) {
+        k = 0.06;
+        ar = 2.71 - 0.003 * fai;
+      } else {
+        k = 0.12;
+        ar = 3.09 - 0.003 * fai;
+      }
     } else {
       k = 0.12;
       ar = 3.09 - 0.003 * fai;
@@ -437,98 +450,7 @@ export class CalcSafetyFatigueShearForceService {
     result['k2']  = k2;
     result['ar2']  = ar2;
 
-    // // 標準列車荷重観山の総等価繰返し回数 N の計算
-    // let T: number = this.helper.toNumber(this.fatigue.service_life);
-    // if (T === null) { return result; }
-
-    // const j = this.getTrainCount();
-    // const jA = j[0];
-    // const jB = j[1];
-
-    // let SASC: number = this.helper.toNumber(inputFatigue.SA);
-    // if (SASC === null) {
-    //   SASC = 1;
-    // } else if(jA > 0) {
-    //   result['SASC'] = SASC;
-    // }
-  
-    // let SBSC: number = this.helper.toNumber(inputFatigue.SB);
-    // if (SBSC === null) {
-    //   SBSC = 1;
-    // } else if(jB > 0){
-    //   result['SBSC'] = SBSC;
-    // }
-
-    // let a: number = this.helper.toNumber(inputFatigue.A);
-    // if (a === null) {
-    //   a = 1;
-    // } else {
-    //   result['a'] = a;
-    // }
-    
-    // let b: number = this.helper.toNumber(inputFatigue.B);
-    // if (b === null) {
-    //   b = 1;
-    // } else {
-    //   result['b'] = b;
-    // }
-
-    // let NA = 0;
-    // let NB = 0;
-    // if (k === 0.06) {
-    //   NA = this.helper.toNumber(inputFatigue.NA06);
-    //   NB = this.helper.toNumber(inputFatigue.NB06);
-    // } else {
-    //   NA = this.helper.toNumber(inputFatigue.NA12);
-    //   NB = this.helper.toNumber(inputFatigue.NB12);
-    // }
-    // if (NA === null) {
-    //   NA = 0;
-    // } else if(jA > 0){
-    //   result['NA'] = NA;
-    // }
-    // if (NB === null) {
-    //   NB = 0;
-    // } else if(jB > 0){
-    //   result['NB'] = NB;
-    // }
-
-    // const tmpN1: number = 365 * T * jA * NA * Math.pow(SASC, 1 / k);
-    // const tmpN2: number = 365 * T * jB * NB * Math.pow(SBSC, 1 / k);
-    // const N: number = tmpN1 + tmpN2;
-    // result['N'] = Math.round(N / 100) * 100;
-
-    // // frd の計算
-    // const tmpR21: number = Math.pow(a, 1 / k);
-    // const tmpR22: number = Math.pow(1 - a, 1 / k);
-    // const tmpR23: number = (tmpR21 + tmpR22) * ((1 - b) + b);
-    // const r2: number = Math.pow(1 / tmpR23, k);
-    // result['r2'] = r2;
-
-    // const tmpfrd1: number = Math.pow(10, ar) / Math.pow(N, k);
-    // const tmpfrd2: number = 1 - _sigma_min / fwud;
-    // const frd: number = r1 * r2 * tmpfrd1 * tmpfrd2 / rs;
-    // result['frd'] = frd;
-
-    // if (ratio200 < 1 && N <= reference_count) {
-    //   return result;
-    // }
-
-    // const ratio: number = ri * _sigma_rd / (frd / rb);
-    // if(ratio > 0){
-    //   result['ratio'] = ratio;
-    // }
-  /*}
-  
-  private bend_frd2 (section, result, ) {
-
-    const a = result.a;
-    const b = result.b;
-    const k2 = result.k2;
-    const ar2 = result.ar2;
-    */ 
     // frd2（折り曲げ鉄筋） の計算
-
     const a = result.a;
     const b = result.b;
     const N = result.N;

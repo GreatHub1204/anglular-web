@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
-import { HotTableModule } from '@handsontable/angular';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPrintModule } from 'ngx-print';
@@ -62,10 +61,13 @@ import { CalcRestorabilityMomentService } from './calculation/result-restorabili
 import { CalcRestorabilityShearForceService } from './calculation/result-restorability-shear-force/calc-restorability-shear-force.service';
 import { CalcEarthquakesMomentService } from './calculation/result-earthquakes-moment/calc-earthquakes-moment.service';
 import { CalcEarthquakesShearForceService } from './calculation/result-earthquakes-shear-force/calc-earthquakes-shear-force.service';
+import { CalcRestorabilityTorsionalMomentService } from './calculation/result-restorability-torsional-moment/calc-restorability-torsional-moment.service';
 
 import { ResultViewerComponent } from './calculation/result-viewer/result-viewer.component';
 import { ResultSafetyMomentComponent } from './calculation/result-safety-moment/result-safety-moment.component';
 import { ResultSafetyShearForceComponent } from './calculation/result-safety-shear-force/result-safety-shear-force.component';
+import { ResultSafetyTorsionalMomentComponent } from './calculation/result-safety-torsional-moment/result-safety-torsional-moment.component';
+
 import { ResultDurabilityMomentComponent } from './calculation/result-durability-moment/result-durability-moment.component';
 import { ResultSafetyFatigueMomentComponent } from './calculation/result-safety-fatigue-moment/result-safety-fatigue-moment.component';
 import { ResultSafetyFatigueShearForceComponent } from './calculation/result-safety-fatigue-shear-force/result-safety-fatigue-shear-force.component';
@@ -82,6 +84,9 @@ import { SectionForceListComponent } from './calculation/section-force-list/sect
 import { SetDesignForceService} from './calculation/set-design-force.service';
 import { SetPostDataService} from './calculation/set-post-data.service';
 import { environment } from 'src/environments/environment';
+import { ResultServiceabilityTorsionalMomentComponent } from './calculation/result-serviceability-torsional-moment/result-serviceability-torsional-moment.component';
+import { ResultRestorabilityTorsionalMomentComponent } from './calculation/result-restorability-torsional-moment/result-restorability-torsional-moment.component';
+import { ResultEarthquakesTorsionalMomentComponent } from './calculation/result-earthquakes-torsional-moment/result-earthquakes-torsional-moment.component';
 
 @NgModule({
   imports: [
@@ -95,7 +100,6 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     NgbModule,
     NgxPrintModule,
-    HotTableModule,
     AngularFireModule.initializeApp(environment.firebase),
     DataHelperModule
   ],
@@ -132,7 +136,11 @@ import { environment } from 'src/environments/environment';
     SectionForceListComponent,
     SteelsComponent,
     CrackSettingsComponent,
-    ResultMinimumReinforcementComponent
+    ResultMinimumReinforcementComponent,
+    ResultSafetyTorsionalMomentComponent,
+    ResultServiceabilityTorsionalMomentComponent,
+    ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent
   ],
   entryComponents: [
     LoginDialogComponent,
@@ -174,10 +182,13 @@ import { environment } from 'src/environments/environment';
     // declarations だけではなくココ(providers) にも宣言して
     // 他のコンポーネントから機能の一部を使えるようにする
     ResultSafetyShearForceComponent,
+    ResultSafetyTorsionalMomentComponent,
     ResultSafetyMomentComponent,
     ResultRestorabilityMomentComponent,
     ResultRestorabilityShearForceComponent,
     ResultServiceabilityMomentComponent,
+    ResultRestorabilityTorsionalMomentComponent,
+    ResultEarthquakesTorsionalMomentComponent,
   ],
   bootstrap: [
     AppComponent

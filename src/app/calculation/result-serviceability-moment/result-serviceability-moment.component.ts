@@ -54,33 +54,19 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     // postする
     console.log(this.title, postData);
     const inputJson: string = this.post.getInputJsonString(postData);
-    this.http.post(this.post.URL, inputJson, this.post.options).subscribe(
+    this.post.http_post(inputJson).then(
       (response) => {
-        if (response["ErrorException"] === null) {
-          this.isFulfilled = this.setPages(response["OutputData"]);
-          this.calc.isEnable = true;
-        } else {
-          this.err = JSON.stringify(response["ErrorException"]);
-        }
-        this.isLoading = false;
+        this.isFulfilled = this.setPages(response["OutputData"]);
+        this.calc.isEnable = true;
         this.summary.setSummaryTable("serviceabilityMoment", this.serviceabilityMomentPages);
-        this.user.setUserPoint(response["deduct_points"], response["new_points"]);
-      },
-      (error) => {
-        this.err = 'error!!' + '\n'; 
-        let e: any = error;
-        while('error' in e) {
-          if('message' in e){ this.err += e.message + '\n'; }
-          if('text' in e){ this.err += e.text + '\n'; }
-          e = e.error;
-        }
-        if('message' in e){ this.err += e.message + '\n'; }
-        if('stack' in e){ this.err += e.stack; }
-
-        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.err = 'error!!\n' + error;; 
         this.summary.setSummaryTable("serviceabilityMoment");
-      }
-    );
+      })
+      .finally(()=>{
+        this.isLoading = false;
+      });
   }
 
   // 計算結果を集計する
@@ -168,7 +154,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             const titleColumn = this.result.getTitleString( section.member, position, side );
             const fck: any = this.helper.getFck(safety);
 
-            const resultColumn: any = this.getResultString(
+            const column: any = this.getResultString(
               this.calc.calcWd(
                 res,
                 section,
@@ -187,7 +173,6 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             if (this.helper.toNumber(section.steel.fsy_left.fsy) !== null) SRC_pik = "fsy_left" ;
             if (this.helper.toNumber(section.steel.fsy_tension.fsy) !== null) SRC_pik = "fsy_tension" ;
             
-            const column = {};
             /////////////// タイトル ///////////////
             column['title1'] = { alien: "center", value: titleColumn.title1 };
             column['title2'] = { alien: "center", value: titleColumn.title2 };
@@ -234,41 +219,6 @@ export class ResultServiceabilityMomentComponent implements OnInit {
               column['fsd_steel'] = { alien: "center", value: "-" };
             }
             column['rs_steel'] = this.result.alien(section.steel.rs.toFixed(2), 'center');
-            /////////////// 照査 ///////////////
-            column['con'] = resultColumn.con;
-
-            column['Mhd'] = resultColumn.Mhd;
-            column['Nhd'] = resultColumn.Nhd;
-            column['sigma_b'] = resultColumn.sigma_b;
-
-            column['Md'] = resultColumn.Md;
-            column['Nd'] = resultColumn.Nd;
-            column['sigma_c'] = resultColumn.sigma_c;
-            column['sigma_s'] = resultColumn.sigma_s;
-
-            column['Pt'] = resultColumn.Pt;
-            column['Mpd'] = resultColumn.Mpd;
-            column['Npd'] = resultColumn.Npd;
-            column['Mrd'] = resultColumn.Mrd;
-            column['Nrd'] = resultColumn.Nrd;
-            column['rd_ratio'] = resultColumn.rd_ratio;
-            column['EsEc'] = resultColumn.EsEc;
-            column['sigma_se'] = resultColumn.sigma_se;
-            column['c'] = resultColumn.c;
-            column['Cs'] = resultColumn.Cs;
-            column['fai'] = resultColumn.fai;
-            column['ecu'] = resultColumn.ecu;
-            column['k1'] = resultColumn.k1;
-            column['k2'] = resultColumn.k2;
-            column['n'] = resultColumn.n;
-            column['k3'] = resultColumn.k3;
-            column['k4'] = resultColumn.k4;
-            column['Wd'] = resultColumn.Wd;
-            column['Wlim'] = resultColumn.Wlim;
-
-            column['ri'] = resultColumn.ri;
-            column['ratio'] = resultColumn.ratio;
-            column['result'] = resultColumn.result;
 
             /////////////// flag用 ///////////////
             column['steelFlag'] = (section.steel.flag); // 鉄骨情報があればtrue
@@ -279,6 +229,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             column['index'] = position.index;
             column['side_summary'] = side;
             column['shape_summary'] = section.shapeName;
+            column['B_summary'] = ('B_summary' in shape) ? shape.B_summary : shape.B;
+            column['H_summary'] = ('H_summary' in shape) ? shape.H_summary : shape.H;
+
             // SRCのデータの有無を確認
             for(const src_key of ['steel_I_tension', 'steel_I_web', 'steel_I_compress',
                                   'steel_H_tension','steel_H_web']){
@@ -354,6 +307,12 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       ri: { alien: "center", value: "-" },
       ratio: { alien: "center", value: "-" },
       result: { alien: "center", value: "-" },
+
+      ////////// summary_table用 //////////
+      sigma_b_ratio: { value: 0, dividend: 0, divisor: 1 },
+      sigma_c_ratio: { value: 0, dividend: 0, divisor: 1 },
+      sigma_s_ratio: { value: 0, dividend: 0, divisor: 1 },
+      WdWlim: { value: 0, dividend: 0, divisor: 1 },
     };
 
     // 環境条件
@@ -379,6 +338,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
           re.Sigmac.toFixed(2) + " > " + re.fcd04.toFixed(1);
         result.result.value = "(0.4fcd) NG";
       }
+      result.sigma_c_ratio.dividend = re.Sigmac;
+      result.sigma_c_ratio.divisor  = re.fcd04;
+      result.sigma_c_ratio.value = re.Sigmac / re.fcd04;
     }
 
     // 縁応力の照査
@@ -405,6 +367,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
         }
         result.sigma_b.value =
           SigmabVal.toFixed(2) + " < " + re.Sigmabl.toFixed(2);
+        result.sigma_b_ratio.dividend = SigmabVal;
+        result.sigma_b_ratio.divisor  = re.Sigmabl;
+        result.sigma_b_ratio.value = SigmabVal / re.Sigmabl;
 
         // 鉄筋応力度の照査
         if ("Sigmas" in re && "sigmal1" in re) {
@@ -424,6 +389,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
               re.Sigmas.toFixed(1) + " > " + re.sigmal1.toFixed(1);
             result.result.value = "NG";
           }
+          result.sigma_s_ratio.dividend = re.Sigmas;
+          result.sigma_s_ratio.divisor  = re.sigmal1;
+          result.sigma_s_ratio.value = re.Sigmas / re.sigmal1;
         }
         if (!this.isJRTT){
           return result;
@@ -435,6 +403,9 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       } else {
         result.sigma_b.value =
           re.Sigmab.toFixed(2) + " > " + re.Sigmabl.toFixed(2);
+        result.sigma_b_ratio.dividend = re.Sigmab;
+        result.sigma_b_ratio.divisor  = re.Sigmabl;
+        result.sigma_b_ratio.value = re.Sigmab / re.Sigmabl;
       }
     }
 
@@ -497,10 +468,15 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     }
     if ("Wd" in re) {
       result.Wd = { alien: "right", value: re.Wd.toFixed(3) };
+      result.WdWlim.dividend = re.Wd;
     }
     // 制限値
     if ("Wlim" in re) {
       result.Wlim = { alien: "right", value: re.Wlim.toFixed(3) };
+      result.WdWlim.divisor = re.Wlim;
+    }
+    if ("Wd" in re && "Wlim" in re) {
+      result.WdWlim.value = re.Wd / re.Wlim;
     }
     if ("ri" in re) {
       result.ri.value = re.ri.toFixed(2);

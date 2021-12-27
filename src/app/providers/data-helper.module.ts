@@ -211,12 +211,11 @@ export class DataHelperModule {
     result.rfbok = pile !== undefined ? pile.rfbok : 1;
     result.rVcd = pile !== undefined ? pile.rVcd : 1;
 
-    let rc = safety.safety_factor.rc;
-
-    if ("rc" in safety.safety_factor) {
-      result.rc = rc;
-    } else {
-      rc = 1;
+    result.rc = 1;
+    if ("M_rc" in safety.safety_factor) {
+      result.rc = safety.safety_factor.M_rc;
+    } else if ("V_rc" in safety.safety_factor) {
+      result.rc = safety.safety_factor.V_rc;
     }
 
     if ("fck" in safety.material_concrete) {
@@ -224,7 +223,7 @@ export class DataHelperModule {
       result.fck = fck * result.rfck;
       const Ec = this.getEc(result.fck);
       result.Ec = Ec * result.rEc;
-      result.fcd = result.rfck * fck / rc;
+      result.fcd = result.rfck * fck / result.rc;
     }
 
     return result;
@@ -314,37 +313,44 @@ export class DataHelperModule {
   }
 
   // 側方鉄筋の情報を整理して返す
-  public sideInfo(barInfo: any, dst: number, dsc: number, height: number){
+  public sideInfo(barInfo1: any,barInfo2:any, dst: number, dsc: number, height: number){
 
     if(height===null){
       return null; // 円形など側鉄筋を用いない形状はスキップ
     }
 
     // 鉄筋径の入力が ない場合は スキップ
-    if (barInfo.side_dia === null) {
+    if (barInfo1.side_dia === null) {
       return null;
     }
-    const dia = Math.abs(barInfo.side_dia);
+    const dia = Math.abs(barInfo1.side_dia);
 
     // 異形鉄筋:D, 丸鋼: R
-    const mark = barInfo.side_dia > 0 ? "D" : "R";
+    const mark = barInfo1.side_dia > 0 ? "D" : "R";
 
     // 鉄筋段数
-    const n = barInfo.side_n;
+    const n = barInfo1.side_n;
     if (n === 0) {
       return null; // 鉄筋段数の入力が 0 の場合は スキップ
     }
 
     // 鉄筋間隔
-    let space = barInfo.side_ss;
+    let space = barInfo1.side_ss;
     if (this.toNumber(space) === null) {
       space = (height - dst - dsc) / (n + 1);
     }
 
     // 鉄筋かぶり
-    let cover = barInfo.side_cover;
+    let cover = barInfo1.side_cover;
     if (this.toNumber(cover) === null) {
       cover = dsc + space;
+    }
+
+
+    //　1118追加
+    let cover2 = barInfo2.side_cover;
+    if (this.toNumber(cover2) === null) {
+      cover2 =0;
     }
 
     // 1段当りの本数
@@ -356,6 +362,7 @@ export class DataHelperModule {
       n,
       space,
       cover,
+      cover2,
       line
     }
   }
@@ -407,23 +414,133 @@ export class DataHelperModule {
   public table_To_text(wTABLE) {
     var wRcString = "";
     var wTR = wTABLE.rows;
+    let spanList: any = { 1:{row:0, col:0}, 2:{row:0, col:0}, 3:{row:0, col:0} };
     for (var i = 0; i < wTR.length; i++) {
       var wTD = wTABLE.rows[i].cells;
       var wTR_Text = "";
-      for (var j = 0; j < wTD.length; j++) {
-        const a: string = wTD[j].innerText;
-        const b = a.replace(" ", "");
-        const c = b.replace("\n", "");
-        wTR_Text += c;
-        if (j === wTD.length - 1) {
-          wTR_Text += "";
-        } else {
-          wTR_Text += "\t";
+      const rowspan_text = this.getRowSpan(spanList);
+      wTR_Text += rowspan_text;
+      // 断面形状の列のみ、特殊な挙動をする
+      if (wTD[0].innerText !== '断面形状') {
+        for (var j = 0; j < wTD.length; j++) {
+          const a: string = wTD[j].innerText;
+          const b = a.replace(" ", "");
+          const c = b.replace("\n", "");
+          wTR_Text += c;
+          if (j === wTD.length - 1) {
+            wTR_Text += "";
+          } else {
+            wTR_Text += "\t";
+          }
+          // colspanを処理する
+          for (let k = 1 ; k < wTD[j].colSpan; k++) {
+            wTR_Text += "\t";
+          }
+          // rowspanを入手する
+          if (wTD[j].rowSpan > 1) {
+            for (const key of Object.keys(spanList)) {
+              if (spanList[key].row < 2) {
+                spanList[key] = { row:wTD[j].rowSpan, col:wTD[j].colSpan };
+                break;
+          } } };
         }
+      } else {
+      // 断面形状の列のみ、特殊な挙動をする
+        wTR_Text = this.getShapeText(wTD);
+        //以下のlink imgでurlを取得
+        // const link = document.images[0].alt;
+        // const img = document.getElementById('shape');
       }
       wRcString += wTR_Text + "\r\n";
     }
     return wRcString;
+  }
+
+  private getRowSpan(list): string {
+    let result: string = "";
+
+    for (const key of Object.keys(list)) {
+      if (list[key].row > 1) {
+        for (let i = 0; i < list[key].col; i++) {
+          result += "\t";
+        }
+        list[key].row -= 1;
+      }
+    }
+
+    return result
+  }
+
+  private getShapeText(wTD) {
+    let text: string = ""; 
+    let B_text: string = "";
+    let H_text: string = "";
+    let side: string = "";
+    let shape: string = "";
+
+    const a0: string = wTD[0].innerText;
+    const a1: string = wTD[1].innerText;
+    text += "\t".repeat(wTD[0].colSpan - 1) + '幅\t' + a1;
+    side += "\t".repeat(wTD[0].colSpan + wTD[1].colSpan);
+    shape += a0 + "\t".repeat(wTD[0].colSpan + wTD[1].colSpan);
+
+    for (var j = 2; j < wTD.length; j++) {
+      // size
+      const a: string = wTD[j].innerText;
+      const b = a.split('\n');
+      B_text += b[0];
+      H_text += b[2];
+
+      if (j === wTD.length - 1) {
+        B_text += "\n";
+        H_text += "";
+      } else {
+        B_text += "\t";
+        H_text += "\t";
+      }
+
+      // side
+      const target = wTD[j].getElementsByTagName("DIV");
+      let target2: any;
+      // HTMLCollectionやNodeListでは処理できないため、以下のコードで対応
+      for (let i = 0; i < target[0].children.length; i++ ) {
+        if (target[0].children[i].tagName === 'IMG') {
+          target2 = target[0].children[i];
+          break;
+        }
+      }
+      const link = target2.alt
+      if (link === '' || link == undefined) {
+        side += '\t'
+      }
+      if (link.indexOf('under') !== -1) {
+        side += "下側引張\t"
+      } else if (link.indexOf('upper') !== -1) {
+        side += "上側引張\t"
+      }// else if (link.indexOf('circle') !== -1) {
+      //  ss = "円環引張"
+      //}
+
+      // shape
+      if (link.indexOf('rectangle') !== -1) {
+        shape += '矩形\t'
+      } else if (link.indexOf('tsection') !== -1) {
+        shape += 'T型\t'
+      } else if (link.indexOf('circle') !== -1) {
+        shape += '円形\t'
+      } else if (link.indexOf('Oval') !== -1) {
+        shape += '小判型\t'
+      }
+    }
+    text += '\t';
+    side += '\n';
+    shape += '\n';
+
+    const size: string = text + B_text + "\t".repeat(wTD[0].colSpan - 1) + '高さ\t\t' + H_text;
+
+    const result: string = side + shape + size; 
+
+    return result;
   }
 
 }

@@ -13,6 +13,8 @@
         <app-result-safety-moment></app-result-safety-moment>
         <!-- 安全性（破壊）せん断力の照査表 出力 -->
         <app-result-safety-shear-force></app-result-safety-shear-force>
+        <!-- 安全性（破壊）ねじりモーメントの照査表 出力 -->
+        <app-result-safety-torsional-moment></app-result-safety-torsional-moment>
         <!-- 安全性（疲労破壊）曲げモーメントの照査表 出力 -->
         <app-result-safety-fatigue-moment></app-result-safety-fatigue-moment>
         <!-- 安全性（疲労破壊）せん断力の照査表 出力 -->
@@ -21,16 +23,22 @@
         <app-result-serviceability-moment></app-result-serviceability-moment>
         <!-- 耐久性 せん断ひび割れの照査表 出力 -->
         <app-result-serviceability-shear-force></app-result-serviceability-shear-force>
+        <!-- 耐久性 ねじりモーメントの照査表 出力 -->
+        <app-result-serviceability-torsional-moment></app-result-serviceability-torsional-moment>
         <!-- 使用性 曲げひび割れの照査表 出力 -->
         <app-result-durability-moment></app-result-durability-moment>
         <!-- 復旧性（地震時以外）曲げモーメントの照査表 出力 -->
         <app-result-restorability-moment></app-result-restorability-moment>
         <!-- 復旧性（地震時以外）せん断力の照査表 出力 -->
         <app-result-restorability-shear-force></app-result-restorability-shear-force>
+         <!-- 復旧性（地震時以外）ねじりモーメントの照査表 出力 -->
+         <app-result-restorability-torsional-moment></app-result-restorability-torsional-moment>
         <!-- 復旧性（地震時）曲げモーメントの照査表 出力 -->
         <app-result-earthquakes-moment></app-result-earthquakes-moment>
         <!-- 復旧性（地震時）せん断力の照査表 出力 -->
         <app-result-earthquakes-shear-force></app-result-earthquakes-shear-force>
+         <!-- 復旧性（地震時）ねじりモーメントの照査表 出力 -->
+         <app-result-earthquakes-torsional-moment></app-result-earthquakes-torsional-moment>
         <!-- 最小鉄筋量の照査表 出力 -->
         <app-result-minimum-reinforcement></app-result-minimum-reinforcement>
       </ng-container>
@@ -58,6 +66,10 @@
           <li><a routerLink="/result-viewer" fragment="ap_2">
               安全性（破壊）せん断</a></li>
         </ng-container>
+        <ng-container *ngIf="safetyTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_14">
+              安全性（破壊）ねじりモーメント</a></li>
+        </ng-container>
         <ng-container *ngIf="SafetyFatigueMoment.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_3">
               安全性（疲労破壊）曲げ</a></li>
@@ -74,6 +86,10 @@
           <li><a routerLink="/result-viewer" fragment="ap_6">
               耐久性（せん断ひび割れ）</a></li>
         </ng-container>
+        <ng-container *ngIf="serviceabilityTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_15">
+              耐久性（ねじりひび割れ）</a></li>
+        </ng-container>
         <ng-container *ngIf="durabilityMoment.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_7">
               使用性（外観ひび割れ）</a></li>
@@ -86,6 +102,10 @@
           <li><a routerLink="/result-viewer" fragment="ap_9">
               復旧性（損傷）せん断</a></li>
         </ng-container>
+        <ng-container *ngIf="restorabilityTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_16">
+              復旧性（損傷）ねじりモーメント</a></li>
+        </ng-container>
         <ng-container *ngIf="earthquakesMoment.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_10">
               復旧性（地震時）曲げ</a></li>
@@ -93,6 +113,10 @@
         <ng-container *ngIf="earthquakesShearForce.isEnable">
           <li><a routerLink="/result-viewer" fragment="ap_11">
               復旧性（地震時）せん断</a></li>
+        </ng-container>
+        <ng-container *ngIf="earthquakesTorsionalMoment.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_17">
+              復旧性（地震時）ねじりモーメント</a></li>
         </ng-container>
         
         <ng-container *ngIf="ResultMinimumReinforcement.isEnable">

@@ -11,6 +11,10 @@ import { CalcRestorabilityShearForceService } from "../result-restorability-shea
 import { CalcEarthquakesMomentService } from "../result-earthquakes-moment/calc-earthquakes-moment.service";
 import { CalcEarthquakesShearForceService } from "../result-earthquakes-shear-force/calc-earthquakes-shear-force.service";
 import { InputMembersService } from "src/app/components/members/members.service";
+import { CalcSafetyTorsionalMomentService } from "../result-safety-torsional-moment/calc-safety-torsional-moment.service";
+import { CalcServiceabilityTorsionalMomentService } from "../result-serviceability-torsional-moment/calc-serviceability-torsional-moment.service";
+import { CalcRestorabilityTorsionalMomentService } from "../result-restorability-torsional-moment/calc-restorability-torsional-moment.service";
+import { CalcEarthquakesTosionalMomentService } from "../result-earthquakes-torsional-moment/calc-earthquakes-tosional-moment.service";
 
 @Component({
   selector: "app-section-force-list",
@@ -39,7 +43,11 @@ export class SectionForceListComponent implements OnInit {
     private safetyMoment: CalcSafetyMomentService,
     private safetyShearForce: CalcSafetyShearForceService,
     private serviceabilityMoment: CalcServiceabilityMomentService,
-    private serviceabilityShearForce: CalcServiceabilityShearForceService
+    private serviceabilityShearForce: CalcServiceabilityShearForceService,
+    private safetyTorsionalMoment: CalcSafetyTorsionalMomentService,
+    private serviceabilityTorsionalMoment: CalcServiceabilityTorsionalMomentService,
+    private restorabilityTorsionalMoment: CalcRestorabilityTorsionalMomentService,
+    private earthquakesTorsionalMoment: CalcEarthquakesTosionalMomentService
   ) {}
 
   ngOnInit() {
@@ -48,7 +56,6 @@ export class SectionForceListComponent implements OnInit {
     const groupeList = this.members.getGroupeList();
     for (let i = 0; i < groupeList.length; i++) {
       const memberList = groupeList[i];
-      let currentRow: number = 0;
 
       // グループタイプ によって 上側・下側の表示を 右側・左側 等にする
       const g_id: string = memberList[0].g_id;
@@ -60,16 +67,24 @@ export class SectionForceListComponent implements OnInit {
       const g_name: string = this.members.getGroupeName(i);
 
       let page: any = null;
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       const g_name_moment: string = g_name + " 曲げモーメントの照査";
       let tableType: number = 1;
+      let currentRow: number = 0;
 
       // 使用性,耐久性曲げモーメントの照査
-      if (this.serviceabilityMoment.DesignForceList.length +
-          this.durabilityMoment.DesignForceList.length > 0 ) {
+      if (
+        this.serviceabilityMoment.DesignForceList.length +
+          this.durabilityMoment.DesignForceList.length >
+        0
+      ) {
         const data = [];
         const title = [];
-        if (this.serviceabilityMoment.DesignForceList.length > 0 &&
-            this.durabilityMoment.DesignForceList.length > 0 ) {
+        if (
+          this.serviceabilityMoment.DesignForceList.length > 0 &&
+          this.durabilityMoment.DesignForceList.length > 0
+        ) {
           // 耐久性と使用性両方照査する場合
           data.push(this.serviceabilityMoment.DesignForceList1);
           title.push("耐久性、使用性　縁引張応力度検討用");
@@ -77,7 +92,8 @@ export class SectionForceListComponent implements OnInit {
           title.push("耐久性、使用性　永久作用");
         } else if (
           this.serviceabilityMoment.DesignForceList.length > 0 &&
-          this.durabilityMoment.DesignForceList.length == 0 ) {
+          this.durabilityMoment.DesignForceList.length == 0
+        ) {
           // 耐久性のみ照査する場合
           data.push(this.serviceabilityMoment.DesignForceList1);
           title.push("耐久性　縁引張応力度検討用");
@@ -91,26 +107,62 @@ export class SectionForceListComponent implements OnInit {
           title.push("使用性　永久作用");
         }
         for (let i = 0; i < data.length; i++) {
-          const table = this.setPage( memberList, upperName, bottomName, data[i]);
-          if (table.length === 0) { continue; }
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType);
+          const table = this.setPage(
+            memberList,
+            upperName,
+            bottomName,
+            data[i]
+          );
+          if (table.length === 0) {
+            continue;
+          }
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_moment, upperSideName, bottomSideName, tableType, title[i]);
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_moment,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            title[i]
+          );
         }
       }
 
       // 安全性（破壊）曲げモーメントの照査
       if (this.safetyMoment.DesignForceList.length > 0) {
-        const table = this.setPage( memberList, upperName, bottomName, this.safetyMoment.DesignForceList );
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.safetyMoment.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_moment, upperSideName, bottomSideName, tableType, "安全性（破壊）" );
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_moment,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "安全性（破壊）"
+          );
         }
       }
 
       // 安全性（疲労破壊）曲げモーメントの照査
-      if (this.SafetyFatigueMoment.DesignForceList.length > 0 ) {
+      if (this.SafetyFatigueMoment.DesignForceList.length > 0) {
         const data = [];
         const title = [];
         data.push(this.SafetyFatigueMoment.DesignForceList);
@@ -120,31 +172,84 @@ export class SectionForceListComponent implements OnInit {
         data.push(this.SafetyFatigueMoment.DesignForceList2);
         title.push("安全性（疲労破壊）変動応力");
         for (let i = 0; i < data.length; i++) {
-          const table = this.setPage( memberList, upperName, bottomName, data[i]);
-          if (table.length === 0) { continue; }
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType);
+          const table = this.setPage(
+            memberList,
+            upperName,
+            bottomName,
+            data[i]
+          );
+          if (table.length === 0) {
+            continue;
+          }
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_moment, upperSideName, bottomSideName, tableType, title[i]);
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_moment,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            title[i]
+          );
         }
       }
 
       // 復旧性（地震時以外）曲げモーメントの照査
       if (this.restorabilityMoment.DesignForceList.length > 0) {
-        const table = this.setPage( memberList, upperName, bottomName, this.restorabilityMoment.DesignForceList );
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.restorabilityMoment.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_moment, upperSideName, bottomSideName,　tableType,　"復旧性（地震時以外）"　);
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_moment,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時以外）"
+          );
         }
       }
 
       // 復旧性（地震時）曲げモーメントの照査
       if (this.earthquakesMoment.DesignForceList.length > 0) {
-        const table = this.setPage( memberList, upperName, bottomName, this.earthquakesMoment.DesignForceList　);
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.earthquakesMoment.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage(　table,　currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_moment, upperSideName, bottomSideName,　tableType, "復旧性（地震時）" );
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_moment,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時）"
+          );
         }
       }
       if (page !== null) {
@@ -152,12 +257,13 @@ export class SectionForceListComponent implements OnInit {
         page = null;
       }
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       const g_name_shear: string = g_name + " せん断力に対する照査";
       tableType = 2;
       currentRow = 0;
 
       // 耐久性せん断力に対する照査
-      if (this.serviceabilityShearForce.DesignForceList.length > 0 ) {
+      if (this.serviceabilityShearForce.DesignForceList.length > 0) {
         const data = [];
         const title = [];
         // 耐久性のみ照査する場合
@@ -169,26 +275,62 @@ export class SectionForceListComponent implements OnInit {
         title.push("耐久性　変動作用");
 
         for (let i = 0; i < data.length; i++) {
-          const table = this.setPage( memberList, upperName, bottomName, data[i]);
-          if (table.length === 0) { continue; }
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType);
+          const table = this.setPage(
+            memberList,
+            upperName,
+            bottomName,
+            data[i]
+          );
+          if (table.length === 0) {
+            continue;
+          }
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_shear, upperSideName, bottomSideName, tableType, title[i]);
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_shear,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            title[i]
+          );
         }
       }
 
       // 安全性（破壊）せん断力に対する照査
       if (this.safetyShearForce.DesignForceList.length > 0) {
-        const table = this.setPage(　memberList, upperName, bottomName,　this.safetyShearForce.DesignForceList );
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.safetyShearForce.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_shear, upperSideName, bottomSideName, tableType, "安全性（破壊）" );
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_shear,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "安全性（破壊）"
+          );
         }
       }
 
       // 安全性（疲労破壊）せん断力に対する照査
-      if (this.safetyFatigueShearForce.DesignForceList.length > 0 ) {
+      if (this.safetyFatigueShearForce.DesignForceList.length > 0) {
         const data = [];
         const title = [];
         // 耐久性のみ照査する場合
@@ -200,32 +342,213 @@ export class SectionForceListComponent implements OnInit {
         title.push("安全性（疲労破壊）変動応力");
 
         for (let i = 0; i < data.length; i++) {
-          const table = this.setPage( memberList, upperName, bottomName, data[i]);
-          if (table.length === 0) { continue; }
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType);
+          const table = this.setPage(
+            memberList,
+            upperName,
+            bottomName,
+            data[i]
+          );
+          if (table.length === 0) {
+            continue;
+          }
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_shear, upperSideName, bottomSideName, tableType, title[i]);
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_shear,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            title[i]
+          );
         }
       }
 
       // 復旧性（地震時以外）せん断力に対する照査
       if (this.restorabilityShearForce.DesignForceList.length > 0) {
-        const table = this.setPage(　memberList, upperName, bottomName, this.restorabilityShearForce.DesignForceList );
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.restorabilityShearForce.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_shear, upperSideName, bottomSideName, tableType, "復旧性（地震時以外）" );
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_shear,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時以外）"
+          );
         }
       }
 
-
       // 復旧性（地震時）せん断力に対する照査
       if (this.earthquakesShearForce.DesignForceList.length > 0) {
-        const table = this.setPage(　memberList, upperName, bottomName, this.earthquakesShearForce.DesignForceList );
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.earthquakesShearForce.DesignForceList
+        );
         if (table.length > 0) {
-          const info: any = this.getTableRowsOfPage( table, currentRow, tableType );
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
           currentRow = info.currentRow;
-          page = this.setTables( info.tableRowsOfPage, page, g_name_shear, upperSideName, bottomSideName, tableType, "復旧性（地震時）" );
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_shear,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時）"
+          );
+        }
+      }
+
+      if (page !== null) {
+        this.pages.push(page);
+        page = null;
+      }
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      const g_name_tosion: string = g_name + " ねじりモーメントに対する照査";
+      tableType = 3;
+      currentRow = 0;
+
+      // ねじりひび割れに対する照査
+      if (this.serviceabilityTorsionalMoment.DesignForceList.length > 0) {
+        const data = [];
+        const title = [];
+        // 耐久性のみ照査する場合
+        data.push(this.serviceabilityTorsionalMoment.DesignForceList);
+        title.push("耐久性　ねじりひび割れ照査必要性の検討用");
+        data.push(this.serviceabilityTorsionalMoment.DesignForceList1);
+        title.push("耐久性　永久作用");
+
+        for (let i = 0; i < data.length; i++) {
+          const table = this.setPage(
+            memberList,
+            upperName,
+            bottomName,
+            data[i]
+          );
+          if (table.length === 0) {
+            continue;
+          }
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
+          currentRow = info.currentRow;
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_tosion,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            title[i]
+          );
+        }
+      }
+
+      // 安全性（破壊）ねじりモーメントに対する照査
+      if (this.safetyTorsionalMoment.DesignForceList.length > 0) {
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.safetyTorsionalMoment.DesignForceList
+        );
+        if (table.length > 0) {
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
+          currentRow = info.currentRow;
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_tosion,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "安全性（破壊）"
+          );
+        }
+      }
+
+      // 復旧性（地震時以外）ねじりモーメントに対する照査
+      if (this.restorabilityTorsionalMoment.DesignForceList.length > 0) {
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.restorabilityTorsionalMoment.DesignForceList
+        );
+        if (table.length > 0) {
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
+          currentRow = info.currentRow;
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_tosion,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時以外）"
+          );
+        }
+      }
+
+      // 復旧性（地震時）ねじりモーメントに対する照査
+      if (this.earthquakesTorsionalMoment.DesignForceList.length > 0) {
+        const table = this.setPage(
+          memberList,
+          upperName,
+          bottomName,
+          this.earthquakesTorsionalMoment.DesignForceList
+        );
+        if (table.length > 0) {
+          const info: any = this.getTableRowsOfPage(
+            table,
+            currentRow,
+            tableType
+          );
+          currentRow = info.currentRow;
+          page = this.setTables(
+            info.tableRowsOfPage,
+            page,
+            g_name_tosion,
+            upperSideName,
+            bottomSideName,
+            tableType,
+            "復旧性（地震時）"
+          );
         }
       }
 
@@ -239,9 +562,14 @@ export class SectionForceListComponent implements OnInit {
     this.isFulfilled = true;
   }
 
-  private setTables( rows: any[], page: any, g_name: string,
-    upperSideName: string, bottomSideName: string,
-    tableType: number, title: string
+  private setTables(
+    rows: any[],
+    page: any,
+    g_name: string,
+    upperSideName: string,
+    bottomSideName: string,
+    tableType: number,
+    title: string
   ): any {
     if (page === null) {
       page = {
@@ -297,7 +625,8 @@ export class SectionForceListComponent implements OnInit {
     const tableRowsOfPage: any[] = new Array();
     let rows: any[] = new Array();
     //currentRow += this.rowTitleRowCount;
-    currentRow += currentRow === 0 ? this.rowTitleRowCount : this.rowTitleRowCount1;
+    currentRow +=
+      currentRow === 0 ? this.rowTitleRowCount : this.rowTitleRowCount1;
     const a: number = tableType === 1 ? 1 : 2;
     const RowsCount: number = targetRows.length * a;
 
@@ -336,8 +665,10 @@ export class SectionForceListComponent implements OnInit {
     return result;
   }
 
-  private setPage( memberList: any[],
-    upperName: string, bottomName: string,
+  private setPage(
+    memberList: any[],
+    upperName: string,
+    bottomName: string,
     forces: any[]
   ): any[] {
     const result = [];
@@ -356,58 +687,41 @@ export class SectionForceListComponent implements OnInit {
           bottomSideName: bottomName,
         };
 
-        /*for (const pp of pos.designForce) {
-          const pt = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-          if ("Md" in pp) {
-            pt.Md = pp.Md.toFixed(2);
-          }
-          if ("Nd" in pp) {
-            pt.Nd = pp.Nd.toFixed(2);
-          }
-          if ("Vd" in pp) {
-            pt.Vd = pp.Vd.toFixed(2);
-          }
-          if ("comb" in pp) {
-            pt.comb = pp.comb;
-          }
-          switch (pp.side) {
-            case "上側引張":
-              p["upper"] = pt;
-              break;
-            case "下側引張":
-              p["lower"] = pt;
-              break;
-          }
-        }
-
-        if ("upper" in p === false) {
-          p["upper"] = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-        }
-        if ("lower" in p === false) {
-          p["lower"] = { Md: "-", Nd: "-", Vd: "-", comb: "-" };
-        }*/
         for (const pp of pos.designForce) {
-          let md = { value: "-", position: "center"};
-          let nd = { value: "-", position: "center"};
-          let vd = { value: "-", position: "center"};
-          let comb = { value: "-", position: "center"};
+          let md = { value: "-", position: "center" };
+          let nd = { value: "-", position: "center" };
+          let vd = { value: "-", position: "center" };
+          let mt = { value: "-", position: "center" };
+          let comb = { value: "-", position: "center" };
           if ("Md" in pp) {
-            md.value = pp.Md.toFixed(2);
-            md.position = "right";
+            if (!isNaN(pp.Md) && pp.Md !== null) {
+              md.value = pp.Md.toFixed(2);
+              md.position = "right";
+            }
           }
           if ("Nd" in pp) {
-            nd.value = pp.Nd.toFixed(2);
-            nd.position = "right";
+            if (!isNaN(pp.Nd) && pp.Nd !== null) {
+              nd.value = pp.Nd.toFixed(2);
+              nd.position = "right";
+            }
           }
           if ("Vd" in pp) {
-            vd.value = pp.Vd.toFixed(2);
-            vd.position = "right";
+            if (!isNaN(pp.Vd) && pp.Vd !== null) {
+              vd.value = pp.Vd.toFixed(2);
+              vd.position = "right";
+            }
+          }
+          if ("Mt" in pp) {
+            if (!isNaN(pp.Mt) && pp.Mt !== null) {
+              mt.value = pp.Mt.toFixed(2);
+              mt.position = "right";
+            }
           }
           if ("comb" in pp) {
             comb.value = pp.comb;
             comb.position = "center";
           }
-          const pt = { Md: md, Nd: nd, Vd: vd, comb: comb };
+          const pt = { Md: md, Nd: nd, Vd: vd, Mt: mt, comb: comb };
           switch (pp.side) {
             case "上側引張":
               p["upper"] = pt;
@@ -419,18 +733,20 @@ export class SectionForceListComponent implements OnInit {
         }
 
         if ("upper" in p === false) {
-          let md = { value: "-", position: "center"};
-          let nd = { value: "-", position: "center"};
-          let vd = { value: "-", position: "center"};
-          let comb = { value: "-", position: "center"};
-          p["upper"] = { Md: md, Nd: nd, Vd: vd, comb: comb };
+          let md = { value: "-", position: "center" };
+          let nd = { value: "-", position: "center" };
+          let vd = { value: "-", position: "center" };
+          let mt = { value: "-", position: "center" };
+          let comb = { value: "-", position: "center" };
+          p["upper"] = { Md: md, Nd: nd, Vd: vd, Mt: mt, comb: comb };
         }
         if ("lower" in p === false) {
-          let md = { value: "-", position: "center"};
-          let nd = { value: "-", position: "center"};
-          let vd = { value: "-", position: "center"};
-          let comb = { value: "-", position: "center"};
-          p["lower"] = { Md: md, Nd: nd, Vd: vd, comb: comb };
+          let md = { value: "-", position: "center" };
+          let nd = { value: "-", position: "center" };
+          let vd = { value: "-", position: "center" };
+          let mt = { value: "-", position: "center" };
+          let comb = { value: "-", position: "center" };
+          p["lower"] = { Md: md, Nd: nd, Vd: vd, Mt: mt, comb: comb };
         }
 
         result.push(p);
