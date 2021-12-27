@@ -40,7 +40,7 @@ export class CalcRestorabilityTorsionalMomentService {
       return;
     }
 
-    const No6 = (this.save.isManual()) ? 6 : this.basic.pickup_shear_force_no(6);
+    const No6 = (this.save.isManual()) ? 6 : this.basic.pickup_torsional_moment_no(6);
     this.DesignForceList = this.force.getDesignForceList(
       'Mt', No6);
 

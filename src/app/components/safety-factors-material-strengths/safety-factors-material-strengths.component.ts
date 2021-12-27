@@ -140,8 +140,8 @@ export class SafetyFactorsMaterialStrengthsComponent
 
       // グリッドの設定
       this.option1_list.push({
-        width: 1000,
-        height: 250,
+        width: 1100,
+        height: 280,
         showTop: false,
         reactive: true,
         sortable: false,

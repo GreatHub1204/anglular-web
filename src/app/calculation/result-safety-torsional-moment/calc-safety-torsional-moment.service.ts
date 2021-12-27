@@ -130,7 +130,8 @@ export class CalcSafetyTorsionalMomentService {
     safetyM: any,
     safetyV: any,
     Laa: number,
-    force: any
+    force: any,
+    omit_flg = false // 検討省略する場合でも以降の計算を続けるか？
   ) {
     // 曲げ Mud' 用
     const res2 = OutputData.find(
@@ -247,7 +248,9 @@ export class CalcSafetyTorsionalMomentService {
 
     if (result["Mtcd_Ratio"] < 0.2) {
       result['Mtcd_Result'] = "検討省略";
-      // return result; //1114
+      if(!omit_flg){
+        return result; 
+      } 
     } else {
       result['Mtcd_Result'] = "省略不可";
     }
@@ -271,6 +274,11 @@ export class CalcSafetyTorsionalMomentService {
     result['Mtud2'] = Mtud2;
     result['Mtud2_Ratio'] = Mtud2_Ratio;
     result['Mtud2_Result'] = Mtud2_Ratio <= 0.5 ? "検討省略" : "省略不可";
+
+    if(!omit_flg && Mtud1_Ratio<= 0.5 && Mtud2_Ratio <= 0.5 ){
+      return result; 
+    }
+
     // return result; //1114
     // }
 
@@ -340,6 +348,13 @@ export class CalcSafetyTorsionalMomentService {
         fsye = this.helper.toNumber(sidebar["fsy"]["fsy"] / sidebar.rs);
       }
     }
+    // ねじり用側面かぶり
+    if(de === 0 && 'side_cover' in sectionM){
+      de = this.helper.toNumber(sectionM["side_cover"]);
+      if (de === null) {
+        de = 0;
+      }
+    }
 
     // 折り曲げ鉄筋
     const Asb = sectionV["Asb"];
@@ -368,7 +383,7 @@ export class CalcSafetyTorsionalMomentService {
     // 純かぶりと鉄筋辺長
     const dtt = Math.max(dt - Ast_dia / 2 - stirrup_dia / 2, 0);
     const dct = Math.max(dc - Asc_dia / 2 - stirrup_dia / 2, 0);
-    const det = Math.max(de - Ast_dia / 2 - stirrup_dia / 2, 0);
+    const det = Math.max(de - Math.max(Asc_dia, Ast_dia) / 2 - stirrup_dia / 2, 0);
     let d0: number = h - dtt - dct; // 鉄筋長辺
     let b0: number = bw - det * 2; // 鉄筋短辺
     if (d0 < b0) {

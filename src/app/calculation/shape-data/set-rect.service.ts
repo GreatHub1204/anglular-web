@@ -299,7 +299,12 @@ export class SetRectService {
         result['sidebar'] = sidebar;
       }
     }
-
+    // ねじり用側面かぶり
+    const side_cover: number = this.helper.toNumber(bar.sidebar2.side_cover);
+    if(side_cover !== null){
+      result['side_cover'] = side_cover;
+    }
+    //
     result['stirrup'] = bar.stirrup;
     result['bend'] = bar.bend;
 

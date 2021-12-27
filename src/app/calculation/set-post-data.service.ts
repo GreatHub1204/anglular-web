@@ -51,13 +51,8 @@ export class SetPostDataService {
         (error) => {
           let err: string = "";
           let e: any = error;
-          while('error' in e) {
-            if('message' in e){ err += e.message + '\n'; }
-            if('text' in e){ err += e.text + '\n'; }
-            e = e.error;
-          }
           if('message' in e){ err += e.message + '\n'; }
-          if('stack' in e){ err += e.stack; }
+          if('text' in e){ err += e.text + '\n'; }
           reject(err);
         }
       );

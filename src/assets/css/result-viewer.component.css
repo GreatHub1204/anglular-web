@@ -345,20 +345,27 @@ table.spreadsheet .g-left2{ border-left: 1px solid black; }
 .sheet-title2.indent10{text-indent: 1.0em;}
 
 .sheet-title2 img.flow{
-    width: 60%;
-    height: 60%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
+  width: 60%;
+  height: 60%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.sheet-title2 img.flow2{
+  width: 600px;
+  height: 263px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .sheet-title2 div.flow-align{
-    text-align: center;
-  }
+  text-align: center;
+}
 
 .sheet-title2 table {
-    font-size: 14px;
-  }
+  font-size: 14px;
+}
+
 .sheet-title2 table.left{text-align: left; vertical-align: top;}
 .sheet-title2 table.center{text-align: center; vertical-align: top;}
 .sheet-title2 table.right{text-align: right; vertical-align: top;}
-
-

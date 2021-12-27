@@ -268,6 +268,9 @@ export class ResultDataService {
         section = this.rect.getRectangleShape(member, target, index, side, safety, {});
         result['Ast'] = this.getAst(section, safety, target);
         result['Ase'] = this.getAse(section);
+        if('side_cover' in section){
+          result['side_cover'] = section.side_cover
+        }
         result.shape.H = section.H;
         result.shape.B = section.B;
         break;
@@ -276,6 +279,10 @@ export class ResultDataService {
       case 'InvertedTsection':  // 逆T形
         section = this.rect.getTsectionShape(member, target, index, side, safety, {});
         result['Ast'] = this.getAst(section, safety, target);
+        result['Ase'] = this.getAse(section);
+        if('side_cover' in section){
+          result['side_cover'] = section.side_cover
+        }
         result.shape.H = section.H;
         result.shape.B = section.B;
         result.shape.Bt = section.Bt;

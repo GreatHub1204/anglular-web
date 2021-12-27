@@ -167,7 +167,8 @@ export class CalcServiceabilityTorsionalMomentService {
       safetyM,
       safetyV,
       La,
-      force0
+      force0,
+      true
     );
 
     // 変動荷重
