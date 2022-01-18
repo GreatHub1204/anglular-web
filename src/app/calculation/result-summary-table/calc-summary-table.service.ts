@@ -756,6 +756,12 @@ export class CalcSummaryTableService {
             columns.serviceabilityShearForce.Vcd = col.Vcd.value;
             columns.serviceabilityShearForce.Vcd07 = col.Vcd07.value;
             columns.serviceabilityShearForce.sigma = col.sigma.value;
+            // summaryのテキスト用
+            if (col.sigma.value !== '-') {
+                columns.serviceabilityShearForce.sigma_calc = (col.sigma_calc.value < 1) ? 
+                                                              col.sigma_calc.value.toFixed(3) + "＜1.000" : 
+                                                              col.sigma_calc.value.toFixed(3) + "＞1.000" ;
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -802,7 +808,19 @@ export class CalcSummaryTableService {
             // 照査結果
             columns.serviceabilityTorsionalMoment.Mtud = col.Mtud.value;
             columns.serviceabilityTorsionalMoment.comMtud07_Ratio = col.comMtud07_Ratio.value;
-            columns.serviceabilityTorsionalMoment.sigma_Ratio = col.sigma_Ratio.value;
+            //columns.serviceabilityTorsionalMoment.sigma_Ratio = col.sigma_Ratio.value;
+             
+            // summaryのテキスト用
+            if (col.sigma_Ratio.value !== '-') {
+              columns.serviceabilityTorsionalMoment.sigma_Ratio
+                = col.sigma_calc.dividend.toFixed(1)
+                  + "/"
+                  + col.sigma_calc.divisor.toFixed(0);
+              columns.serviceabilityTorsionalMoment.sigma_calc  
+                = (col.sigma_calc.value < 1) ? 
+                  col.sigma_calc.value.toFixed(3) + "＜1.000" : 
+                  col.sigma_calc.value.toFixed(3) + "＞1.000" ;
+            }
             //鉄骨情報のフラグ
             if (col.steelFlag) this.isSRC = true;
 
@@ -997,11 +1015,13 @@ export class CalcSummaryTableService {
         Vcd: "-",
         Vcd07: "-",
         sigma: "-",
+        sigma_calc: "-",
       },
       serviceabilityTorsionalMoment: {
         Mtud: "-",
         comMtud07_Ratio: "-",
         sigma_Ratio: "-",
+        sigma_calc: "-",
       },
       minimumReinforcement: {
         dmax: "-",

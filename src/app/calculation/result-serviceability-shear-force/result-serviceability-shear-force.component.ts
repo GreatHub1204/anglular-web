@@ -287,6 +287,9 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
       sigma2: { alien: "center", value: "-" },
       Ratio2: { alien: "center", value: "-" },
       Result2: { alien: "center", value: "-" },
+
+      ////////// summary_table用 //////////
+      sigma_calc: { value: 0, dividend: 0, divisor: 1 },
     };
 
     // 帯鉄筋
@@ -402,6 +405,9 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     if ("sigmaw" in re && "sigma12" in re) {
       const str: string = re.sigmaw.toFixed(1) + "/" + re.sigma12.toFixed(0);
       result.sigma = { alien: "center", value: str };
+      result.sigma_calc.value = re.sigmaw / re.sigma12;
+      result.sigma_calc.dividend = re.sigmaw;
+      result.sigma_calc.divisor = re.sigma12;
     }
     if ("Ratio" in re) {
       result.Ratio = { alien: "right", value: re.Ratio.toFixed(3) };
