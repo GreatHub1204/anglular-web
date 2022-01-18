@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/blank-page']);
     this.app.deactiveButtons();
 
-    this.fileName = '断面性能照査プログラム ver1.7.8';
+    this.fileName = '断面性能照査プログラム ver1.7.9';
     this.pickup_file_name = '';
 
     setTimeout(()=>{
