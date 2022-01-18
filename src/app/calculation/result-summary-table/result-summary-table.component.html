@@ -470,7 +470,12 @@
             <td class="bottom text-right">σ<sub>wpd</sub>／σ<sub>sl2</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngIf="item.serviceabilityShearForce.sigma!=='-'">
+                <td class="left bottom text-center">{{item.serviceabilityShearForce.sigma_calc}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityShearForce.sigma==='-'">
+                <td class="left bottom text-center"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <!--<tr>
@@ -515,10 +520,17 @@
           </tr>
           <tr>
             <td class="left bottom text-left">安　全　度</td>
-            <td class="bottom text-right">σ<sub>wpd</sub>：σ<sub>sl2</sub></td>
+            <td class="bottom text-right">σ<sub>wpd</sub>／σ<sub>sl2</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngFor="let item of summary_table; index as i">
+                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio!=='-'">
+                  <td class="left bottom text-center">{{item.serviceabilityTorsionalMoment.sigma_calc}}</td>
+                </ng-container>
+                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio==='-'">
+                  <td class="left bottom text-center"> </td>
+                </ng-container>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>
