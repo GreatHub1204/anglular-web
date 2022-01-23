@@ -10,14 +10,14 @@ import { SaveDataService } from "./providers/save-data.service";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-
   constructor(
     private config: ConfigService,
     private save: SaveDataService,
     private members: InputMembersService,
-    private points: InputDesignPointsService) { }
+    private points: InputDesignPointsService
+  ) {}
 
-  public isManual(): boolean{
+  public isManual(): boolean {
     return this.save.isManual();
   }
 
@@ -51,7 +51,7 @@ export class AppComponent {
   public isMemberEnable = false;
   public memberChange(flg: boolean = this.members.checkMemberEnables()): void {
     if (this.isMemberEnable !== flg) {
-      for (const id of ['2', '7']) {
+      for (const id of ["2", "7"]) {
         const data = document.getElementById(id);
         if (data != null) {
           if (flg === true) {
@@ -68,7 +68,7 @@ export class AppComponent {
       this.isMemberEnable = flg;
     }
 
-    if(this.isManual()){
+    if (this.isManual()) {
       this.designPointChange(this.isMemberEnable);
     }
   }
@@ -77,13 +77,12 @@ export class AppComponent {
   // 有効な入力行があったら次のボタンを有効にする
   public isDesignPointEnable = false;
   public designPointChange(flg = this.points.designPointChange()): void {
-
     // if(!this.save.isManual()){
     //   flg = this.points.designPointChange();
     // }
 
     if (this.isDesignPointEnable !== flg) {
-      for (const id of ['3', '4', '5', '6', '7']) {
+      for (const id of ["3", "4", "5", "6", "7"]) {
         const data = document.getElementById(id);
         if (data != null) {
           if (flg === true) {
@@ -99,7 +98,5 @@ export class AppComponent {
       }
       this.isDesignPointEnable = flg;
     }
-}
-
-
+  }
 }

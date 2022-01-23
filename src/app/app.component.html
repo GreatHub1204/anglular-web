@@ -1,8 +1,8 @@
 <div class="header">
   <div class="container">
-      <div class="liner">
-          <app-menu></app-menu>
-      </div>
+    <div class="liner">
+      <app-menu></app-menu>
+    </div>
   </div>
 </div>
 
@@ -12,72 +12,112 @@
       <ul class="c-mainNavArea__nav">
         <!-- ホーム -->
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./basic-information" routerLinkActive="selected-item"
-            (click)="activePageChenge(0)" id="0"
-            class="c-mainNavArea__navItemTitle">
+          <a
+            routerLink="./basic-information"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(0)"
+            id="0"
+            class="c-mainNavArea__navItemTitle"
+          >
             <span>基本データ</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./members" routerLinkActive="selected-item"
-            (click)="activePageChenge(1)" id="1"
-            class="c-mainNavArea__navItemTitle is-active">
+          <a
+            routerLink="./members"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(1)"
+            id="1"
+            class="c-mainNavArea__navItemTitle is-active"
+          >
             <span>部材・断面</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem" [hidden]="isManual()">
-          <a routerLink="./design-points" routerLinkActive="selected-item"
-            (click)="activePageChenge(2)" id="2"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./design-points"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(2)"
+            id="2"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>算出点</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem" [hidden]="!isManual()">
-          <a routerLink="./section-forces" routerLinkActive="selected-item"
-            (click)="activePageChenge(8)" id="8"
-            class="c-mainNavArea__navItemTitle">
+          <a
+            routerLink="./section-forces"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(8)"
+            id="8"
+            class="c-mainNavArea__navItemTitle"
+          >
             <span>断面力</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./bars" routerLinkActive="selected-item"
-            (click)="activePageChenge(3)" id="3"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./bars"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(3)"
+            id="3"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>鉄筋配置</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./steels" routerLinkActive="selected-item"
-            (click)="activePageChenge(4)" id="4"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./steels"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(4)"
+            id="4"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>鉄骨配置</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./crack" routerLinkActive="selected-item"
-            (click)="activePageChenge(5)" id="5"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./crack"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(5)"
+            id="5"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>ひび割れデータ</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./fatigues" routerLinkActive="selected-item"
-            (click)="activePageChenge(6)" id="6"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./fatigues"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(6)"
+            id="6"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>疲労データ</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./safety-factors-material-strengths" routerLinkActive="selected-item"
-            (click)="activePageChenge(7)" id="7"
-            class="c-mainNavArea__navItemTitle disabled">
+          <a
+            routerLink="./safety-factors-material-strengths"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(7)"
+            id="7"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
             <span>安全係数・材料強度</span>
           </a>
         </li>
         <li class="c-mainNavArea__navItem">
-          <a routerLink="./calculation-print" routerLinkActive="selected-item"
-            (click)="activePageChenge(9)" id="9"
-            class="c-mainNavArea__navItemTitle">
+          <a
+            routerLink="./calculation-print"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(9)"
+            id="9"
+            class="c-mainNavArea__navItemTitle"
+          >
             <span>計算・印刷</span>
           </a>
         </li>
@@ -85,6 +125,9 @@
     </nav>
   </div>
   <div class="c-contentsArea">
-    <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+    <router-outlet
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+    ></router-outlet>
   </div>
 </div>

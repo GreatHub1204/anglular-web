@@ -1,7 +1,5 @@
 {
-  "PAGES": {
-      "HOME": {
-          "TITLE": "App works !"
-      }
-  }
+    "menu": {
+        "softName": "WebDanforJS ver1.7.9"
+    }
 }
