@@ -159,8 +159,8 @@
         </tr> -->
         <ng-container *ngIf="pages.SRCFlag">
           <tr>
-            <th rowspan="3" class="cell_name2">I配置<br>鉄骨</th>
-            <th class="cell_name3">引張ﾌﾗﾝｼﾞ</th>
+            <th rowspan="3" class="cell_name2 g-bottom2">I配置<br>鉄骨</th>
+            <th class="cell_name3 g-left2">引張ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_I_tension.alien}} g-left2">
@@ -173,7 +173,7 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3">腹板</th>
+            <th class="cell_name3 g-left2">腹板</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_I_web.alien}} g-left2">
@@ -187,21 +187,21 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3">圧縮ﾌﾗﾝｼﾞ</th>
+            <th class="cell_name3 g-bottom2 g-left2">圧縮ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
-                <td colspan="2" class="{{column.steel_I_compress.alien}} g-left2">
+                <td colspan="2" class="{{column.steel_I_compress.alien}} g-bottom2 g-left2">
                   {{column.steel_I_compress.value}}</td>
               </ng-container>
               <ng-container *ngIf="column.CFTFlag">
-                <td colspan="2" class="{{column.steel_I_tension.alien}} g-left2">
+                <td colspan="2" class="{{column.steel_I_tension.alien}} g-bottom2 g-left2">
                 </td>
               </ng-container>
             </ng-container>
           </tr>
           <tr>
             <th rowspan="2" class="cell_name2 g-bottom2">H配置<br>鉄骨</th>
-            <th class="cell_name3">ﾌﾗﾝｼﾞ</th>
+            <th class="cell_name3 g-left2">ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_H_tension.alien}} g-left2">
@@ -215,7 +215,7 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3 g-bottom2">腹板</th>
+            <th class="cell_name3 g-bottom2 g-left2">腹板</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_H_web.alien}} g-bottom2 g-left2">
@@ -249,10 +249,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">dast</th>
-          <th class="cell_name3">(mm)</th>
+          <th class="cell_name2 g-bottom2">dast</th>
+          <th class="cell_name3 g-bottom2">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.dst.alien}} g-left2">
+            <td colspan="2" class="{{column.dst.alien}} g-bottom2 g-left2">
               {{column.dst.value}}</td>
           </ng-container>
         </tr>
@@ -277,10 +277,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">dasc</th>
-          <th class="cell_name3">(mm)</th>
+          <th class="cell_name2 g-bottom2">dasc</th>
+          <th class="cell_name3 g-bottom2">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.dsc.alien}} g-left2">
+            <td colspan="2" class="{{column.dsc.alien}} g-bottom2 g-left2">
               {{column.dsc.value}}</td>
           </ng-container>
         </tr>
@@ -315,10 +315,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">f'cd</th>
-          <th class="cell_name3">(N/mm<sup>2</sup>)</th>
+          <th class="cell_name2 g-bottom2">f'cd</th>
+          <th class="cell_name3 g-bottom2">(N/mm<sup>2</sup>)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.fcd.alien}} g-left2">
+            <td colspan="2" class="{{column.fcd.alien}} g-bottom2 g-left2">
               {{column.fcd.value}}</td>
           </ng-container>
         </tr>
@@ -682,8 +682,8 @@
         </tr> -->
         <ng-container *ngIf="pages.SRCFlag">
           <tr>
-            <th rowspan="3" class="cell_name2">I配置<br>鉄骨</th>
-            <th class="cell_name3">引張ﾌﾗﾝｼﾞ</th>
+            <th rowspan="3" class="cell_name2 g-bottom2">I配置<br>鉄骨</th>
+            <th class="cell_name3 g-left2">引張ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_I_tension.alien}} g-left2">
@@ -696,7 +696,7 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3">腹板</th>
+            <th class="cell_name3 g-left2">腹板</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_I_web.alien}} g-left2">
@@ -710,21 +710,21 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3">圧縮ﾌﾗﾝｼﾞ</th>
+            <th class="cell_name3 g-bottom2 g-left2">圧縮ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
-                <td colspan="2" class="{{column.steel_I_compress.alien}} g-left2">
+                <td colspan="2" class="{{column.steel_I_compress.alien}} g-bottom2 g-left2">
                   {{column.steel_I_compress.value}}</td>
               </ng-container>
               <ng-container *ngIf="column.CFTFlag">
-                <td colspan="2" class="{{column.steel_I_tension.alien}} g-left2">
+                <td colspan="2" class="{{column.steel_I_tension.alien}} g-bottom2 g-left2">
                 </td>
               </ng-container>
             </ng-container>
           </tr>
           <tr>
             <th rowspan="2" class="cell_name2 g-bottom2">H配置<br>鉄骨</th>
-            <th class="cell_name3">ﾌﾗﾝｼﾞ</th>
+            <th class="cell_name3 g-left2">ﾌﾗﾝｼﾞ</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_H_tension.alien}} g-left2">
@@ -738,7 +738,7 @@
             </ng-container>
           </tr>
           <tr>
-            <th class="cell_name3 g-bottom2">腹板</th>
+            <th class="cell_name3 g-bottom2 g-left2">腹板</th>
             <ng-container *ngFor="let column of pages.columns; index as c">
               <ng-container *ngIf="!column.CFTFlag">
                 <td colspan="2" class="{{column.steel_H_web.alien}} g-bottom2 g-left2">
@@ -772,10 +772,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">dast</th>
-          <th class="cell_name3">(mm)</th>
+          <th class="cell_name2 g-bottom2">dast</th>
+          <th class="cell_name3 g-bottom2">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.dst.alien}} g-left2">
+            <td colspan="2" class="{{column.dst.alien}} g-bottom2 g-left2">
               {{column.dst.value}}</td>
           </ng-container>
         </tr>
@@ -800,10 +800,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">dasc</th>
-          <th class="cell_name3">(mm)</th>
+          <th class="cell_name2 g-bottom2">dasc</th>
+          <th class="cell_name3 g-bottom2">(mm)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.dsc.alien}} g-left2">
+            <td colspan="2" class="{{column.dsc.alien}} g-bottom2 g-left2">
               {{column.dsc.value}}</td>
           </ng-container>
         </tr>
@@ -838,10 +838,10 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name2">f'cd</th>
-          <th class="cell_name3">(N/mm<sup>2</sup>)</th>
+          <th class="cell_name2 g-bottom2">f'cd</th>
+          <th class="cell_name3 g-bottom2">(N/mm<sup>2</sup>)</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
-            <td colspan="2" class="{{column.fcd.alien}} g-left2">
+            <td colspan="2" class="{{column.fcd.alien}} g-bottom2 g-left2">
               {{column.fcd.value}}</td>
           </ng-container>
         </tr>
