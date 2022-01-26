@@ -150,7 +150,7 @@ export class CalcServiceabilityTorsionalMomentService {
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
     if (force0 === undefined) {
-      force0 = { Md: 0, Nd: 0, Vd: 0 };
+      force0 = { Md: 0, Nd: 0, Vd: 0, Mt: 0 };
     }
 
     // 永久荷重
