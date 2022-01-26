@@ -64,7 +64,10 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
                 const target = targetColumn.g_no;
                 if (target === null) { continue; } // 初期値は対象にしない
                 if (target === value) {
-                  this.table_datas[i].g_name = targetColumn.g_name;
+                  if (targetColumn.g_name !== '' || targetColumn.g_name !== undefined) {
+                    this.table_datas[i].g_name = targetColumn.g_name;
+                    break;
+                  }
                 }
               }
               this.table_datas[i].g_id = value.toString();
