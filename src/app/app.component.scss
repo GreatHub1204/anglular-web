@@ -1,142 +1,79 @@
 .header {
-  position: fixed;
-  width: 100%;
-  display: flex;
-  color: #fff;
-  background-color: #2f3f4e;
-  z-index: 1000;
-  .container {
-      position: relative;
-      max-width: 100%;
-      padding: 0 8px !important;
-  }
-}
-
-a.disabled{
-  pointer-events: none;
-  color: rgb(155, 155, 155);
-}
-
-/*/ ヘッダー
-.c-headerBar {
-  width: 100%;
-  height: 65px;
-  color: #fff;
-  background: #2f3f4e;
-  position: fixed;
-  top: 0;
-  box-sizing: border-box;
-  z-index: 1000;
-  a {
-    color: #fff;
-  }
-
-  &__container {
-    display: table;
+    position: fixed;
     width: 100%;
-    max-width: 2500px;
-  }
-
-  &__logo {
-    display: table-cell;
-    padding: 0 20px;
-    width: 200px;
-    height: 65px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  &__shopTitle {
-    display: table-cell;
-    padding: 0 20px;
-    height: 65px;
-    font-size: 16px;
+    display: flex;
     color: #fff;
-    font-weight: bold;
-    vertical-align: middle;
-  }
-
-  &__userMenu {
-    display: table-cell;
-    padding: 0 20px;
-    margin-left: 0;
-    height: 65px;
-    color: #fff;
-    vertical-align: middle;
-    white-space: nowrap;
-
-  }
+    background-color: #2f3f4e;
+    z-index: 1000;
+    .container {
+        position: relative;
+        max-width: 100%;
+        padding: 0 8px !important;
+    }
 }
-*/
+
+a.disabled {
+    pointer-events: none;
+    color: rgb(155, 155, 155);
+}
+
 // 左のメニュー画面
 .c-container {
-  margin: 0 auto;
-  // margin-top: 0px;
-  width: 100%;
-  max-width: 2500px;
-  min-width: 1024px;
+    margin: 0 auto;
+    // margin-top: 0px;
+    width: 100%;
+    max-width: 2500px;
+    min-width: 1024px;
 }
 
 .c-mainNavArea {
-  // padding-top: 0px;
-  width: 220px;
-  height: 100%;
-  background: #f3f4f6;
-  border-right: 1px solid #d6d9e0;
-  position: fixed;
-  top: 64px;
-  left: 0;
-  overflow-y: auto;
-  z-index: 500;
-  transition: width 0.3s ease;
-
-  ul {
-    padding-left: 0;
-  }
-  &__nav {
-    margin-bottom: 0;
-    padding-left: 0;
-  }
-  &__navItem {
-
+    // padding-top: 0px;
+    width: 220px;
+    height: 100%;
+    background: #f3f4f6;
+    border-right: 1px solid #d6d9e0;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    overflow-y: auto;
+    z-index: 500;
+    transition: width 0.3s ease;
     ul {
-      background: #fff;
-      color: #2f3f4e;
-      font-size: 14px;
+        padding-left: 0;
     }
-
-    a.is-active {
-      background: #2f3f4e;
-      color: #fff;
+    &__nav {
+        margin-bottom: 0;
+        padding-left: 0;
     }
-  }
-
-  &__navItemTitle {
-    transform: translateX(0);
-    display: block;
-    border-bottom: 1px solid #000080;
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #2f3f4e;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-      background: #2f3f4e0c;
-      text-decoration: none;
+    &__navItem {
+        ul {
+            background: #fff;
+            color: #2f3f4e;
+            font-size: 14px;
+        }
+        a.is-active {
+            background: #2f3f4e;
+            color: #fff;
+        }
     }
-  }
-
+    &__navItemTitle {
+        transform: translateX(0);
+        display: block;
+        border-bottom: 1px solid #000080;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: #2f3f4e;
+        cursor: pointer;
+        position: relative;
+        &:hover {
+            background: #2f3f4e0c;
+            text-decoration: none;
+        }
+    }
 }
-
 
 // メインエリア
 .c-contentsArea {
-  margin-left: 220px;
-  padding: 70px 10px 10px 10px;
+    margin-left: 220px;
+    padding: 70px 10px 10px 10px;
 }
-
-
-
