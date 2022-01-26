@@ -88,13 +88,19 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
         ]
       },
       {
+        title: 'ひび割 εcsd', align: 'center', colModel: [
+          { title: '上側', align: 'center', dataType: 'integer', dataIndx: 'ecsd_u', sortable: false, width: 70 },
+          { title: '下側', align: 'center', dataType: 'integer', dataIndx: 'ecsd_l', sortable: false, width: 70 }
+        ]
+      },
+      { title: 'せん断<br/>kr', dataType: 'float', format: '#.0', dataIndx: 'kr', sortable: false, width: 70 },
+      { title: 'k4', align: 'center', dataType: 'float', format: '#.00', dataIndx: 'k4', sortable: false, width: 70 },
+      {
         title: '外観', align: 'center', colModel: [
           { title: '上側', align: 'center', dataType: 'bool', dataIndx: 'vis_u', type: 'checkbox', sortable: false, width: 50 },
           { title: '下側', align: 'center', dataType: 'bool', dataIndx: 'vis_l', type: 'checkbox', sortable: false, width: 50 }
         ]
       },
-      { title: 'ひび割<br/>εcsd', align: 'center', dataType: 'integer', dataIndx: 'ecsd', sortable: false, width: 70 },
-      { title: 'せん断<br/>kr', dataType: 'float', format: '#.0', dataIndx: 'kr', sortable: false, width: 70 },
     );
   }
  

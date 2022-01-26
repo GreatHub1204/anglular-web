@@ -276,7 +276,7 @@ export class CalcServiceabilityTorsionalMomentService {
     result["steel_type"] = sectionV.Asc.compress.mark === "D"?"異形鉄筋":"丸鋼";　// 修正が必要
 
     // 環境条件
-    const crackInfo = this.crack.getTableColumn(res.index);
+    const crackInfo = this.crack.getCalcData(res.index);
 
     let conNum: number = this.helper.toNumber(crackInfo.con_s);
     if (conNum === null) { conNum = 1; }
