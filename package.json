@@ -7,8 +7,10 @@
     "build": "ng build --configuration production --base-href \"https://structuralengine.github.io/WebDanforJS/\" && angular-cli-ghpages",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "start:electron": "ng build --base-href ./ && tsc -p tsconfig.electron.json && electron ."
   },
+  "main": "main.js",
   "description": "断面照査プログラム",
   "author": {
     "name": "sasaco",
@@ -36,12 +38,13 @@
     "@angular/router": "~12.2.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
-    "@ngx-translate/core": "^14.0.0",
-    "@ngx-translate/http-loader": "^7.0.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@types/file-saver": "^2.0.3",
     "@types/jquery": "^3.5.6",
     "@types/jqueryui": "^1.12.16",
     "bootstrap": "^4.5.0",
+    "electron": "^16.0.7",
     "encoding-japanese": "^1.0.30",
     "file-saver": "^2.0.5",
     "firebase": "^8.3.1",
