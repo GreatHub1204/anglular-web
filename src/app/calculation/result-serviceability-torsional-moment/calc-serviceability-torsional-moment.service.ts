@@ -196,7 +196,7 @@ export class CalcServiceabilityTorsionalMomentService {
 
       // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
       // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
-      const Mtud2 = result.Mtcd * (1 - (0.8 * result.ri * result.Vd) / result.Vud);
+      const Mtud2 = result.Mtcd * (1 - (0.8 * result.ri * result.Vd) / result.Vyd);
 
       result["Mtud1"] = Mtud1;
       result["mtud2"] = Mtud2;
