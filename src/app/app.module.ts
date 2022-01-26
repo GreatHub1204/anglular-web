@@ -90,6 +90,9 @@ import { ResultEarthquakesTorsionalMomentComponent } from "./calculation/result-
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 
+const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
+  new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -107,7 +110,7 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: httpLoaderFactory,
         deps: [HttpClient],
       },
       defaultLanguage: "ja",
@@ -203,6 +206,7 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
