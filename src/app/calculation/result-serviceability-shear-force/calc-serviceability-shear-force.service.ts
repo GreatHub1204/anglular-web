@@ -151,7 +151,7 @@ export class CalcServiceabilityShearForceService {
     }
 
     // 環境条件
-    const crackInfo = this.crack.getTableColumn(res.index);
+    const crackInfo = this.crack.getCalcData(res.index);
 
     let conNum: number = this.helper.toNumber(crackInfo.con_s);
     if (conNum === null) { conNum = 1; }

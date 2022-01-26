@@ -112,7 +112,7 @@ export class CalcServiceabilityMomentService {
     const resMin = res[0]; // 永久作用
     const resMax = res[1]; // 永久＋変動作用
 
-    const crackInfo = this.crack.getTableColumn(resMin.index);
+    const crackInfo = this.crack.getCalcData(resMin.index);
     const member: any = section.member;
 
     const result = {};
@@ -259,7 +259,8 @@ export class CalcServiceabilityMomentService {
     let Cs: number = section.Ast.tension.rebar_ss;
     result['Cs'] = Cs;
 
-    let ecu: number = this.helper.toNumber(crackInfo.ecsd);
+    let ecu: number = (resMin.side === '上側引張') ? this.helper.toNumber(crackInfo.ecsd_u) : 
+                                                     this.helper.toNumber(crackInfo.ecsd_l) ;
     if (ecu === null) { ecu = 450; }
 
 
@@ -273,7 +274,7 @@ export class CalcServiceabilityMomentService {
 
     let k3: number = (5 * (n + 2)) / (7 * n + 8);
 
-    let k4: number = 0.85;
+    let k4: number = (crackInfo.k4 == null) ? 0.85 : crackInfo.k4;
 
     let Sigmase: number = Sigmas;
     result['sigma_se'] = Sigmase;

@@ -355,7 +355,10 @@ export class DsdDataService {
           }
         } else {
           const sngEcsd = this.readSingle(buff); // εcsd
-          if (sngEcsd > 0) c.ecsd = sngEcsd;
+          if (sngEcsd > 0) {
+            c.ecsd_u = sngEcsd; 
+            c.ecsd_l = sngEcsd; 
+          }
           const kr = this.readSingle(buff);// kr
           if (kr > 0) c.kr = kr;
           const sngHirou1 = this.readSingle(buff);
