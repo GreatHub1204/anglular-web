@@ -23,7 +23,7 @@ import { InputDesignPointsService } from "../design-points/design-points.service
 import { AngularFireAuth } from "@angular/fire/auth";
 
 import { LanguagesService } from "../../providers/languages.service";
-
+import { ElectronService } from 'ngx-electron';
 @Component({
   selector: "app-menu",
   templateUrl: "./menu.component.html",
@@ -44,7 +44,8 @@ export class MenuComponent implements OnInit {
     private router: Router,
     private config: ConfigService,
     public auth: AngularFireAuth,
-    public language: LanguagesService
+    public language: LanguagesService,
+    public electronService: ElectronService
   ) {
     this.fileName = "";
     this.pickup_file_name = "";
@@ -116,6 +117,15 @@ export class MenuComponent implements OnInit {
     }
 
     modalRef.close();
+  }
+
+  // 上書き保存
+  public overWrite(): void{
+    // if(this.electronService.isElectronApp) {
+    // 上書き保存のメニューが表示されるのは electron のときだけ
+    const inputJson: string = this.save.getInputText();
+    this.electronService.ipcRenderer.sendSync('selectPirate', inputJson);
+    // }
   }
 
   // ピックアップファイルを開く
