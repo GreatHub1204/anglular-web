@@ -104,7 +104,9 @@ export class InputCrackSettingsService {
     for (let ip = result.index; ip >= 0; ip--) { 
 
       const data = this.crack_list.find((value) => value.index === ip);
-
+      if(data == undefined){
+        continue;
+      }
       // 当該入力行より上の行
       let endFlg = true;
       const check_list = ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'k4'];
