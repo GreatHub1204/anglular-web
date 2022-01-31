@@ -1,0 +1,12 @@
+{
+    "name": "frame-web-for-electron",
+    "description": "Angular Electron Sample",
+    "version": "0.0.0",
+    "author": {
+      "name": "Aristeidis Bampakos"
+    },
+    "main": "main.js",
+    "dependencies": {
+      "electron-log": "4.3.1"
+    }
+}
