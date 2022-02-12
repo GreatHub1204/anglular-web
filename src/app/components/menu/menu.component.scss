@@ -1,200 +1,127 @@
 $border-color: #42c1ca;
-
 .welcome-message {
-  display: flex;
+    display: flex;
 }
 
 .margin {
-  margin: 0 5;
+    margin: 0 5;
 }
 
 .dropdownmenu {
-  z-index: 1050;
+    z-index: 1050;
 }
 
 .title-and-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  // padding: 8px 0;
-  //flex: 1 0 auto;
-  font-weight: lighter;
-  @media screen and (max-width: 767px) {
-    display: block;
-    text-align: center;
-  }
-
-  .icon-area {
     display: flex;
-    font-size: 20px;
-    a {
-      &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-      }
-    }
-    ul {
-      li {
-        list-style: none;
-        display: inline-block;
-        margin-right: 8px;
-      }
-    }
-    span {
-      &:hover {
-        cursor: pointer;
-      }
-    }
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    // padding: 8px 0;
+    //flex: 1 0 auto;
+    font-weight: lighter;
     @media screen and (max-width: 767px) {
-      justify-content: center;
+        display: block;
+        text-align: center;
     }
-  }
+    .icon-area {
+        display: flex;
+        font-size: 20px;
+        a {
+            &:hover {
+                cursor: pointer;
+                opacity: 0.7;
+            }
+        }
+        ul {
+            li {
+                list-style: none;
+                display: inline-block;
+                margin-right: 8px;
+            }
+        }
+        span {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        @media screen and (max-width: 767px) {
+            justify-content: center;
+        }
+    }
+    .icon {
+        color: #fff;
+    }
+    li {
+        margin-top: 8px;
+        font-size: 24px;
+    }
+    .login-area {
+        font-size: 16px;
+    }
+}
 
-  .icon {
-    color: #fff;
-  }
-  
-  li {
-    margin-top: 8px;
-    font-size: 24px;
-  }
-
-  .login-area {
-    font-size: 16px;
-  }
+.rightArea {
+    display: flex;
+    align-items: center;
+    .language-area {
+        margin-right: 16px;
+    }
 }
 
 // @media screen and (max-width:767px){
-
 // }
-
 i.fas {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.title h1 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: lighter;
-  @media screen and (max-width: 767px) {
-    margin: 4px 0;
-  }
+h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: lighter;
+    @media screen and (max-width: 767px) {
+        margin: 4px 0;
+    }
 }
 
 .login-item {
-  color: #fff;
+    color: #fff;
 }
 
-.fukidashi {
-  display: none;
-  position: absolute;
-  padding: 4px 8px;
-  border-radius: 5px;
-  color: #333333;
-  font-size: 12px;
-  background: #ffffff;
-  border: solid 2px #333333;
-  box-sizing: border-box;
-  z-index: 1;
+.icon-area a:hover+.fukidashi {
+    display: block;
 }
 
-.fukidashi.file {
-  width: 70px;
-  top: 40px;
-  left: -20px;
-}
-
-// .fukidashi.calculator {
-//   width: 45px;
-//   top: 45px;
-//   left: 60px;
-// }
-
-// .fukidashi.print {
-//   width: 45px;
-//   top: 45px;
-//   left: 90px;
-// }
-
-// .fukidashi.help {
-//   width: 60px;
-//   top: 45px;
-//   left: 110px;
-// }
-
-.fukidashi:before {
-  content: "";
-  position: absolute;
-  top: -24px;
-  margin-left: -15px;
-  border: 12px solid transparent;
-  border-bottom: 14px solid #ffffff;
-  z-index: 2;
-}
-
-.fukidashi:after {
-  content: "";
-  position: absolute;
-  top: -30px;
-  margin-left: -17px;
-  border: 14px solid transparent;
-  border-bottom: 16px solid #333333;
-  z-index: 1;
-}
-
-.fukidashi.file:before,
-.fukidashi.file:after {
-  left: 45%;
-}
-
-.fukidashi.calculator:before,
-.fukidashi.calculator:after {
-  left: 50%;
-}
-
-.fukidashi.print:before,
-.fukidashi.print:after {
-  left: 50%;
-}
-
-.fukidashi.help:before,
-.fukidashi.help:after {
-  left: 50%;
-}
-
-.icon-area a:hover + .fukidashi {
-  display: block;
-}
-
-.icon-area a.file:checked + .fukidashi {
-  display: none;
+.icon-area a.file:checked+.fukidashi {
+    display: none;
 }
 
 .userInfo {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
-.login-btn {
-  display: block;
-  width: 100%;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
+.menu-btn {
+    display: block;
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
 }
 
 .logOut {
-  padding: 4px;
-  text-align: center;
+    padding: 4px;
+    text-align: center;
+    color: #333;
 }
 
 @media screen and (max-width: 767px) {
-  .userInfo {
-    display: block;
-  }
+    .userInfo {
+        display: block;
+    }
 }
 
 // ラジオボタン
@@ -203,286 +130,67 @@ $md-radio-border-color: rgba(255, 255, 255);
 $md-radio-size: 16px;
 $md-radio-checked-size: 8px;
 $md-radio-ripple-size: 12px;
-
 .md-radio {
-  &.md-radio-inline {
-    display: inline-block;
-  }
-
-  input[type="radio"] {
-    display: none;
-    &:checked + label:before {
-      border-color: $md-radio-checked-color;
-      animation: ripple 0.2s linear forwards;
+    &.md-radio-inline {
+        display: inline-block;
     }
-    &:checked + label:after {
-      transform: scale(1);
+    input[type="radio"] {
+        display: none;
+        &:checked+label:before {
+            border-color: $md-radio-checked-color;
+            animation: ripple 0.2s linear forwards;
+        }
+        &:checked+label:after {
+            transform: scale(1);
+        }
     }
-  }
-
-  label {
-    display: inline-block;
-    min-height: $md-radio-size;
-    position: relative;
-    padding: 0 ($md-radio-size + 10px);
-    margin-bottom: 0;
-    cursor: pointer;
-    vertical-align: bottom;
-    &:before,
-    &:after {
-      position: absolute;
-      content: "";
-      border-radius: 50%;
-      transition: all 0.3s ease;
-      transition-property: transform, border-color;
-    }
-    &:before {
-      left: 0;
-      top: 0;
-      width: $md-radio-size;
-      height: $md-radio-size;
-      border: 2px solid $md-radio-border-color;
-    }
-    &:after {
-      top: $md-radio-size / 2 - $md-radio-checked-size / 2;
-      left: $md-radio-size / 2 - $md-radio-checked-size / 2;
-      width: $md-radio-checked-size;
-      height: $md-radio-checked-size;
-      transform: scale(0);
-      background: $md-radio-checked-color;
-    }
-  }
-}
-
-$toggleBtnRadius: 50px;
-$toggleBtnColor: #f9f8f6;
-
-$toggleShadowColor: #333;
-$toggleActiveColor: #ff9900;
-$toggleInactiveColor: #ccc;
-
-.toggle--push {
-  & .toggle--btn {
-    position: relative;
-    width: $toggleBtnRadius;
-    height: $toggleBtnRadius;
-    background-color: $toggleBtnColor;
-    border-radius: 50%;
-
-    box-shadow: 0 5px 10px 0px $toggleShadowColor, 0 15px 20px 0px lighten($toggleShadowColor, 60%);
-
-    &,
-    &:before,
-    &:after {
-      transition-duration: 150ms;
-    }
-
-    &:before {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: $toggleBtnRadius / 2.2;
-      height: $toggleBtnRadius / 2.2;
-      border-radius: 50%;
-      background-color: $toggleActiveColor;
-
-      box-shadow: inset 0 0 0 5px $toggleInactiveColor, inset 0 0 0 14px $toggleBtnColor;
-    }
-    &:after {
-      position: absolute;
-      left: 50%;
-      top: 35%;
-      transform: translate(-50%, -50%);
-      width: 4px;
-      height: 12px;
-      background-color: $toggleInactiveColor;
-      box-shadow: 0 0 0 2.5px $toggleBtnColor;
-    }
-
-    &:hover {
-      &:before {
-        box-shadow: inset 0 0 0 5px darken($toggleInactiveColor, 10%), inset 0 0 0 14px $toggleBtnColor;
-      }
-      &:after {
-        background-color: darken($toggleInactiveColor, 10%);
-      }
-    }
-  }
-
-  & .toggle--checkbox {
-    &:checked {
-      & + .toggle--btn {
-        box-shadow: 0 2px 5px 0px lighten($toggleShadowColor, 30%), 0 15px 20px 0px transparent;
-
+    label {
+        display: inline-block;
+        min-height: $md-radio-size;
+        position: relative;
+        padding: 0 ($md-radio-size + 10px);
+        margin-bottom: 0;
+        cursor: pointer;
+        vertical-align: bottom;
+        &:before,
+        &:after {
+            position: absolute;
+            content: "";
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transition-property: transform, border-color;
+        }
         &:before {
-          box-shadow: inset 0 0 0 5px $toggleActiveColor, inset 0 0 0 14px $toggleBtnColor;
+            left: 0;
+            top: 0;
+            width: $md-radio-size;
+            height: $md-radio-size;
+            border: 2px solid $md-radio-border-color;
         }
         &:after {
-          background-color: $toggleActiveColor;
+            top: $md-radio-size / 2 - $md-radio-checked-size / 2;
+            left: $md-radio-size / 2 - $md-radio-checked-size / 2;
+            width: $md-radio-checked-size;
+            height: $md-radio-checked-size;
+            transform: scale(0);
+            background: $md-radio-checked-color;
         }
-      }
     }
-  }
-}
-
-$color-bg: #fff; //background for the demo
-
-.toggle {
-  display: block;
-  text-align: center;
-  user-select: none;
-}
-.toggle--checkbox {
-  display: none;
-}
-.toggle--btn {
-  display: block;
-  margin: 0 auto;
-
-  font-size: 8px;
-
-  transition: all 350ms ease-in;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.toggle--btn,
-.toggle--checkbox,
-.toggle--feature {
-  &,
-  &:before,
-  &:after {
-    transition: all 250ms ease-in;
-  }
-  &:before,
-  &:after {
-    content: "";
-    display: block;
-  }
-}
-
-$toggleHeight: 18px;
-$toggleWidth: 60px;
-
-$toggleBtnWidth: 15px;
-$toggleBtnColor: #2b2e3a;
-
-$toggle-bgColor--inactive: #696969;
-$toggle-bgColor--active: #669987;
-
-$toggle-textColor: #fff;
-
-.toggle--switch {
-  & .toggle--btn {
-    position: relative;
-    width: $toggleWidth;
-    height: $toggleHeight;
-
-    font-family: "PT Sans", Sans Serif;
-    text-transform: uppercase;
-    color: $toggle-textColor;
-
-    // background: $toggle-bgColor--inactive;
-
-    background: linear-gradient(
-      90deg,
-      $toggle-bgColor--active 0%,
-      $toggle-bgColor--active 50%,
-      $toggle-bgColor--inactive 50%,
-      $toggle-bgColor--inactive 200%
-    );
-    background-position: -50px 0;
-    background-size: 200% 100%;
-    box-shadow: inset 0 0px 22px -8px #111;
-
-    &,
-    &:before {
-      border-radius: 4px;
-    }
-
-    //contains the actual knob part of the button and the 'on' text
-    &:before {
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-
-      width: $toggleBtnWidth;
-      height: $toggleHeight;
-      border: 2px solid #202027;
-      background-image: linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.15) 100%);
-      background-color: $toggleBtnColor;
-
-      background-size: 5px 5px;
-
-      text-indent: -100%;
-    }
-  }
-
-  & .toggle--feature {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    height: $toggleHeight;
-    text-shadow: 0 1px 2px #666;
-
-    &:before,
-    &:after {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    &:before {
-      content: attr(data-label-on);
-      left: -60%;
-    }
-    &:after {
-      content: attr(data-label-off);
-      right: 16%;
-    }
-  }
-
-  & .toggle--checkbox {
-    &:checked {
-      & + .toggle--btn {
-        // background: $toggle-bgColor--active;
-
-        background-position: 0 0;
-
-        &:before {
-          left: calc(100% - #{$toggleBtnWidth});
-        }
-
-        & .toggle--feature {
-          &:before {
-            left: 20%;
-          }
-          &:after {
-            right: -60%;
-          }
-        }
-      }
-    }
-  }
 }
 
 @media screen and (max-width: 1024px) {
-  .title-and-menu {
-    .icon-area {
-      ul {
-        li {
-          font-size: 24px;
-          margin-right: 12px;
-          &:nth-child(3) {
-            display: none;
-            margin:0;
-          }
+    .title-and-menu {
+        .icon-area {
+            ul {
+                li {
+                    font-size: 24px;
+                    margin-right: 12px;
+                    &:nth-child(3) {
+                        display: none;
+                        margin: 0;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

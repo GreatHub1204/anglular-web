@@ -150,7 +150,7 @@ export class CalcServiceabilityTorsionalMomentService {
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
     if (force0 === undefined) {
-      force0 = { Md: 0, Nd: 0, Vd: 0 };
+      force0 = { Md: 0, Nd: 0, Vd: 0, Mt: 0 };
     }
 
     // 永久荷重
@@ -196,7 +196,7 @@ export class CalcServiceabilityTorsionalMomentService {
 
       // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
       // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
-      const Mtud2 = result.Mtcd * (1 - (0.8 * result.ri * result.Vd) / result.Vud);
+      const Mtud2 = result.Mtcd * (1 - (0.8 * result.ri * result.Vd) / result.Vyd);
 
       result["Mtud1"] = Mtud1;
       result["mtud2"] = Mtud2;
@@ -276,7 +276,7 @@ export class CalcServiceabilityTorsionalMomentService {
     result["steel_type"] = sectionV.Asc.compress.mark === "D"?"異形鉄筋":"丸鋼";　// 修正が必要
 
     // 環境条件
-    const crackInfo = this.crack.getTableColumn(res.index);
+    const crackInfo = this.crack.getCalcData(res.index);
 
     let conNum: number = this.helper.toNumber(crackInfo.con_s);
     if (conNum === null) { conNum = 1; }

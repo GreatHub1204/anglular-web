@@ -146,6 +146,10 @@ export class CalcSafetyTorsionalMomentService {
     let result = {};
     if (!(res3 === undefined || res3.length < 1)) {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
+    }else{
+      result["Md"] = 0;
+      result["Nd"] = 0;
+      result["Vd"] = 0;
     }
 
     if (force === void 0) {
@@ -177,7 +181,6 @@ export class CalcSafetyTorsionalMomentService {
     result["Mudd"] = Mudd;
 
     const Vud = result["Vyd"];
-
     const bw: number = sectionV.shape.B;
     const h: number = sectionV.shape.H;
 

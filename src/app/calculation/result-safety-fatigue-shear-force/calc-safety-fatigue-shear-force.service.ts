@@ -205,7 +205,7 @@ export class CalcSafetyFatigueShearForceService {
     }
 
     // せん断補強鉄筋の設計応力度
-    const crackInfo = this.crack.getTableColumn(resMin.index); // 環境条件
+    const crackInfo = this.crack.getCalcData(resMin.index); // 環境条件
     let kr: number = this.helper.toNumber(crackInfo.kr);
     if (kr === null) { kr = 0.5; }
     result['kr'] = kr;

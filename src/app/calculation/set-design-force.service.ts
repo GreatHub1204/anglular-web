@@ -395,6 +395,19 @@ export class SetDesignForceService {
       }
     }
 
+    // 該当の断面力の値がない場合に、そのデータをはじく処理
+    for (const result of force) {
+      for (let ip = result.length - 1; ip >= 0; ip--) {
+        const designForce = result[ip].designForce;
+        for (let i = designForce.length - 1; i >= 0; i--) {
+          const f = designForce[i];
+          if(f[target] === 0){
+            designForce.splice(i, 1);
+          }
+        }
+      }
+    }    
+
     return force;
   }
 

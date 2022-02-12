@@ -98,7 +98,7 @@
             <tr>
               <th class="bottom text-center" rowspan="5"><span>鉄骨情報</span></th>
               <th class="left bottom text-center" rowspan="3" colspan="2">I配置鉄骨</th>
-              <th class="left bottom text-center">引張ﾌﾗﾝｼﾞ</th>
+              <th class="left bottom text-center g-left2">引張ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
                 <ng-container *ngIf="!item.steel.CFTFlag">
@@ -110,7 +110,7 @@
               </ng-container>
             </tr>
             <tr>
-              <th class="left bottom text-center">腹板</th>
+              <th class="left bottom text-center g-left2">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
                 <ng-container *ngIf="!item.steel.CFTFlag">
@@ -122,7 +122,7 @@
               </ng-container>
             </tr>
             <tr>
-              <th class="left bottom text-center">圧縮ﾌﾗﾝｼﾞ</th>
+              <th class="left bottom text-center g-left2">圧縮ﾌﾗﾝｼﾞ</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
                 <ng-container *ngIf="!item.steel.CFTFlag">
@@ -147,7 +147,7 @@
               </ng-container>
             </tr>
             <tr>
-              <th class="left bottom text-center">腹板</th>
+              <th class="left bottom text-center g-left2">腹板</th>
               <th class="left bottom text-center">mm×mm</th>
               <ng-container *ngFor="let item of summary_table; index as i">
                 <ng-container *ngIf="!item.steel.CFTFlag">
@@ -470,7 +470,12 @@
             <td class="bottom text-right">σ<sub>wpd</sub>／σ<sub>sl2</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngIf="item.serviceabilityShearForce.sigma!=='-'">
+                <td class="left bottom text-center">{{item.serviceabilityShearForce.sigma_calc}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityShearForce.sigma==='-'">
+                <td class="left bottom text-center"> </td>
+              </ng-container>
             </ng-container>
           </tr>
           <!--<tr>
@@ -515,10 +520,17 @@
           </tr>
           <tr>
             <td class="left bottom text-left">安　全　度</td>
-            <td class="bottom text-right">σ<sub>wpd</sub>：σ<sub>sl2</sub></td>
+            <td class="bottom text-right">σ<sub>wpd</sub>／σ<sub>sl2</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <td class="left bottom text-center"> </td>
+              <ng-container *ngFor="let item of summary_table; index as i">
+                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio!=='-'">
+                  <td class="left bottom text-center">{{item.serviceabilityTorsionalMoment.sigma_calc}}</td>
+                </ng-container>
+                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio==='-'">
+                  <td class="left bottom text-center"> </td>
+                </ng-container>
+              </ng-container>
             </ng-container>
           </tr>
           <tr>

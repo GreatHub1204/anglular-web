@@ -15,41 +15,61 @@
               </span>
             </label>
             <button ngbDropdownItem (click)="fileSave()">ファイルを保存</button>
+            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="overWrite()">
+              上書き保存
+          </button>
             <label style="width: 100%; margin: 0px">
-                <span ngbDropdownItem>
+              <span ngbDropdownItem>
                 ピックアップファイルを開く
                 <input type="file" accept="application/text" (change)="pickup($event)" style="display: none" />
               </span>
             </label>
-        </div>
+          </div>
         </div>
       </li>
       <li>
-        <a (click)="goToLink()"><i
-            class="far fa-question-circle"></i></a>
-      </li>      
+        <a (click)="goToLink()"><i class="far fa-question-circle"></i></a>
+      </li>
     </ul>
   </div>
 
-  <div class="title">
+  <div class="title" *ngIf="fileName === ''; then init; else file"></div>
+  <ng-template #init>
+    <h1 translate>menu.softName</h1>
+  </ng-template>
+  <ng-template #file>
     <h1>{{ fileName }}</h1>
-  </div>
+  </ng-template>
 
-  <div class="login-area">
-    <div *ngIf="auth.user | async as user; else showLogin" class="userInfo">
+  <div class="rightArea">
+    <div class="language-area">
       <div ngbDropdown>
-        <a class="icon file" id="dropdownBasic1" class="login-btn" ngbDropdownToggle onfocus="this.blur();"><i
-            class="far fa-user-circle"></i>{{ user.displayName }}</a>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <a (click)="auth.signOut()" (click)="logOut()" class="login-btn logOut">ログアウト</a>
+        <a class="btn btn-outline-primary" id="language1" ngbDropdownToggle class="menu-btn lang">{{
+          language.languageIndex[language.browserLang] }}</a>
+        <div ngbDropdownMenu aria-labelledby="language1">
+          <ng-container *ngFor="let index of language.languageIndex | keyvalue">
+            <a ngbDropdownItem (click)="language.trans(index.key)" class="menu-btn" style="color: #333">{{ index.value
+              }}</a>
+          </ng-container>
         </div>
       </div>
     </div>
-  </div>
-  <ng-template #showLogin>
-    <a (click)="logIn()" class="login-btn">
-      <i class="fas fa-sign-in-alt"></i> ログイン
-    </a>
-  </ng-template>
 
+    <div class="login-area">
+      <div *ngIf="auth.user | async as user; else showLogin" class="userInfo">
+        <div ngbDropdown>
+          <a class="icon file" id="dropdownBasic1" class="menu-btn" ngbDropdownToggle onfocus="this.blur();"><i
+              class="far fa-user-circle"></i>{{ user.displayName }}</a>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <a (click)="auth.signOut()" (click)="logOut()" class="menu-btn logOut">ログアウト</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #showLogin>
+      <a (click)="logIn()" class="menu-btn">
+        <i class="fas fa-sign-in-alt"></i> ログイン
+      </a>
+    </ng-template>
+  </div>
 </div>

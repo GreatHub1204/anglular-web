@@ -439,8 +439,11 @@ export class SetCircleService {
 
     const a = R / 2;
     const x = positionFromVertex;
-
-    const c = Math.sqrt((a ** 2) - ((a - x) ** 2));
+    const b = (a ** 2) - ((a - x) ** 2);
+    if (b <= 0) {
+      return 0;
+    }
+    const c = Math.sqrt(b);
 
     return Math.abs(2 * c);
 

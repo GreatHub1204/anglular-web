@@ -440,6 +440,9 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
 
       comMtud07_Ratio: { alien: "center", value: "-" },
       comMtud07_Result: { alien: "center", value: "-" },
+
+      ////////// summary_table用 //////////
+      sigma_calc: { value: 0, dividend: 0, divisor: 1 },
     };
 
     // 帯鉄筋
@@ -555,11 +558,13 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
     if ("sigma_wpd" in re) {
       const str: string = re.sigma_wpd.toFixed(1);
       result.sigma_wpd = { alien: "right", value: str };
+      result.sigma_calc.dividend = re.sigma_wpd;
     }
 
     if ("sigma_12" in re) {
       const str: string = re.sigma_12.toFixed(1);
       result.sigma_12 = { alien: "right", value: str };
+      result.sigma_calc.divisor = re.sigma_12;
     }
 
     // 計算結果
@@ -687,7 +692,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
         alien: "center",
         value:
           re.Mtud_Ratio.toFixed(3).toString() +
-          (re.Mtud_Ratio < 1 ? " < 1.00" : " > 1.00"),
+          (re.Mtud_Ratio < 1 ? " <1.00" : " >1.00"),
       };
     }
 
@@ -712,6 +717,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
 
     if ("sigma_Ratio" in re) {
       result.sigma_Ratio = { alien: "right", value: re.sigma_Ratio };
+      result.sigma_calc.value = re.sigma_wpd / re.sigma_12;
     }
 
     if ("sigma_Result" in re) {

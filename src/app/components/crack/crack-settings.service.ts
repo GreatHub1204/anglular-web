@@ -13,6 +13,7 @@ export class InputCrackSettingsService {
   public crack_list: any[];
 
   constructor(
+    private helper: DataHelperModule,
     private points: InputDesignPointsService) {
     this.clear();
   }
@@ -32,8 +33,10 @@ export class InputCrackSettingsService {
       con_s: null,
       vis_u: false,
       vis_l: false,
-      ecsd: null,
+      ecsd_u: null,
+      ecsd_l: null,
       kr: null,
+      k4: null,
     };
   }
 
@@ -75,7 +78,7 @@ export class InputCrackSettingsService {
 
   public getTableColumn(index: any): any {
 
-    let result = this.getCalcData(index);
+    let result = this.crack_list.find((value) => value.index === index);
     if (result === undefined) {
       result = this.default_crack(index);
       this.crack_list.push(result);
@@ -84,7 +87,41 @@ export class InputCrackSettingsService {
   }
 
   public getCalcData(index: number): any{
-    const result = this.crack_list.find((value) => value.index === index);
+
+    // indexに対応する行を探す
+    let target = this.crack_list.find((value) => value.index === index);
+    if(target == undefined){
+      target = this.default_crack(index);
+    }
+    // リターンするデータ(result)をクローンで生成する
+    const result = JSON.parse(
+      JSON.stringify({
+        temp: target,
+      })
+    ).temp;
+
+    // データ(result)を書き換える
+    for (let ip = result.index; ip >= 0; ip--) { 
+
+      const data = this.crack_list.find((value) => value.index === ip);
+      if(data == undefined){
+        continue;
+      }
+      // 当該入力行より上の行
+      let endFlg = true;
+      const check_list = ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'k4'];
+      for (const key of check_list){
+        if (result[key] == null && key in data) {
+          result[key] = this.helper.toNumber(data[key]);
+          endFlg = false; // まだ終わらない
+        }
+      }
+      if( endFlg === true){
+        // 全ての値に有効な数値(null以外)が格納されたら終了する
+        break;
+      }
+
+    }
     return result;
   }
 
@@ -102,8 +139,10 @@ export class InputCrackSettingsService {
       b.con_s =     column.con_s;
       b.vis_u =     column.vis_u;
       b.vis_l =     column.vis_l;
-      b.ecsd =      column.ecsd;
+      b.ecsd_u =      column.ecsd_u;
+      b.ecsd_l =      column.ecsd_l;
       b.kr =        column.kr;
+      b.k4 =        column.k4;
       this.crack_list.push(b);
     }
   }
@@ -117,6 +156,32 @@ export class InputCrackSettingsService {
   }
 
   public setSaveData(crack: any) {
+    ////////// 情報追加による調整コード //////////
+    for (const value of crack) {
+      if (value.ecsd_u === undefined && value.ecsd_l === undefined) {
+        if (value.ecsd !== null) {
+          value['ecsd_u'] = value.ecsd;
+          value['ecsd_l'] = value.ecsd;
+        } else {
+          value['ecsd_u'] = null;
+          value['ecsd_l'] = null;
+        }
+        delete value['ecsd'];
+      }
+      if (value.k4 == undefined) {
+        let flag: boolean = true;
+        for (const key of ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr']) {
+          if (value[key] === null || value[key] === undefined) {
+            flag = false;
+            break;
+          }
+        }
+        if (flag) {
+          value['k4'] = 0.85;
+        }
+      }
+    }
+    //////////          //////////
     this.crack_list = crack;
   }
 
