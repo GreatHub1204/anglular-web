@@ -32,6 +32,7 @@ import { ElectronService } from 'ngx-electron';
 export class MenuComponent implements OnInit {
   public fileName: string;
   public pickup_file_name: string;
+  public version: string;
 
   constructor(
     private modalService: NgbModal,
@@ -49,6 +50,7 @@ export class MenuComponent implements OnInit {
   ) {
     this.fileName = "";
     this.pickup_file_name = "";
+    this.version = "";
   }
 
   ngOnInit() {
@@ -120,12 +122,14 @@ export class MenuComponent implements OnInit {
   }
 
   // 上書き保存
-  public overWrite(): void{
-    // if(this.electronService.isElectronApp) {
-    // 上書き保存のメニューが表示されるのは electron のときだけ
+  // 上書き保存のメニューが表示されるのは electron のときだけ
+  public overWrite(): void {
+    if (this.fileName === ""){
+      this.fileSave();
+      return;
+    }
     const inputJson: string = this.save.getInputText();
-    this.electronService.ipcRenderer.sendSync('selectPirate', inputJson);
-    // }
+    this.fileName = this.electronService.ipcRenderer.sendSync('overWrite', this.fileName, inputJson);
   }
 
   // ピックアップファイルを開く
@@ -181,16 +185,20 @@ export class MenuComponent implements OnInit {
   public fileSave(): void {
     this.config.saveActiveComponentData();
     const inputJson: string = this.save.getInputText();
-    const blob = new window.Blob([inputJson], { type: "text/plain" });
     if (this.fileName.length === 0) {
       this.fileName = "WebDan.wdj";
     }
 
-    let ext = "";
     if (this.helper.getExt(this.fileName) !== "wdj") {
-      ext = ".wdj";
+      this.fileName += ".wdj";
     }
-    FileSaver.saveAs(blob, this.fileName + ext);
+    // 保存する
+    if(this.electronService.isElectronApp) {
+      this.fileName = this.electronService.ipcRenderer.sendSync('saveFile', this.fileName, inputJson);
+    } else {
+      const blob = new window.Blob([inputJson], { type: "text/plain" });
+      FileSaver.saveAs(blob, this.fileName);
+    }
   }
 
   // ログイン関係
