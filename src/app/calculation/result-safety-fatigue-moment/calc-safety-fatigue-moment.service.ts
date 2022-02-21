@@ -290,7 +290,7 @@ export class CalcSafetyFatigueMomentService {
     if (a === null) {
       a = 1;
     } else {
-      result['a'] = a;
+      result['a'] = Math.min(a, 1);
     }
     let b: number = this.helper.toNumber(inputFatigue.B);
     if (b === null) {
