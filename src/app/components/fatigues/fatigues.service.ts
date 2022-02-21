@@ -239,54 +239,54 @@ export class InputFatiguesService {
       const f = this.default_fatigue(column1.index);
 
       //f.title1 = column1.design_point_id;
-      f["M1"].SA = column1.M_SA;
-      f["M1"].SB = column1.M_SB;
-      f["M1"].NA06 = column1.M_NA06;
-      f["M1"].NB06 = column1.M_NB06;
-      f["M1"].NA12 = column1.M_NA12;
-      f["M1"].NB12 = column1.M_NB12;
-      f["M1"].A = column1.M_A;
-      f["M1"].B = column1.M_B;
-      f["M1"].r1_1 = column1.M_r1_1;
-      f["M1"].r1_3 = column1.M_r1_3;
-      f["M1"].Class = column1.M_Class;
-      f["M1"].weld = column1.M_weld;
+      f.M1.SA = column1.M_SA;
+      f.M1.SB = column1.M_SB;
+      f.M1.NA06 = column1.M_NA06;
+      f.M1.NB06 = column1.M_NB06;
+      f.M1.NA12 = column1.M_NA12;
+      f.M1.NB12 = column1.M_NB12;
+      f.M1.A = column1.M_A;
+      f.M1.B = column1.M_B;
+      f.M1.r1_1 = column1.M_r1_1;
+      f.M1.r1_3 = column1.M_r1_3;
+      f.M1.Class = column1.M_Class;
+      f.M1.weld = column1.M_weld;
 
-      f["V1"].SA = column1.V_SA;
-      f["V1"].SB = column1.V_SB;
-      f["V1"].NA06 = column1.V_NA06;
-      f["V1"].NB06 = column1.V_NB06;
-      f["V1"].NA12 = column1.V_NA12;
-      f["V1"].NB12 = column1.V_NB12;
-      f["V1"].A = column1.V_A;
-      f["V1"].B = column1.V_B;
-      f["V1"].r1_2 = column1.V_r1_2;
-      f["V1"].r1_3 = column1.V_r1_3;
+      f.V1.SA = column1.V_SA;
+      f.V1.SB = column1.V_SB;
+      f.V1.NA06 = column1.V_NA06;
+      f.V1.NB06 = column1.V_NB06;
+      f.V1.NA12 = column1.V_NA12;
+      f.V1.NB12 = column1.V_NB12;
+      f.V1.A = column1.V_A;
+      f.V1.B = column1.V_B;
+      f.V1.r1_2 = column1.V_r1_2;
+      f.V1.r1_3 = column1.V_r1_3;
 
       //f.title2 = column2.design_point_id;
-      f["M2"].SA = column2.M_SA;
-      f["M2"].SB = column2.M_SB;
-      f["M2"].NA06 = column2.M_NA06;
-      f["M2"].NB06 = column2.M_NB06;
-      f["M2"].NA12 = column2.M_NA12;
-      f["M2"].NB12 = column2.M_NB12;
-      f["M2"].A = column2.M_A;
-      f["M2"].B = column2.M_B;
-      f["M2"].r1_1 = column2.M_r1_1;
-      f["M2"].r1_3 = column2.M_r1_3;
-      f["M2"].Class = column2.M_Class;
-      f["M2"].weld = column2.M_weld;
+      f.M2.SA = column2.M_SA;
+      f.M2.SB = column2.M_SB;
+      f.M2.NA06 = column2.M_NA06;
+      f.M2.NB06 = column2.M_NB06;
+      f.M2.NA12 = column2.M_NA12;
+      f.M2.NB12 = column2.M_NB12;
+      f.M2.A = column2.M_A;
+      f.M2.B = column2.M_B;
+      f.M2.r1_1 = column2.M_r1_1;
+      f.M2.r1_3 = column2.M_r1_3;
+      f.M2.Class = column2.M_Class;
+      f.M2.weld = column2.M_weld;
 
-      f["V2"].SA = column2.V_SA;
-      f["V2"].SB = column2.V_SB;
-      f["V2"].NA06 = column2.V_NA06;
-      f["V2"].NB06 = column2.V_NB06;
-      f["V2"].NA12 = column2.V_NA12;
-      f["V2"].NB12 = column2.V_NB12;
-      f["V2"].A = column2.V_A;
-      f["V2"].B = column2.V_B;
-      f["V2"].r1_2 = column2.V_r1_2;
-      f["V2"].r1_3 = column2.V_r1_3;
+      f.V2.SA = column2.V_SA;
+      f.V2.SB = column2.V_SB;
+      f.V2.NA06 = column2.V_NA06;
+      f.V2.NB06 = column2.V_NB06;
+      f.V2.NA12 = column2.V_NA12;
+      f.V2.NB12 = column2.V_NB12;
+      f.V2.A = column2.V_A;
+      f.V2.B = column2.V_B;
+      f.V2.r1_2 = column2.V_r1_2;
+      f.V2.r1_3 = column2.V_r1_3;
 
       this.fatigue_list.push(f);
     }
@@ -304,10 +304,10 @@ export class InputFatiguesService {
   }
 
   public setSaveData(fatigues: any) {
-    (this.fatigue_list = fatigues.fatigue_list),
-      (this.train_A_count = fatigues.train_A_count),
-      (this.train_B_count = fatigues.train_B_count),
-      (this.service_life = fatigues.service_life);
+    this.fatigue_list = fatigues.fatigue_list;
+    this.train_A_count = fatigues.train_A_count;
+    this.train_B_count = fatigues.train_B_count;
+    this.service_life = fatigues.service_life;
   }
 
   public getGroupeName(i: number): string {
