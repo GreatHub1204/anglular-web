@@ -40,7 +40,7 @@ ipcMain.on('saveFile', async (event: Electron.IpcMainEvent, filename: string, da
   const path = dialog.showSaveDialogSync(mainWindow, {
     buttonLabel: '保存',  // ボタンのラベル
     filters: [
-      { name: 'json', extensions: ['json'] },
+      { name: 'wdj', extensions: ['wdj'] },
     ],
     defaultPath: filename,
     properties:[

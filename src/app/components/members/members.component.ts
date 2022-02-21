@@ -42,7 +42,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
       locale: 'jp',
       height: this.tableHeight().toString(),
       width: 'auto',
-      numberCell: { show: this.save.isManual() }, // 行番号
+      numberCell: { show: false }, // 行番号
       colModel: this.columnHeaders,
       change: (evt, ui) => {
         for (const property of ui.updateList) {

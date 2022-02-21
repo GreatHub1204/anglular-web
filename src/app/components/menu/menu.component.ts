@@ -24,6 +24,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 
 import { LanguagesService } from "../../providers/languages.service";
 import { ElectronService } from 'ngx-electron';
+import packageJson from '../../../../package.json';
+
 @Component({
   selector: "app-menu",
   templateUrl: "./menu.component.html",
@@ -31,8 +33,8 @@ import { ElectronService } from 'ngx-electron';
 })
 export class MenuComponent implements OnInit {
   public fileName: string;
-  public pickup_file_name: string;
   public version: string;
+  public pickup_file_name: string;
 
   constructor(
     private modalService: NgbModal,
@@ -50,7 +52,7 @@ export class MenuComponent implements OnInit {
   ) {
     this.fileName = "";
     this.pickup_file_name = "";
-    this.version = "";
+    this.version = packageJson.version;
   }
 
   ngOnInit() {
