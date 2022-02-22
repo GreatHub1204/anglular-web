@@ -9,12 +9,14 @@ import { SetRectService } from "./shape-data/set-rect.service";
 import { SetCircleService } from "./shape-data/set-circle.service";
 import { SetHorizontalOvalService } from "./shape-data/set-horizontal-oval.service";
 import { SetVerticalOvalService } from "./shape-data/set-vertical-oval.service";
+import { SaveDataService } from "../providers/save-data.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ResultDataService {
   constructor(
+    private save: SaveDataService,
     private members: InputMembersService,
     private points: InputDesignPointsService,
     private bars: InputBarsService,
@@ -33,8 +35,12 @@ export class ResultDataService {
     if (this.helper.toNumber(position.position) !== null) {
       strPos = position.position.toFixed(3);
     }
-    const m_no: string = member.m_no.toFixed(0);
-    let title1: string = m_no + "部材";
+    let title1: string = member.m_no.toFixed(0);
+    if(!this.save.isManual()){
+      title1 += "部材";
+    } else {
+      title1 = "No" + title1;
+    }
     if (member.m_len > 0) {
       title1 += "(" + strPos + ")";
     }
