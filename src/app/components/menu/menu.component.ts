@@ -73,7 +73,10 @@ export class MenuComponent implements OnInit {
       this.app.memberChange(false); // 左側のボタンを無効にする。
     }, 10);
   }
+  // Electron でファイルを開く
+  open_electron(){
 
+  }
   // ファイルを開く
   open(evt) {
     const file = evt.target.files[0];
@@ -109,7 +112,10 @@ export class MenuComponent implements OnInit {
           });
     }
   }
-
+  // ファイルを読み込む
+  private open_read(){
+    const response = this.electronService.ipcRenderer.sendSync('open');
+  }
   private open_done(modalRef, error = null) {
     // 後処理
     if (error === null) {
