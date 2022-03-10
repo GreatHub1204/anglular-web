@@ -569,138 +569,196 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
 
     // 計算結果
     if ("fvcd" in re) {
-      result.fvcd = { alien: "right", value: re.fvcd.toFixed(3) };
+      if(this.helper.toNumber(re.fvcd) !== null){
+        result.fvcd = { alien: "right", value: re.fvcd.toFixed(3) };
+      }
     }
     if ("Bd" in re) {
-      result.Bd = { alien: "right", value: re.Bd.toFixed(3) };
+      if(this.helper.toNumber(re.Bd) !== null){
+        result.Bd = { alien: "right", value: re.Bd.toFixed(3) };
+      }
     }
     if ("pc" in re) {
-      result.pc = { alien: "right", value: re.pc.toFixed(3) };
+      if(this.helper.toNumber(re.pc) !== null){
+        result.pc = { alien: "right", value: re.pc.toFixed(3) };
+      }
     }
     if ("Bp" in re) {
-      result.Bp = { alien: "right", value: re.Bp.toFixed(3) };
+      if(this.helper.toNumber(re.Bp) !== null){
+        result.Bp = { alien: "right", value: re.Bp.toFixed(3) };
+      }
     }
     if ("Mo" in re) {
-      result.Mo = { alien: "right", value: re.Mo.toFixed(1) };
+      if(this.helper.toNumber(re.Mo) !== null){
+        result.Mo = { alien: "right", value: re.Mo.toFixed(1) };
+      }
     }
     if ("Bn" in re) {
-      result.Bn = { alien: "right", value: re.Bn.toFixed(3) };
+      if(this.helper.toNumber(re.Bn) !== null){
+        result.Bn = { alien: "right", value: re.Bn.toFixed(3) };
+      }
     }
     if ("Vcd" in re) {
-      result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
+      if(this.helper.toNumber(re.Vcd) !== null){
+        result.Vcd = { alien: "right", value: re.Vcd.toFixed(1) };
+      }
     }
     if ("Vsd" in re) {
-      result.Vsd = { alien: "right", value: re.Vsd.toFixed(1) };
+      if(this.helper.toNumber(re.Vsd) !== null){
+        result.Vsd = { alien: "right", value: re.Vsd.toFixed(1) };
+      }
     }
     if ("Vsd2" in re) {
-      result.Vsd2 = { alien: "right", value: re.Vsd2.toFixed(1) };
+      if(this.helper.toNumber(re.Vsd2) !== null){
+        result.Vsd2 = { alien: "right", value: re.Vsd2.toFixed(1) };
+      }
     }
     if ("ri" in re) {
-      result.ri = { alien: "right", value: re.ri.toFixed(2) };
+      if(this.helper.toNumber(re.ri) !== null){
+        result.ri = { alien: "right", value: re.ri.toFixed(2) };
+      }
     }
-    // if ("rbm" in re) {
-    //   result.rbm = { alien: "right", value: re.rbm.toFixed(2) };
-    // }
-    // if ("M_rb" in re) {
-    //   result.M_rb = { alien: "right", value: re.M_rb.toFixed(2) };
-    // }
-    // if ("rb" in re) {
-    //   result.rb = { alien: "right", value: re.rb.toFixed(2) };
-    // }
-    // if ("rbc" in re) {
-    //   result.rbc = { alien: "right", value: re.rbc.toFixed(2) };
-    // }
-    // if ("rbs" in re) {
-    //   result.rbs = { alien: "right", value: re.rbs.toFixed(2) };
-    // }
+
     if ("V_rbc" in re) {
-      result.V_rbc = { alien: "right", value: re.V_rbc.toFixed(2) };
+      if(this.helper.toNumber(re.V_rbc) !== null){
+        result.V_rbc = { alien: "right", value: re.V_rbc.toFixed(2) };
+      }
     }
     if ("V_rbs" in re) {
-      result.V_rbs = { alien: "right", value: re.V_rbs.toFixed(2) };
+      if(this.helper.toNumber(re.V_rbs) !== null){
+        result.V_rbs = { alien: "right", value: re.V_rbs.toFixed(2) };
+      }
     }
     if ("T_rbt" in re) {
-      result.T_rbt = { alien: "right", value: re.T_rbt.toFixed(2) };
+      if(this.helper.toNumber(re.T_rbt) !== null){
+        result.T_rbt = { alien: "right", value: re.T_rbt.toFixed(2) };
+      }
     }
     if ("Mu" in re) {
-      result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
+      if(this.helper.toNumber(re.Mu) !== null){
+        result.Mu = { alien: "right", value: re.Mu.toFixed(1) };
+      }
     }
     if ("Vyd" in re) {
-      result.Vyd = { alien: "right", value: re.Vyd.toFixed(1) };
+      if(this.helper.toNumber(re.Vyd) !== null){
+        result.Vyd = { alien: "right", value: re.Vyd.toFixed(1) };
+      }
     }
     if ("fwcd" in re) {
-      result.fwcd = { alien: "right", value: re.fwcd.toFixed(3) };
+      if(this.helper.toNumber(re.fwcd) !== null){
+        result.fwcd = { alien: "right", value: re.fwcd.toFixed(3) };
+      }
     }
     if ("Kt" in re) {
-      result.Kt = { alien: "right", value: re.Kt.toFixed(0) };
+      if(this.helper.toNumber(re.Kt) !== null){
+        result.Kt = { alien: "right", value: re.Kt.toFixed(0) };
+      }
     }
     if ("Mtcud" in re) {
-      result.Mtcud = { alien: "right", value: re.Mtcud.toFixed(1) };
+      if(this.helper.toNumber(re.Mtcud) !== null){
+        result.Mtcud = { alien: "right", value: re.Mtcud.toFixed(1) };
+      }
     }
     if ("Mtcud_Ratio" in re) {
-      result.Mtcud_Ratio = {
-        alien: "center",
-        value:
-          re.Mtcud_Ratio.toFixed(3).toString() +
-          (re.Mtcud_Ratio < 0.2 ? " < 0.2" : " > 0.2"),
-      };
+      if(this.helper.toNumber(re.Mtcud_Ratio) !== null){
+        result.Mtcud_Ratio = {
+          alien: "center",
+          value:
+            re.Mtcud_Ratio.toFixed(3).toString() +
+            (re.Mtcud_Ratio < 0.2 ? " < 0.2" : " > 0.2"),
+        };
+      }
     }
     if ("bo" in re) {
-      result.bo = { alien: "right", value: re.bo.toFixed(1) };
+      if(this.helper.toNumber(re.bo) !== null){
+        result.bo = { alien: "right", value: re.bo.toFixed(1) };
+      }
     }
     if ("do" in re) {
-      result.do = { alien: "right", value: re.do.toFixed(1) };
+      if(this.helper.toNumber(re.do) !== null){
+        result.do = { alien: "right", value: re.do.toFixed(1) };
+      }
     }
     if ("Am" in re) {
-      result.Am = { alien: "right", value: re.Am.toFixed(0) };
+      if(this.helper.toNumber(re.Am) !== null){
+        result.Am = { alien: "right", value: re.Am.toFixed(0) };
+      }
     }
     if ("qw" in re) {
-      result.qw = { alien: "right", value: re.qw.toFixed(1) };
+      if(this.helper.toNumber(re.qw) !== null){
+        result.qw = { alien: "right", value: re.qw.toFixed(1) };
+      }
     }
     if ("ql" in re) {
-      result.ql = { alien: "right", value: re.ql.toFixed(1) };
+      if(this.helper.toNumber(re.ql) !== null){
+        result.ql = { alien: "right", value: re.ql.toFixed(1) };
+      }
     }
     if ("Mtyd" in re) {
-      result.Mtyd = { alien: "right", value: re.Mtyd.toFixed(1) };
+      if(this.helper.toNumber(re.Mtyd) !== null){
+        result.Mtyd = { alien: "right", value: re.Mtyd.toFixed(1) };
+      }
     }
     if ("Mtu_min" in re) {
-      result.Mtu_min = { alien: "right", value: re.Mtu_min.toFixed(1) };
+      if(this.helper.toNumber(re.Mtu_min) !== null){
+        result.Mtu_min = { alien: "right", value: re.Mtu_min.toFixed(1) };
+      }
     }
     if ("sigma_nd" in re) {
-      result.sigma_nd = { alien: "right", value: re.sigma_nd.toFixed(1) };
+      if(this.helper.toNumber(re.sigma_nd) !== null){
+        result.sigma_nd = { alien: "right", value: re.sigma_nd.toFixed(1) };
+      }
     }
     if ("ftd" in re) {
-      result.ftd = { alien: "right", value: re.ftd.toFixed(1) };
+      if(this.helper.toNumber(re.ftd) !== null){
+        result.ftd = { alien: "right", value: re.ftd.toFixed(1) };
+      }
     }
     if ("Bnt" in re) {
-      result.Bnt = { alien: "right", value: re.Bnt.toFixed(3) };
+      if(this.helper.toNumber(re.Bnt) !== null){
+        result.Bnt = { alien: "right", value: re.Bnt.toFixed(3) };
+      }
     }
     if ("Mtcd" in re) {
-      result.Mtcd = { alien: "right", value: re.Mtcd.toFixed(1) };
+      if(this.helper.toNumber(re.Mtcd) !== null){
+        result.Mtcd = { alien: "right", value: re.Mtcd.toFixed(1) };
+      }
     }
     if ("Mtud1" in re) {
-      result.Mtud1 = { alien: "right", value: re.Mtud1.toFixed(1) };
+      if(this.helper.toNumber(re.Mtud1) !== null){
+        result.Mtud1 = { alien: "right", value: re.Mtud1.toFixed(1) };
+      }
     }
     if ("Mtud2" in re) {
-      result.Mtud2 = { alien: "right", value: re.Mtud2.toFixed(1) };
+      if(this.helper.toNumber(re.Mtud2) !== null){
+        result.Mtud2 = { alien: "right", value: re.Mtud2.toFixed(1) };
+      }
     }
     if ("Mtud" in re) {
-      result.Mtud = { alien: "right", value: re.Mtud.toFixed(1) };
+      if(this.helper.toNumber(re.Mtud) !== null){
+        result.Mtud = { alien: "right", value: re.Mtud.toFixed(1) };
+      }
     }
     if ("Mtud_Ratio" in re) {
-      result.Mtud_Ratio = {
-        alien: "center",
-        value:
-          re.Mtud_Ratio.toFixed(3).toString() +
-          (re.Mtud_Ratio < 1 ? " <1.00" : " >1.00"),
-      };
+      if(this.helper.toNumber(re.Mtud_Ratio) !== null){
+          result.Mtud_Ratio = {
+          alien: "center",
+          value:
+            re.Mtud_Ratio.toFixed(3).toString() +
+            (re.Mtud_Ratio < 1 ? " <1.00" : " >1.00"),
+        };
+      }
     }
 
     if ("Mt1" in re) {
-      result.Mt1 = { alien: "right", value: re.Mt1.toFixed(1) };
+      if(this.helper.toNumber(re.Mt1) !== null){
+        result.Mt1 = { alien: "right", value: re.Mt1.toFixed(1) };
+      }
     }
     if ("Mt2" in re) {
-      result.Mt2 = { alien: "right", value: re.Mt2.toFixed(1) };
+      if(this.helper.toNumber(re.Mt2) !== null){
+        result.Mt2 = { alien: "right", value: re.Mt2.toFixed(1) };
+      }
     }
 
     if ("con" in re) {
