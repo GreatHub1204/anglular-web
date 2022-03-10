@@ -9,12 +9,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      nativeWindowOpen: true
     }
   });
   mainWindow.maximize();
   mainWindow.setMenuBarVisibility(false);
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   mainWindow.loadFile('index.html');
 }
 
@@ -40,6 +41,7 @@ ipcMain.on('open', async (event: Electron.IpcMainEvent) => {
   // キャンセルで閉じた場合
   if( paths === undefined ){
     event.returnValue = {status: undefined};
+    return;
   }
 
   // ファイルの内容を返却
@@ -108,3 +110,4 @@ ipcMain.on('saveFile', async (event: Electron.IpcMainEvent, filename: string, da
     event.returnValue = '';
   }
 });
+
