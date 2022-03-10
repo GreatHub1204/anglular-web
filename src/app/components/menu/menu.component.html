@@ -8,16 +8,21 @@
           </a>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem (click)="renew()">新規作成</button>
-            <label style="width: 100%; margin: 0px">
-              <span ngbDropdownItem>
-                ファイルを開く
-                <input type="file" accept="application/text" (change)="open($event)" style="display: none" />
-              </span>
-            </label>
+            <ng-container  *ngIf="!electronService.isElectronApp">
+              <label style="width: 100%; margin: 0px">
+                <span ngbDropdownItem>
+                  ファイルを開く
+                  <input type="file" accept="application/text" (change)="open($event)" style="display: none" />
+                </span>
+              </label>
+            </ng-container>
+            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="open_electron()">
+              ファイルを開く
+            </button>
             <button ngbDropdownItem (click)="fileSave()">ファイルを保存</button>
             <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="overWrite()">
               上書き保存
-          </button>
+            </button>
             <label style="width: 100%; margin: 0px">
               <span ngbDropdownItem>
                 ピックアップファイルを開く

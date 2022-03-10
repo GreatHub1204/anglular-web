@@ -9,12 +9,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      nativeWindowOpen: true
     }
   });
   mainWindow.maximize();
   mainWindow.setMenuBarVisibility(false);
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   mainWindow.loadFile('index.html');
 }
 
@@ -23,6 +24,52 @@ app.whenReady().then(() => {
 });
 
 // Angular -> Electron
+// ファイルを開く
+ipcMain.on('open', async (event: Electron.IpcMainEvent) => {
+  // ファイルを選択
+  const paths = dialog.showOpenDialogSync(mainWindow, {
+    buttonLabel: '開く',  // 確認ボタンのラベル
+    filters: [
+      { name: 'wdj', extensions: ['wdj', 'dsd'] },
+    ],
+    properties:[
+      'openFile',         // ファイルの選択を許可
+      'createDirectory',  // ディレクトリの作成を許可 (macOS)
+    ]
+  });
+
+  // キャンセルで閉じた場合
+  if( paths === undefined ){
+    event.returnValue = {status: undefined};
+    return;
+  }
+
+  // ファイルの内容を返却
+  try {
+    const path = paths[0];
+    const buff = fs.readFileSync(path);
+
+    // ファイルを読み込む
+    let text = null;
+    switch (path.split('.').pop()) {
+      case "dsd":
+        text = buff;
+        break;
+      default:
+        text = buff.toString();
+    }
+
+    // リターン
+    event.returnValue = {
+      status: true,
+      path: path,
+      text
+    };
+  }
+  catch(error) {
+    event.returnValue = {status:false, message:error.message};
+  }
+});
 
 // 上書き保存
 ipcMain.on('overWrite', async (event: Electron.IpcMainEvent, path: string, data: string) => {
@@ -63,3 +110,4 @@ ipcMain.on('saveFile', async (event: Electron.IpcMainEvent, filename: string, da
     event.returnValue = '';
   }
 });
+
