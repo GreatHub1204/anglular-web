@@ -301,7 +301,9 @@ export class CalcServiceabilityTorsionalMomentService {
 
 
     // 安全率
-    const Ratio2: string = result.ri * sigma_wpd / sigma_12 <= 1 ? (result.ri * sigma_wpd / sigma_12).toFixed(3) + "≦ 1.000":(result.ri * sigma_wpd / sigma_12).toFixed(3) + "> 1.000";
+    const Ratio2: string = (result.ri * sigma_wpd / sigma_12 <= 1) ? 
+    (result.ri * sigma_wpd / sigma_12).toFixed(3) + "≦ 1.000" :
+    (result.ri * sigma_wpd / sigma_12).toFixed(3) + "> 1.000";
     result['sigma_Ratio'] = Ratio2;
 
     let Result2: string = 'NG';

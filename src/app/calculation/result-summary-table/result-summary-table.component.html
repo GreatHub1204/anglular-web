@@ -523,13 +523,11 @@
             <td class="bottom text-right">σ<sub>wpd</sub>／σ<sub>sl2</sub></td>
             <td class="left bottom"> </td>
             <ng-container *ngFor="let item of summary_table; index as i">
-              <ng-container *ngFor="let item of summary_table; index as i">
-                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio!=='-'">
-                  <td class="left bottom text-center">{{item.serviceabilityTorsionalMoment.sigma_calc}}</td>
-                </ng-container>
-                <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio==='-'">
-                  <td class="left bottom text-center"> </td>
-                </ng-container>
+              <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio!=='-'">
+                <td class="left bottom text-center">{{item.serviceabilityTorsionalMoment.sigma_calc}}</td>
+              </ng-container>
+              <ng-container *ngIf="item.serviceabilityTorsionalMoment.sigma_Ratio==='-'">
+                <td class="left bottom text-center"> </td>
               </ng-container>
             </ng-container>
           </tr>
