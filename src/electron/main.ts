@@ -39,7 +39,7 @@ ipcMain.on('open', async (event: Electron.IpcMainEvent) => {
 
   // キャンセルで閉じた場合
   if( paths === undefined ){
-    return({status: undefined});
+    event.returnValue = {status: undefined};
   }
 
   // ファイルの内容を返却
@@ -47,14 +47,25 @@ ipcMain.on('open', async (event: Electron.IpcMainEvent) => {
     const path = paths[0];
     const buff = fs.readFileSync(path);
 
-    return({
+    // ファイルを読み込む
+    let text = null;
+    switch (path.split('.').pop()) {
+      case "dsd":
+        text = buff;
+        break;
+      default:
+        text = buff.toString();
+    }
+
+    // リターン
+    event.returnValue = {
       status: true,
       path: path,
-      text: buff.toString()
-    });
+      text
+    };
   }
   catch(error) {
-    return({status:false, message:error.message});
+    event.returnValue = {status:false, message:error.message};
   }
 });
 

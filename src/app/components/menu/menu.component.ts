@@ -76,11 +76,37 @@ export class MenuComponent implements OnInit {
   // Electron でファイルを開く
   open_electron(){
 
+    const response = this.electronService.ipcRenderer.sendSync('open');
+
+    if(response.status!==true){
+      alert('ファイルを開くことに失敗しました, status:'+ response.status);
+      return;
+    }
+    const modalRef = this.modalService.open(WaitDialogComponent);
+    this.fileName = response.path;
+
+    this.router.navigate(["/blank-page"]);
+    this.app.deactiveButtons();
+
+    switch (this.helper.getExt(this.fileName)) {
+      case "dsd":
+        const pik = this.dsdData.readDsdData(response.text);
+        this.open_done(modalRef);
+        if (pik !== null) {
+          alert(pik + " を開いてください！");
+        }
+        break;
+      default:
+        this.save.readInputData(response.text);
+        this.open_done(modalRef);
+    }
+
   }
+
   // ファイルを開く
   open(evt) {
-    const file = evt.target.files[0];
     const modalRef = this.modalService.open(WaitDialogComponent);
+    const file = evt.target.files[0];
     this.fileName = file.name;
     evt.target.value = "";
 
@@ -111,11 +137,9 @@ export class MenuComponent implements OnInit {
             this.open_done(modalRef, err);
           });
     }
+
   }
-  // ファイルを読み込む
-  private open_read(){
-    const response = this.electronService.ipcRenderer.sendSync('open');
-  }
+
   private open_done(modalRef, error = null) {
     // 後処理
     if (error === null) {
