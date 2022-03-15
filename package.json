@@ -1,6 +1,6 @@
 {
   "name": "web-dan-for-js",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -14,7 +14,7 @@
     "build:prod": "ng build --optimization --outputHashing=all --sourceMap=false --namedChunks=false --extract-licenses --vendorChunk=false --build-optimizer && webpack --config webpack.electron.prod.config.js",
     "start:prod": "electron dist/index.js"
   },
-  "description": "断面照査プログラム",
+  "description": "WebDanforJS",
   "author": {
     "name": "sasaco",
     "email": "sasaicco@gmail.com"
@@ -48,6 +48,9 @@
     "@types/jqueryui": "^1.12.16",
     "angular-cli-ghpages": "^1.0.0",
     "bootstrap": "^4.5.0",
+    "electron-nsis": "0.0.1-alpha",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^4.6.5",
     "encoding-japanese": "^1.0.30",
     "file-saver": "^2.0.5",
     "firebase": "^8.3.1",
