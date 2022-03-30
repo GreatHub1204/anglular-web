@@ -86,21 +86,23 @@ export class MenuComponent implements OnInit {
     const modalRef = this.modalService.open(WaitDialogComponent);
     this.fileName = response.path;
 
-    this.router.navigate(["/blank-page"]);
+    this.router.navigate(["/blank-page"]);  // ngOnDestroyと非同期
     this.app.deactiveButtons();
 
-    switch (this.helper.getExt(this.fileName)) {
-      case "dsd":
-        const pik = this.dsdData.readDsdData(response.text);
-        this.open_done(modalRef);
-        if (pik !== null) {
-          alert(pik + " を開いてください！");
-        }
-        break;
-      default:
-        this.save.readInputData(response.text);
-        this.open_done(modalRef);
-    }
+    setTimeout(() => {
+      switch (this.helper.getExt(this.fileName)) {
+        case "dsd":
+          const pik = this.dsdData.readDsdData(response.text);
+          this.open_done(modalRef);
+          if (pik !== null) {
+            alert(pik + " を開いてください！");
+          }
+          break;
+        default:
+          this.save.readInputData(response.text);
+          this.open_done(modalRef);
+      }
+    }, 10);
 
   }
 
