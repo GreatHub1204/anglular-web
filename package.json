@@ -1,6 +1,6 @@
 {
   "name": "web-dan-for-js",
-  "version": "1.9.7",
+  "version": "1.10.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -48,6 +48,7 @@
     "@types/jqueryui": "^1.12.16",
     "angular-cli-ghpages": "^1.0.0",
     "bootstrap": "^4.5.0",
+    "electron-is-dev": "^2.0.0",
     "electron-nsis": "0.0.1-alpha",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.6.5",

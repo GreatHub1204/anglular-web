@@ -2,12 +2,12 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as fs from 'fs';
 import log from 'electron-log';
-
+import isDev from 'electron-is-dev';
 // 起動 --------------------------------------------------------------
 
-let mainWindow;
+let mainWindow: BrowserWindow;
 
-function createWindow () {
+async function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -21,37 +21,37 @@ function createWindow () {
   mainWindow.loadFile('index.html');
 }
 
-app.whenReady().then(() => {
-  createWindow();
+app.whenReady().then(async () => {
+  await createWindow();
 
-  // 起動時に1回だけ
-  const server = 'https://update.electronjs.org'
-  const url = `${server}/structuralengine/WebDanforJS/${process.platform}-${process.arch}/${app.getVersion()}`
+  if (!isDev) {
+    // 起動時に1回だけ
+    log.info(`アップデートがあるか確認します。${app.name} ${app.getVersion()}`);
 
-  log.info(`アップデートがあるか確認します。${app.name} ${app.getVersion()}`);
-  log.info(url);
-
-  autoUpdater.setFeedURL(url);
-  autoUpdater.checkForUpdates();  
+    await autoUpdater.checkForUpdates();
+  }
 });
 
 // アップデート --------------------------------------------------
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-
-  log.info('アップデートを開始します。')
+autoUpdater.on(
+  'update-downloaded',
+  async (event, releaseNotes, releaseName) => {
+    log.info('アップデートを開始します。');
 
   const dialogOpts = {
     type: 'info',
     buttons: ['Restart', 'Later'],
     title: 'Application Update',
     message: process.platform === 'win32' ? releaseNotes : releaseName,
-    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-  }
+    detail: 
+    'A new version has been downloaded. Restart the application to apply the updates.'
+  };
 
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall()
-  })
-})
+    await dialog.showMessageBox(dialogOpts).then((returnValue) => {
+      if (returnValue.response === 0) autoUpdater.quitAndInstall();
+    });
+  }
+);
 
 autoUpdater.on('error', message => {
   log.warn('There was a problem updating the application');
