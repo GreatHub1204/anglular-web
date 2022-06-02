@@ -46,5 +46,12 @@
     "target": [
       "AppImage"
     ]
-  }
+  },
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "structuralengine",
+      "repo": "WebDanforJS"
+    }
+  ]
 }
