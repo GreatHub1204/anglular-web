@@ -1,5 +1,80 @@
 {
     "menu": {
         "softName": "WebDanforJS"
+    },
+    "members" :{
+        "section_sh":"Cross-sectional shape",
+        "No":"No",
+        "structure":"Structure",
+        "shape":"Shape",
+        "rectangle":"Rectangle",
+        "t_shape":"T shape",
+        "r_shape":"Round",
+        "oval":"oval",
+        "m_no":"Member\nNo",
+        "m_len":"Distance",
+        "g_no":"Group No",
+        "g_name":"Part name",
+        "section":"Cross section (mm)",
+        "part_n":"Number of parts"
+    },
+    "section-forces":{
+        "b_check":"Bending check",
+        "s_check":"Shear check",
+        "t_check":"Torsion check",
+        "p_name":"Calculated point name",
+        "s_len":"Shear span length (mm)"
+    },
+    "design-points":{
+        "p_name":"Calculated point name",
+        "s_len":"Shear span length (mm)",
+        "m_no":"Member\nNo",
+        "p_id":"Calculation point",
+        "position":"Position",
+        "b_check":"Bending check",
+        "s_check":"Shear check",
+        "t_check":"Torsion check",
+        "y_around":"Around y-axis",
+        "z_around":"Around z-axis",
+        "y_direction":"y-axis direction",
+        "z_direction":"z-axis direction"
+    },
+    "bars":{
+        "m_no":"Member\nNo",
+        "position":"Position",
+        "p_name":"Calculated point name",
+        "crossSection":"Section\nB\nH",
+        "haunch":"Haunch height",
+        "bending":"Bending",
+        "shear":"Shear",
+        "rebar_ax":"Axial rebar",
+        "dia":"Reinforcing bar diameter",
+        "number":"Number",
+        "cover":"Cover\n1st cut",
+        "lines":"Number of lines",
+        "space":"Space",
+        "ss":"Interval",
+        "rebar_la":"Lateral rebar",
+        "pieces":"Pieces",
+        "rebar_sh":"Shear reinforcement rebar",
+        "rebar_ob":"Oblique ratio of main reinforcing bar",
+        "rebar_fo":"Folded rebar",
+        "angle":"Angle",
+        "process":"Process"
+    },
+    "steels":{
+        "m_no":"Member\nNo",
+        "position":"Position",
+        "p_name":"Calculated point name",
+        "crossSection":"Section\nB\nH",
+        "dis_above":"Distance from above",
+        "top_left":"Top flange or left flange",
+        "low_right":"Lower flange or right flange",
+        "F_width":"Flange width",
+        "F_thickness":"Flange thickness",
+        "web":"Web",
+        "w_thickness":"Web thickness",
+        "w_height":"Web height",
+        "process":"Process"
     }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { InputBasicInformationService } from '../basic-information/basic-information.service';
 import { InputDesignPointsService } from '../design-points/design-points.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class InputSectionForcesService  {
   constructor(
     private helper: DataHelperModule,
     private basic: InputBasicInformationService,
-    private points: InputDesignPointsService) {
+    private points: InputDesignPointsService,
+    private translate: TranslateService
+    ) {
     this.clear();
   }
   public clear(): void {
@@ -22,7 +25,9 @@ export class InputSectionForcesService  {
 
   public getColumnHeaders1(): any {
     const result: object[] = [
-      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 }
+      { 
+        title: this.translate.instant("section-forces.p_name"),
+        align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 }
     ];
 
     let old: string = null;
@@ -53,8 +58,12 @@ export class InputSectionForcesService  {
 
   public getColumnHeaders2(): any {
     const result: object[] = [
-      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 },
-      { title: "せん断スパン長(mm)", dataType: "float", dataIndx: "La", sortable: false, width: 140 },
+      { 
+        title: this.translate.instant("section-forces.p_name"),
+        align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 },
+      { 
+        title: this.translate.instant("section-forces.s_len"),
+        dataType: "float", dataIndx: "La", sortable: false, width: 140 },
       ];
 
     let old: string = null;
@@ -86,7 +95,9 @@ export class InputSectionForcesService  {
 
   public getColumnHeaders3(): any {
     const result: object[] = [
-      { title: '算出点名', align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 },
+      { 
+        title: this.translate.instant("section-forces.p_name"),
+        align: 'left', dataType: 'string', dataIndx: 'p_name', sortable: false, width: 250 },
       ];
 
     let old: string = null;

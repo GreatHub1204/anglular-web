@@ -3,6 +3,7 @@ import { InputSteelsService } from './steels.service';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import { SheetComponent } from '../sheet/sheet.component';
 import pq from 'pqgrid';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-steels',
@@ -24,7 +25,9 @@ export class SteelsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private steel: InputSteelsService,
-    private save: SaveDataService) { }
+    private save: SaveDataService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -71,36 +74,65 @@ export class SteelsComponent implements OnInit, OnDestroy, AfterViewInit {
       ];
     } else {
       this.columnHeaders = [
-        { title: '部材<br/>番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("steels.m_no"),
+          align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("steels.position"),
+          dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];    
     }
 
     // 共通する項目
     this.columnHeaders.push(
-      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '断面<br/>B<br/>H', align: 'center', dataType: 'float', dataIndx: 'bh', frozen: true, editable: false, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '位置', align: 'center', dataType: 'string', dataIndx: 'design_point_id', frozen: true, editable: true, sortable: false, width: 40, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '上からの距離',  dataType: 'float', dataIndx: 'upper_left_cover', sortable: false, width: 70 },
+      { 
+        title: this.translate.instant("steels.p_name"),
+        dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("steels.crossSection"),
+        align: 'center', dataType: 'float', dataIndx: 'bh', frozen: true, editable: false, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("steels.position"),
+        align: 'center', dataType: 'string', dataIndx: 'design_point_id', frozen: true, editable: true, sortable: false, width: 40, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("steels.dis_above"),
+        dataType: 'float', dataIndx: 'upper_left_cover', sortable: false, width: 70 },
       {
-        title: '上フランジ または 左フランジ', align: 'center', colModel: [
-          { title: 'フランジ幅', dataType: 'float', dataIndx: 'upper_left_width', sortable: false, width: 80 },
-          { title: 'フランジ厚', dataType: 'float', dataIndx: 'upper_left_thickness', sortable: false, width: 80 },
+        title: this.translate.instant("steels.top_left"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("steels.F_width"),
+            dataType: 'float', dataIndx: 'upper_left_width', sortable: false, width: 80 },
+          { 
+            title: this.translate.instant("steels.F_thickness"),
+            dataType: 'float', dataIndx: 'upper_left_thickness', sortable: false, width: 80 },
         ]
       },
       {
-        title: 'ウェブ', align: 'center', colModel: [
-          { title: 'ウェブ厚', dataType: 'float', dataIndx: 'web_thickness', sortable: false, width: 80 },
-          { title: 'ウェブ高', dataType: 'float', dataIndx: 'web_height', sortable: false, width: 80 },
+        title: this.translate.instant("steels.web"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("steels.w_thickness"),
+            dataType: 'float', dataIndx: 'web_thickness', sortable: false, width: 80 },
+          { 
+            title: this.translate.instant("steels.w_height"),
+            dataType: 'float', dataIndx: 'web_height', sortable: false, width: 80 },
         ]
       },
       {
-        title: '下フランジ または 右フランジ', align: 'center', colModel: [
-          { title: 'フランジ幅', dataType: 'float', dataIndx: 'lower_right_width', sortable: false, width: 80 },
-          { title: 'フランジ厚', dataType: 'float', dataIndx: 'lower_right_thickness', sortable: false, width: 80 },
+        title: this.translate.instant("steels.low_right"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("steels.F_width"),
+            dataType: 'float', dataIndx: 'lower_right_width', sortable: false, width: 80 },
+          { 
+            title: this.translate.instant("steels.F_thickness"),
+            dataType: 'float', dataIndx: 'lower_right_thickness', sortable: false, width: 80 },
         ]
       },
-      { title: '処理', align: 'center', dataType: 'bool', dataIndx: 'enable', type: 'checkbox', sortable: false, width: 40 },
+      { 
+        title: this.translate.instant("steels.process"),
+        align: 'center', dataType: 'bool', dataIndx: 'enable', type: 'checkbox', sortable: false, width: 40 },
     );
   }
 
