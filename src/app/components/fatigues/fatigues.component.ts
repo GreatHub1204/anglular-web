@@ -5,6 +5,7 @@ import { SheetComponent } from '../sheet/sheet.component';
 import pq from 'pqgrid';
 import { AppComponent } from 'src/app/app.component';
 import { SaveDataService } from 'src/app/providers/save-data.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-fatigues',
@@ -30,7 +31,9 @@ export class FatiguesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private fatigues: InputFatiguesService,
-    private save: SaveDataService) { }
+    private save: SaveDataService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -82,18 +85,29 @@ export class FatiguesComponent implements OnInit, OnDestroy, AfterViewInit {
       ];
     } else {
       this.columnHeaders = [
-        { title: '部材<br/>番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("fatigues.m_no"),
+          align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("fatigues.position"),
+          dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];
     }
 
     // 共通する項目
     this.columnHeaders.push(
-      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '断面<br/>B<br/>H', align: 'center', dataType: 'float', dataIndx: 'bh', editable: false, frozen: true, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '位置', align: 'center', dataType: 'string', dataIndx: 'design_point_id', editable: false, frozen: true, sortable: false, width: 40, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("fatigues.p_name"),
+        dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("fatigues.bh"),
+        align: 'center', dataType: 'float', dataIndx: 'bh', editable: false, frozen: true, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("fatigues.position"),
+        align: 'center', dataType: 'string', dataIndx: 'design_point_id', editable: false, frozen: true, sortable: false, width: 40, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       {
-        title: '曲げ用', align: 'center', colModel: [
+        title: this.translate.instant("fatigues.for_b"),
+        align: 'center', colModel: [
           { title: 'SA/SC', dataType: 'float', format: '#.000', dataIndx: 'M_SA', sortable: false, width: 70 },
           { title: 'SB/SC', dataType: 'float', format: '#.000', dataIndx: 'M_SB', sortable: false, width: 70 },
           {
@@ -109,22 +123,31 @@ export class FatiguesComponent implements OnInit, OnDestroy, AfterViewInit {
             ]
           },
           {
-            title: '複線補正r2', align: 'center', colModel: [
+            title: this.translate.instant("fatigues.d_r2"),
+            align: 'center', colModel: [
               { title: 'α', dataType: 'float', format: '#.000', dataIndx: 'M_A', sortable: false, width: 70 },
               { title: 'β', dataType: 'float', format: '#.000', dataIndx: 'M_B', sortable: false, width: 70 }
             ]
           },
           {
-            title: '曲げ加工 r1', align: 'center', colModel: [
-              { title: '軸鉄筋', dataType: 'float', format: '#.00', dataIndx: 'M_r1_1', sortable: false, width: 60 }
+            title: this.translate.instant("fatigues.b_r1"),
+            align: 'center', colModel: [
+              { 
+                title: this.translate.instant("fatigues.ax_rein"),
+                dataType: 'float', format: '#.00', dataIndx: 'M_r1_1', sortable: false, width: 60 }
             ]
           },
-          { title: '強度等級', align: 'center', dataType: 'string', dataIndx: 'M_Class', sortable: false, width: 50 },
-          { title: '溶接継手', align: 'center', dataType: 'bool', dataIndx: 'M_weld', type: 'checkbox', sortable: false, width: 40 },
+          { 
+            title: this.translate.instant("fatigues.s_grade"),
+            align: 'center', dataType: 'string', dataIndx: 'M_Class', sortable: false, width: 50 },
+          { 
+            title: this.translate.instant("fatigues.weld"),
+            align: 'center', dataType: 'bool', dataIndx: 'M_weld', type: 'checkbox', sortable: false, width: 40 },
         ]
       },
       {
-        title: 'せん断用', align: 'center', colModel: [
+        title: this.translate.instant("fatigues.for_s"),
+        align: 'center', colModel: [
           { title: 'SA/SC', dataType: 'float', format: '#.000', dataIndx: 'V_SA', sortable: false, width: 70 },
           { title: 'SB/SC', dataType: 'float', format: '#.000', dataIndx: 'V_SB', sortable: false, width: 70 },
           {
@@ -140,15 +163,21 @@ export class FatiguesComponent implements OnInit, OnDestroy, AfterViewInit {
             ]
           },
           {
-            title: '複線補正r2', align: 'center', colModel: [
+            title: this.translate.instant("fatigues.d_r2"),
+            align: 'center', colModel: [
               { title: 'α', dataType: 'float', format: '#.000', dataIndx: 'V_A', sortable: false, width: 70 },
               { title: 'β', dataType: 'float', format: '#.000', dataIndx: 'V_B', sortable: false, width: 70 }
             ]
           },
           {
-            title: '曲げ加工 r1', align: 'center', colModel: [
-              { title: '帯筋', dataType: 'float', format: '#.00', dataIndx: 'V_r1_2', sortable: false, width: 60 },
-              { title: '折曲げ', dataType: 'float', format: '#.00', dataIndx: 'V_r1_3', sortable: false, width: 60 }
+            title: this.translate.instant("fatigues.b_r1"),
+            align: 'center', colModel: [
+              { 
+                title: this.translate.instant("fatigues.hoop"),
+                dataType: 'float', format: '#.00', dataIndx: 'V_r1_2', sortable: false, width: 60 },
+              { 
+                title: this.translate.instant("fatigues.fold"),
+                dataType: 'float', format: '#.00', dataIndx: 'V_r1_3', sortable: false, width: 60 }
             ]
           },
         ]

@@ -4,6 +4,7 @@ import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import { SheetComponent } from '../sheet/sheet.component';
 import { InputCrackSettingsService } from './crack-settings.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-crack-settings',
@@ -26,7 +27,9 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(
     private crack: InputCrackSettingsService,
     private save: SaveDataService,
-    public helper: DataHelperModule) { }
+    public helper: DataHelperModule,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -72,33 +75,59 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
       ];
     } else {
       this.columnHeaders = [
-        { title: '部材\n番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("crack-settings.m_no"),
+          align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, frozen: true, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("crack-settings.position"),
+          dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, frozen: true, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];    
     }
 
     // 共通する項目
     this.columnHeaders.push(
-      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("crack-settings.p_name"),
+        dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       {
-        title: '環境条件', align: 'center', colModel: [
-          { title: '上側', dataType: 'integer', dataIndx: 'con_u', sortable: false, width: 60 },
-          { title: '下側', dataType: 'integer', dataIndx: 'con_l', sortable: false, width: 60 },
-          { title: 'せん断', dataType: 'integer', dataIndx: 'con_s', sortable: false, width: 60 }
+        title: this.translate.instant("crack-settings.env"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("crack-settings.top"),
+            dataType: 'integer', dataIndx: 'con_u', sortable: false, width: 60 },
+          { 
+            title: this.translate.instant("crack-settings.under"),
+            dataType: 'integer', dataIndx: 'con_l', sortable: false, width: 60 },
+          { 
+            title: this.translate.instant("crack-settings.shear"),
+            dataType: 'integer', dataIndx: 'con_s', sortable: false, width: 60 }
         ]
       },
       {
-        title: 'ひび割 εcsd', align: 'center', colModel: [
-          { title: '上側', align: 'center', dataType: 'integer', dataIndx: 'ecsd_u', sortable: false, width: 70 },
-          { title: '下側', align: 'center', dataType: 'integer', dataIndx: 'ecsd_l', sortable: false, width: 70 }
+        title: this.translate.instant("crack-settings.crack"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("crack-settings.top"),
+            align: 'center', dataType: 'integer', dataIndx: 'ecsd_u', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("crack-settings.under"),
+            align: 'center', dataType: 'integer', dataIndx: 'ecsd_l', sortable: false, width: 70 }
         ]
       },
-      { title: 'せん断<br/>kr', dataType: 'float', format: '#.0', dataIndx: 'kr', sortable: false, width: 70 },
-      { title: 'k4', align: 'center', dataType: 'float', format: '#.00', dataIndx: 'k4', sortable: false, width: 70 },
+      { 
+        title: this.translate.instant("crack-settings.shear_kr"),
+        dataType: 'float', format: '#.0', dataIndx: 'kr', sortable: false, width: 70 },
+      { 
+        title: 'k4', align: 'center', dataType: 'float', format: '#.00', dataIndx: 'k4', sortable: false, width: 70 },
       {
-        title: '外観', align: 'center', colModel: [
-          { title: '上側', align: 'center', dataType: 'bool', dataIndx: 'vis_u', type: 'checkbox', sortable: false, width: 50 },
-          { title: '下側', align: 'center', dataType: 'bool', dataIndx: 'vis_l', type: 'checkbox', sortable: false, width: 50 }
+        title: this.translate.instant("crack-settings.exterior"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("crack-settings.top"),
+            align: 'center', dataType: 'bool', dataIndx: 'vis_u', type: 'checkbox', sortable: false, width: 50 },
+          { 
+            title: this.translate.instant("crack-settings.under"),
+            align: 'center', dataType: 'bool', dataIndx: 'vis_l', type: 'checkbox', sortable: false, width: 50 }
         ]
       },
     );

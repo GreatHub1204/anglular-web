@@ -89,7 +89,7 @@ export class SteelsComponent implements OnInit, OnDestroy, AfterViewInit {
         title: this.translate.instant("steels.p_name"),
         dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       { 
-        title: this.translate.instant("steels.crossSection"),
+        title: this.translate.instant("steels.bh"),
         align: 'center', dataType: 'float', dataIndx: 'bh', frozen: true, editable: false, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       { 
         title: this.translate.instant("steels.position"),
