@@ -25,6 +25,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { LanguagesService } from "../../providers/languages.service";
 import { ElectronService } from 'ngx-electron';
 import packageJson from '../../../../package.json';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-menu",
@@ -48,7 +49,8 @@ export class MenuComponent implements OnInit {
     private config: ConfigService,
     public auth: AngularFireAuth,
     public language: LanguagesService,
-    public electronService: ElectronService
+    public electronService: ElectronService,
+    private translate: TranslateService
   ) {
     this.fileName = "";
     this.pickup_file_name = "";
@@ -80,7 +82,7 @@ export class MenuComponent implements OnInit {
     const response = this.electronService.ipcRenderer.sendSync('open');
 
     if(response.status!==true){
-      alert('ファイルを開くことに失敗しました, status:'+ response.status);
+      alert(this.translate.instant("menu.fail") + response.status);
       return;
     }
     const modalRef = this.modalService.open(WaitDialogComponent);
@@ -95,7 +97,7 @@ export class MenuComponent implements OnInit {
           const pik = this.dsdData.readDsdData(response.text);
           this.open_done(modalRef);
           if (pik !== null) {
-            alert(pik + " を開いてください！");
+            alert(pik + this.translate.instant("menu.open"));
           }
           break;
         default:
@@ -123,7 +125,7 @@ export class MenuComponent implements OnInit {
             const pik = this.dsdData.readDsdData(buff);
             this.open_done(modalRef);
             if (pik !== null) {
-              alert(pik + " を開いてください！");
+            alert(pik + this.translate.instant("menu.open"));
             }
           })
           .catch((err) => {

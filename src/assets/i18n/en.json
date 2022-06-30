@@ -1,6 +1,36 @@
 {
     "menu": {
-        "softName": "WebDanforJS"
+        "softName": "WebDanforJS",
+        "newEntry":"Create a new file",
+        "openFile":"Open file",
+        "saveFile":"Save a file",
+        "overwrite":"overwrite save",
+        "openPick":"Open the pickup file",
+        "logout":"Logout",
+        "login":"Login",
+        "fail":"Failed to open the file. status:",
+        "open":"Please open"
+    },
+    "login-dialog":{
+        "createAccount":"Creat account",
+        "email":"Email",
+        "password":"Password",
+        "login":"Login",
+        "cancel":"Cancel",
+        "mail_check":"Cannot check your email address.",
+        "fail":"The login attempt failed.\n"
+    },
+    "app":{
+        "basic_info":"Basic data",
+        "members":"Member / Cross section",
+        "point":"Calculation point",
+        "section_force":"Cross-sectional force",
+        "bars":"Reinforcing bar arrangement",
+        "steels":"Steel arrangement",
+        "crack":"Crack data",
+        "fatigues":"Fatigue data",
+        "sf_ms":"Safety factor / Material strength",
+        "calc_print":"Calculation / Printing"
     },
     "basic-information":{
         "pick_bs":"Pick up (For bending strength)",
@@ -151,5 +181,17 @@
         "d25":"D25 or less",
         "d29":"D29 and above",
         "dts":"Design tensile strength"
+    },
+    "calculation-print":{
+        "dc":"Design condition",
+        "s_table":"Summary table of section force",
+        "p_check":"Performance check",
+        "check":"Check",
+        "bend":"Bending",
+        "shear":"Shear",
+        "twist":"Twist",
+        "member":"Member",
+        "print":"Calculation printing",
+        "p_login":"Please login"
     }
 }

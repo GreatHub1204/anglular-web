@@ -1,6 +1,36 @@
 {
     "menu": {
-        "softName": "断面性能照査プログラム"
+        "softName": "断面性能照査プログラム",
+        "newEntry":"新規作成",
+        "openFile":"ファイルを開く",
+        "saveFile":"ファイルを保存",
+        "overwrite":"上書き保存",
+        "openPick":"ピックアップファイルを開く",
+        "logout":"ログアウト",
+        "login":"ログイン",
+        "fail":"ファイルを開くことに失敗しました, status:",
+        "open":"を開いてください！"
+    },
+    "login-dialog":{
+        "createAccount":"ユーザー登録がお済みでない方はこちらから",
+        "email":"メールアドレス",
+        "password":"パスワード",
+        "login":"ログイン",
+        "cancel":"キャンセル",
+        "mail_check":"メールアドレスが確認できていません。",
+        "fail":"ログインに失敗しました。\n"
+    },
+    "app":{
+        "basic_info":"基本データ",
+        "members":"部材・断面",
+        "point":"算出点",
+        "section_force":"断面力",
+        "bars":"鉄筋配置",
+        "steels":"鉄骨配置",
+        "crack":"ひび割れデータ",
+        "fatigues":"疲労データ",
+        "sf_ms":"安全係数・材料強度",
+        "calc_print":"計算・印刷"
     },
     "basic-information":{
         "pick_bs":"ピックアップ (曲げ耐力用)",
@@ -151,5 +181,17 @@
         "d25":"D25以下",
         "d29":"D29以上",
         "dts":"設計引張強度"
+    },
+    "calculation-print":{
+        "dc":"設計条件",
+        "s_table":"断面力の集計表",
+        "p_check":"性能照査",
+        "check":"照査",
+        "bend":"曲げ",
+        "shear":"せん断",
+        "twist":"ねじり",
+        "member":"部材",
+        "print":"計算印刷",
+        "p_login":"ログインしてください。"
     }
 }
