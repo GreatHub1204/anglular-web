@@ -32,6 +32,16 @@
         "sf_ms":"Safety factor / Material strength",
         "calc_print":"Calculation / Printing"
     },
+    "blank-page":{
+        "cs_pc":"Cross-section performance check",
+        "program":"This program is a design standard for railway structures, etc.",
+        "with2004":"Concrete structure-Compliant with April 2004,",
+        "cs":"Cross-section ",
+        "bal_calc":"balance calculation",
+        "and":"and",
+        "stress_calc":"stress degree calculation",
+        "in_program":"In the program"
+    },
     "basic-information":{
         "pick_bs":"Pick up (For bending strength)",
         "pick_sv":"Pick up (For shear force verification)",
@@ -99,7 +109,9 @@
         "rebar_ob":"Oblique ratio of main reinforcing bar",
         "rebar_fo":"Folded rebar",
         "angle":"Angle",
-        "process":"Process"
+        "process":"Process",
+        "tp":"Top position",
+        "tp_side":"Top position side cover"
     },
     "steels":{
         "m_no":"Member\nNo",

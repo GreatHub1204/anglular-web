@@ -103,12 +103,11 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
       ];    
     }
     // 3次元モードとマニュアルモードの時は ねじりモーメント照査に対応した表示をする
-    // 翻訳保留
-    let sideCoverTitle = '上端位置';
+    let sideCoverTitle = this.translate.instant("bars.tp");
     if(this.save.isManual()){
-      sideCoverTitle = '上端位置<br/>/側かぶり';
+      sideCoverTitle = this.translate.instant("bars.tp_side");
     } else if(this.save.is3DPickUp()){
-      sideCoverTitle = '上端位置<br/>/側かぶり';
+      sideCoverTitle = this.translate.instant("bars.tp_side");;
     }
 
     // 共通する項目
