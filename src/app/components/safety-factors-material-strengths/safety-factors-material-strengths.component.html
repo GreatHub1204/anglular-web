@@ -12,50 +12,50 @@
 
 <div class="tabContent">
   <div class="sectionTitle">
-    <h4>鉄筋・コンクリート</h4>
+    <h4 translate>safety-factors-material-strengths.rsb_con</h4>
   </div>
 
   <div class="safety-factors">
-    <h5>安全係数</h5>
+    <h5 translate>safety-factors-material-strengths.safe</h5>
     <div class="table-container">
       <app-sheet #grid1 [options]="options1"></app-sheet>
     </div>
 
     <div class="range-fieldset">
       <fieldset>
-        <legend>鉄筋配置</legend>
+        <legend translate>safety-factors-material-strengths.rsb_arr</legend>
         <ol>
-          <li>引張鉄筋</li>
-          <li>引張＋圧縮</li>
-          <li>全周鉄筋</li>
+          <li translate>safety-factors-material-strengths.rsb_ten</li>
+          <li translate>safety-factors-material-strengths.ten_com</li>
+          <li translate>safety-factors-material-strengths.all</li>
         </ol>
       </fieldset>
     </div>
   </div>
 
   <div class="material-strength">
-    <h5>鉄筋材料強度</h5>
+    <h5 translate>safety-factors-material-strengths.r_mta</h5>
     <div class="table-container">
       <app-sheet #grid2 [options]="options2"></app-sheet>
       <div class="concrete-strength">
-        <h5>コンクリート材料強度</h5>
+        <h5 translate>safety-factors-material-strengths.c_mta</h5>
         <app-sheet #grid3 [options]="options3"></app-sheet>
       </div>
     </div>
   </div>
 
   <div class="sectionTitle">
-    <h4>鉄骨</h4>
+    <h4 translate>safety-factors-material-strengths.steel</h4>
   </div>
   <div class="safety-factors">
-    <h5>安全係数</h5>
+    <h5 translate>safety-factors-material-strengths.safe</h5>
     <div class="table-container">
       <app-sheet #grid4 [options]="options4"></app-sheet>
     </div>
   </div>
 
   <div class="material-strength">
-    <h5>鉄骨材料強度</h5>
+    <h5 translate>safety-factors-material-strengths.s_mta</h5>
     <div class="table-container">
       <app-sheet #grid5 [options]="options5"></app-sheet>
     </div>
@@ -63,21 +63,33 @@
 
 
   <div class="sectionTitle">
-    <h4>杭・施工条件</h4>
+    <h4 translate>safety-factors-material-strengths.pile</h4>
   </div>
   <div class="pile-factors">
-    <h5>杭の施工条件</h5>
+    <h5 translate>safety-factors-material-strengths.pile</h5>
     <table>
       <thead>
         <tr>
-          <th rowspan="2" colspan="2">施工方法</th>
-          <th colspan="3">施工修正係数ρc</th>
-          <th rowspan="2" width="110px">せん断補強鋼材を用いない棒部材の設計せん断耐力Vcdの低減係数</th>
+          <th rowspan="2" colspan="2">
+            <p translate>safety-factors-material-strengths.method</p>
+          </th>
+          <th colspan="3">          
+            <p translate>safety-factors-material-strengths.ρc</p>
+          </th>
+          <th rowspan="2" width="110px">
+          <p translate>safety-factors-material-strengths.vcd</p>
+          </th>
         </tr>
         <tr>
-          <th width="80px">圧縮強度</th>
-          <th width="80px">付着強度</th>
-          <th width="80px">ヤング係数</th>
+          <th width="80px">          
+            <p translate>safety-factors-material-strengths.cs</p>
+          </th>
+          <th width="80px">          
+            <p translate>safety-factors-material-strengths.as</p>
+          </th>
+          <th width="80px">          
+            <p translate>safety-factors-material-strengths.young</p>
+          </th>
         </tr>
       </thead>
       <tbody>

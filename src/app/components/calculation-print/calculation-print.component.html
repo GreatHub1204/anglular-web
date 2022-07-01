@@ -1,7 +1,7 @@
 <div class="condition-container">
   <div class="print-item">
     <fieldset>
-      <legend>設計条件</legend>
+      <legend translate>calculation-print.dc</legend>
       <div *ngIf="isManual() == false">
         <label>
           <input
@@ -11,7 +11,8 @@
             [value]="print_section_force"
             [(ngModel)]="print_section_force_checked"
             [checked]="print_section_force_checked"
-          />断面力の集計表
+          />
+          <p translate>calculation-print.s_table</p>
         </label>
       </div>
       <div>
@@ -23,7 +24,8 @@
             [value]="print_calculate_checked"
             [(ngModel)]="print_calculate_checked"
             [checked]="print_calculate_checked"
-          />性能照査
+          />
+          <p translate>calculation-print.p_check</p>
         </label>
       </div>
 
@@ -31,7 +33,7 @@
   </div>
   <div class="calculate-item">
     <fieldset>
-      <legend>照査</legend>
+      <legend translate>calculation-print.check</legend>
       <div>
         <label>
           <input
@@ -41,7 +43,8 @@
             [value]="calculate_moment_checked"
             [(ngModel)]="calculate_moment_checked"
             [checked]="calculate_moment_checked"
-          />曲げ
+          />
+          <p translate>calculation-print.bend</p>
         </label>
       </div>
       <div>
@@ -53,7 +56,8 @@
             [value]="calculate_shear_force_checked"
             [(ngModel)]="calculate_shear_force_checked"
             [checked]="calculate_shear_force_checked"
-          />せん断
+          />
+          <p translate>calculation-print.shear</p>
         </label>
       </div>
       <div>
@@ -65,7 +69,8 @@
             [value]="calculate_torsional_moment_checked"
             [(ngModel)]="calculate_torsional_moment_checked"
             [checked]="calculate_torsional_moment_checked"
-          />ねじり
+          />
+          <p translate>calculation-print.twist</p>
         </label>
       </div>
     </fieldset>
@@ -74,7 +79,7 @@
 
 <div class="table-container">
   <fieldset>
-    <legend>部材</legend>
+    <legend translate>calculation-print.member</legend>
     <div class="hot" >
       <table>
         <tbody>
@@ -99,6 +104,8 @@
 </div>
 
 <div class="button-container">
-  <button (click)="onClick()">計算印刷</button>
+  <button (click)="onClick()">
+    <p translate>calculation-print.print</p>
+  </button>
 </div>
 

@@ -1,6 +1,55 @@
 {
     "menu": {
-        "softName": "WebDanforJS"
+        "softName": "WebDanforJS",
+        "newEntry":"Create a new file",
+        "openFile":"Open file",
+        "saveFile":"Save a file",
+        "overwrite":"overwrite save",
+        "openPick":"Open the pickup file",
+        "logout":"Logout",
+        "login":"Login",
+        "fail":"Failed to open the file. status:",
+        "open":"Please open"
+    },
+    "login-dialog":{
+        "createAccount":"Creat account",
+        "email":"Email",
+        "password":"Password",
+        "login":"Login",
+        "cancel":"Cancel",
+        "mail_check":"Cannot check your email address.",
+        "fail":"The login attempt failed.\n"
+    },
+    "app":{
+        "basic_info":"Basic data",
+        "members":"Member / Cross section",
+        "point":"Calculation point",
+        "section_force":"Cross-sectional force",
+        "bars":"Reinforcing bar arrangement",
+        "steels":"Steel arrangement",
+        "crack":"Crack data",
+        "fatigues":"Fatigue data",
+        "sf_ms":"Safety factor / Material strength",
+        "calc_print":"Calculation / Printing"
+    },
+    "blank-page":{
+        "cs_pc":"Cross-section performance check",
+        "program":"This program is a design standard for railway structures, etc.",
+        "with2004":"Concrete structure-Compliant with April 2004,",
+        "cs":"Cross-section ",
+        "bal_calc":"balance calculation",
+        "and":"and",
+        "stress_calc":"stress degree calculation",
+        "in_program":"In the program"
+    },
+    "basic-information":{
+        "pick_bs":"Pick up (For bending strength)",
+        "pick_sv":"Pick up (For shear force verification)",
+        "pick_tv":"Pick up (For twist verification)",
+        "apply":"Apply",
+        "spec":"Specification",
+        "dc":"Design condition",
+        "sre_cross":"Stress used for cross-section inspection"
     },
     "members" :{
         "section_sh":"Cross-sectional shape",
@@ -60,7 +109,9 @@
         "rebar_ob":"Oblique ratio of main reinforcing bar",
         "rebar_fo":"Folded rebar",
         "angle":"Angle",
-        "process":"Process"
+        "process":"Process",
+        "tp":"Top position",
+        "tp_side":"Top position side cover"
     },
     "steels":{
         "m_no":"Member\nNo",
@@ -107,5 +158,52 @@
         "for_s":"For shear",
         "hoop":"Hoop",
         "fold":"folding"
+    },
+    "safety-factors-material-strengths":{
+        "rsb_con":"Reinforcing bar / Concrete",
+        "safe":"Stability factor",
+        "rsb_arr":"Reinforcing bar arrangement",
+        "rsb_ten":"Tensile reinforcement",
+        "ten_com":"Tension + Compression",
+        "all":"All-around rebar",
+        "r_mta":"Reinforcing bar material strength",
+        "c_mta":"Concrete material strength",
+        "steel":"Steel frame",
+        "s_mta":"Steel material strength",
+        "pile":"Pile construction conditions",
+        "method":"Construction method",
+        "ρc":"Construction correction factor ρc",
+        "vcd":"Design of bar members without shear reinforced steel Shear strength Vcd reduction coefficient",
+        "cs":"Compressive strength",
+        "as":"Adhesion strength",
+        "young":"Young's modulus",
+        "rebar_ax":"Axial rebar",
+        "rebar_la":"Lateral rebar",
+        "stirrup":"Stirrup",
+        "tys":"Tensile yield strength",
+        "sys":"Shear yield strength",
+        "ts":"Tensile strength",
+        "fck":"Design standard strength of concrete fck(N/mm2)",
+        "max_ca":"Maximum dimensions of coarse aggregate (mm)",
+        "b_safe":"Bending factor of safety",
+        "s_safe":"Shear factor of safety",
+        "t_safe":"Torsion factor of safety",
+        "γi":"Coefficient γi",
+        "ys":"Yield strength",
+        "d25":"D25 or less",
+        "d29":"D29 and above",
+        "dts":"Design tensile strength"
+    },
+    "calculation-print":{
+        "dc":"Design condition",
+        "s_table":"Summary table of section force",
+        "p_check":"Performance check",
+        "check":"Check",
+        "bend":"Bending",
+        "shear":"Shear",
+        "twist":"Twist",
+        "member":"Member",
+        "print":"Calculation printing",
+        "p_login":"Please login"
     }
 }

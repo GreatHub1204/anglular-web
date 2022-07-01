@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-login-dialog',
@@ -21,9 +22,12 @@ export class LoginDialogComponent implements OnInit {
   errorMessage: string;
   connecting: boolean;
 
-  constructor(public activeModal: NgbActiveModal,
+  constructor(
+    public activeModal: NgbActiveModal,
     public auth: AngularFireAuth,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private translate: TranslateService
+    ) {
     this.loginError = false;
     this.connecting = false;
   }
@@ -47,7 +51,7 @@ export class LoginDialogComponent implements OnInit {
       if (!auth.user.emailVerified) {
         this.auth.signOut();
         // this.user.clear();
-        return Promise.reject('メールアドレスが確認できていません。');
+        return Promise.reject(this.translate.instant("login-dialog.mail_check"));
       }
       
       return this.activeModal.close('Submit');
@@ -57,7 +61,7 @@ export class LoginDialogComponent implements OnInit {
       // this.user.loggedIn = false;
       this.loginError = true;
       this.errorMessage = err;
-      alert('ログインに失敗しました。\n' + err);
+      alert( this.translate.instant("login-dialog.fail") + err);
     });
   }
 

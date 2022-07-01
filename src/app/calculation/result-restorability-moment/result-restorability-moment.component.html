@@ -3,22 +3,6 @@
 </div>
 
 <div *ngIf="restorabilityMomentPages?.length > 0" id="{{page_index}}">
-  <div class="sheet">
-    <div class="sheet-title" >
-      <p>{{title}}</p>
-      <p></p>
-      <p class="sheet-title indent10">復旧性に関する 安全性【コンクリート標準　7.2】</p>
-      <p class="sheet-title indent10">(1)曲げモーメントと軸方向力に対する照査【コンクリート標準 7.2】</p>
-      <p class="sheet-title indent20">曲げモーメントと軸方向力を受ける部材の照査は、設計曲げモーメントM<sub>d</sub>を設計</p>
-      <p class="sheet-title indent10">応答値、設計曲げ耐力M<sub>yd</sub>を設計限界値として以下に示す式により行う。</p>
-      <p class="sheet-title indent20">γ<sub>i</sub>・M<sub>d</sub>/M<sub>yd</sub>≦1.0</p>
-      <p class="sheet-title indent20">ここに、γ<sub>i</sub>：　構造物係数</p>
-      <p class="sheet-title indent55">M<sub>d</sub>：　設計曲げモーメント</p>
-      <p class="sheet-title indent50">M<sub>yd</sub>：　設計曲げ降伏耐力( M<sub>yd</sub>= M<sub>y</sub>/γ<sub>b</sub>)</p>
-      <p class="sheet-title indent60">γ<sub>b</sub>：　部材係数</p>
-    </div>
-  </div>
-
   <div *ngFor="let pages of restorabilityMomentPages; index as i" class="sheet-table">
     <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
     <div class="cell_title2">[{{pages.g_name}}]</div>

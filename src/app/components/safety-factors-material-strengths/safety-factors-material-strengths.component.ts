@@ -4,6 +4,7 @@ import { SheetComponent } from '../sheet/sheet.component';
 import pq from 'pqgrid';
 import { InputMembersService } from '../members/members.service';
 import { visitAll } from '@angular/compiler';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-safety-factors-material-strengths',
@@ -60,7 +61,9 @@ export class SafetyFactorsMaterialStrengthsComponent
 
   constructor(
     private safety: InputSafetyFactorsMaterialStrengthsService,
-    private members: InputMembersService) { }
+    private members: InputMembersService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -110,9 +113,15 @@ export class SafetyFactorsMaterialStrengthsComponent
       const f1 = safety.material_bar[id][0]; // D25以下
       const f2 = safety.material_bar[id][1]; // D29以上
       this.table2_datas.push([
-        { title: '軸方向鉄筋',   fsy1: f1.tensionBar.fsy, fsy2: f2.tensionBar.fsy, fsu1: f1.tensionBar.fsu, fsu2: f2.tensionBar.fsu },
-        { title: '側方向鉄筋',   fsy1: f1.sidebar.fsy,    fsy2: f2.sidebar.fsy,    fsu1: f1.sidebar.fsu,    fsu2: f2.sidebar.fsu },
-        { title: 'スターラップ', fsy1: f1.stirrup.fsy,   fsy2: f2.stirrup.fsy,    fsu1: f1.stirrup.fsu,    fsu2: f2.stirrup.fsu },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.rebar_ax"),
+          fsy1: f1.tensionBar.fsy, fsy2: f2.tensionBar.fsy, fsu1: f1.tensionBar.fsu, fsu2: f2.tensionBar.fsu },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.rebar_la"),
+          fsy1: f1.sidebar.fsy,    fsy2: f2.sidebar.fsy,    fsu1: f1.sidebar.fsu,    fsu2: f2.sidebar.fsu },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.stirrup"),
+          fsy1: f1.stirrup.fsy,   fsy2: f2.stirrup.fsy,    fsu1: f1.stirrup.fsu,    fsu2: f2.stirrup.fsu },
       ]);
 
       // 鉄骨材料
@@ -120,18 +129,24 @@ export class SafetyFactorsMaterialStrengthsComponent
       const s2 = safety.material_steel[id][1]; // t40以下
       const s3 = safety.material_steel[id][2]; // t40以上
       this.table5_datas.push([
-        { title: '引張降伏強度',   SRCfsyk1: s1.fsyk,  SRCfsyk2: s2.fsyk,  SRCfsyk3: s3.fsyk  },
-        { title: 'せん断降伏強度', SRCfsyk1: s1.fsvyk, SRCfsyk2: s2.fsvyk, SRCfsyk3: s3.fsvyk },
-        { title: '引張強度',       SRCfsyk1: s1.fsuk,  SRCfsyk2: s2.fsuk,  SRCfsyk3: s3.fsuk  }
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.tys"),
+          SRCfsyk1: s1.fsyk,  SRCfsyk2: s2.fsyk,  SRCfsyk3: s3.fsyk  },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.sys"),
+          SRCfsyk1: s1.fsvyk, SRCfsyk2: s2.fsvyk, SRCfsyk3: s3.fsvyk },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.ts"),
+          SRCfsyk1: s1.fsuk,  SRCfsyk2: s2.fsuk,  SRCfsyk3: s3.fsuk  }
       ]);
 
       // コンクリート材料
       const concrete = safety.material_concrete[id];
       this.table3_datas.push([{
-        title: 'コンクリートの設計基準強度 fck(N/mm2)',
+        title: this.translate.instant("safety-factors-material-strengths.fck"),
         value: concrete.fck
       },{
-        title: '粗骨材の最大寸法 (mm)',
+        title: this.translate.instant("safety-factors-material-strengths.max_ca"),
         value: concrete.dmax
       }]);
 
@@ -219,35 +234,57 @@ export class SafetyFactorsMaterialStrengthsComponent
   private setTitle(): void {
     this.columnHeaders1 = [
       { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '曲げ安全係数', align: 'center', colModel: [
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.b_safe"),
+        align: 'center', colModel: [
         { title: 'γc',  dataType: 'float', 'format':'#.00', dataIndx: 'M_rc', sortable: false, width: 70 },
         { title: 'γs',  dataType: 'float', 'format':'#.00', dataIndx: 'M_rs', sortable: false, width: 70 },
         { title: 'γbs', dataType: 'float', 'format':'#.00', dataIndx: 'M_rbs', sortable: false, width: 70 }
       ]},
-      { title: 'せん断安全係数', align: 'center', colModel: [
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.s_safe"),
+        align: 'center', colModel: [
         { title: 'γc',  dataType: 'float', 'format':'#.00', dataIndx: 'V_rc', sortable: false, width: 70 },
         { title: 'γs',  dataType: 'float', 'format':'#.00', dataIndx: 'V_rs', sortable: false, width: 70 },
         { title: 'γbc', dataType: 'float', 'format':'#.00', dataIndx: 'V_rbc', sortable: false, width: 70 },
         { title: 'γbs', dataType: 'float', 'format':'#.00', dataIndx: 'V_rbs', sortable: false, width: 70 },
         { title: 'γbd', dataType: 'float', 'format':'#.00', dataIndx: 'V_rbv', sortable: false, width: 70 }
       ]},
-      {title:'ねじり安全係数',align:'center',colModel:[
+      {
+        title: this.translate.instant("safety-factors-material-strengths.t_safe"),
+        align:'center',colModel:[
         {title:'γbt',dataType:'float', 'format':'#.00', dataIndx: 'T_rbt', sortable: false, width: 70 }
       ]},
-      { title: '係数γi', dataType: 'float', 'format':'#.00', dataIndx: 'ri', sortable: false, width: 70 },
-      { title: '鉄筋配置', dataType: 'string'              , dataIndx: 'range', sortable: false, width: 100 },
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.γi"),
+        dataType: 'float', 'format':'#.00', dataIndx: 'ri', sortable: false, width: 70 },
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.rsb_arr"),
+        dataType: 'string' , dataIndx: 'range', sortable: false, width: 100 },
     ];
 
     // 鉄筋材料強度
     this.columnHeaders2 = [
       { title: '', align: 'left', dataType: 'string', dataIndx: 'title', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '降伏強度', align: 'center', colModel: [
-        { title: 'D25以下', dataType: 'float', dataIndx: 'fsy1', sortable: false, width: 70 },
-        { title: 'D29以上', dataType: 'float', dataIndx: 'fsy2', sortable: false, width: 70 }
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.ys"),
+        align: 'center', colModel: [
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.d25"),
+          dataType: 'float', dataIndx: 'fsy1', sortable: false, width: 70 },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.d29"),
+          dataType: 'float', dataIndx: 'fsy2', sortable: false, width: 70 }
       ]},
-      { title: '設計引張強度', align: 'center', colModel: [
-        { title: 'D25以下', dataType: 'float', dataIndx: 'fsu1', sortable: false, width: 70 },
-        { title: 'D29以上', dataType: 'float', dataIndx: 'fsu2', sortable: false, width: 70 }
+      { 
+        title: this.translate.instant("safety-factors-material-strengths.dts"),
+        align: 'center', colModel: [
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.d25"),
+          dataType: 'float', dataIndx: 'fsu1', sortable: false, width: 70 },
+        { 
+          title: this.translate.instant("safety-factors-material-strengths.d29"),
+          dataType: 'float', dataIndx: 'fsu2', sortable: false, width: 70 }
       ]},
     ];
 
