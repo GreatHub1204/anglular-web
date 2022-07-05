@@ -15,6 +15,7 @@ import { CalcSafetyTorsionalMomentService } from "../result-safety-torsional-mom
 import { CalcServiceabilityTorsionalMomentService } from "../result-serviceability-torsional-moment/calc-serviceability-torsional-moment.service";
 import { CalcRestorabilityTorsionalMomentService } from "../result-restorability-torsional-moment/calc-restorability-torsional-moment.service";
 import { CalcEarthquakesTosionalMomentService } from "../result-earthquakes-torsional-moment/calc-earthquakes-tosional-moment.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-section-force-list",
@@ -47,7 +48,8 @@ export class SectionForceListComponent implements OnInit {
     private safetyTorsionalMoment: CalcSafetyTorsionalMomentService,
     private serviceabilityTorsionalMoment: CalcServiceabilityTorsionalMomentService,
     private restorabilityTorsionalMoment: CalcRestorabilityTorsionalMomentService,
-    private earthquakesTorsionalMoment: CalcEarthquakesTosionalMomentService
+    private earthquakesTorsionalMoment: CalcEarthquakesTosionalMomentService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -59,17 +61,16 @@ export class SectionForceListComponent implements OnInit {
 
       // グループタイプ によって 上側・下側の表示を 右側・左側 等にする
       const g_id: string = memberList[0].g_id;
-      let upperSideName: string = "上　　 側";
-      let bottomSideName: string = "下　　 側";
-      let upperName: string = "上側";
-      let bottomName: string = "下側";
-
+      let upperSideName: string = this.translate.instant("section-force-list.Top");
+      let bottomSideName: string = this.translate.instant("section-force-list.Under");
+      let upperName: string = this.translate.instant("section-force-list.top");
+      let bottomName: string = this.translate.instant("section-force-list.under");
       const g_name: string = this.members.getGroupeName(i);
 
       let page: any = null;
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      const g_name_moment: string = g_name + " 曲げモーメントの照査";
+      const g_name_moment: string = g_name + this.translate.instant("section-force-list.check_bend");
       let tableType: number = 1;
       let currentRow: number = 0;
 
@@ -87,24 +88,24 @@ export class SectionForceListComponent implements OnInit {
         ) {
           // 耐久性と使用性両方照査する場合
           data.push(this.serviceabilityMoment.DesignForceList1);
-          title.push("耐久性、使用性　縁引張応力度検討用");
+          title.push(this.translate.instant("section-force-list.d_s_stress"));
           data.push(this.serviceabilityMoment.DesignForceList);
-          title.push("耐久性、使用性　永久作用");
+          title.push(this.translate.instant("section-force-list.d_s_pa"));
         } else if (
           this.serviceabilityMoment.DesignForceList.length > 0 &&
           this.durabilityMoment.DesignForceList.length == 0
         ) {
           // 耐久性のみ照査する場合
           data.push(this.serviceabilityMoment.DesignForceList1);
-          title.push("耐久性　縁引張応力度検討用");
+          title.push(this.translate.instant("section-force-list.d_stress"));
           data.push(this.serviceabilityMoment.DesignForceList);
-          title.push("耐久性　永久作用");
+          title.push(this.translate.instant("section-force-list.d_pa"));
         } else {
           // 使用性のみ照査する場合
           data.push(this.durabilityMoment.DesignForceList1);
-          title.push("使用性　縁引張応力度検討用");
+          title.push(this.translate.instant("section-force-list.u_stress"));
           data.push(this.durabilityMoment.DesignForceList);
-          title.push("使用性　永久作用");
+          title.push(this.translate.instant("section-force-list.u_pa"));
         }
         for (let i = 0; i < data.length; i++) {
           const table = this.setPage(
@@ -156,7 +157,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "安全性（破壊）"
+            this.translate.instant("section-force-list.safe_d")
           );
         }
       }
@@ -166,11 +167,11 @@ export class SectionForceListComponent implements OnInit {
         const data = [];
         const title = [];
         data.push(this.SafetyFatigueMoment.DesignForceList);
-        title.push("安全性（疲労破壊）最大応力");
+          title.push(this.translate.instant("section-force-list.safe_max"));
         data.push(this.SafetyFatigueMoment.DesignForceList3);
-        title.push("安全性（疲労破壊）最小応力");
+          title.push(this.translate.instant("section-force-list.safe_min"));
         data.push(this.SafetyFatigueMoment.DesignForceList2);
-        title.push("安全性（疲労破壊）変動応力");
+          title.push(this.translate.instant("section-force-list.safe_var"));
         for (let i = 0; i < data.length; i++) {
           const table = this.setPage(
             memberList,
@@ -221,7 +222,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時以外）"
+            this.translate.instant("section-force-list.r_ex")
           );
         }
       }
@@ -248,7 +249,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時）"
+            this.translate.instant("section-force-list.r_at")
           );
         }
       }
@@ -258,7 +259,7 @@ export class SectionForceListComponent implements OnInit {
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      const g_name_shear: string = g_name + " せん断力に対する照査";
+      const g_name_shear: string = g_name + this.translate.instant("section-force-list.check_shear");
       tableType = 2;
       currentRow = 0;
 
@@ -268,11 +269,11 @@ export class SectionForceListComponent implements OnInit {
         const title = [];
         // 耐久性のみ照査する場合
         data.push(this.serviceabilityShearForce.DesignForceList);
-        title.push("耐久性　ひび割れ照査必要性の検討用");
+        title.push(this.translate.instant("section-force-list.d_crack"));
         data.push(this.serviceabilityShearForce.DesignForceList1);
-        title.push("耐久性　永久作用");
+        title.push(this.translate.instant("section-force-list.d_pa"));
         data.push(this.serviceabilityShearForce.DesignForceList2);
-        title.push("耐久性　変動作用");
+        title.push(this.translate.instant("section-force-list.d_fa"));
 
         for (let i = 0; i < data.length; i++) {
           const table = this.setPage(
@@ -324,7 +325,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "安全性（破壊）"
+            this.translate.instant("section-force-list.safe_d")
           );
         }
       }
@@ -335,11 +336,11 @@ export class SectionForceListComponent implements OnInit {
         const title = [];
         // 耐久性のみ照査する場合
         data.push(this.safetyFatigueShearForce.DesignForceList);
-        title.push("安全性（疲労破壊）最大応力");
+        title.push(this.translate.instant("section-force-list.safe_max"));
         data.push(this.safetyFatigueShearForce.DesignForceList3);
-        title.push("安全性（疲労破壊）最小応力");
+        title.push(this.translate.instant("section-force-list.safe_min"));
         data.push(this.safetyFatigueShearForce.DesignForceList2);
-        title.push("安全性（疲労破壊）変動応力");
+        title.push(this.translate.instant("section-force-list.safe_var"));
 
         for (let i = 0; i < data.length; i++) {
           const table = this.setPage(
@@ -391,7 +392,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時以外）"
+            this.translate.instant("section-force-list.r_ex")
           );
         }
       }
@@ -418,7 +419,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時）"
+            this.translate.instant("section-force-list.r_at")
           );
         }
       }
@@ -429,7 +430,7 @@ export class SectionForceListComponent implements OnInit {
       }
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      const g_name_tosion: string = g_name + " ねじりモーメントに対する照査";
+      const g_name_tosion: string = g_name + this.translate.instant("section-force-list.check_torsion");
       tableType = 3;
       currentRow = 0;
 
@@ -439,9 +440,9 @@ export class SectionForceListComponent implements OnInit {
         const title = [];
         // 耐久性のみ照査する場合
         data.push(this.serviceabilityTorsionalMoment.DesignForceList);
-        title.push("耐久性　ねじりひび割れ照査必要性の検討用");
+        title.push(this.translate.instant("section-force-list.d_torsion"));
         data.push(this.serviceabilityTorsionalMoment.DesignForceList1);
-        title.push("耐久性　永久作用");
+        title.push(this.translate.instant("section-force-list.d_pa"));
 
         for (let i = 0; i < data.length; i++) {
           const table = this.setPage(
@@ -493,7 +494,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "安全性（破壊）"
+            this.translate.instant("section-force-list.safe_d")
           );
         }
       }
@@ -520,7 +521,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時以外）"
+            this.translate.instant("section-force-list.r_ex")
           );
         }
       }
@@ -547,7 +548,7 @@ export class SectionForceListComponent implements OnInit {
             upperSideName,
             bottomSideName,
             tableType,
-            "復旧性（地震時）"
+            this.translate.instant("section-force-list.r_at")
           );
         }
       }
