@@ -31,14 +31,14 @@
         <app-result-restorability-moment></app-result-restorability-moment>
         <!-- 復旧性（地震時以外）せん断力の照査表 出力 -->
         <app-result-restorability-shear-force></app-result-restorability-shear-force>
-         <!-- 復旧性（地震時以外）ねじりモーメントの照査表 出力 -->
-         <app-result-restorability-torsional-moment></app-result-restorability-torsional-moment>
+        <!-- 復旧性（地震時以外）ねじりモーメントの照査表 出力 -->
+        <app-result-restorability-torsional-moment></app-result-restorability-torsional-moment>
         <!-- 復旧性（地震時）曲げモーメントの照査表 出力 -->
         <app-result-earthquakes-moment></app-result-earthquakes-moment>
         <!-- 復旧性（地震時）せん断力の照査表 出力 -->
         <app-result-earthquakes-shear-force></app-result-earthquakes-shear-force>
-         <!-- 復旧性（地震時）ねじりモーメントの照査表 出力 -->
-         <app-result-earthquakes-torsional-moment></app-result-earthquakes-torsional-moment>
+        <!-- 復旧性（地震時）ねじりモーメントの照査表 出力 -->
+        <app-result-earthquakes-torsional-moment></app-result-earthquakes-torsional-moment>
         <!-- 最小鉄筋量の照査表 出力 -->
         <app-result-minimum-reinforcement></app-result-minimum-reinforcement>
       </ng-container>
@@ -59,84 +59,83 @@
 
         <!-- 鉄筋コンクリート（RC）照査表 -->
         <ng-container *ngIf="safetyMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_1">
+          <li><a routerLink="/result-viewer" fragment="ap_1" translate>result-viewer.
               安全性（破壊）曲げ</a></li>
         </ng-container>
         <ng-container *ngIf="safetyShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_2">
-              安全性（破壊）せん断</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_2" translate>result-viewer.safe_d_bend
+            </a></li>
         </ng-container>
         <ng-container *ngIf="safetyTorsionalMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_14">
-              安全性（破壊）ねじりモーメント</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_14" translate>result-viewer.safe_d_shear
+            </a></li>
         </ng-container>
         <ng-container *ngIf="SafetyFatigueMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_3">
-              安全性（疲労破壊）曲げ</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_3" translate>result-viewer.safe_d_torsion
+            </a></li>
         </ng-container>
         <ng-container *ngIf="safetyFatigueShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_4">
-              安全性（疲労破壊）せん断</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_4" translate>result-viewer.safe_f_shear
+            </a></li>
         </ng-container>
         <ng-container *ngIf="serviceabilityMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_5">
-              耐久性（曲げひび割れ）</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_5" translate>result-viewer.d_band
+            </a></li>
         </ng-container>
         <ng-container *ngIf="serviceabilityShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_6">
-              耐久性（せん断ひび割れ）</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_6" translate>result-viewer.d_shear
+            </a></li>
         </ng-container>
         <ng-container *ngIf="serviceabilityTorsionalMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_15">
-              耐久性（ねじりひび割れ）</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_15" translate>result-viewer.d_torsion
+            </a></li>
         </ng-container>
         <ng-container *ngIf="durabilityMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_7">
-              使用性（外観ひび割れ）</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_7" translate>result-viewer.u_crack
+            </a></li>
         </ng-container>
         <ng-container *ngIf="restorabilityMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_8">
-              復旧性（損傷）曲げ</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_8" translate>result-viewer.r_d_bend
+            </a></li>
         </ng-container>
         <ng-container *ngIf="restorabilityShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_9">
-              復旧性（損傷）せん断</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_9" translate>result-viewer.r_d_shear
+            </a></li>
         </ng-container>
         <ng-container *ngIf="restorabilityTorsionalMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_16">
-              復旧性（損傷）ねじりモーメント</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_16" translate>result-viewer.r_d_torsion
+            </a></li>
         </ng-container>
         <ng-container *ngIf="earthquakesMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_10">
-              復旧性（地震時）曲げ</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_10" translate>result-viewer.r_earth_bend
+            </a></li>
         </ng-container>
         <ng-container *ngIf="earthquakesShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_11">
-              復旧性（地震時）せん断</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_11" translate>result-viewer.r_earth_shear
+            </a></li>
         </ng-container>
         <ng-container *ngIf="earthquakesTorsionalMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_17">
-              復旧性（地震時）ねじりモーメント</a></li>
-        </ng-container>
-        
-        <ng-container *ngIf="ResultMinimumReinforcement.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_12">
-              最小鉄筋量の照査</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_17" translate>result-viewer.r_earth_torsion
+            </a></li>
         </ng-container>
 
         <ng-container *ngIf="ResultMinimumReinforcement.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_13">
-              最大鉄筋量の検討</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_12" translate>result-viewer.check_min
+            </a></li>
+        </ng-container>
+
+        <ng-container *ngIf="ResultMinimumReinforcement.isEnable">
+          <li><a routerLink="/result-viewer" fragment="ap_13" translate>result-viewer.exam_max
+            </a></li>
         </ng-container>
 
       </ng-container>
     </ul>
     <!-- 印刷ボタン -->
-    <button
-      styleSheetFile="assets/css/result-viewer.component.css"
-      printSectionId = "print_section" ngxPrint >Print</button>
+    <button styleSheetFile="assets/css/result-viewer.component.css" printSectionId="print_section"
+      ngxPrint>Print</button>
     <ng-container *ngIf="printSummaryTable()">
-      <button (click)="summaryTableShow()">総括表</button>
+      <button (click)="summaryTableShow()" translate>result-viewer.summary</button>
     </ng-container>
 
   </div>

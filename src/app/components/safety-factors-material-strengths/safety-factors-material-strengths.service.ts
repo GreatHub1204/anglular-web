@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { InputBasicInformationService } from '../basic-information/basic-information.service';
 import { InputMembersService } from '../members/members.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class InputSafetyFactorsMaterialStrengthsService {
   constructor(
     private basic: InputBasicInformationService,
     private members: InputMembersService,
-    private helper: DataHelperModule) {
+    private helper: DataHelperModule,
+    private translate: TranslateService
+    ) {
     this.clear();
   }
   public clear(): void {
@@ -40,7 +43,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
 
         result = [
           {
-            id: 0, title: '耐久性, 使用性',
+            id: 0, 
+            title: this.translate.instant("safety-factors-material-strengths.d_u"),
             M_rc: 1.00, M_rs: 1.00, M_rbs: 1.00,
             V_rc: 1.00, V_rs: 1.00, V_rbc: 1.00, V_rbs: 1.00, V_rbv: null,
             T_rbt:1.00,
@@ -48,7 +52,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
             S_rs: 1.0, S_rb: 1.0
           },
           {
-            id: 2, title: '安全性 （疲労破壊）',
+            id: 2, 
+            title: this.translate.instant("safety-factors-material-strengths.safe_ff"),
             M_rc: 1.30, M_rs: 1.05, M_rbs: 1.00,
             V_rc: 1.30, V_rs: 1.05, V_rbc: 1.30, V_rbs: 1.0, V_rbv: null,
             T_rbt:1.00,
@@ -56,7 +61,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
             S_rs: 1.0, S_rb: 1.1
           },
           {
-            id: 5, title: '安全性 （破壊）',
+            id: 5, 
+            title: this.translate.instant("safety-factors-material-strengths.safe_d"),
             M_rc: 1.30, M_rs: 1.0, M_rbs: 1.10,
             V_rc: 1.30, V_rs: 1.0, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
             T_rbt:1.00,
@@ -64,7 +70,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
             S_rs: 1.05, S_rb: 1.1
           },
           {
-            id: 6, title: '復旧性 （損傷）地震時以外',
+            id: 6, 
+            title: this.translate.instant("safety-factors-material-strengths.r_ex"),
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.0,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
             T_rbt:1.00,
@@ -72,7 +79,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
             S_rs: 1.05, S_rb: 1.1
           },
           {
-            id: 7, title: '復旧性 （損傷）地震時',
+            id: 7, 
+            title: this.translate.instant("safety-factors-material-strengths.r_at"),
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.00,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.00, V_rbv: 1.20,
             T_rbt:1.00,
@@ -80,7 +88,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
             S_rs: 1.05, S_rb: 1.1
           },
           {
-            id: 8, title: '最小鉄筋量',
+            id: 8, 
+            title: this.translate.instant("safety-factors-material-strengths.min_rebar"),
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.00,
             V_rc: null, V_rs: null, V_rbc: null, V_rbs: null, V_rbv: null,
             T_rbt:null,
@@ -170,21 +179,51 @@ export class InputSafetyFactorsMaterialStrengthsService {
     switch (this.basic.get_specification1()) {
       case 0: // 鉄道
       result = [
-          { id: 'pile-000', title: '使用しない', rfck: 1.0, rfbok: 1.0, rEc: 1.0, rVcd: 1.0, selected: true },
-          { id: 'pile-001', title: '泥水比重1.04以下', rfck: 0.8, rfbok: 0.7, rEc: 0.8, rVcd: 0.9, selected: false },
-          { id: 'pile-002', title: '自然泥水, 泥水比重1.10以下', rfck: 0.7, rfbok: 0.6, rEc: 0.8, rVcd: 0.9, selected: false },
-          { id: 'pile-003', title: 'ベントナイト泥水', rfck: 0.6, rfbok: 0.5, rEc: 0.7, rVcd: 0.8, selected: false },
-          { id: 'pile-004', title: '気中施工', rfck: 0.9, rfbok: 0.9, rEc: 0.9, rVcd: 1.0, selected: false },
+          { 
+            id: 'pile-000', 
+            title: this.translate.instant("safety-factors-material-strengths.dont_use"),
+            rfck: 1.0, rfbok: 1.0, rEc: 1.0, rVcd: 1.0, selected: true },
+          { 
+            id: 'pile-001', 
+            title: this.translate.instant("safety-factors-material-strengths.muddy_less"),
+            rfck: 0.8, rfbok: 0.7, rEc: 0.8, rVcd: 0.9, selected: false },
+          { 
+            id: 'pile-002', 
+            title: this.translate.instant("safety-factors-material-strengths.natural_less"),
+            rfck: 0.7, rfbok: 0.6, rEc: 0.8, rVcd: 0.9, selected: false },
+          { 
+            id: 'pile-003', 
+            title: this.translate.instant("safety-factors-material-strengths.bentonite"),
+            rfck: 0.6, rfbok: 0.5, rEc: 0.7, rVcd: 0.8, selected: false },
+          { 
+            id: 'pile-004', 
+            title: this.translate.instant("safety-factors-material-strengths.aerial"),
+            rfck: 0.9, rfbok: 0.9, rEc: 0.9, rVcd: 1.0, selected: false },
         ];
         break;
 
       case 1: // 土木学会
         result = [
-            { id: 'pile-000', title: '使用しない', rfck: 1.0, rfbok: 1.0, rEc: 1.0, rVcd: 1.0, selected: true },
-            { id: 'pile-001', title: '泥水比重1.04以下', rfck: 0.8, rfbok: 0.7, rEc: 0.8, rVcd: 0.9, selected: false },
-            { id: 'pile-002', title: '自然泥水, 泥水比重1.10以下', rfck: 0.7, rfbok: 0.6, rEc: 0.8, rVcd: 0.9, selected: false },
-            { id: 'pile-003', title: 'ベントナイト泥水', rfck: 0.6, rfbok: 0.5, rEc: 0.7, rVcd: 0.8, selected: false },
-            { id: 'pile-004', title: '気中施工', rfck: 0.9, rfbok: 0.9, rEc: 0.9, rVcd: 1.0, selected: false },
+            { 
+              id: 'pile-000', 
+              title: this.translate.instant("safety-factors-material-strengths.dont_use"),
+              rfck: 1.0, rfbok: 1.0, rEc: 1.0, rVcd: 1.0, selected: true },
+            { 
+              id: 'pile-001', 
+              title: this.translate.instant("safety-factors-material-strengths.muddy_less"),
+              rfck: 0.8, rfbok: 0.7, rEc: 0.8, rVcd: 0.9, selected: false },
+            { 
+              id: 'pile-002', 
+              title: this.translate.instant("safety-factors-material-strengths.natural_less"),
+              rfck: 0.7, rfbok: 0.6, rEc: 0.8, rVcd: 0.9, selected: false },
+            { 
+              id: 'pile-003', 
+              title: this.translate.instant("safety-factors-material-strengths.bentonite"),
+              rfck: 0.6, rfbok: 0.5, rEc: 0.7, rVcd: 0.8, selected: false },
+            { 
+              id: 'pile-004', 
+              title: this.translate.instant("safety-factors-material-strengths.aerial"),
+              rfck: 0.9, rfbok: 0.9, rEc: 0.9, rVcd: 1.0, selected: false },
           ];
           break;
     

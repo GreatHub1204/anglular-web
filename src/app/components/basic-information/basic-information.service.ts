@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,10 @@ export class InputBasicInformationService  {
   // 設計条件
   public conditions_list: any[];
 
-  constructor(private helper: DataHelperModule) {
+  constructor(
+    private helper: DataHelperModule,
+    private translate: TranslateService
+    ) {
     this.clear();
   }
   public clear(): void {
@@ -38,8 +42,14 @@ export class InputBasicInformationService  {
 
   private default_specification1(): any {
     return [
-      { id: 0, title: '鉄道', selected: true },
-      { id: 1, title: '土木学会', selected: false }
+      { 
+        id: 0, 
+        title: this.translate.instant("basic-information.rail"),
+        selected: true },
+      { 
+        id: 1, 
+        title: this.translate.instant("basic-information.japan_civil"),
+        selected: false }
     ];
   }
   /// get_specification1 によって変わる項目の設定
@@ -102,28 +112,76 @@ export class InputBasicInformationService  {
       case 1: // 土木学会
 
         result = [
-          { id: 0, title: '耐久性 縁応力度検討用', no: null},
-          { id: 1, title: '耐久性 （永久荷重）', no: null},
-          { id: 2, title: '安全性 （疲労破壊）疲労限', no: null},
-          { id: 3, title: '安全性 （疲労破壊）永久作用', no: null},
-          { id: 4, title: '安全性 （疲労破壊）永久＋変動', no: null},
-          { id: 5, title: '安全性 （破壊）', no: null},
-          { id: 6, title: '復旧性 （損傷）地震時以外', no: null},
-          { id: 7, title: '復旧性 （損傷）地震時', no: null},
-          { id: 8, title: '最小鉄筋量', no: null},
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.d_stress"),
+            no: null},
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.pl_d"),
+            no: null},
+          { 
+            id: 2, 
+            title: this.translate.instant("basic-information.safe_limit"),
+            no: null},
+          { 
+            id: 3, 
+            title: this.translate.instant("basic-information.safe_pa"),
+            no: null},
+          { 
+            id: 4, 
+            title: this.translate.instant("basic-information.safe_pv"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.safe_d"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.r_ex"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.r_at"),
+            no: null},
+          { 
+            id: 8, 
+            title: this.translate.instant("basic-information.min_rebar"),
+            no: null},
         ];
         break;
 
       case 2: // 港湾
 
         result = [
-          { id: 0, title: '使用限界 縁応力度検討用', no: null},
-          { id: 1, title: '使用限界 （永久荷重）', no: null},
-          { id: 3, title: '疲労限界　永久荷重', no: null},
-          { id: 4, title: '疲労限界　永久＋変動', no: null},
-          { id: 5, title: '終局限界', no: null},
-          { id: 6, title: '地震時 使用限界', no: null},
-          { id: 7, title: '地震時 終局限界', no: null}
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.u_stress"),
+            no: null},
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.pl_u"),
+            no: null},
+          { 
+            id: 3, 
+            title: this.translate.instant("basic-information.pl_f"),
+            no: null},
+          { 
+            id: 4, 
+            title: this.translate.instant("basic-information.f_pv"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.ul"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.us_earth"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.ul_earth"),
+            no: null}
         ];
         break;
       default:
@@ -143,27 +201,75 @@ export class InputBasicInformationService  {
       case 0: // 鉄道
       case 1: // 土木学会
         result = [
-          { id: 0, title: '耐久性 せん断ひび割れ検討判定用', no: null},
-          { id: 1, title: '耐久性 （永久荷重）', no: null},
-          { id: 2, title: '耐久性 （変動荷重）', no: null},
-          { id: 3, title: '安全性 （疲労破壊）永久作用', no: null},
-          { id: 4, title: '安全性 （疲労破壊）永久＋変動', no: null},
-          { id: 5, title: '安全性 （破壊）', no: null},
-          { id: 6, title: '復旧性 （損傷）地震時以外', no: null},
-          { id: 7, title: '復旧性 （損傷）地震時', no: null}
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.d_shear_judge"),
+            no: null},
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.pl_d"),
+            no: null},
+          { 
+            id: 2, 
+            title: this.translate.instant("basic-information.vl_d"),
+            no: null},
+          { 
+            id: 3, 
+            title: this.translate.instant("basic-information.safe_pa"),
+            no: null},
+          { 
+            id: 4, 
+            title: this.translate.instant("basic-information.safe_pv"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.safe_d"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.r_ex"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.r_at"),
+            no: null}
         ];
         break;
 
       case 2: // 港湾
         result = [
-          { id: 0, title: '使用限界 せん断ひび割れ検討判定用', no: null},
-          { id: 1, title: '使用限界 （永久荷重）', no: null},
-          { id: 2, title: '使用限界 （変動荷重）', no: null},
-          { id: 3, title: '疲労限界　永久荷重', no: null},
-          { id: 4, title: '疲労限界　永久＋変動', no: null},
-          { id: 5, title: '終局限界', no: null},
-          { id: 6, title: '地震時 使用限界', no: null},
-          { id: 7, title: '地震時 終局限界', no: null}
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.u_shear_judge"),
+            no: null},
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.pl_u"),
+            no: null},
+          { 
+            id: 2, 
+            title: this.translate.instant("basic-information.vl_u"),
+            no: null},
+          { 
+            id: 3, 
+            title: this.translate.instant("basic-information.pl_f"),
+            no: null},
+          { 
+            id: 4, 
+            title: this.translate.instant("basic-information.f_pv"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.ul"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.us_earth"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.ul_earth"),
+            no: null}
         ];
         break;
       default:
@@ -184,21 +290,51 @@ export class InputBasicInformationService  {
       case 0: // 鉄道
       case 1: // 土木学会
         result = [
-          { id: 0, title: '耐久性 ねじりひび割れ検討判定用', no: null},
-          { id: 1, title: '耐久性 （永久荷重）', no: null},
-          { id: 5, title: '安全性 （破壊）', no: null},
-          { id: 6, title: '復旧性 （損傷）地震時以外', no: null},
-          { id: 7, title: '復旧性 （損傷）地震時', no: null}
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.d_torsion_judge"),
+            no: null},
+          { 
+            id: 1,
+            title: this.translate.instant("basic-information.pl_d"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.safe_d"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.r_ex"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.r_at"),
+            no: null}
         ];
         break;
 
       case 2: // 港湾
         result = [
-          { id: 0, title: '使用限界 せん断ひび割れ検討判定用', no: null},
-          { id: 1, title: '使用限界 （永久荷重）', no: null},
-          { id: 5, title: '終局限界', no: null},
-          { id: 6, title: '地震時 使用限界', no: null},
-          { id: 7, title: '地震時 終局限界', no: null}
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.u_shear_judge"),
+            no: null},
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.pl_u"),
+            no: null},
+          { 
+            id: 5, 
+            title: this.translate.instant("basic-information.ul"),
+            no: null},
+          { 
+            id: 6, 
+            title: this.translate.instant("basic-information.us_earth"),
+            no: null},
+          { 
+            id: 7, 
+            title: this.translate.instant("basic-information.ul_earth"),
+            no: null}
         ];
         break;
       default:
@@ -219,9 +355,18 @@ export class InputBasicInformationService  {
     switch (specification1) {
       case 0: // 鉄道
         result =[
-          { id: 0, title: 'ＪＲ各社', selected: true },
-          { id: 1, title: '運輸機構', selected: false },
-          { id: 2, title: 'ＪＲ東日本', selected: false },
+          { 
+            id: 0, 
+            title: this.translate.instant("basic-information.jr_com"),
+            selected: true },
+          { 
+            id: 1, 
+            title: this.translate.instant("basic-information.trans"),
+            selected: false },
+          { 
+            id: 2, 
+            title: this.translate.instant("basic-information.jr_east"),
+            selected: false },
           // { id: 5, title: 'ＪＲ東日本（既存構造物）', selected: false }
         ];
         break;
@@ -257,9 +402,18 @@ export class InputBasicInformationService  {
       case 1: // 土木学会
       case 2: // 港湾
         result =[
-          { id: 'JR-001', title: 'ひび割れ幅制限値に用いるかぶりは 100mm を上限とする', selected: true },
-          { id: 'JR-003', title: '円形断面で鉄筋を頂点に１本配置する',                 selected: true },
-          { id: 'JR-004', title: 'せん断耐力におけるβn算定時の Mud は軸力を考慮しない', selected: false }
+          { 
+            id: 'JR-001', 
+            title: this.translate.instant("basic-information.limit100"),
+            selected: true },
+          { 
+            id: 'JR-003', 
+            title: this.translate.instant("basic-information.apex"),
+            selected: true },
+          { 
+            id: 'JR-004', 
+            title: this.translate.instant("basic-information.Mud"),
+            selected: false }
         ];
         break;
 
