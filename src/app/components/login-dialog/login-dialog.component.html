@@ -1,15 +1,15 @@
 <div class="modal-header">
-  <a (click)="goToLink()" class="a">ユーザー登録がお済みでない方はこちらから</a>
+  <a (click)="goToLink()" class="a" translate>login-dialog.createAccount</a>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <form [formGroup]="loginForm" (ngSubmit)="login()" (submit)="login()">
-    <label for="email">メールアドレス</label>
+    <label for="email" translate>login-dialog.email</label>
     <input type="email" name="mail" required email class="form-control" formControlName="email"
       [(ngModel)]="loginUserName" placeholder="Username" id="user_name_id">
-    <label for="password">パスワード</label>
+    <label for="password" translate>login-dialog.password</label>
     <input type="password" class="form-control" formControlName="password" [(ngModel)]="loginPassword"
       placeholder="Password" required>
     <input type="submit" id="submit"/>
@@ -24,6 +24,6 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div>
-  <button class="btn btn-outline-success" (click)="login()">ログイン</button>
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">キャンセル</button>
+  <button class="btn btn-outline-success" (click)="login()" translate>login-dialog.login</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()" translate>login-dialog.cancel</button>
 </div>

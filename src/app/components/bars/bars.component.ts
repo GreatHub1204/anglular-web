@@ -3,6 +3,7 @@ import { InputBarsService } from './bars.service';
 import { SheetComponent } from '../sheet/sheet.component';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import pq from 'pqgrid';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-bars',
@@ -26,7 +27,9 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private bars: InputBarsService,
-    private save: SaveDataService) { }
+    private save: SaveDataService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -91,64 +94,122 @@ export class BarsComponent implements OnInit, OnDestroy, AfterViewInit {
       ];
     } else {
       this.beamHeaders = [
-        { title: '部材<br/>番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '位置', dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("bars.m_no"),
+          align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("bars.position"),
+          dataType: 'float', format: '#.000', dataIndx: 'position', editable: false, sortable: false, width: 110, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];    
     }
     // 3次元モードとマニュアルモードの時は ねじりモーメント照査に対応した表示をする
-    let sideCoverTitle = '上端位置';
+    let sideCoverTitle = this.translate.instant("bars.tp");
     if(this.save.isManual()){
-      sideCoverTitle = '上端位置<br/>/側かぶり';
+      sideCoverTitle = this.translate.instant("bars.tp_side");
     } else if(this.save.is3DPickUp()){
-      sideCoverTitle = '上端位置<br/>/側かぶり';
+      sideCoverTitle = this.translate.instant("bars.tp_side");;
     }
 
     // 共通する項目
     this.beamHeaders.push(
-      { title: '算出点名', dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: '断面<br/>B<br/>H', align: 'center', dataType: 'float', dataIndx: 'bh', editable: false, frozen: true, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-      { title: 'ハンチ高', align: 'center', colModel: [
-        { title: '曲げ', align: 'center', colModel: [
-          { title: 'せん断', align: 'center', dataType: 'float', dataIndx: 'haunch_height', sortable: false, width: 85 },
+      { 
+        title: this.translate.instant("bars.p_name"),
+        dataType: 'string', dataIndx: 'p_name', editable: false, frozen: true, sortable: false, width: 250, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("bars.bh"),
+        align: 'center', dataType: 'float', dataIndx: 'bh', editable: false, frozen: true, sortable: false, width: 85, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+      { 
+        title: this.translate.instant("bars.haunch"),
+        align: 'center', colModel: [
+        { 
+          title: this.translate.instant("bars.bending"),
+          align: 'center', colModel: [
+          { 
+            title: this.translate.instant("bars.shear"),
+            align: 'center', dataType: 'float', dataIndx: 'haunch_height', sortable: false, width: 85 },
         ]}
       ]},
-      { title: '位置', align: 'center', dataType: 'string', dataIndx: 'design_point_id', editable: true, sortable: false, width: 40 },
+      { 
+        title: this.translate.instant("bars.position"),
+        align: 'center', dataType: 'string', dataIndx: 'design_point_id', editable: true, sortable: false, width: 40 },
       {
-        title: '軸方向鉄筋', align: 'center', colModel: [
-          { title: '鉄筋径', dataType: 'integer', dataIndx: 'rebar_dia', sortable: false, width: 70 },
-          { title: '本数', dataType: 'float', dataIndx: 'rebar_n', sortable: false, width: 70 },
-          { title: 'かぶり<br/>1断目', dataType: 'float', dataIndx: 'rebar_cover', sortable: false, width: 70 },
-          { title: 'ならび<br/>本数', dataType: 'float', dataIndx: 'rebar_lines', sortable: false, width: 70 },
-          { title: 'アキ', dataType: 'float', dataIndx: 'rebar_space', sortable: false, width: 70 },
-          { title: '間隔', dataType: 'float', dataIndx: 'rebar_ss', sortable: false, width: 70 }
+        title: this.translate.instant("bars.rebar_ax"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("bars.dia"),
+            dataType: 'integer', dataIndx: 'rebar_dia', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.number"),
+            dataType: 'float', dataIndx: 'rebar_n', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.cover"),
+            dataType: 'float', dataIndx: 'rebar_cover', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.lines"),
+            dataType: 'float', dataIndx: 'rebar_lines', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.space"),
+            dataType: 'float', dataIndx: 'rebar_space', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.ss"),
+            dataType: 'float', dataIndx: 'rebar_ss', sortable: false, width: 70 }
         ]
       },
       {
-        title: '側方鉄筋', align: 'center', colModel: [
-          { title: '鉄筋径', dataType: 'integer', dataIndx: 'side_dia', sortable: false, width: 70 },
-          { title: '本数片', dataType: 'float', dataIndx: 'side_n', sortable: false, width: 70 },
-          { title: sideCoverTitle, dataType: 'float', dataIndx: 'side_cover', sortable: false, width: 85 },
-          { title: '間隔', dataType: 'float', dataIndx: 'side_ss', sortable: false, width: 70 }
+        title: this.translate.instant("bars.rebar_la"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("bars.dia"),
+            dataType: 'integer', dataIndx: 'side_dia', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.pieces"),
+            dataType: 'float', dataIndx: 'side_n', sortable: false, width: 70 },
+          { 
+            title: sideCoverTitle, dataType: 'float', dataIndx: 'side_cover', sortable: false, width: 85 },
+          { 
+            title: this.translate.instant("bars.ss"),
+            dataType: 'float', dataIndx: 'side_ss', sortable: false, width: 70 }
         ]
       },
       {
-        title: 'せん断補強鉄筋', align: 'center', colModel: [
-          { title: '鉄筋径', dataType: 'integer', dataIndx: 'stirrup_dia', sortable: false, width: 70 },
-          { title: '本数', dataType: 'float', dataIndx: 'stirrup_n', sortable: false, width: 70 },
-          { title: '間隔', dataType: 'float', dataIndx: 'stirrup_ss', sortable: false, width: 70 }
+        title: this.translate.instant("bars.rebar_sh"),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("bars.dia"),
+            dataType: 'integer', dataIndx: 'stirrup_dia', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.number"),
+            dataType: 'float', dataIndx: 'stirrup_n', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.ss"),
+            dataType: 'float', dataIndx: 'stirrup_ss', sortable: false, width: 70 }
         ]
       },
-      { title: '主鉄筋の斜率', dataType: 'float', dataIndx: 'cos', sortable: false, width: 85 },
-      { title: 'tanγ+tanβ', dataType: 'float', dataIndx: 'tan', sortable: false, width: 85 },
+      { 
+        title: this.translate.instant("bars.rebar_ob"),
+        dataType: 'float', dataIndx: 'cos', sortable: false, width: 85 },
+      { 
+        title: 'tanγ+tanβ', dataType: 'float', dataIndx: 'tan', sortable: false, width: 85 },
       {
-        title: '折曲げ鉄筋', align: 'center', colModel: [
-          { title: '鉄筋径', dataType: 'integer', dataIndx: 'bending_dia', sortable: false, width: 70 },
-          { title: '本数', dataType: 'float', dataIndx: 'bending_n', sortable: false, width: 70 },
-          { title: '間隔', dataType: 'float', dataIndx: 'bending_ss', sortable: false, width: 70 },
-          { title: '角度', dataType: 'float', dataIndx: 'bending_angle', sortable: false, width: 70 }
+        title: this.translate.instant("bars."),
+        align: 'center', colModel: [
+          { 
+            title: this.translate.instant("bars.dia"),
+            dataType: 'integer', dataIndx: 'bending_dia', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.number"),
+            dataType: 'float', dataIndx: 'bending_n', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.ss"),
+            dataType: 'float', dataIndx: 'bending_ss', sortable: false, width: 70 },
+          { 
+            title: this.translate.instant("bars.angle"),
+            dataType: 'float', dataIndx: 'bending_angle', sortable: false, width: 70 }
         ]
       },
-      { title: '処理', align: 'center', dataType: 'bool', dataIndx: 'enable', type: 'checkbox', sortable: false, width: 40 },
+      { 
+        title: this.translate.instant("bars."),
+        align: 'center', dataType: 'bool', dataIndx: 'enable', type: 'checkbox', sortable: false, width: 40 },
     );
   }
 

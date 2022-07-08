@@ -297,16 +297,12 @@ export class CalcSafetyShearForceService {
       }
       result["rbs"] = V_rbs;
 
-      V_rbc = this.helper.toNumber(safety.safety_factor.rbd);
-      if (V_rbc === null) {
-        V_rbc = 1.2;
-      }
-      result["rbc"] = V_rbc;
-
       const speci1 = this.basic.get_specification1();
       const speci2 = this.basic.get_specification2();
       if (speci1 === 0 && (speci2 === 2 || speci2 === 5)) {
         // JR東日本の場合
+        result["rbc"] = V_rbc;
+
         const Vydd = this.calcVydd(
           fcd, d, La, pc, Nd, h, hw2,
           Mu, bw, bw2, V_rbc, rVcd, deg, deg2,
@@ -318,6 +314,12 @@ export class CalcSafetyShearForceService {
 
       } else {
         // 標準の式
+        V_rbc = this.helper.toNumber(safety.safety_factor.rbd);
+        if (V_rbc === null) {
+          V_rbc = 1.2;
+        }
+        result["rbc"] = V_rbc;
+  
         const Vdd: any = this.calcVdd(
           fcd, d, Aw, bw, Ss,
           La, Nd, h, Mu, pc, V_rbc);

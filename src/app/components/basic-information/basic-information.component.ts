@@ -3,6 +3,7 @@ import { InputBasicInformationService } from './basic-information.service';
 import { SaveDataService } from '../../providers/save-data.service';
 import { SheetComponent } from '../sheet/sheet.component';
 import pq from 'pqgrid';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-basic-information',
@@ -38,7 +39,9 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
 
   constructor(
     private basic: InputBasicInformationService,
-    private save: SaveDataService) { }
+    private save: SaveDataService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
 
@@ -102,7 +105,9 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
     } else {
       // ピックアップファイルを使う場合の項目
       this.columnHeaders = [
-          { title: '断面照査に用いる応力', dataType: 'string',  dataIndx: 'title', editable: false, sortable: false, width: 270, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+          { 
+            title: this.translate.instant("basic-information.sre_cross"),
+            dataType: 'string',  dataIndx: 'title', editable: false, sortable: false, width: 270, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
           { title: 'Pickup No', align: 'center', dataType: 'integer', dataIndx: 'no', sortable: false, width: 148 },
         ];
     }

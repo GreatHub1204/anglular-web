@@ -10,6 +10,7 @@ import { SaveDataService } from "../../providers/save-data.service";
 import { AppComponent } from "src/app/app.component";
 import { SheetComponent } from "../sheet/sheet.component";
 import pq from "pqgrid";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-design-points",
@@ -31,7 +32,8 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private points: InputDesignPointsService,
     private save: SaveDataService,
-    private app: AppComponent
+    private app: AppComponent,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -115,7 +117,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           styleHead: { background: "#f5f5f5" },
         },
         {
-          title: "算出点名",
+          title: this.translate.instant("design-points.p_name"),
           dataType: "string",
           dataIndx: "p_name",
           frozen: true,
@@ -123,7 +125,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           width: 250,
         },
         {
-          title: "せん断スパン長(mm)",
+          title: this.translate.instant("design-points.s_len"),
           dataType: "float",
           dataIndx: "La",
           sortable: false,
@@ -134,7 +136,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
       // ピックアップファイルを使う場合
       this.columnHeaders = [
         {
-          title: "部材番号",
+          title: this.translate.instant("design-points.m_no"),
           align: "left",
           dataType: "string",
           dataIndx: "m_no",
@@ -146,7 +148,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           styleHead: { background: "#f5f5f5" },
         },
         {
-          title: "算出点",
+          title: this.translate.instant("design-points.p_id"),
           dataType: "string",
           dataIndx: "p_id",
           frozen: true,
@@ -157,7 +159,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           styleHead: { background: "#f5f5f5" },
         },
         {
-          title: "位置",
+          title: this.translate.instant("design-points.position"),
           dataType: "float",
           format: "#.000",
           dataIndx: "position",
@@ -169,7 +171,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           styleHead: { background: "#f5f5f5" },
         },
         {
-          title: "算出点名",
+          title: this.translate.instant("design-points.p_name"),
           dataType: "string",
           dataIndx: "p_name",
           frozen: true,
@@ -181,11 +183,11 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
         // 3次元ピックアップファイルの場合
         this.columnHeaders.push(
           {
-            title: "曲げ照査",
-            align: "center",
+          title: this.translate.instant("design-points.b_check"),
+          align: "center",
             colModel: [
               {
-                title: "y軸周り",
+                title: this.translate.instant("design-points.y_around"),
                 align: "center",
                 dataType: "bool",
                 dataIndx: "isMyCalc",
@@ -194,7 +196,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
                 width: 120,
               },
               {
-                title: "z軸周り",
+                title: this.translate.instant("design-points.z_around"),
                 align: "center",
                 dataType: "bool",
                 dataIndx: "isMzCalc",
@@ -205,11 +207,11 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
             ],
           },
           {
-            title: "せん断照査",
+            title: this.translate.instant("design-points.s_check"),
             align: "center",
             colModel: [
               {
-                title: "y軸方向",
+                title: this.translate.instant("design-points.y_direction"),
                 align: "center",
                 dataType: "bool",
                 dataIndx: "isVyCalc",
@@ -218,7 +220,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
                 width: 120,
               },
               {
-                title: "z軸方向",
+                title: this.translate.instant("design-points.z_direction"),
                 align: "center",
                 dataType: "bool",
                 dataIndx: "isVzCalc",
@@ -229,7 +231,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
             ],
           },
           {
-            title: "ねじり照査",
+            title: this.translate.instant("design-points.t_check"),
             align: "center",
             dataType: "bool",
             dataIndx: "isMtCalc",
@@ -242,7 +244,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
         // 2次元ピックアップファイルの場合
         this.columnHeaders.push(
           {
-            title: "曲げ照査",
+            title: this.translate.instant("design-points.b_check"),
             align: "center",
             dataType: "bool",
             dataIndx: "isMzCalc",
@@ -251,7 +253,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
             width: 120,
           },
           {
-            title: "せん断照査",
+            title: this.translate.instant("design-points.s_check"),
             align: "center",
             dataType: "bool",
             dataIndx: "isVyCalc",
@@ -262,7 +264,7 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       }
       this.columnHeaders.push({
-        title: "せん断スパン長(mm)",
+        title: this.translate.instant("design-points.s_len"),
         dataType: "float",
         dataIndx: "La",
         sortable: false,

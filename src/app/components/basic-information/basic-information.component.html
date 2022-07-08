@@ -1,17 +1,17 @@
 <ng-container *ngIf="!isManual()">
   <div class="left-contents">
     <section class="pickup-table">
-      <h5>ピックアップ (曲げ耐力用)</h5>
+      <h5 translate>basic-information.pick_bs</h5>
       <app-sheet #grid1 [options]="options1"></app-sheet>
     </section>
 
     <section class="pickup-table">
-      <h5>ピックアップ (せん断力照査用)</h5>
+      <h5 translate>basic-information.pick_sv</h5>
       <app-sheet #grid2 [options]="options2"></app-sheet>
     </section>
     <!-- ねじり -->
     <section class="pickup-table">
-      <h5>ピックアップ (ねじり照査用)</h5>
+      <h5 translate>basic-information.pick_tv</h5>
       <app-sheet #grid3 [options]="options3"></app-sheet>
     </section>
 
@@ -24,7 +24,7 @@
 
     <div class="specification1-fieldset">
       <fieldset>
-        <legend>適用</legend>
+        <legend translate>basic-information.apply</legend>
         <ng-container *ngFor="let item of specification1_list; index as i">
           <div>
             <label>
@@ -48,7 +48,7 @@
 
     <div class="specification2-fieldset" *ngIf="specification2_list.length > 0">
       <fieldset>
-        <legend>仕様</legend>
+        <legend translate>basic-information.spec</legend>
         <ng-container *ngFor="let item of specification2_list; index as i">
           <div>
             <label>
@@ -69,7 +69,7 @@
   </div>
 
   <div class="conditions-checkbox">
-    <h5>設計条件</h5>
+    <h5 translate>basic-information.dc</h5>
     <ng-container *ngFor="let item of conditions_list; index as i">
       <div>
         <input type="checkbox"

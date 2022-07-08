@@ -5,6 +5,7 @@ import { AppComponent } from 'src/app/app.component';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import pq from 'pqgrid';
 import { InputDesignPointsService } from '../design-points/design-points.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-members',
@@ -27,7 +28,9 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
     private members: InputMembersService,
     private points: InputDesignPointsService,
     private save: SaveDataService,
-    private app: AppComponent) { }
+    private app: AppComponent,
+    private translate: TranslateService
+    ) { }
 
 
   ngOnInit() {
@@ -182,24 +185,45 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       // ピックアップファイルを使う場合の項目
       this.columnHeaders = [
-        { title: '部材<br/>番号', align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
-        { title: '部材長', dataType: 'float', format: '#.000', dataIndx: 'm_len', editable: false, sortable: false, width: 90, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("members.m_no"),
+          align: 'center', dataType: 'integer', dataIndx: 'm_no', editable: false, sortable: false, width: 60, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
+        { 
+          title: this.translate.instant("members.m_len"),
+          dataType: 'float', format: '#.000', dataIndx: 'm_len', editable: false, sortable: false, width: 90, style: { 'background': '#f5f5f5' }, styleHead: { 'background': '#f5f5f5' } },
       ];
     }
 
     this.columnHeaders.push(
-      { title: 'グループNo', align: 'center', dataType: 'float', dataIndx: 'g_no', sortable: false, width: 85 },
-      { title: '部材名', align: 'center', dataType: 'string', dataIndx: 'g_name', sortable: false, width: 110 },
-      { title: '断面形状', dataType: 'string', dataIndx: 'shape', sortable: false, width: 80 },
+      { 
+        title: this.translate.instant("members.g_no"),
+        align: 'center', dataType: 'float', dataIndx: 'g_no', sortable: false, width: 85 },
+      { 
+        title: this.translate.instant("members.g_name"),
+        align: 'center', dataType: 'string', dataIndx: 'g_name', sortable: false, width: 110 },
+      { 
+        title: this.translate.instant("members.section_sh"),
+        dataType: 'string', dataIndx: 'shape', sortable: false, width: 80 },
       {
-        title: '断面(mm)', align: 'center', colModel: [
-          { title: 'B', dataType: 'float', dataIndx: 'B', width: 70 },
-          { title: 'H', dataType: 'float', dataIndx: 'H', width: 70 },
-          { title: 'Bt', dataType: 'float', dataIndx: 'Bt', width: 70 },
-          { title: 't', dataType: 'float', dataIndx: 't', width: 70 }
+        title: this.translate.instant("members.section"),
+        align: 'center', colModel: [
+          { 
+            title: 'B', 
+            dataType: 'float', dataIndx: 'B', width: 70 },
+          { 
+            title: 'H', 
+            dataType: 'float', dataIndx: 'H', width: 70 },
+          { 
+            title: 'Bt', 
+            dataType: 'float', dataIndx: 'Bt', width: 70 },
+          { 
+            title: 't', 
+            dataType: 'float', dataIndx: 't', width: 70 }
         ]
       },
-      { title: '部材数', align: 'center', dataType: 'float', dataIndx: 'n', sortable: false, width: 80 },
+      { 
+        title: this.translate.instant("members.part_n"),
+        align: 'center', dataType: 'float', dataIndx: 'n', sortable: false, width: 80 },
     );
 
   }

@@ -7,25 +7,21 @@
             <i class="far fa-file"></i>
           </a>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="renew()">新規作成</button>
+            <button ngbDropdownItem (click)="renew()"translate>menu.newEntry</button>
             <ng-container  *ngIf="!electronService.isElectronApp">
               <label style="width: 100%; margin: 0px">
-                <span ngbDropdownItem>
-                  ファイルを開く
+                <span ngbDropdownItem translate>menu.openFile
                   <input type="file" accept="application/text" (change)="open($event)" style="display: none" />
                 </span>
               </label>
             </ng-container>
-            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="open_electron()">
-              ファイルを開く
+            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="open_electron()"translate>menu.openFile
             </button>
-            <button ngbDropdownItem (click)="fileSave()">ファイルを保存</button>
-            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="overWrite()">
-              上書き保存
+            <button ngbDropdownItem (click)="fileSave()"translate>menu.saveFile</button>
+            <button *ngIf="electronService.isElectronApp" ngbDropdownItem (click)="overWrite()"translate>menu.overwrite
             </button>
             <label style="width: 100%; margin: 0px">
-              <span ngbDropdownItem>
-                ピックアップファイルを開く
+              <span ngbDropdownItem translate>menu.openPick
                 <input type="file" accept="application/text" (change)="pickup($event)" style="display: none" />
               </span>
             </label>
@@ -66,14 +62,15 @@
           <a class="icon file" id="dropdownBasic1" class="menu-btn" ngbDropdownToggle onfocus="this.blur();"><i
               class="far fa-user-circle"></i>{{ user.displayName }}</a>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <a (click)="auth.signOut()" (click)="logOut()" class="menu-btn logOut">ログアウト</a>
+            <a (click)="auth.signOut()" (click)="logOut()" class="menu-btn logOut"translate>menu.logout</a>
           </div>
         </div>
       </div>
     </div>
     <ng-template #showLogin>
       <a (click)="logIn()" class="menu-btn">
-        <i class="fas fa-sign-in-alt"></i> ログイン
+        <i class="fas fa-sign-in-alt"></i>
+        <p translate>menu.login</p>
       </a>
     </ng-template>
   </div>
