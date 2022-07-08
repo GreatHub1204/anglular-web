@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { CalcSummaryTableService } from './calc-summary-table.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-result-summary-table',
@@ -14,7 +15,9 @@ export class ResultSummaryTableComponent implements OnInit {
 
   constructor(
     private helper: DataHelperModule,
-    private calc: CalcSummaryTableService) { }
+    private calc: CalcSummaryTableService,
+    private translate: TranslateService
+    ) { }
 
   ngOnInit() {
     // 初期化
@@ -47,7 +50,7 @@ export class ResultSummaryTableComponent implements OnInit {
     document.execCommand("copy");
     document.body.removeChild(selBox);
 
-    alert("クリップボードにコピーしました!");
+    alert(this.translate.instant("result-summary-table.copy"));
   }
 
 }
