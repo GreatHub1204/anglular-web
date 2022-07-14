@@ -275,6 +275,7 @@
         "d_torsion":"Durability for examination of the need for torsional crack verification"
     },
     "result-viewer":{
+        "section_list":"Sectional force list",
         "safe_d_bend":"Safety (destruction) bending",
         "safe_d_shear":"Safety (destruction) shear",
         "safe_d_torsion":"Safety (destruction) torsional moment",
@@ -360,5 +361,35 @@
         "rbb":"Reinforcing bar ratio",
         "decision":"Decision case",
         "copy":"Copied to clipboard!"
+    },
+    "calculation":{
+        "sono":"(Part",
+        "g_name":"Part name",
+        "position":"Position",
+        "section_no":"Section number",
+        "rb_ten":"Tension rebar",
+        "rb_com":"Compressed rebar",
+        "rb_la":"Lateral rebar",
+        "judge":"Judgement",
+        "I_steel":"I placement \n steel frame",
+        "t_flange":"Tension flange",
+        "sternum":"Sternum",
+        "c_flange":"Compressed flange",
+        "H_steel":"H placement \n steel frame",
+        "flange":"Flange",
+        "vrfy_rslt":"Verification result",
+        "thk":"thickness",
+        "stirrup":"Stirrup",
+        "rb_corr":"Reinforcing bar correction αr",
+        "time":"(times)",
+        "rb_r1":"Reinforcing bar processing correction r1",
+        "rb_r2":"Reinforcing bar processing correction r2",
+        "Ase":"Lateral rebar Ase",
+        "env":"Environmental condition",
+        "typ_steel":"Types of steel",
+        "fit_typ":"Fitting type",
+        "str_grade":"Strength grade",          
+        "sh_span":"Shear span (mm)",
+        "sh_span_ratio":"Shear span ratio"
     }
 }
