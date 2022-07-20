@@ -391,5 +391,51 @@
         "str_grade":"Strength grade",          
         "sh_span":"Shear span (mm)",
         "sh_span_ratio":"Shear span ratio"
+    },
+    "result-durability-moment":{
+        "u_bend_vfry_rslt":"Usability (appearance) Results of verification of bending cracks"
+    },
+    "result-earthquakes-moment":{
+        "r_bend_vrfy_rslt":"Restorability (at the time of earthquake) Bending moment verification result"
+    },
+    "result-earthquakes-shear-force":{
+        "r_shear_vrfy_rslt":"Restorability (during an earthquake) Shear force verification result"
+    },
+    "result-earthquakes-torsional-moment":{
+        "r_torsion_vrfy_rslt":"Restorability (during an earthquake) Torsion moment verification result"
+    },
+    "result-restorability-moment":{
+        "r_ex_bend_vrfy_rslt":"Restorability (except during an earthquake) Bending moment verification result"
+    },
+    "result-restorability-shear-force":{
+        "r_ex_shear_vrfy_rslt":"Restorability (except during an earthquake) Shear force verification result"
+    },
+    "result-restorability-torsional-moment":{
+        "r_ex_torsion_vrfy_rslt":"Restorability (except during an earthquake) Torsion moment verification result"
+    },
+    "result-safety-fatigue-moment":{
+        "safe_ff_bend_vrfy_rslt":"Safety (fatigue fracture) bending moment verification result"
+    },
+    "result-safety-fatigue-shear-force":{
+        "safe_ff_shear_vrfy_rslt":"Safety (fatigue fracture) shear force verification result"
+    },
+    "result-safety-moment":{
+        "safe_break_vrfy_rslt":"Safety (break) bending moment verification result"
+    },
+    "result-safety-shear-force":{
+        "safe_d_shear_vrfy_rslt":"Safety (destruction) shear force verification result"
+    },
+    "result-safety-torsional-moment":{
+        "safe_d_torsion_vrfy_rslt":"Safety (destruction) torsional moment verification result"
+    },
+    "result-serviceability-moment":{
+        "d_band_vrfy_rslt":"Durability Bending crack verification result"
+    },
+    "result-serviceability-shear-force":{
+        "d_shear_vrfy_rslt":"Durability Shear crack verification result"
+    },
+    "result-serviceability-torsional-moment":{
+        "d_twist_vrfy_rslt":"Durability Twisted crack verification result",
+        "d_torsion_vrfy_rslt":"Durability (destruction) torsional moment verification result"
     }
 }

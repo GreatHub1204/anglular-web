@@ -7,6 +7,7 @@ import { InputDesignPointsService } from "src/app/components/design-points/desig
 import { InputFatiguesService } from "src/app/components/fatigues/fatigues.service";
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { DataHelperModule } from "src/app/providers/data-helper.module";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-safety-fatigue-shear-force",
@@ -20,7 +21,7 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
   public safetyFatigueShearForcepages: any[] = new Array();
   public NA: number; // A列車の回数
   public NB: number; // B列車の回数
-  private title = "安全性（疲労破壊）せん断力の照査結果";
+  private title = this.translate.instant("result-safety-fatigue-shear-force.safe_ff_shear_vrfy_rslt");
   public page_index = 'ap_4';
   public isSRC: boolean = false;
 
@@ -30,7 +31,8 @@ export class ResultSafetyFatigueShearForceComponent implements OnInit {
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
     private fatigue: InputFatiguesService,
-    private summary: CalcSummaryTableService
+    private summary: CalcSummaryTableService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {

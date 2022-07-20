@@ -8,6 +8,7 @@ import { InputDesignPointsService } from "src/app/components/design-points/desig
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-serviceability-shear-force",
@@ -19,7 +20,8 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
   public isFulfilled = false;
   public err: string;
   public serviceabilityShearForcePages: any[] = new Array();
-  private title = "耐久性 せん断ひび割れの照査結果";
+  private title= this.translate.instant("result-serviceability-shear-force.d_shear_vrfy_rslt");
+
   public page_index = "ap_6";
   public isSRC: boolean = false;
 
@@ -31,7 +33,8 @@ export class ResultServiceabilityShearForceComponent implements OnInit {
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
