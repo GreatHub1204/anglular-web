@@ -391,5 +391,51 @@
         "str_grade":"強度等級",
         "sh_span":"せん断スパン(mm)",
         "sh_span_ratio":"せん断スパン比"
+    },
+    "result-durability-moment":{
+        "u_bend_vfry_rslt":"使用性（外観）曲げひび割れの照査結果"
+    },
+    "result-earthquakes-moment":{
+        "r_bend_vrfy_rslt":"復旧性（地震時）曲げモーメントの照査結果"
+    },
+    "result-earthquakes-shear-force":{
+        "r_shear_vrfy_rslt":"復旧性（地震時）せん断力の照査結果"
+    },
+    "result-earthquakes-torsional-moment":{
+        "r_torsion_vrfy_rslt":"復旧性（地震時）ねじりモーメントの照査結果"
+    },
+    "result-restorability-moment":{
+        "r_ex_bend_vrfy_rslt":"復旧性（地震時以外）曲げモーメントの照査結果"
+    },
+    "result-restorability-shear-force":{
+        "r_ex_shear_vrfy_rslt":"復旧性（地震時以外）せん断力の照査結果"
+    },
+    "result-restorability-torsional-moment":{
+        "r_ex_torsion_vrfy_rslt":"復旧性（地震時以外）ねじりモーメントの照査結果"
+    },
+    "result-safety-fatigue-moment":{
+        "safe_ff_bend_vrfy_rslt":"安全性（疲労破壊）曲げモーメントの照査結果"
+    },
+    "result-safety-fatigue-shear-force":{
+        "safe_ff_shear_vrfy_rslt":"安全性（疲労破壊）せん断力の照査結果"
+    },
+    "result-safety-moment":{
+        "safe_break_vrfy_rslt":"安全性（破壊）曲げモーメントの照査結果"
+    },
+    "result-safety-shear-force":{
+        "safe_d_shear_vrfy_rslt":"安全性（破壊）せん断力の照査結果"
+    },
+    "result-safety-torsional-moment":{
+        "safe_d_torsion_vrfy_rslt":"安全性（破壊）ねじりモーメントの照査結果"
+    },
+    "result-serviceability-moment":{
+        "d_band_vrfy_rslt":"耐久性　曲げひび割れの照査結果"
+    },
+    "result-serviceability-shear-force":{
+        "d_shear_vrfy_rslt":"耐久性 せん断ひび割れの照査結果"
+    },
+    "result-serviceability-torsional-moment":{
+        "d_twist_vrfy_rslt":"耐久性 ねじりひび割れの照査結果",
+        "d_torsion_vrfy_rslt":"耐久性（破壊）ねじりモーメントの照査結果"
     }
 }

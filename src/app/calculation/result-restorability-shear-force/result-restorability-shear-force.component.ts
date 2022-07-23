@@ -7,6 +7,7 @@ import { ResultDataService } from "../result-data.service";
 import { ResultSafetyShearForceComponent } from "../result-safety-shear-force/result-safety-shear-force.component";
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-restorability-shear-force",
@@ -29,7 +30,8 @@ export class ResultRestorabilityShearForceComponent implements OnInit {
     private post: SetPostDataService,
     private base: ResultSafetyShearForceComponent,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -70,7 +72,7 @@ export class ResultRestorabilityShearForceComponent implements OnInit {
       // 安全性破壊のページと同じ
       this.safetyShearForcePages = this.base.getSafetyPages(
         OutputData,
-        "復旧性（地震時以外）せん断力の照査結果",
+        this.translate.instant("result-restorability-shear-force.r_ex_shear_vrfy_rslt"),
         this.calc.DesignForceList,
         this.calc.safetyID
       );

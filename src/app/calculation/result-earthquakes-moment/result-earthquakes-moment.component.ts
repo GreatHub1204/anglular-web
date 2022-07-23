@@ -6,6 +6,7 @@ import { SetPostDataService } from "../set-post-data.service";
 import { ResultRestorabilityMomentComponent } from "../result-restorability-moment/result-restorability-moment.component";
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-earthquakes-moment",
@@ -27,7 +28,8 @@ export class ResultEarthquakesMomentComponent implements OnInit {
     private post: SetPostDataService,
     private base: ResultRestorabilityMomentComponent,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class ResultEarthquakesMomentComponent implements OnInit {
     try {
       this.restorabilityMomentPages = this.base.setRestorabilityPages(
         OutputData,
-        "復旧性（地震時）曲げモーメントの照査結果",
+        this.translate.instant("result-earthquakes-moment.r_bend_vrfy_rslt"),
         this.calc.DesignForceList,
         this.calc.safetyID
       );

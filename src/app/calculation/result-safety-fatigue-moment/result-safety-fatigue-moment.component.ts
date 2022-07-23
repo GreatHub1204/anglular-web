@@ -9,6 +9,7 @@ import { InputFatiguesService } from "src/app/components/fatigues/fatigues.servi
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-safety-fatigue-moment",
@@ -23,7 +24,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
   public err: string;
   public NA: number; // A列車の回数
   public NB: number; // B列車の回数
-  private title = "安全性（疲労破壊）曲げモーメントの照査結果";
+  private title = this.translate.instant("result-safety-fatigue-moment.safe_ff_bend_vrfy_rslt");
   public page_index = 'ap_3';
   public isSRC: boolean = false;
 
@@ -36,7 +37,8 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
     private points: InputDesignPointsService,
     private fatigue: InputFatiguesService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
