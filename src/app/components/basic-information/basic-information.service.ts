@@ -48,7 +48,7 @@ export class InputBasicInformationService  {
         selected: true },
       { 
         id: 1, 
-        title: this.translate.instant("basic-information.japan_civil"),
+        title: this.translate.instant("basic-information.Pilipinas"),
         selected: false }
     ];
   }

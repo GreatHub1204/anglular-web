@@ -51,6 +51,7 @@
         "dc":"Design condition",
         "sre_cross":"Stress used for cross-section inspection",
         "rail":"Railway",
+        "Pilipinas": "Railway for pilipinas",
         "japan_civil":"Japan Society of Civil Engineers",
         "d_stress":"Durability For studying edge stress",
         "pl_d":"Durability (permanent load)",
