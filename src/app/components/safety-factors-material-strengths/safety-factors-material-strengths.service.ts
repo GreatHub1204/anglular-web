@@ -119,7 +119,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
 
   // 材料強度情報
   public default_material_bar(): any {
-    const result = [
+    const sp1 = this.basic.get_specification1();
+    let result: any = [
       {
         separate: 25,
         tensionBar: { fsy: 345, fsu: 490 },
@@ -135,6 +136,17 @@ export class InputSafetyFactorsMaterialStrengthsService {
         bend: { fsy: 345, fsu: 490 }
       }
     ]
+    if( sp1===1 ){
+      result = [
+        {
+          tensionBar: { fsy: 415, fsu: 550 },
+          sidebar: { fsy: 415, fsu: 550 },
+          stirrup: { fsy: 415, fsu: 550 },
+          bend: { fsy: 415, fsu: 550 }
+        }
+      ]
+    }
+
     return result;
   }
 

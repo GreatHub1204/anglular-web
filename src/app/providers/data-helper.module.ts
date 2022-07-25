@@ -52,16 +52,23 @@ export class DataHelperModule {
       id: "",
     };
 
-    if (rebar_dia <= material_bar[0].separate) {
-      result.fsy = this.toNumber(material_bar[0][key].fsy);
-      result.fsu = this.toNumber(material_bar[0][key].fsu);
-      result.id = "1";
+    let bar = material_bar[0];
+    if('separate' in bar){
+      if (rebar_dia <= bar.separate) {
+        result.fsy = this.toNumber(bar[key].fsy);
+        result.fsu = this.toNumber(bar[key].fsu);
+        result.id = "1";
+      } else {
+        bar = material_bar[1];
+        result.fsy = this.toNumber(bar[key].fsy);
+        result.fsu = this.toNumber(bar[key].fsu);
+        result.id = "2";
+      }
     } else {
-      result.fsy = this.toNumber(material_bar[1][key].fsy);
-      result.fsu = this.toNumber(material_bar[1][key].fsu);
-      result.id = "2";
+      result.fsy = this.toNumber(bar[key].fsy);
+      result.fsu = this.toNumber(bar[key].fsu);
+      result.id = "0";
     }
-
     return result;
   }
   
