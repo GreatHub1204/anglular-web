@@ -109,9 +109,12 @@ export class SafetyFactorsMaterialStrengthsComponent
       }
       this.table1_datas.push(bar);
       this.table4_datas.push(steel);
+      
       // 鉄筋材料
-      const f1 = safety.material_bar[id][0]; // D25以下
-      const f2 = safety.material_bar[id][1]; // D29以上
+      let f1 = safety.material_bar[id][0]; // D25以下
+      let f2 = safety.material_bar[id][1]; // D29以上
+
+
       this.table2_datas.push([
         { 
           title: this.translate.instant("safety-factors-material-strengths.rebar_ax"),
