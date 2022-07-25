@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataHelperModule } from '../../providers/data-helper.module';
 import { InputDesignPointsService } from '../design-points/design-points.service';
-import { Observable, of } from 'rxjs';
-import { InputMembersService } from '../members/members.service';
+import { InputBasicInformationService } from '../basic-information/basic-information.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +10,121 @@ export class InputBarsService {
 
   // 鉄筋情報
   private bar_list: any[];
+  private jp_rebar_List: any[];
+  private ph_rebar_List: any[];
 
   constructor(
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
-    private members: InputMembersService) {
-    this.clear();
+    private basic: InputBasicInformationService) {
+      this.jp_rebar_List = [
+        { 'D': 10, 'As': 71.33 },
+        { 'D': 13, 'As': 126.7 },
+        { 'D': 16, 'As': 198.6 },
+        { 'D': 19, 'As': 286.5 },
+        { 'D': 22, 'As': 387.1 },
+        { 'D': 25, 'As': 506.7 },
+        { 'D': 29, 'As': 642.4 },
+        { 'D': 32, 'As': 794.2 },
+        { 'D': 35, 'As': 956.6 },
+        { 'D': 38, 'As': 1140 },
+        { 'D': 41, 'As': 1340 },
+        { 'D': 51, 'As': 2027 }
+      ];
+      this.ph_rebar_List = [
+        { 'D': 10, 'As': 78.54 },
+        { 'D': 12, 'As': 113.10 },
+        { 'D': 16, 'As': 201.06 },
+        { 'D': 20, 'As': 314.16 },
+        { 'D': 25, 'As': 490.88 },
+        { 'D': 28, 'As': 615.75 },
+        { 'D': 32, 'As': 804.25 },
+        { 'D': 36, 'As': 1017.88 },
+        { 'D': 40, 'As': 1256.64 },
+        { 'D': 50, 'As': 1963.50 }
+      ];
+      this.clear();
   }
+
   public clear(): void {
     this.bar_list = new Array();
   }
+
+  public get rebar_List(): any[] {
+    return this.jp_rebar_List;
+  }
+    // 鉄筋の公称断面積を含む情報
+    public getRebar(Dia: number): any {
+      const result = this.rebar_List.find( (value) => {
+        return value.D === Dia;
+      });
+      return result;
+    }
+  
+    // 次に太い鉄筋
+    public getNextRebar(Dia: any): any {
+      let result = undefined;
+      const d: number = this.helper.toNumber(Dia);
+      if (d === null) { return undefined };
+      for (let i = 0; i < this.rebar_List.length - 1; i++){
+        if (d === this.rebar_List[i].D) {
+          result = this.rebar_List[i + 1];
+          break;
+        }
+      }
+      return result;
+    }
+  
+    // 次に細い鉄筋
+    public getPreviousRebar(Dia: any): any {
+      let result = undefined;
+      const d: number = this.helper.toNumber(Dia);
+      if (d === null) { return undefined };
+      for (let i = 1; i < this.rebar_List.length; i++) {
+        if (d === this.rebar_List[i].D) {
+          result = this.rebar_List[i - 1];
+          break;
+        }
+      }
+      return result;
+    }
+
+      // 鉄筋の断面積
+  public getAs(strAs: string): number {
+    let result: number = 0;
+    if (strAs.indexOf("φ") >= 0) {
+      const fai: number = this.helper.toNumber(strAs.replace("φ", ""));
+      if (fai === null) {
+        return 0;
+      }
+      result = (fai ** 2 * Math.PI) / 4;
+    } else if (strAs.indexOf("R") >= 0) {
+      const fai: number = this.helper.toNumber(strAs.replace("R", ""));
+      if (fai === null) {
+        return 0;
+      }
+      result = (fai ** 2 * Math.PI) / 4;
+    } else if (strAs.indexOf("D") >= 0) {
+      const fai: number = this.helper.toNumber(strAs.replace("D", ""));
+      if (fai === null) {
+        return 0;
+      }
+      let reverInfo = this.rebar_List.find((value) => {
+        return value.D === fai;
+      });
+      if (reverInfo === undefined) {
+        return 0;
+      }
+      result = reverInfo.As;
+    } else {
+      result = this.helper.toNumber(strAs);
+      if (result === null) {
+        return 0;
+      }
+    }
+    return result;
+  }
+
 
   // 鉄筋情報
   private default_bars(id: number): any {
@@ -353,7 +457,7 @@ export class InputBarsService {
 
     let result: number = null;
     const temp = this.helper.toNumber(dia);
-    for (const d of this.helper.rebar_List) {
+    for (const d of this.rebar_List) {
       if (d.D === temp) {
         result = temp;
         break;

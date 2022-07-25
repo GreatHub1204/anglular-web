@@ -396,7 +396,7 @@ export class ResultDataService {
     }
 
     const dia1: string = mark1 + result.Aw.stirrup_dia;
-    const As1: number = this.helper.getAs(dia1);
+    const As1: number = this.bars.getAs(dia1);
 
     result.Aw.Aw = As1 * result.Aw.stirrup_n;
     if (!(result.Aw.Aw === 0)) {
@@ -440,7 +440,7 @@ export class ResultDataService {
     }
 
     const dia2: string = mark2 + result.Asb.bending_dia;
-    const As2: number = this.helper.getAs(dia2);
+    const As2: number = this.bars.getAs(dia2);
 
     result.Asb.Asb = As2 * result.Asb.bending_n;
     if (!(result.Asb.Asb === 0)) {
@@ -485,7 +485,7 @@ export class ResultDataService {
     const AstDia = mark + section.tension.rebar_dia;
     let rebar_n = section.tension.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.tension.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.tension.cos;
 
     result.Ast = Astx;
     result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
@@ -529,7 +529,7 @@ export class ResultDataService {
     const AstDia = mark + section.tension.rebar_dia;
     let rebar_n = section.tension.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.tension.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.tension.cos;
 
     result.Ast = Astx;
     result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
@@ -558,7 +558,7 @@ export class ResultDataService {
     const AstDia = mark + section.compress.rebar_dia;
     let rebar_n = section.compress.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.compress.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.compress.cos;
 
     result.Asc = Astx;
     result.AscString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
@@ -587,7 +587,7 @@ export class ResultDataService {
     const AstDia = mark + section.sidebar.side_dia;
     const rebar_n = section.sidebar.n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n;
 
     result.Ase = Astx;
     result.AseString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
