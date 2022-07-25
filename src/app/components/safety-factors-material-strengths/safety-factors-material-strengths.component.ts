@@ -110,22 +110,30 @@ export class SafetyFactorsMaterialStrengthsComponent
       this.table1_datas.push(bar);
       this.table4_datas.push(steel);
       
-      // 鉄筋材料
-      let f1 = safety.material_bar[id][0]; // D25以下
-      let f2 = safety.material_bar[id][1]; // D29以上
+      // 鉄筋材料1
+      const fx = safety.material_bar[id];
+      const key = ["tensionBar", "sidebar", "stirrup"];
+      const title = [
+        this.translate.instant("safety-factors-material-strengths.rebar_ax"),
+        this.translate.instant("safety-factors-material-strengths.rebar_la"),
+        this.translate.instant("safety-factors-material-strengths.stirrup")
+      ];
+      const table2 = [];
+      for(let j=0; j<key.length; j++){
+        const target = { title: title[j] };
+        const k = key[j];
+        for(let i=0; i<fx.length; i++){
+          const current = fx[i];
+          const cur = current[k];
+          const k1 ="fsy" + (i+1);
+          const k2 ="fsu" + (i+1);
+          target[k1] = cur.fsy;
+          target[k2] = cur.fsu;
+        }
+        table2.push(target);
+      }
+      this.table2_datas.push(table2);      
 
-
-      this.table2_datas.push([
-        { 
-          title: this.translate.instant("safety-factors-material-strengths.rebar_ax"),
-          fsy1: f1.tensionBar.fsy, fsy2: f2.tensionBar.fsy, fsu1: f1.tensionBar.fsu, fsu2: f2.tensionBar.fsu },
-        { 
-          title: this.translate.instant("safety-factors-material-strengths.rebar_la"),
-          fsy1: f1.sidebar.fsy,    fsy2: f2.sidebar.fsy,    fsu1: f1.sidebar.fsu,    fsu2: f2.sidebar.fsu },
-        { 
-          title: this.translate.instant("safety-factors-material-strengths.stirrup"),
-          fsy1: f1.stirrup.fsy,   fsy2: f2.stirrup.fsy,    fsu1: f1.stirrup.fsu,    fsu2: f2.stirrup.fsu },
-      ]);
 
       // 鉄骨材料
       const s1 = safety.material_steel[id][0]; // t16以下
@@ -134,13 +142,22 @@ export class SafetyFactorsMaterialStrengthsComponent
       this.table5_datas.push([
         { 
           title: this.translate.instant("safety-factors-material-strengths.tys"),
-          SRCfsyk1: s1.fsyk,  SRCfsyk2: s2.fsyk,  SRCfsyk3: s3.fsyk  },
+          SRCfsyk1: s1.fsyk,  
+          SRCfsyk2: s2.fsyk, 
+          SRCfsyk3: s3.fsyk  
+        },
         { 
           title: this.translate.instant("safety-factors-material-strengths.sys"),
-          SRCfsyk1: s1.fsvyk, SRCfsyk2: s2.fsvyk, SRCfsyk3: s3.fsvyk },
+          SRCfsyk1: s1.fsvyk, 
+          SRCfsyk2: s2.fsvyk, 
+          SRCfsyk3: s3.fsvyk 
+        },
         { 
           title: this.translate.instant("safety-factors-material-strengths.ts"),
-          SRCfsyk1: s1.fsuk,  SRCfsyk2: s2.fsuk,  SRCfsyk3: s3.fsuk  }
+          SRCfsyk1: s1.fsuk,  
+          SRCfsyk2: s2.fsuk,  
+          SRCfsyk3: s3.fsuk  
+        }
       ]);
 
       // コンクリート材料

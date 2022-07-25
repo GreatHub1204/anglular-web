@@ -152,9 +152,12 @@ export class BasicInformationComponent implements OnInit, OnDestroy {
     this.table2_datas = basic.pickup_shear_force;
     this.table3_datas = basic.pickup_torsional_moment;
 
-    this.grid1.refreshDataAndView();
-    this.grid2.refreshDataAndView();
-    this.grid3.refreshDataAndView();
+    if(!(this.grid1 == null))
+      this.grid1.refreshDataAndView();
+    if(!(this.grid2 == null))
+      this.grid2.refreshDataAndView();
+    if(!(this.grid3 == null))
+      this.grid3.refreshDataAndView();
 
     this.specification1_select_id = i;
   }
