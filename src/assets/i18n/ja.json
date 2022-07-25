@@ -391,7 +391,11 @@
         "fit_typ":"継手種類",
         "str_grade":"強度等級",
         "sh_span":"せん断スパン(mm)",
-        "sh_span_ratio":"せん断スパン比"
+        "sh_span_ratio":"せん断スパン比",
+        "gen_env":"一般の環境",
+        "corr_env":"腐食性環境",
+        "severe_corr":"厳しい腐食",
+        "full_comp":"全断面圧縮"
     },
     "result-durability-moment":{
         "u_bend_vfry_rslt":"使用性（外観）曲げひび割れの照査結果"
@@ -404,6 +408,10 @@
     },
     "result-earthquakes-torsional-moment":{
         "r_torsion_vrfy_rslt":"復旧性（地震時）ねじりモーメントの照査結果"
+    },
+    "result-minimum-reinforcement":{
+        "check_min_rb":"最小鉄筋量の照査",
+        "check_max_rb":"最大鉄筋量の照査"
     },
     "result-restorability-moment":{
         "r_ex_bend_vrfy_rslt":"復旧性（地震時以外）曲げモーメントの照査結果"
@@ -430,7 +438,7 @@
         "safe_d_torsion_vrfy_rslt":"安全性（破壊）ねじりモーメントの照査結果"
     },
     "result-serviceability-moment":{
-        "d_band_vrfy_rslt":"耐久性　曲げひび割れの照査結果"
+        "d_bend_vrfy_rslt":"耐久性　曲げひび割れの照査結果"
     },
     "result-serviceability-shear-force":{
         "d_shear_vrfy_rslt":"耐久性 せん断ひび割れの照査結果"
@@ -438,5 +446,9 @@
     "result-serviceability-torsional-moment":{
         "d_twist_vrfy_rslt":"耐久性 ねじりひび割れの照査結果",
         "d_torsion_vrfy_rslt":"耐久性（破壊）ねじりモーメントの照査結果"
+    },
+    "calc-durability-moment":{
+        "check_crack":"ひび割れデータを確認してください。",
+        "changing_error":"this.crack_listのデータが変化しているエラーと思われます。"
     }
 }
