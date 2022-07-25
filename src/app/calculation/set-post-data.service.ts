@@ -75,6 +75,7 @@ export class SetPostDataService {
     const postObject = {
       production: environment.production,
       uid: this.user.uid,
+      speci1: this.basic.get_specification1,
       InputData: postData,
     };
     const inputJson: string = JSON.stringify(postObject);
