@@ -51,6 +51,10 @@ export class InputBarsService {
   }
 
   public get rebar_List(): any[] {
+    const speci1 = this.basic.get_specification1();
+    if(speci1 == 1){
+      return this.ph_rebar_List;
+    }
     return this.jp_rebar_List;
   }
     // 鉄筋の公称断面積を含む情報
