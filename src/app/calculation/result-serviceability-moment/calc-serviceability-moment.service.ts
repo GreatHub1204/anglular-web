@@ -10,6 +10,7 @@ import { InputSafetyFactorsMaterialStrengthsService } from 'src/app/components/s
 import { InputCrackSettingsService } from 'src/app/components/crack/crack-settings.service';
 import { SaveDataService } from 'src/app/providers/save-data.service';
 import { ResultDataService } from '../result-data.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,9 @@ export class CalcServiceabilityMomentService {
     private post: SetPostDataService,
     private crack: InputCrackSettingsService,
     public base: CalcSafetyMomentService,
-    private result: ResultDataService,) {
+    private result: ResultDataService,
+    private translate: TranslateService
+    ) {
     this.DesignForceList = null;
     this.isEnable = false;
     }
@@ -137,17 +140,17 @@ export class CalcServiceabilityMomentService {
       case 1:
         sigmal1 = 140;
         Wlim = 0.005;
-        result['con'] = '一般の環境';
+        result['con'] = this.translate.instant("calculation.gen_env");
         break;
       case 2:
         sigmal1 = 120;
         Wlim = 0.004;
-        result['con'] = '腐食性環境';
+        result['con'] = this.translate.instant("calculation.corr_env");
         break;
       case 3:
         sigmal1 = 100;
         Wlim = 0.0035;
-        result['con'] = '厳しい腐食';
+        result['con'] = this.translate.instant("calculation.severe_corr");
         break;
     }
 

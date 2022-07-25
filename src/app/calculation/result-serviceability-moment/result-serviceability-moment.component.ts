@@ -92,7 +92,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
 
     let isDurability = true;
     if (title === null) {
-      title= this.translate.instant("result-serviceability-moment.d_band_vrfy_rslt");
+      title= this.translate.instant("result-serviceability-moment.d_bend_vrfy_rslt");
       isDurability = false;
     }
     this.isJREAST = false;
@@ -376,7 +376,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
         // 鉄筋応力度の照査
         if ("Sigmas" in re && "sigmal1" in re) {
           if (re.Sigmas < 0) {
-            result.sigma_s.value = "全断面圧縮";
+            result.sigma_s.value = this.translate.instant("calculation.full_comp");
             if (result.result.value === "-") {
               result.result.value = "OK";
             }

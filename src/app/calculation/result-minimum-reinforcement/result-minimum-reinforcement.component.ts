@@ -7,6 +7,7 @@ import { ResultDataService } from '../result-data.service';
 import { CalcSummaryTableService } from '../result-summary-table/calc-summary-table.service';
 import { SetPostDataService } from '../set-post-data.service';
 import { CalcMinimumReinforcementService } from './calc-minimum-reinforcement.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-result-minimum-reinforcement',
@@ -31,8 +32,8 @@ export class ResultMinimumReinforcementComponent implements OnInit {
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
- 
+    private user: UserInfoService,
+    private translate: TranslateService
     ) { }
 
   ngOnInit() {
@@ -80,8 +81,8 @@ export class ResultMinimumReinforcementComponent implements OnInit {
 
   // 出力テーブル用の配列にセット
   public setRestorabilityPages( OutputData: any,
-                                title: string = '最小鉄筋量の照査',
-                                title2: string = '最大鉄筋量の照査',
+                                title: string = this.translate.instant("result-minimum-reinforcement.check_min_rb"),
+                                title2: string = this.translate.instant("result-minimum-reinforcement.check_max_rb"),
                                 DesignForceList: any = this.calc.DesignForceList,
                                 safetyID = this.calc.safetyID ): any[] {
     const result: any[] = new Array();

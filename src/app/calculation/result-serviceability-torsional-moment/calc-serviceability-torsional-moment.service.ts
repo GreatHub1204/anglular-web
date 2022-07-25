@@ -9,6 +9,7 @@ import { CalcSafetyShearForceService } from "../result-safety-shear-force/calc-s
 import { CalcSafetyTorsionalMomentService } from "../result-safety-torsional-moment/calc-safety-torsional-moment.service";
 import { SetDesignForceService } from "../set-design-force.service";
 import { SetPostDataService } from "../set-post-data.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: "root",
@@ -30,7 +31,8 @@ export class CalcServiceabilityTorsionalMomentService {
     private post: SetPostDataService,
     private crack: InputCrackSettingsService,
     private vmu: CalcSafetyShearForceService,
-    private base: CalcSafetyTorsionalMomentService
+    private base: CalcSafetyTorsionalMomentService,
+    private translate: TranslateService
   ) {
     this.DesignForceList = null;
     this.isEnable = false;
@@ -286,15 +288,15 @@ export class CalcServiceabilityTorsionalMomentService {
     switch (conNum) {
       case 1:
         sigma_12 = (sectionV.Aw.fwyd !== 235) ? 120 : 100;
-        result['con'] = '一般の環境';
+        result['con'] = this.translate.instant("calculation.gen_env");
         break;
       case 2:
         sigma_12 = (sectionV.Aw.fwyd !== 235) ? 100 : 80;
-        result['con'] = '腐食性環境';
+        result['con'] = this.translate.instant("calculation.corr_env");
         break;
       case 3:
         sigma_12 = (sectionV.Aw.fwyd !== 235) ? 80 : 60;
-        result['con'] = '厳しい腐食';
+        result['con'] = this.translate.instant("calculation.severe_corr");
         break;
     }
     result['sigma_12'] = sigma_12;

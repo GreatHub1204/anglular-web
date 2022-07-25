@@ -10,6 +10,7 @@ import { InputCalclationPrintService } from 'src/app/components/calculation-prin
 import { InputSafetyFactorsMaterialStrengthsService } from 'src/app/components/safety-factors-material-strengths/safety-factors-material-strengths.service';
 import { InputCrackSettingsService } from 'src/app/components/crack/crack-settings.service';
 import { SaveDataService } from 'src/app/providers/save-data.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,9 @@ export class CalcServiceabilityShearForceService {
     private force: SetDesignForceService,
     private post: SetPostDataService,
     private crack: InputCrackSettingsService,
-    private base: CalcSafetyShearForceService) {
+    private base: CalcSafetyShearForceService,
+    private translate: TranslateService
+    ) {
     this.DesignForceList = null;
     this.isEnable = false;
     }
@@ -161,15 +164,15 @@ export class CalcServiceabilityShearForceService {
     switch (conNum) {
       case 1:
         sigma12 = (section.Aw.fwyd !== 235) ? 120 : 100;
-        result['con'] = '一般の環境';
+        result['con'] = this.translate.instant("calculation.gen_env");
         break;
       case 2:
         sigma12 = (section.Aw.fwyd !== 235) ? 100 : 80;
-        result['con'] = '腐食性環境';
+        result['con'] = this.translate.instant("calculation.corr_env");
         break;
       case 3:
         sigma12 = (section.Aw.fwyd !== 235) ? 80 : 60;
-        result['con'] = '厳しい腐食';
+        result['con'] = this.translate.instant("calculation.severe_corr");
         break;
     }
     result['sigma12'] = sigma12;
