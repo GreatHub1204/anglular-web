@@ -7,6 +7,7 @@ import { ResultDataService } from "../result-data.service";
 import { ResultSafetyTorsionalMomentComponent } from '../result-safety-torsional-moment/result-safety-torsional-moment.component';
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-result-restorability-torsional-moment',
@@ -31,6 +32,7 @@ export class ResultRestorabilityTorsionalMomentComponent implements OnInit {
     private summary: CalcSummaryTableService,
     private user: UserInfoService,
     private cd: ChangeDetectorRef,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -74,7 +76,7 @@ export class ResultRestorabilityTorsionalMomentComponent implements OnInit {
       // 安全性破壊のページと同じ
       this.safetyTorsionalMomentPages = this.base.getSafetyPages(
         OutputData,
-        "復旧性（地震時以外）ねじりモーメントの照査結果",
+        this.translate.instant("result-restorability-torsional-moment.r_ex_torsion_vrfy_rslt"),
         this.calc.DesignForceList,
         this.calc.safetyID
       );

@@ -4,25 +4,27 @@
 
 <div *ngIf="serviceabilityShearForcePages?.length > 0" id="{{page_index}}">
   <div *ngFor="let pages of serviceabilityShearForcePages; index as i" class="sheet-table">
-    <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
+    <div class="cell_title1">{{pages.caption}} 
+      {{'calculation.sono'| translate }}
+      {{i+1}})</div>
     <div class="cell_title2">[{{pages.g_name}}]</div>
     <table class="main">
       <tr>
-        <th colspan="2" class="cell_name1 g-top2">部材名称</th>
+        <th colspan="2" class="cell_name1 g-top2" translate>calculation.g_name</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-left2">
           {{column.title1.value}}</td>
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">位置</th>
+        <th colspan="2" class="cell_name1" translate>calculation.position</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.title2.alien}} g-left2">
           {{column.title2.value}}</td>
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1 g-bottom2">断面番号</th>
+        <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.section_no</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.title3.alien}} g-bottom2 g-left2">
           {{column.title3.value}}</td>
@@ -53,8 +55,8 @@
       </tr>
       <ng-container *ngIf="pages.SRCFlag">
         <tr>
-          <th rowspan="3" class="cell_name2 g-bottom2">I配置<br>鉄骨</th>
-          <th class="cell_name3   g-left2">引張ﾌﾗﾝｼﾞ</th>
+          <th rowspan="3" class="cell_name2 g-bottom2" translate>calculation.I_steel</th>
+          <th class="cell_name3   g-left2" translate>calculation.t_flange</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.CFTFlag">
               <td colspan="2" class="{{column.steel_I_tension.alien}} g-left2">
@@ -67,7 +69,7 @@
           </ng-container>
         </tr>
         <tr>
-        <th class="cell_name3 g-left2">腹板</th>
+        <th class="cell_name3 g-left2" translate>calculation.sternum</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.CFTFlag">
               <td colspan="2" class="{{column.steel_I_web.alien}} g-left2">
@@ -81,7 +83,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name3 g-bottom2 g-left2">圧縮ﾌﾗﾝｼﾞ</th>
+          <th class="cell_name3 g-bottom2 g-left2" translate>calculation.c_flange</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.CFTFlag">
               <td colspan="2" class="{{column.steel_I_compress.alien}} g-bottom2 g-left2">
@@ -94,8 +96,8 @@
           </ng-container>
         </tr>
         <tr>
-          <th rowspan="2" class="cell_name2 g-bottom2">H配置<br>鉄骨</th>
-          <th class="cell_name3 g-left2">ﾌﾗﾝｼﾞ</th>
+          <th rowspan="2" class="cell_name2 g-bottom2" translate>calculation.H_steel</th>
+          <th class="cell_name3 g-left2" translate>calculation.flange</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.CFTFlag">
               <td colspan="2" class="{{column.steel_H_tension.alien}} g-left2">
@@ -104,12 +106,13 @@
             <ng-container *ngIf="column.CFTFlag">
               <!--<td class="{{column.steel_I_tension.alien}} " colspan="2">-->
               <td class="center g-left2" colspan="2">
-              厚さ {{column.steel_I_tension.value}} mm</td>
+                {{'calculation.thk'| translate }}
+                {{column.steel_I_tension.value}} mm</td>
             </ng-container>
           </ng-container>
         </tr>
         <tr>
-          <th class="cell_name3 g-bottom2 g-left2">腹板</th>
+          <th class="cell_name3 g-bottom2 g-left2" translate>calculation.sternum</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <ng-container *ngIf="!column.CFTFlag">
               <td colspan="2" class="{{column.steel_H_web.alien}} g-bottom2 g-left2">
@@ -136,7 +139,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">引張鉄筋</th>
+        <th colspan="2" class="cell_name1" translate>calculation.rb_ten</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.AstString.alien}} g-left2">
           {{column.AstString.value}}</td>
@@ -164,7 +167,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">圧縮鉄筋</th>
+        <th colspan="2" class="cell_name1" translate>calculation.rb_com</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.AscString.alien}} g-left2">
           {{column.AscString.value}}</td>
@@ -179,7 +182,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">側方鉄筋 Ase</th>
+        <th colspan="2" class="cell_name1" translate>calculation.Ase</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.AseString.alien}} g-left2">
           {{column.AseString.value}}</td>
@@ -278,7 +281,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">スターラップ</th>
+        <th colspan="2" class="cell_name1" translate>calculation.stirrup</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <ng-container *ngIf="!column.bendFlag">
             <td colspan="2" class="{{column.AwString.alien}} g-left2">
@@ -460,7 +463,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1">環境条件</th>
+        <th colspan="2" class="cell_name1" translate>calculation.env</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.con.alien}} g-left2">
           {{column.con.value}}</td>
@@ -495,7 +498,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1 g-bottom2">照査結果</th>
+        <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.vrfy_rslt</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
         <td colspan="2" class="{{column.Result.alien}} g-bottom2 g-left2">
           {{column.Result.value}}</td>
@@ -517,7 +520,7 @@
         </ng-container>
       </tr>
       <tr>
-        <th colspan="2" class="cell_name1 g-bottom2">照査結果</th>
+        <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.vrfy_rslt</th>
         <ng-container *ngFor="let column of pages.columns; index as c">
           <td colspan="2" class="{{column.Result2.alien}} g-bottom2 g-left2">
           {{column.Result2.value}}</td>

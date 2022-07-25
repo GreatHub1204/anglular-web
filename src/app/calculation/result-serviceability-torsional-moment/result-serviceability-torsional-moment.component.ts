@@ -7,6 +7,7 @@ import { ResultDataService } from "../result-data.service";
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { SetPostDataService } from "../set-post-data.service";
 import { CalcServiceabilityTorsionalMomentService } from "./calc-serviceability-torsional-moment.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-serviceability-torsional-moment",
@@ -18,7 +19,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
   public isFulfilled = false;
   public err: string;
   public serviceabilityTorsionalMomentPages: any[] = new Array();
-  private title = "耐久性 ねじりひび割れの照査結果";
+  private title= this.translate.instant("result-serviceability-torsional-moment.d_twist_vrfy_rslt");
   public page_index = "ap_15";
   public isSRC: boolean = false;
 
@@ -30,7 +31,8 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -83,7 +85,7 @@ export class ResultServiceabilityTorsionalMomentComponent implements OnInit {
   // 出力テーブル用の配列にセット
   public setServiceabilityPages(
     OutputData: any,
-    title: string = "耐久性（破壊）ねじりモーメントの照査結果",
+    title= this.translate.instant("result-serviceability-torsional-moment.d_torsion_vrfy_rslt"),
     DesignForceList: any = this.calc.DesignForceList,
     safetyID: number = this.calc.safetyID
   ): any[] {

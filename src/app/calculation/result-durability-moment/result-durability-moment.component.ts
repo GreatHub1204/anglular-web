@@ -7,6 +7,7 @@ import { ResultServiceabilityMomentComponent } from "../result-serviceability-mo
 import { CalcSafetyMomentService } from "../result-safety-moment/calc-safety-moment.service";
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-durability-moment",
@@ -28,7 +29,8 @@ export class ResultDurabilityMomentComponent implements OnInit {
     private post: SetPostDataService,
     private base: ResultServiceabilityMomentComponent,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -67,7 +69,8 @@ export class ResultDurabilityMomentComponent implements OnInit {
       // 耐久性のページと同じ
       this.serviceabilityMomentPages = this.base.setServiceabilityPages(
         OutputData,
-        "使用性（外観）曲げひび割れの照査結果",
+        this.translate.instant("result-durability-moment.u_bend_vfry_rslt"),
+        // "使用性（外観）曲げひび割れの照査結果",
         this.calc.safetyID
       );
       return true;

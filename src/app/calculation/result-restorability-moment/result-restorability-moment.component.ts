@@ -8,7 +8,7 @@ import { InputDesignPointsService } from 'src/app/components/design-points/desig
 import { CalcSummaryTableService } from '../result-summary-table/calc-summary-table.service';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { UserInfoService } from 'src/app/providers/user-info.service';
-
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-result-restorability-moment',
@@ -32,7 +32,8 @@ export class ResultRestorabilityMomentComponent implements OnInit {
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
     ) { }
 
   ngOnInit() {
@@ -80,7 +81,7 @@ export class ResultRestorabilityMomentComponent implements OnInit {
 
   // 出力テーブル用の配列にセット
   public setRestorabilityPages( OutputData: any,
-                                title: string = '復旧性（地震時以外）曲げモーメントの照査結果',
+                                title: string = this.translate.instant("result-restorability-moment.r_ex_bend_vrfy_rslt"),
                                 DesignForceList: any = this.calc.DesignForceList,
                                 safetyID = this.calc.safetyID ): any[] {
     const result: any[] = new Array();

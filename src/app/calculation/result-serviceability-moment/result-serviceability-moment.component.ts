@@ -9,6 +9,7 @@ import { InputDesignPointsService } from "src/app/components/design-points/desig
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-serviceability-moment",
@@ -35,7 +36,8 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -90,7 +92,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
 
     let isDurability = true;
     if (title === null) {
-      title = "耐久性　曲げひび割れの照査結果";
+      title= this.translate.instant("result-serviceability-moment.d_band_vrfy_rslt");
       isDurability = false;
     }
     this.isJREAST = false;

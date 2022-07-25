@@ -275,6 +275,7 @@
         "d_torsion":"Durability for examination of the need for torsional crack verification"
     },
     "result-viewer":{
+        "section_list":"Sectional force list",
         "safe_d_bend":"Safety (destruction) bending",
         "safe_d_shear":"Safety (destruction) shear",
         "safe_d_torsion":"Safety (destruction) torsional moment",
@@ -295,5 +296,146 @@
         "summary":"Summary table",
         "deduct_points":"points consumed. Today's usage is",
         "daily_points":"points." 
+    },
+    "result-summary-table":{
+        "unit":"Unit",
+        "section_pos":"Cross section position",
+        "section_shape":"Cross-sectional shape",
+        "steel_info":"Steel information",
+        "I_steel":"I placement steel frame",
+        "t_flange":"Tension flange",
+        "sternum":"Sternum",
+        "c_flange":"Compressed flange",
+        "H_steel":"H placement steel frame",
+        "flange":"Flange",
+        "thk":"Thickness",
+        "rb_amount":"Reinforcing bar amount",
+        "main":"Main rebar",
+        "dia_no":"Diameter / number",
+        "lateral":"Lateral rebar",
+        "fold":"Folded rebar",
+        "dia_no_pitch_angle":"Diameter / number \n Pitch / angle",
+        "stirrup":"Stirrup",
+        "dia_pitch":"Diameter / pitch",
+        "destruct":"Destruction",
+        "struct_coef":"Structure coefficient",
+        "bend":"Bending",
+        "dsgn_bend_moment":"Design bending moment",
+        "dsgn_axial":"Design axial force",
+        "dsgn_bend_str":"Design bending strength",
+        "shear":"Shear",
+        "dsgn_shear":"Design shear force",
+        "dsgn_shear_str":"Design shear strength",
+        "dsgn_dia_comp":"Design diagonal compression fracture resistance",
+        "twist":"Twist",
+        "dsgn_torsion":"Design torsion moment",
+        "use_d":"Usability / durability",
+        "con_edge_stress":"Concrete edge tensile stress",
+        "dsgn_ten_str":"/ Design tensile strength",
+        "bend_comp_stress":"Bending compressive stress of concrete",
+        "pl":"Permanent load",
+        "rb_ten_stress":"Reinforcing bar tensile stress",
+        "safe":"Safety",
+        "safe_cw":"Safety crack width",
+        "ae_cw":"Appearance crack width",
+        "shear_without":"Shear strength without using reinforced steel",
+        "torsion_without":"Torsion strength without using reinforced steel",
+        "ff":"Fatigue fracture",
+        "str_coef":"Structure coefficient",
+        "member_coef":"Member coefficient",
+        "rb_dsgn_min":"Reinforcing bar design minimum stress",
+        "rb_dsgn_flu":"Reinforcing bar design fluctuation stress degree",
+        "rb_dsgn_fs":"Reinforcing bar design fatigue strength",
+        "r_always":"Restorability (always)",
+        "yield_bend_str":"Yield bending strength",
+        "r_earth":"Restorability (at the time of an earthquake)",
+        "check_rb":"Checking the amount of reinforcing bars",
+        "min":"Minimum",
+        "max_ca":"Maximum dimensions of coarse aggregate",
+        "bend_cr":"Bending crack resistance",
+        "bend_yield":"Bending yield strength",
+        "judge":"Judgement",
+        "max":"Maximum",
+        "balance_rr":"Balanced rebar ratio",
+        "75_balance_rr":"75% of balanced rebar ratio",
+        "rbb":"Reinforcing bar ratio",
+        "decision":"Decision case",
+        "copy":"Copied to clipboard!"
+    },
+    "calculation":{
+        "sono":"(Part",
+        "g_name":"Part name",
+        "position":"Position",
+        "section_no":"Section number",
+        "rb_ten":"Tension rebar",
+        "rb_com":"Compressed rebar",
+        "rb_la":"Lateral rebar",
+        "judge":"Judgement",
+        "I_steel":"I placement \n steel frame",
+        "t_flange":"Tension flange",
+        "sternum":"Sternum",
+        "c_flange":"Compressed flange",
+        "H_steel":"H placement \n steel frame",
+        "flange":"Flange",
+        "vrfy_rslt":"Verification result",
+        "thk":"thickness",
+        "stirrup":"Stirrup",
+        "rb_corr":"Reinforcing bar correction αr",
+        "time":"(times)",
+        "rb_r1":"Reinforcing bar processing correction r1",
+        "rb_r2":"Reinforcing bar processing correction r2",
+        "Ase":"Lateral rebar Ase",
+        "env":"Environmental condition",
+        "typ_steel":"Types of steel",
+        "fit_typ":"Fitting type",
+        "str_grade":"Strength grade",          
+        "sh_span":"Shear span (mm)",
+        "sh_span_ratio":"Shear span ratio"
+    },
+    "result-durability-moment":{
+        "u_bend_vfry_rslt":"Usability (appearance) Results of verification of bending cracks"
+    },
+    "result-earthquakes-moment":{
+        "r_bend_vrfy_rslt":"Restorability (at the time of earthquake) Bending moment verification result"
+    },
+    "result-earthquakes-shear-force":{
+        "r_shear_vrfy_rslt":"Restorability (during an earthquake) Shear force verification result"
+    },
+    "result-earthquakes-torsional-moment":{
+        "r_torsion_vrfy_rslt":"Restorability (during an earthquake) Torsion moment verification result"
+    },
+    "result-restorability-moment":{
+        "r_ex_bend_vrfy_rslt":"Restorability (except during an earthquake) Bending moment verification result"
+    },
+    "result-restorability-shear-force":{
+        "r_ex_shear_vrfy_rslt":"Restorability (except during an earthquake) Shear force verification result"
+    },
+    "result-restorability-torsional-moment":{
+        "r_ex_torsion_vrfy_rslt":"Restorability (except during an earthquake) Torsion moment verification result"
+    },
+    "result-safety-fatigue-moment":{
+        "safe_ff_bend_vrfy_rslt":"Safety (fatigue fracture) bending moment verification result"
+    },
+    "result-safety-fatigue-shear-force":{
+        "safe_ff_shear_vrfy_rslt":"Safety (fatigue fracture) shear force verification result"
+    },
+    "result-safety-moment":{
+        "safe_break_vrfy_rslt":"Safety (break) bending moment verification result"
+    },
+    "result-safety-shear-force":{
+        "safe_d_shear_vrfy_rslt":"Safety (destruction) shear force verification result"
+    },
+    "result-safety-torsional-moment":{
+        "safe_d_torsion_vrfy_rslt":"Safety (destruction) torsional moment verification result"
+    },
+    "result-serviceability-moment":{
+        "d_band_vrfy_rslt":"Durability Bending crack verification result"
+    },
+    "result-serviceability-shear-force":{
+        "d_shear_vrfy_rslt":"Durability Shear crack verification result"
+    },
+    "result-serviceability-torsional-moment":{
+        "d_twist_vrfy_rslt":"Durability Twisted crack verification result",
+        "d_torsion_vrfy_rslt":"Durability (destruction) torsional moment verification result"
     }
 }

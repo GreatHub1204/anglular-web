@@ -9,6 +9,7 @@ import { InputDesignPointsService } from "src/app/components/design-points/desig
 import { CalcSummaryTableService } from "../result-summary-table/calc-summary-table.service";
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-result-safety-shear-force",
@@ -34,7 +35,8 @@ export class ResultSafetyShearForceComponent implements OnInit {
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
     private summary: CalcSummaryTableService,
-    private user: UserInfoService
+    private user: UserInfoService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -82,7 +84,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
   // 出力テーブル用の配列にセット
   public getSafetyPages(
     OutputData: any,
-    title: string = "安全性（破壊）せん断力の照査結果",
+    title: string = this.translate.instant("result-safety-shear-force.safe_d_shear_vrfy_rslt"),
     DesignForceList: any = this.calc.DesignForceList,
     safetyID: number = this.calc.safetyID
   ): any[] {

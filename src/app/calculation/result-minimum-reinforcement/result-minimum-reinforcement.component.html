@@ -4,25 +4,27 @@
   
   <div *ngIf="ResultMinimumReinforcementPages?.length > 0" id="{{page_index}}">
     <div *ngFor="let pages of ResultMinimumReinforcementPages; index as i" class="sheet-table">
-      <div class="cell_title1">{{pages.caption}} (その{{i+1}})</div>
+      <div class="cell_title1">{{pages.caption}}
+        {{'calculation.sono'| translate }}
+        {{i+1}})</div>
       <div class="cell_title2">[{{pages.g_name}}]</div>
       <table class="main">
         <tr>
-          <th colspan="2" class="cell_name1 g-top2">部材名称</th>
+          <th colspan="2" class="cell_name1 g-top2" translate>calculation.g_name</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-left2">
             {{column.title1.value}}</td>
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">位置</th>
+          <th colspan="2" class="cell_name1" translate>calculation.position</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title2.alien}} g-left2">
             {{column.title2.value}}</td>
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-bottom2">断面番号</th>
+          <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.section_no</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title3.alien}} g-bottom2 g-left2">
             {{column.title3.value}}</td>
@@ -74,7 +76,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">引張鉄筋</th>
+          <th colspan="2" class="cell_name1" translate>calculation.rb_ten</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.AstString.alien}} g-left2">
             {{column.AstString.value}}</td>
@@ -102,7 +104,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">圧縮鉄筋</th>
+          <th colspan="2" class="cell_name1" translate>calculation.rb_com</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.AscString.alien}} g-left2">
             {{column.AscString.value}}</td>
@@ -125,7 +127,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">側方鉄筋</th>
+          <th colspan="2" class="cell_name1" translate>calculation.rb_la</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.AseString.alien}} g-left2">
             {{column.AseString.value}}</td>
@@ -348,7 +350,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-bottom2">判定</th>
+          <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.judge</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.result_Md.alien}} g-bottom2 g-left2">
             {{column.result_Md.value}}</td>
@@ -360,25 +362,27 @@
 
   <div *ngIf="ResultMinimumReinforcementPages?.length > 0" id="{{page_index2}}">
     <div *ngFor="let pages of ResultMinimumReinforcementPages; index as i" class="sheet-table">
-      <div class="cell_title1">{{pages.caption2}} (その{{i+1}})</div>
+      <div class="cell_title1">{{pages.caption2}} 
+        {{'calculation.sono'| translate }}
+        {{i+1}})</div>
       <div class="cell_title2">[{{pages.g_name}}]</div>
       <table class="main">
         <tr>
-          <th colspan="2" class="cell_name1 g-top2">部材名称</th>
+          <th colspan="2" class="cell_name1 g-top2" translate>calculation.g_name</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title1.alien}} minwidth g-top2 g-left2">
             {{column.title1.value}}</td>
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">位置</th>
+          <th colspan="2" class="cell_name1" translate>calculation.position</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title2.alien}} g-left2">
             {{column.title2.value}}</td>
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-bottom2">断面番号</th>
+          <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.section_no</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.title3.alien}} g-bottom2 g-left2">
             {{column.title3.value}}</td>
@@ -431,7 +435,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">引張鉄筋</th>
+          <th colspan="2" class="cell_name1" translate>calculation.rb_ten</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.AstString.alien}} g-left2">
             {{column.AstString.value}}</td>
@@ -459,7 +463,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1">圧縮鉄筋</th>
+          <th colspan="2" class="cell_name1" translate>calculation.rb_com</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.AscString.alien}} g-left2">
             {{column.AscString.value}}</td>
@@ -593,7 +597,7 @@
           </ng-container>
         </tr>
         <tr>
-          <th colspan="2" class="cell_name1 g-bottom2">判定</th>
+          <th colspan="2" class="cell_name1 g-bottom2" translate>calculation.judge</th>
           <ng-container *ngFor="let column of pages.columns; index as c">
             <td colspan="2" class="{{column.result_pc.alien}} g-bottom2 g-left2">
             {{column.result_pc.value}}</td>

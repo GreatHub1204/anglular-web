@@ -51,7 +51,7 @@
     <ul>
       <!-- 断面力一覧表 -->
       <ng-container *ngIf="printSectionForce">
-        <li><a routerLink="/result-viewer" fragment="ap_0">断面力一覧表</a></li>
+        <li><a routerLink="/result-viewer" fragment="ap_0" translate>result-viewer.section_list</a></li>
       </ng-container>
 
       <!-- 照査表 -->
@@ -59,19 +59,19 @@
 
         <!-- 鉄筋コンクリート（RC）照査表 -->
         <ng-container *ngIf="safetyMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_1" translate>result-viewer.
-              安全性（破壊）曲げ</a></li>
+          <li><a routerLink="/result-viewer" fragment="ap_1" translate>result-viewer.safe_d_bend
+            </a></li>
         </ng-container>
         <ng-container *ngIf="safetyShearForce.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_2" translate>result-viewer.safe_d_bend
+          <li><a routerLink="/result-viewer" fragment="ap_2" translate>result-viewer.safe_d_shear
             </a></li>
         </ng-container>
         <ng-container *ngIf="safetyTorsionalMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_14" translate>result-viewer.safe_d_shear
+          <li><a routerLink="/result-viewer" fragment="ap_14" translate>result-viewer.safe_d_torsion
             </a></li>
         </ng-container>
         <ng-container *ngIf="SafetyFatigueMoment.isEnable">
-          <li><a routerLink="/result-viewer" fragment="ap_3" translate>result-viewer.safe_d_torsion
+          <li><a routerLink="/result-viewer" fragment="ap_3" translate>result-viewer.safe_f_bend
             </a></li>
         </ng-container>
         <ng-container *ngIf="safetyFatigueShearForce.isEnable">
