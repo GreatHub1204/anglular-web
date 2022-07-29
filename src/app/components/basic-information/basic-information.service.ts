@@ -497,9 +497,10 @@ export class InputBasicInformationService  {
       const t = basic.pickup_moment[i];
       if (t === undefined) { continue; }
       for(const k of Object.keys(e)){
-        if(k in t){
+        if(k==='title')
+          continue;
+        if(k in t)
           e[k] = t[k];
-        }
       }
     }
 
@@ -508,9 +509,10 @@ export class InputBasicInformationService  {
       const e = this.pickup_shear_force[i];
       const t = basic.pickup_shear_force[i];
       for(const k of Object.keys(e)){
-        if(k in t){
+        if(k==='title')
+          continue;
+        if(k in t)
           e[k] = t[k];
-        }
       }
     }
 
@@ -520,9 +522,10 @@ export class InputBasicInformationService  {
         const e = this.pickup_torsional_moment[i];
         const t = basic.pickup_torsional_moment[i];
         for(const k of Object.keys(e)){
-          if(k in t){
+          if(k==='title')
+            continue;
+          if(k in t)
             e[k] = t[k];
-          }
         }
       }
     }

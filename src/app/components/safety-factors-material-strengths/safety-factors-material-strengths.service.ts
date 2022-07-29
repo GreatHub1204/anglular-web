@@ -276,11 +276,12 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const old = old_safety_factor.find(v => v.id === tmp.id)
           if (old !== undefined) {
             for (const key of Object.keys(tmp)) {
-              if (key in old) { 
+              if(key==='title')
+                continue;
+              if (key in old) 
                 tmp[key] = old[key]; 
-              } else {
+              else
                 tmp[key] = null;
-              }
             }
           }
         }
@@ -327,7 +328,10 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_pile_factor[i];
           const old = old_pile_factor[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if(key==='title')
+              continue;
+            if (key in old)
+              tmp[key] = old[key]; 
           }
         }
       }
