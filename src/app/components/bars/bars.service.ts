@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataHelperModule } from '../../providers/data-helper.module';
 import { InputDesignPointsService } from '../design-points/design-points.service';
 import { InputBasicInformationService } from '../basic-information/basic-information.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,9 @@ export class InputBarsService {
   constructor(
     private helper: DataHelperModule,
     private points: InputDesignPointsService,
-    private basic: InputBasicInformationService) {
+    private basic: InputBasicInformationService,
+    private translate: TranslateService) {
+
       this.jp_rebar_List = [
         { 'D': 10, 'As': 71.33 },
         { 'D': 13, 'As': 126.7 },
@@ -143,12 +146,14 @@ export class InputBarsService {
   }
 
   private default(id: number): any {
+    const top = this.translate.instant("crack-settings.top");
+    const under = this.translate.instant("crack-settings.under");
     return {
       index: id,
       haunch_M: null,
       haunch_V: null,
-      rebar1: this.default_rebar('上側'),
-      rebar2: this.default_rebar('下側'),
+      rebar1: this.default_rebar(top),
+      rebar2: this.default_rebar(under),
       sidebar1: this.default_sidebar(),
       sidebar2: this.default_sidebar(),
       stirrup: this.default_stirrup(),
@@ -299,10 +304,20 @@ export class InputBarsService {
 
   public getTableColumn(index: any): any {
 
-    let result = this.bar_list.find((value) => value.index === index);
+    const result = this.bar_list.find((value) => value.index === index);
+    const def = this.default_bars(index);
     if (result === undefined) {
-      result = this.default_bars(index);
-      this.bar_list.push(result);
+      this.bar_list.push(def);
+    }
+    // 足りない入力行があれば足す
+    for(const key of ['rebar1', 'rebar2']){
+      const d = def[key];
+      for(const k of Object.keys(d)){
+        if(!(k in result[key])){
+          const re = result[key];
+          re[k] = d[k];
+        }
+      }
     }
     return result;
   }
