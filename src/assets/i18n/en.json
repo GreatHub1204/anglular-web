@@ -378,15 +378,15 @@
         "c_flange":"Compressed flange",
         "H_steel":"H placement \n steel frame",
         "flange":"Flange",
-        "vrfy_rslt":"Verification result",
+        "vrfy_rslt":"result",
         "thk":"thickness",
         "stirrup":"Stirrup",
-        "rb_corr":"Reinforcing bar correction αr",
+        "rb_corr":"αr",
         "time":"(times)",
-        "rb_r1":"Reinforcing bar processing correction r1",
-        "rb_r2":"Reinforcing bar processing correction r2",
+        "rb_r1":"r1",
+        "rb_r2":"r2",
         "Ase":"Lateral rebar Ase",
-        "env":"Environmental condition",
+        "env":"condition",
         "typ_steel":"Types of steel",
         "fit_typ":"Fitting type",
         "str_grade":"Strength grade",          
@@ -395,7 +395,10 @@
         "gen_env":"General environment",
         "corr_env":"Corrosive environment",
         "severe_corr":"Severe corrosion",
-        "full_comp":"Full cross-section compression"
+        "full_comp":"Full cross-section compression",
+        "tention": "",
+        "member":"Member",
+        "number":""
     },
     "result-durability-moment":{
         "u_bend_vfry_rslt":"Usability (appearance) Results of verification of bending cracks"

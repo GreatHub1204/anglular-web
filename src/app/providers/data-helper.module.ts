@@ -1,29 +1,11 @@
 import { NgModule } from "@angular/core";
+import { InputBasicInformationService } from "../components/basic-information/basic-information.service";
 
 @NgModule({
   imports: [],
   exports: [],
 })
 export class DataHelperModule {
-
-  public rebar_List: any[];
-
-  constructor() {
-    this.rebar_List = [
-      { 'D': 10, 'As': 71.33 },
-      { 'D': 13, 'As': 126.7 },
-      { 'D': 16, 'As': 198.6 },
-      { 'D': 19, 'As': 286.5 },
-      { 'D': 22, 'As': 387.1 },
-      { 'D': 25, 'As': 506.7 },
-      { 'D': 29, 'As': 642.4 },
-      { 'D': 32, 'As': 794.2 },
-      { 'D': 35, 'As': 956.6 },
-      { 'D': 38, 'As': 1140 },
-      { 'D': 41, 'As': 1340 },
-      { 'D': 51, 'As': 2027 }
-    ];
-  }
 
   // ファイル名から拡張子を取得する関数
   public getExt(filename: string): string {
@@ -35,77 +17,8 @@ export class DataHelperModule {
     return ext.toLowerCase();
   }
 
-  // 鉄筋の公称断面積を含む情報
-  public getRebar(Dia: number): any {
-    const result = this.rebar_List.find( (value) => {
-      return value.D === Dia;
-    });
-    return result;
-  }
 
-  // 次に太い鉄筋
-  public getNextRebar(Dia: any): any {
-    let result = undefined;
-    const d: number = this.toNumber(Dia);
-    if (d === null) { return undefined };
-    for (let i = 0; i < this.rebar_List.length - 1; i++){
-      if (d === this.rebar_List[i].D) {
-        result = this.rebar_List[i + 1];
-        break;
-      }
-    }
-    return result;
-  }
 
-  // 次に細い鉄筋
-  public getPreviousRebar(Dia: any): any {
-    let result = undefined;
-    const d: number = this.toNumber(Dia);
-    if (d === null) { return undefined };
-    for (let i = 1; i < this.rebar_List.length; i++) {
-      if (d === this.rebar_List[i].D) {
-        result = this.rebar_List[i - 1];
-        break;
-      }
-    }
-    return result;
-  }
-
-  // 鉄筋の断面積
-  public getAs(strAs: string): number {
-    let result: number = 0;
-    if (strAs.indexOf("φ") >= 0) {
-      const fai: number = this.toNumber(strAs.replace("φ", ""));
-      if (fai === null) {
-        return 0;
-      }
-      result = (fai ** 2 * Math.PI) / 4;
-    } else if (strAs.indexOf("R") >= 0) {
-      const fai: number = this.toNumber(strAs.replace("R", ""));
-      if (fai === null) {
-        return 0;
-      }
-      result = (fai ** 2 * Math.PI) / 4;
-    } else if (strAs.indexOf("D") >= 0) {
-      const fai: number = this.toNumber(strAs.replace("D", ""));
-      if (fai === null) {
-        return 0;
-      }
-      let reverInfo = this.rebar_List.find((value) => {
-        return value.D === fai;
-      });
-      if (reverInfo === undefined) {
-        return 0;
-      }
-      result = reverInfo.As;
-    } else {
-      result = this.toNumber(strAs);
-      if (result === null) {
-        return 0;
-      }
-    }
-    return result;
-  }
 
   /// 文字列string を数値に変換する
   public toNumber(num: any): number {
@@ -139,16 +52,23 @@ export class DataHelperModule {
       id: "",
     };
 
-    if (rebar_dia <= material_bar[0].separate) {
-      result.fsy = this.toNumber(material_bar[0][key].fsy);
-      result.fsu = this.toNumber(material_bar[0][key].fsu);
-      result.id = "1";
+    let bar = material_bar[0];
+    if('separate' in bar){
+      if (rebar_dia <= bar.separate) {
+        result.fsy = this.toNumber(bar[key].fsy);
+        result.fsu = this.toNumber(bar[key].fsu);
+        result.id = "1";
+      } else {
+        bar = material_bar[1];
+        result.fsy = this.toNumber(bar[key].fsy);
+        result.fsu = this.toNumber(bar[key].fsu);
+        result.id = "2";
+      }
     } else {
-      result.fsy = this.toNumber(material_bar[1][key].fsy);
-      result.fsu = this.toNumber(material_bar[1][key].fsu);
-      result.id = "2";
+      result.fsy = this.toNumber(bar[key].fsy);
+      result.fsu = this.toNumber(bar[key].fsu);
+      result.id = "0";
     }
-
     return result;
   }
   

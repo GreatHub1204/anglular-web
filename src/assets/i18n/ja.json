@@ -395,7 +395,10 @@
         "gen_env":"一般の環境",
         "corr_env":"腐食性環境",
         "severe_corr":"厳しい腐食",
-        "full_comp":"全断面圧縮"
+        "full_comp":"全断面圧縮",
+        "tention": "引張",
+        "member":"部材",
+        "number":"本"
     },
     "result-durability-moment":{
         "u_bend_vfry_rslt":"使用性（外観）曲げひび割れの照査結果"

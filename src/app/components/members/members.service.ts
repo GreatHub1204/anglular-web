@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataHelperModule } from '../../providers/data-helper.module';
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class InputMembersService  {
   // 部材情報
   private member_list: any[];
 
-  constructor(private helper: DataHelperModule) {
+  constructor(private translate: TranslateService) {
     this.clear();
   }
   public clear(): void {
@@ -46,6 +46,7 @@ export class InputMembersService  {
       if(result.g_no === null){
         result.g_id = '';
       }
+      result.shape = this.changeLanguageShape(result.shape);
     } else {
       result = this.default_member(m_no);
       this.member_list.push(result);
@@ -90,6 +91,7 @@ export class InputMembersService  {
           if (column.g_no === null) {
             column.g_id = '';
           }
+          column.shape = this.changeShapeKey(column.shape);
           this.member_list.push(column)
         } else {
           const def = this.default_member(column.m_no);
@@ -104,10 +106,72 @@ export class InputMembersService  {
           if (column.g_no === null) {
             column.g_id = 'blank'; //'row' + column.m_no; //仮のグループid
           }
+          column.shape = this.changeShapeKey(column.shape);
           this.member_list.push(column)
         }
       }
     }
+  }
+
+  // 各国の言語で表現した形状から形状情報を一元化（日本語化）する
+  public changeShapeKey(value: string): string {
+    let result = '';
+    if (value === null)          
+      return result;
+
+    const key = value.trim();
+    switch (key) {
+      case this.translate.instant("members.rectangle"):
+        result = '矩形';
+        break;
+      case this.translate.instant("members.t_shape"):
+        result = 'T形';
+        break;
+      case this.translate.instant("members.r_shape"):
+        result = '円形';
+        break;
+      case this.translate.instant("members.oval"):
+        result = '小判';
+        break;
+      default:
+        result = '';
+    }
+    return result;
+  }
+
+  // 形状情報を各国の言語に変換する
+  public changeLanguageShape(key: string): string {
+    
+    let result = '';
+    if (key === null)          
+      return result;
+
+    const value = key.trim();
+    switch (value) {
+      case '1':
+      case 'RC-矩形':
+      case '矩形':
+        result = this.translate.instant("members.rectangle"); //'矩形';
+        break;
+      case '2':
+      case 'RC-T形':
+      case 'T形':
+        result = this.translate.instant("members.t_shape"); //'T形';
+        break;
+      case '3':
+      case 'RC-円形':
+      case '円形':
+        result = this.translate.instant("members.r_shape"); //'円形';
+        break;
+      case '4':
+      case 'RC-小判':
+      case '小判':
+        result = this.translate.instant("members.oval"); //'小判';
+        break;
+      default:
+        result = '';
+    }
+    return result;
   }
 
   /// pick up ファイルをセットする関数
@@ -248,7 +312,10 @@ export class InputMembersService  {
     for(const m of this.member_list){
       const def = this.default_member(m.m_no);
       for(const k of Object.keys(def)){
-        if(k in m){
+        if (k==='shape'){
+          def[k] = this.changeLanguageShape(m[k]);
+        }
+        else if(k in m){
           def[k] = m[k];
         }
       }

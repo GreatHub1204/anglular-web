@@ -10,6 +10,7 @@ import { SetCircleService } from "./shape-data/set-circle.service";
 import { SetHorizontalOvalService } from "./shape-data/set-horizontal-oval.service";
 import { SetVerticalOvalService } from "./shape-data/set-vertical-oval.service";
 import { SaveDataService } from "../providers/save-data.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +27,8 @@ export class ResultDataService {
     private circle: SetCircleService,
     private rect: SetRectService,
     private hOval: SetHorizontalOvalService,
-    private vOval: SetVerticalOvalService) { }
+    private vOval: SetVerticalOvalService,
+    private translate: TranslateService) { }
 
   // 表題の共通した行
   public getTitleString(member: any, position: any, side: string): any {
@@ -37,7 +39,8 @@ export class ResultDataService {
     }
     let title1: string = member.m_no.toFixed(0);
     if(!this.save.isManual()){
-      title1 += "部材";
+      const key: string = this.translate.instant("calculation.member");
+      title1 += key;
     } else {
       title1 = "No" + title1;
     }
@@ -52,10 +55,11 @@ export class ResultDataService {
     const bar = this.bars.getCalcData(position.index);
 
     let title3: string = '';
+    const key: string = this.translate.instant("calculation.tention");
     if (side === '上側引張') {
-      title3 = bar.rebar1.title + '引張';
+      title3 = bar.rebar1.title + key;
     } else {
-      title3 = bar.rebar2.title + '引張';
+      title3 = bar.rebar2.title + key;
     }
 
     return {
@@ -396,11 +400,12 @@ export class ResultDataService {
     }
 
     const dia1: string = mark1 + result.Aw.stirrup_dia;
-    const As1: number = this.helper.getAs(dia1);
+    const As1: number = this.bars.getAs(dia1);
 
     result.Aw.Aw = As1 * result.Aw.stirrup_n;
     if (!(result.Aw.Aw === 0)) {
-      result.Aw.AwString = dia1 + "-" + this.numStr(result.Aw.stirrup_n, 3) + "本";
+      const key: string = this.translate.instant("calculation.number");
+      result.Aw.AwString = dia1 + "-" + this.numStr(result.Aw.stirrup_n, 3) + key;
     }
 
     result.Aw.fwyd = fwyd1.fsy;
@@ -440,11 +445,12 @@ export class ResultDataService {
     }
 
     const dia2: string = mark2 + result.Asb.bending_dia;
-    const As2: number = this.helper.getAs(dia2);
+    const As2: number = this.bars.getAs(dia2);
 
     result.Asb.Asb = As2 * result.Asb.bending_n;
     if (!(result.Asb.Asb === 0)) {
-      result.Asb.AsbString = dia2 + "-" + this.numStr(result.Asb.bending_n, 3) + "本";
+      const key: string = this.translate.instant("calculation.number");
+      result.Asb.AsbString = dia2 + "-" + this.numStr(result.Asb.bending_n, 3) + key;
     }
 
     result.Asb.fwyd = fwyd2.fsy;
@@ -485,10 +491,11 @@ export class ResultDataService {
     const AstDia = mark + section.tension.rebar_dia;
     let rebar_n = section.tension.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.tension.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.tension.cos;
 
     result.Ast = Astx;
-    result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
+    const key: string = this.translate.instant("calculation.number");
+    result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + key;
     result.dst = section.tension.dsc;
 
     return result;
@@ -529,10 +536,11 @@ export class ResultDataService {
     const AstDia = mark + section.tension.rebar_dia;
     let rebar_n = section.tension.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.tension.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.tension.cos;
 
     result.Ast = Astx;
-    result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
+    const key: string = this.translate.instant("calculation.number");
+    result.AstString = AstDia + "-" + this.numStr(rebar_n, 3) + key;
     result.dst = this.helper.getBarCenterPosition(section.tension);
 
     return result;
@@ -558,10 +566,11 @@ export class ResultDataService {
     const AstDia = mark + section.compress.rebar_dia;
     let rebar_n = section.compress.rebar_n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n * section.compress.cos;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n * section.compress.cos;
 
     result.Asc = Astx;
-    result.AscString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
+    const key: string = this.translate.instant("calculation.number");
+    result.AscString = AstDia + "-" + this.numStr(rebar_n, 3) + key;
     result.dsc = this.helper.getBarCenterPosition(section.compress);
 
     return result;
@@ -587,10 +596,11 @@ export class ResultDataService {
     const AstDia = mark + section.sidebar.side_dia;
     const rebar_n = section.sidebar.n;
 
-    const Astx: number = this.helper.getAs(AstDia) * rebar_n;
+    const Astx: number = this.bars.getAs(AstDia) * rebar_n;
 
     result.Ase = Astx;
-    result.AseString = AstDia + "-" + this.numStr(rebar_n, 3) + "本";
+    const key: string = this.translate.instant("calculation.number");
+    result.AseString = AstDia + "-" + this.numStr(rebar_n, 3) + key;
 
     const cover = section.sidebar.cover;
     const cover2 = section.sidebar.cover2;
