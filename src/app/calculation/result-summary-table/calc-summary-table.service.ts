@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +12,9 @@ export class CalcSummaryTableService {
   // 計算終了フラグ
   private summaryDone: any;
 
-  constructor() { }
+  constructor(
+    private translate: TranslateService
+  ) { }
 
   public clear() {
     this.summary_table = {};
@@ -696,7 +699,7 @@ export class CalcSummaryTableService {
               columns.serviceabilityMoment.sigma_c_div2 = col.sigma_c_ratio.divisor.toFixed(2);
             }
             if (col.sigma_s.value !== '-') {
-              if (col.sigma_s.value !== '全断面圧縮') {
+              if (col.sigma_s.value !== this.translate.instant("calculation.full_comp")) {
                 columns.serviceabilityMoment.sigma_s_ratio = (col.sigma_s_ratio.value < 1) ?
                   col.sigma_s_ratio.value.toFixed(2) + ' < 1.00' :
                   col.sigma_s_ratio.value.toFixed(2) + ' > 1.00';

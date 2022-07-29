@@ -105,40 +105,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
               let value = property.newRow[key];
               const row = property.rowIndx;
               if (value === null) { continue; }         // 初期値は対象にしない
-              value = value.trim();
-              switch (value) {
-                case '1':
-                case 'RC-矩形':
-                case '矩形':
-                    this.table_datas[row].shape = '矩形';
-                  break;
-                case '2':
-                case 'RC-T形':
-                case 'T形':
-                      this.table_datas[row].shape = 'T形';
-                  break;
-                case '3':
-                case 'RC-円形':
-                case '円形':
-                  this.table_datas[row].shape = '円形';
-                  break;
-                case '4':
-                case 'RC-小判':
-                case '小判':
-                    this.table_datas[row].shape = '小判';
-                  break;
-                case '11':
-                  this.table_datas[row].shape = '矩形鋼';
-                  break;
-                case '12':
-                  this.table_datas[row].shape = 'T形鋼';
-                  break;
-                case '13':
-                  this.table_datas[row].shape = '鋼管';
-                  break;
-                default:
-                  this.table_datas[row].shape = '';
-              }
+              this.table_datas[row].shape = this.members.changeLanguageShape(value);
             }
 
           }

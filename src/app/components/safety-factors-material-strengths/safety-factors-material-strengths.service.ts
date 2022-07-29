@@ -119,7 +119,8 @@ export class InputSafetyFactorsMaterialStrengthsService {
 
   // 材料強度情報
   public default_material_bar(): any {
-    const result = [
+    const sp1 = this.basic.get_specification1();
+    let result: any = [
       {
         separate: 25,
         tensionBar: { fsy: 345, fsu: 490 },
@@ -129,12 +130,23 @@ export class InputSafetyFactorsMaterialStrengthsService {
       },
       {
         separate: 29,
-        tensionBar: { fsy: 345, fsu: 490 },
-        sidebar: { fsy: 345, fsu: 490 },
-        stirrup: { fsy: 345, fsu: 490 },
-        bend: { fsy: 345, fsu: 490 }
+        tensionBar: { fsy: 390, fsu: 560 },
+        sidebar: { fsy: 390, fsu: 560 },
+        stirrup: { fsy: 390, fsu: 560 },
+        bend: { fsy: 390, fsu: 560 }
       }
     ]
+    if( sp1===1 ){
+      result = [
+        {
+          tensionBar: { fsy: 415, fsu: 550 },
+          sidebar: { fsy: 415, fsu: 550 },
+          stirrup: { fsy: 415, fsu: 550 },
+          bend: { fsy: 415, fsu: 550 }
+        }
+      ]
+    }
+
     return result;
   }
 
@@ -264,11 +276,12 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const old = old_safety_factor.find(v => v.id === tmp.id)
           if (old !== undefined) {
             for (const key of Object.keys(tmp)) {
-              if (key in old) { 
+              if(key==='title')
+                continue;
+              if (key in old) 
                 tmp[key] = old[key]; 
-              } else {
+              else
                 tmp[key] = null;
-              }
             }
           }
         }
@@ -315,7 +328,10 @@ export class InputSafetyFactorsMaterialStrengthsService {
           const tmp = tmp_pile_factor[i];
           const old = old_pile_factor[i];
           for (const key of Object.keys(tmp)) {
-            if (key in old) { tmp[key] = old[key]; }
+            if(key==='title')
+              continue;
+            if (key in old)
+              tmp[key] = old[key]; 
           }
         }
       }

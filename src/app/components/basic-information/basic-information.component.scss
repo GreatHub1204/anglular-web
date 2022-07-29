@@ -16,7 +16,6 @@
   float: left;
 
   .right-left-contents{
-    width: 100px;
     position: relative;
     float: left;
     margin-right: 15px;
@@ -25,9 +24,9 @@
       margin-bottom: 70px;
       label {
         padding-left: .8em;
+        margin-right: 15px;
       }
     }
-
   }
 
   .right-right-contents{
