@@ -1,0 +1,200 @@
+/*!
+ * ParamQuery Pro v8.4.0
+ * 
+ * Copyright (c) 2012-2022 Paramvir Dhindsa (http://paramquery.com)
+ * Released under Commercial license
+ * http://paramquery.com/pro/license
+ * 
+ */
+.pq-theme .ui-button .ui-button-text {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.pq-theme .ui-widget-header {
+  border-color: #b454ff;
+}
+.pq-theme .ui-state-default,
+.pq-theme .ui-button {
+  background-image: linear-gradient(#fefefe, #eed9ff);
+}
+.pq-theme .ui-state-focus {
+  background: #eed9ff;
+  border-color: #8f00ff;
+}
+.pq-theme .ui-state-hover,
+.pq-theme .ui-button:hover {
+  background: #eed9ff;
+  border-color: #8f00ff;
+}
+.pq-theme .ui-widget-header .ui-state-default:not(.ui-state-hover) {
+  border-color: #ca87ff;
+}
+.pq-theme .ui-state-active {
+  background: #b454ff;
+  border-color: #8f00ff;
+}
+.pq-theme .ui-widget-content {
+  border-color: #b454ff;
+}
+div.pq-theme {
+  color: #333;
+  border-color: #b454ff !important;
+  background: #eed9ff;
+}
+.pq-theme *:focus {
+}
+.pq-theme select,
+.pq-theme input[type="text"],
+.pq-theme input,
+.pq-theme textarea,
+.pq-theme button.ui-state-default:not(.ui-state-hover),
+.pq-theme .ui-button {
+  border-color: #ca87ff;
+}
+.pq-cont-lt,
+.pq-cont-tr,
+.pq-body-outer .pq-cont-left {
+  border-color: #8f00ff;
+}
+.pq-group-item {
+  border-color: #ca87ff;
+}
+.pq-group-item:hover {
+  border-color: #8f00ff;
+}
+.pq-group-remove:hover,
+.pq-group-icon:hover,
+.pq-icon-hover:hover {
+  border-color: #8f00ff;
+}
+.pq-theme > .pq-grid-top {
+  background: transparent;
+  color: #333;
+  border-color: #ca87ff;
+}
+.pq-grid-title,
+.pq-group-header {
+  background: #eed9ff;
+  border-color: #ca87ff;
+}
+div.pq-toolbar {
+  border-color: #ca87ff;
+}
+.pq-theme span.pq-separator {
+  border-right-color: #fff;
+  border-left-color: #b454ff;
+}
+div.pq-pager,
+div.pq-grid-summary {
+  border-color: #ca87ff;
+}
+.pq-grid-bottom {
+  background: transparent;
+  color: #333;
+}
+.pq-header-outer {
+  background: #eed9ff;
+  border-bottom-color: #ca87ff;
+}
+.pq-grid-center > .pq-summary-outer {
+  border-color: #ca87ff;
+}
+.pq-header-outer .pq-cont-inner {
+  background-image: linear-gradient(#fefefe, #eed9ff);
+}
+.pq-grid-cell,
+.pq-grid-row {
+  border-color: #ca87ff;
+}
+.pq-td-border-right > .pq-grid-row > .pq-grid-cell {
+  border-right-color: #ca87ff;
+}
+.pq-td-border-top > .pq-grid-row > .pq-grid-cell,
+.pq-cont-inner > .pq-td-border-top > .pq-grid-row {
+  border-bottom-color: #ca87ff;
+}
+.pq-grid-row > .pq-grid-number-cell,
+.pq-grid-number-col {
+  border-color: #ca87ff;
+}
+.pq-body-outer .pq-grid-number-cell,
+.pq-summary-outer .pq-grid-number-cell {
+  background: #eed9ff;
+}
+.pq-body-outer {
+  border-color: #ca87ff;
+}
+.pq-grid-col {
+  border-color: #ca87ff;
+}
+.pq-col-sort-asc,
+.pq-col-sort-desc {
+  background: #c780ff;
+  border-color: #8f00ff;
+}
+.pq-grid-col,
+.pq-grid-number-col {
+  color: #333;
+}
+.pq-grid-col:hover {
+  background: #eed9ff;
+}
+.pq-grid-row {
+  background: #fff;
+  color: #333;
+}
+.pq-state-select.ui-state-highlight {
+  background: #e5ffd1;
+}
+.pq-grid-cell-hover.ui-state-hover,
+.pq-grid-row-hover.ui-state-hover {
+  background: #e5ffd1;
+}
+.pq-grid-row.pq-striped {
+  background: #f7edff;
+}
+.pq-state-select.pq-striped,
+.pq-striped > .pq-grid-cell-hover,
+.pq-grid-row-hover.pq-striped {
+  background: #deedd1;
+}
+.pq-loading-bg {
+  background: #eed9ff;
+}
+.pq-loading > .pq-loading-mask {
+  background: #eed9ff;
+  border-color: #8f00ff;
+  color: #333;
+}
+div.pq-loading-mask > div {
+  border-color: #b454ff;
+  background-color: #fff;
+}
+.pqg-vert-frozen-line,
+.pqg-horiz-frozen-line {
+  border-color: #8f00ff;
+}
+.pq-pivot-pane .pq-sortable {
+  background: #fff;
+}
+.pq-border-0 {
+  border-color: #8f00ff;
+}
+.pq-border-1 {
+  border-color: #b454ff;
+}
+.pq-border-2 {
+  border-color: #ca87ff;
+}
+.pq-bg-0 {
+  background-color: #8f00ff;
+}
+.pq-bg-1 {
+  background-color: #b454ff;
+}
+.pq-bg-2 {
+  background-color: #ca87ff;
+}
+.pq-bg-3 {
+  background-color: #eed9ff;
+}
