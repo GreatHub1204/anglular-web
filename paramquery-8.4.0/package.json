@@ -1,0 +1,42 @@
+{
+    "name": "pqgrid",
+    "version": "8.4.0",
+    "main": "index.js",
+    "author": {
+        "name": "Paramvir Dhindsa",
+        "url": "http://www.paramquery.com/"
+    },
+    "license": "See enclosed license",
+    "peerDependencies": {
+        "@types/jquery": ">=2.2.1",
+        "@types/jqueryui": ">=1.12.1",
+        "jquery": ">=2.2.1",
+        "jquery-ui-pack": "^1.12.3",
+        "jszip": "2.5.0"
+    },
+    "keywords": [
+        "datagrid",
+        "grid",
+        "angular grid",
+        "jquery grid",
+        "react grid",
+        "vue grid"
+    ],
+    "files": [
+        "/images",
+        "/localize",
+        "/pqTouch",
+        "/themes",
+        "EULA.pdf",
+        "index.js",
+        "pqgrid.d.ts",
+        "pqgrid.min.css",
+        "pqgrid.rtl.min.css",
+        "pqgrid.min.js",
+        "pqgrid.ui.min.css",
+        "pqgrid.ui.rtl.min.css",
+        "readme.txt"
+    ],
+    "types": "pqgrid.d.ts",
+    "dependencies": { }
+}
