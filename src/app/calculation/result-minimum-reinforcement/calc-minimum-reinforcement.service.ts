@@ -102,10 +102,12 @@ export class CalcMinimumReinforcementService {
     const safety_factor = safety.safety_factor;
 
     const Nd: number = force.Nd;
-    const rb: number = safety_factor.M_rb;
+    let rb: number = safety_factor.M_rb;
 
     const Mcrd: number = I / y * (sigma_crd + Nd * 1000/ A) / rb;
 
+    // Myd の計算
+    rb = 1.1;
     const εcu: number = resultData.Y.εc;
     const εs: number = resultData.Y.εs;
     const x: number = resultData.Y.x;

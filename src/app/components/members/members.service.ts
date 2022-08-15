@@ -312,10 +312,7 @@ export class InputMembersService  {
     for(const m of this.member_list){
       const def = this.default_member(m.m_no);
       for(const k of Object.keys(def)){
-        if (k==='shape'){
-          def[k] = this.changeLanguageShape(m[k]);
-        }
-        else if(k in m){
+        if(k in m){
           def[k] = m[k];
         }
       }
