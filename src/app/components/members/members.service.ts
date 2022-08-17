@@ -151,21 +151,25 @@ export class InputMembersService  {
       case '1':
       case 'RC-矩形':
       case '矩形':
+      case this.translate.instant("members.rectangle"):
         result = this.translate.instant("members.rectangle"); //'矩形';
         break;
       case '2':
       case 'RC-T形':
       case 'T形':
+      case this.translate.instant("members.t_shape"):        
         result = this.translate.instant("members.t_shape"); //'T形';
         break;
       case '3':
       case 'RC-円形':
       case '円形':
+      case this.translate.instant("members.r_shape"):
         result = this.translate.instant("members.r_shape"); //'円形';
         break;
       case '4':
       case 'RC-小判':
       case '小判':
+      case result = this.translate.instant("members.oval"):
         result = this.translate.instant("members.oval"); //'小判';
         break;
       default:
@@ -307,13 +311,19 @@ export class InputMembersService  {
     return id_list;
   }
 
+  // 保存しているデータの取得
   public getSaveData():any{
     const result = [];
     for(const m of this.member_list){
       const def = this.default_member(m.m_no);
       for(const k of Object.keys(def)){
         if(k in m){
-          def[k] = m[k];
+          if(k==='shape'){
+            def[k] = this.changeLanguageShape(m[k]);
+          }
+          else {
+            def[k] = m[k];
+          }
         }
       }
       result.push(def)
