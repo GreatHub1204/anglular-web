@@ -119,7 +119,7 @@ export class InputBarsService {
       let reverInfo = this.rebar_List.find((value) => {
         return value.D === fai;
       });
-      if (reverInfo === undefined) {
+      if (reverInfo == null) {
         return 0;
       }
       result = reverInfo.As;
@@ -219,7 +219,6 @@ export class InputBarsService {
           if (!this.points.isEnable(pos)) {
             continue;
           }
-          
           // barデータに（部材、着目点など）足りない情報を追加する
           const data: any = this.getTableColumn(pos.index);
           data.m_no = member.m_no;
@@ -304,9 +303,10 @@ export class InputBarsService {
 
   public getTableColumn(index: any): any {
 
-    const result = this.bar_list.find((value) => value.index === index);
+    let result = this.bar_list.find((value) => value.index === index);
     const def = this.default_bars(index);
-    if (result === undefined) {
+    if (result == null) {
+      result = def;
       this.bar_list.push(def);
     }
     // 足りない入力行があれば足す
@@ -342,7 +342,7 @@ export class InputBarsService {
       }
       // barデータに（部材、着目点など）足りない情報を追加する
       const data: any = bar_list.find((v) => v.index === pos.index);
-      if (data === undefined) {
+      if (data == null) {
         continue;
       }
       if (result === null) {
@@ -444,11 +444,11 @@ export class InputBarsService {
         if (['rebar1', 'rebar2', 'sidebar1', 'sidebar2', 'stirrup', 'bend'].includes(key1)) {
           for (const key2 of Object.keys(value1)) {
             const value2 = value1[key2];
-            if (value2 === undefined) {
+            if (value2 == null) {
               value1[key2] = null;
             }
           }
-        } else if (value1 === undefined) {
+        } else if (value1 == null) {
           b[key1] = null;
         }
       }

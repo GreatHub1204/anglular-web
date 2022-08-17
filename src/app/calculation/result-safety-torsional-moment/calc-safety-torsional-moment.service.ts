@@ -144,7 +144,7 @@ export class CalcSafetyTorsionalMomentService {
     );
 
     let result = {};
-    if (!(res3 === undefined || res3.length < 1)) {
+    if (!(res3 == null || res3.length < 1)) {
       result = this.vmu.calcVmu(res3, sectionV, fc, safetyV, null, force);
     }else{
       result["Md"] = 0;

@@ -112,7 +112,7 @@ export class CalcServiceabilityShearForceService {
     let force0 = this.DesignForceList.find(
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
-    if(force0 === undefined){
+    if(force0 == null){
       force0 = { Md: 0, Nd: 0, Vd: 0}
     }
 
@@ -128,7 +128,7 @@ export class CalcServiceabilityShearForceService {
     let force2 = this.DesignForceList2.find(
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
-    if(force2 === undefined){
+    if(force2 == null){
       force2 = { Md: 0, Nd: 0, Vd: 0}
     }
 

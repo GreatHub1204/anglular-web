@@ -26,7 +26,7 @@ export class DataHelperModule {
     let result: number = null;
     try {
       if(num === null) return null;
-      if(num === undefined) return null;
+      if(num == null) return null;
 
       const tmp: string = num.toString().trim();
       if (tmp.length > 0) {

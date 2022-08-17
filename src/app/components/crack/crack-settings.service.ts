@@ -79,7 +79,7 @@ export class InputCrackSettingsService {
   public getTableColumn(index: any): any {
 
     let result = this.crack_list.find((value) => value.index === index);
-    if (result === undefined) {
+    if (result == null) {
       result = this.default_crack(index);
       this.crack_list.push(result);
     }
@@ -158,7 +158,7 @@ export class InputCrackSettingsService {
   public setSaveData(crack: any) {
     ////////// 情報追加による調整コード //////////
     for (const value of crack) {
-      if (value.ecsd_u === undefined && value.ecsd_l === undefined) {
+      if (value.ecsd_u == null && value.ecsd_l == null) {
         if (value.ecsd !== null) {
           value['ecsd_u'] = value.ecsd;
           value['ecsd_l'] = value.ecsd;
@@ -171,7 +171,7 @@ export class InputCrackSettingsService {
       if (value.k4 == undefined) {
         let flag: boolean = true;
         for (const key of ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr']) {
-          if (value[key] === null || value[key] === undefined) {
+          if (value[key] === null || value[key] == null) {
             flag = false;
             break;
           }

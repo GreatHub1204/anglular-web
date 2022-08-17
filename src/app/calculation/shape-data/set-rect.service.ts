@@ -483,7 +483,7 @@ export class SetRectService {
     // 鉄筋強度の入力
     for (const elastic of tensionBar.SteelElastic) {
       if (result.SteelElastic.find(
-        (e) => e.ElasticID === elastic.ElasticID) === undefined) {
+        (e) => e.ElasticID === elastic.ElasticID) == null) {
         result.SteelElastic.push(elastic);
       }
     }
@@ -498,7 +498,7 @@ export class SetRectService {
       // 鉄筋強度の入力
       for (const elastic of compresBar.SteelElastic) {
         if (result.SteelElastic.find(
-          (e) => e.ElasticID === elastic.ElasticID) === undefined) {
+          (e) => e.ElasticID === elastic.ElasticID) == null) {
           result.SteelElastic.push(elastic);
         }
       }
@@ -706,7 +706,7 @@ export class SetRectService {
         const fsk = section.steel.I.fsy_compress.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: ElasticID,
             Es: 200,
@@ -730,7 +730,7 @@ export class SetRectService {
         const fsk = section.steel.I.fsy_web.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: ElasticID,
             Es: 200,
@@ -754,7 +754,7 @@ export class SetRectService {
         const fsk = section.steel.I.fsy_tension.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: ElasticID,
             Es: 200,
@@ -835,7 +835,7 @@ export class SetRectService {
         const fsk = section.steel.H.fsy_left.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: defaultID,
             Es: 200,
@@ -872,7 +872,7 @@ export class SetRectService {
         const fsk = section.steel.H.fsy_right.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: ElasticID,
             Es: 200,
@@ -909,7 +909,7 @@ export class SetRectService {
         const fsk = section.steel.H.fsy_web.fsy;
         const e = result.SteelElastic.find(v => v.fsk === fsk);
         let ElasticID = defaultID;
-        if (e === undefined) {
+        if (e == null) {
           result.SteelElastic.push({
             ElasticID: ElasticID,
             Es: 200,

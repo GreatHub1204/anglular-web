@@ -25,7 +25,7 @@ export class InputDesignPointsService {
   public getTableColumn(index: number): any {
     let result = this.getCalcData(index);
 
-    if(result === undefined){
+    if(result == null){
       result = this.default_position(index);
       this.position_list.push(result);
     }

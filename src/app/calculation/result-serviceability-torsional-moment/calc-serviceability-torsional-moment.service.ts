@@ -151,7 +151,7 @@ export class CalcServiceabilityTorsionalMomentService {
     let force0 = this.DesignForceList.find(
       (v) => v.index === res.index
     ).designForce.find((v) => v.side === res.side);
-    if (force0 === undefined) {
+    if (force0 == null) {
       force0 = { Md: 0, Nd: 0, Vd: 0, Mt: 0 };
     }
 
@@ -216,7 +216,7 @@ export class CalcServiceabilityTorsionalMomentService {
       );
 
       let result2 = {};
-      if (!(res3 === undefined || res3.length < 1)) {
+      if (!(res3 == null || res3.length < 1)) {
         result2 = this.vmu.calcVmu(res3, sectionV, fck, safetyV, null, force);
       }
       result2["Mt"] = result.Mt;

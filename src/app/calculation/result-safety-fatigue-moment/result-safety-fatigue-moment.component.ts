@@ -115,7 +115,7 @@ export class ResultSafetyFatigueMomentComponent implements OnInit {
             const res = OutputData.filter(
               (e) => e.index === position.index && e.side === side
             );
-            if (res === undefined || res.length < 1) {
+            if (res == null || res.length < 1) {
               continue;
             }
 

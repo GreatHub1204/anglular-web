@@ -191,7 +191,7 @@ export class InputBasicInformationService  {
   }
   public set_pickup_moment(id: number, no: number){
     const target = this.pickup_moment.find(e => e.id === id);
-    if(target === undefined) return;
+    if(target == null) return;
     target.no = no;
   }
   // せん断テーブルの初期値
@@ -279,7 +279,7 @@ export class InputBasicInformationService  {
   }
   public set_pickup_shear_force(id: number, no: number){
     const target = this.pickup_shear_force.find(e => e.id === id);
-    if(target === undefined) return;
+    if(target == null) return;
     target.no = no;
   }
 
@@ -344,7 +344,7 @@ export class InputBasicInformationService  {
   }
   public set_pickup_torsional_moment(id: number, no: number){
     const target = this.pickup_torsional_moment.find(e => e.id === id);
-    if(target === undefined) return;
+    if(target == null) return;
     target.no = no;
   }
 
@@ -385,7 +385,7 @@ export class InputBasicInformationService  {
   }
   public set_specification2(id: number): any {
 
-    if( this.specification2_list.find(e => e.id === id) === undefined) {
+    if( this.specification2_list.find(e => e.id === id) == null) {
       return;
     }
 
@@ -425,7 +425,7 @@ export class InputBasicInformationService  {
   public set_conditions(id: string, value: boolean): any {
 
     const target = this.conditions_list.find(e => e.id === id);
-    if( target === undefined) {
+    if( target == null) {
       return;
     }
 
@@ -495,7 +495,7 @@ export class InputBasicInformationService  {
     for(let i=0; i<basic.pickup_moment.length; i++){
       const e = this.pickup_moment[i];
       const t = basic.pickup_moment[i];
-      if (t === undefined) { continue; }
+      if (t == null) { continue; }
       for(const k of Object.keys(e)){
         if(k==='title')
           continue;

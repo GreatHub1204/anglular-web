@@ -675,7 +675,7 @@ export class SectionForceListComponent implements OnInit {
     const result = [];
     for (const member of memberList) {
       const tmp = forces.filter((a) => a.m_no === member.m_no);
-      if (tmp === undefined) {
+      if (tmp == null) {
         continue;
       }
       for (const pos of tmp) {

@@ -56,7 +56,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (key === 'g_no') {
               // 他の共通断面
-              if (value === undefined || value === null ) {
+              if (value == null || value === null ) {
                 this.table_datas[i].g_id = '';
                 continue;
               }
@@ -82,7 +82,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
             if (key === 'g_name') {
               // 他の共通断面
 
-              if (value === undefined || value === null) { continue; }         // 初期値は対象にしない
+              if (value == null || value === null) { continue; }         // 初期値は対象にしない
               value = value.trim();
               if (value === '') { continue; }
               for (let j = 0; j < this.table_datas.length; j++) {

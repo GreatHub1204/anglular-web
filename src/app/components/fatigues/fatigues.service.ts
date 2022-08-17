@@ -132,7 +132,7 @@ export class InputFatiguesService {
   public getTableColumn(index: any): any {
     let result = this.fatigue_list.find((value) => value.index === index);
     const bar = this.bars.getTableColumn(index);
-    if (result === undefined) {
+    if (result == null) {
       result = this.default_fatigue(index);
       result.titgle1 = bar.title1;
       this.fatigue_list.push(result);
@@ -172,7 +172,7 @@ export class InputFatiguesService {
           const data: any = this.fatigue_list.find(
             (v) => v.index === pos.index
           );
-          if (data === undefined) {
+          if (data == null) {
             continue;
           }
 

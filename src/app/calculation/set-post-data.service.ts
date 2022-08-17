@@ -214,12 +214,12 @@ export class SetPostDataService {
 
         // 同じインデックスの断面力を探す
         const sameIndex = list.find(v=>v.index === dict.index);
-        if (sameIndex===undefined){
+        if (sameIndex== null){
           result.push(dataX);
           continue;
         }
         const sameSide = sameIndex.designForce.find(v=>v.side === dict.side);
-        if (sameSide===undefined){
+        if (sameSide== null){
           result.push(dataX);
           continue;
         }
@@ -372,7 +372,7 @@ export class SetPostDataService {
       // Ｔ形に関する 設計条件を確認する
       let condition = this.basic.conditions_list.find(e =>
         e.id === 'JR-002');
-      if (condition === undefined) { condition = { selected: false }; }
+      if (condition == null) { condition = { selected: false }; }
 
       if (member.shape.indexOf('T形') >= 0) {
         if (condition.selected === true && side === '上側引張') {

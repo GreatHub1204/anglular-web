@@ -165,7 +165,7 @@ export class InputSectionForcesService  {
     let result = this.force.find( (item) => item.index === index );
 
     // 対象データが無かった時に処理
-    if (result === undefined) {
+    if (result == null) {
       result = this.default_column(index);
       this.force.push(result);
     }

@@ -131,7 +131,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
             const res = OutputData.filter(
               (e) => e.index === position.index && e.side === side
             );
-            if (res === undefined || res.length < 2) {
+            if (res == null || res.length < 2) {
               continue;
             }
 

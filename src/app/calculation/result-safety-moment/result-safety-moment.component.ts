@@ -104,7 +104,7 @@ export class ResultSafetyMomentComponent implements OnInit {
             const res = OutputData.find(
               (e) => e.index === position.index && e.side === side
             );
-            if (res === undefined || res.length < 1) {
+            if (res == null || res.length < 1) {
               continue;
             }
 
