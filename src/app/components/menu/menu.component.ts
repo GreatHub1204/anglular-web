@@ -165,6 +165,7 @@ export class MenuComponent implements OnInit {
       this.fileSave();
       return;
     }
+    this.config.saveActiveComponentData();
     const inputJson: string = this.save.getInputText();
     this.fileName = this.electronService.ipcRenderer.sendSync('overWrite', this.fileName, inputJson);
   }
