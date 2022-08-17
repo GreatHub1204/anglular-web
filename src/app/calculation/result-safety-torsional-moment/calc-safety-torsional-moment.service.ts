@@ -260,8 +260,13 @@ export class CalcSafetyTorsionalMomentService {
 
     // ② 設計曲げモーメントが同時に作用する場合の設計ねじり耐力
     // Ｍtud1	=	Ｍtcd・{ 0.2＋0.8・(1‐γi・Ｍd／Ｍud)1/2 }
-    const Mtud1 = Mtcd * (0.2 + 0.8 * Math.pow(1 - (ri * Md) / Mud, 0.5));
-    const Mtud1_Ratio: number = (ri * Mt) / Mtud1;
+    const riMdMud = 1 - (ri * Md) / Mud;
+    let Mtud1 = 0;
+    let Mtud1_Ratio: number = 99.999;
+    if( riMdMud > 0 ){
+      Mtud1 = Mtcd * (0.2 + 0.8 * Math.pow(riMdMud, 0.5));
+      Mtud1_Ratio = (ri * Mt) / Mtud1;
+    }
 
     // ③ 設計せん断力が同時に作用する場合の設計ねじり耐力
     // Ｍtud2	=	Ｍtcd・( 1‐0.8・γi・Ｖd／Ｖud )
@@ -480,20 +485,25 @@ export class CalcSafetyTorsionalMomentService {
       } else {
         // (b) Ｍud ≧ Ｍ'ud かつ Ｍud-Ｍ'ud ≦ γi･Ｍd ≦ Ｍud の場合
         // Ｍtud =	( Ｍtu.min-0.2･Ｍtcd )・( (Ｍud-γi･Ｍd)／Ｍ'ud )1/2 ＋0.2・Ｍtcd
-        Mtud =
-          (Mtu_min - 0.2 * Mtcd) * Math.pow((Mud - ri * Md) / Mudd, 1 / 2) +
-          0.2 * Mtcd;
+        const MudriMdMudd = (Mud - ri * Md) / Mudd;
+        if( MudriMdMudd > 0 ) {
+          Mtud =(Mtu_min - 0.2 * Mtcd) * Math.pow(MudriMdMudd, 1 / 2) + 0.2 * Mtcd;
+        }
       }
     } else {
       // (c) Ｍud ＜ Ｍ'ud かつ γi･Ｍd ≦ Ｍud の場合
       // Ｍtud	=	( Ｍtu.min-0.2･Ｍtcd )・( 1-γi･Ｍd／Ｍud )1/2 ＋0.2・Ｍtcd
-      Mtud =
-        (Mtu_min - 0.2 * Mtcd) * Math.pow(1 - (ri * Md) / Mud, 1 / 2) +
-        0.2 * Mtcd;
+      const riMdMud = 1 - (ri * Md) / Mud;
+      if( riMdMud > 0 ) {
+        Mtud = (Mtu_min - 0.2 * Mtcd) * Math.pow(riMdMud, 1 / 2) + 0.2 * Mtcd;
+      }
     }
     result["Mtud3"] = Mtud;
 
-    const Mtud_Ratio: number = (ri * Mt) / Mtud;
+    let Mtud_Ratio: number = 99.999;
+    if( Mtud != 0 ) {
+      Mtud_Ratio = (ri * Mt) / Mtud;
+    }
     result["Mtud3_Ratio"] = Mtud_Ratio;
     result["Mtud3_Result"] = Mtud_Ratio > 1 ? "NG" : "OK"
 
