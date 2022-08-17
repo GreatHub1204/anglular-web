@@ -72,7 +72,7 @@ ipcMain.on('open', (event: Electron.IpcMainEvent) => {
   });
 
   // キャンセルで閉じた場合
-  if (paths === undefined) {
+  if (paths == null) {
     event.returnValue = { status: undefined };
     return;
   }
@@ -131,7 +131,7 @@ ipcMain.on(
     });
 
     // キャンセルで閉じた場合
-    if (path === undefined) {
+    if (path == null) {
       event.returnValue = '';
     }
 

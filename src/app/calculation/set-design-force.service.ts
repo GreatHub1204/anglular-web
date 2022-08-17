@@ -56,7 +56,7 @@ export class SetDesignForceService {
 
       const targetForce = force.find((value) => value.index === position.index);
 
-      if (targetForce === undefined) {
+      if (targetForce == null) {
         return new Array(); // 存在しない着目点がある
       }
 
@@ -121,7 +121,7 @@ export class SetDesignForceService {
       const index = position.index;
       const force = targetPick.find((value) => value.index === index);
 
-      if (force === undefined) {
+      if (force == null) {
         return new Array(); // 存在しない着目点がある
       }
 
@@ -333,7 +333,7 @@ export class SetDesignForceService {
           const index = position.index;
           for (let i = 0; i < DesignForceListList.length; i++) {
             const f = DesignForceListList[i].find((e) => e.index === index);
-            if (f === undefined) {
+            if (f == null) {
               continue;
             }
             force[i].push(f);
@@ -442,7 +442,7 @@ export class SetDesignForceService {
           };
 
           const pos1 = force1.find((t) => t.index === pos0.index);
-          if (pos1 === undefined) {
+          if (pos1 == null) {
             pos2.designForce[i] = def;
             continue;
           }

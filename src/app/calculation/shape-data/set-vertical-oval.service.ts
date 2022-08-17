@@ -374,7 +374,7 @@ export class SetVerticalOvalService {
       const dia2: string = compress.mark + compress.rebar_dia;
 
       const id2 = "s" + fsy2.id;
-      if (result.SteelElastic.find((e) => e.ElasticID === id2) === undefined) {
+      if (result.SteelElastic.find((e) => e.ElasticID === id2) == null) {
         result.SteelElastic.push({
           fsk: fsy2.fsy / rs,
           Es: 200,

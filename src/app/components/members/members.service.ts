@@ -72,7 +72,7 @@ export class InputMembersService  {
 
     const m = this.getCalcData(m_no);
 
-    if (!('g_id' in m) || m.g_id === undefined || m.g_id === null || m.g_id.trim().length === 0) {
+    if (!('g_id' in m) || m.g_id == null || m.g_id === null || m.g_id.trim().length === 0) {
       return [];
     }
 
@@ -200,7 +200,7 @@ export class InputMembersService  {
       });
       // 今の入力を踏襲
       let new_member = old_member_list.find((value) => value.m_no === m_no);
-      if (new_member === undefined) {
+      if (new_member == null) {
         new_member = this.default_member(m_no);
       }
       // 部材長をセットする
@@ -296,11 +296,11 @@ export class InputMembersService  {
   public getGroupes(): string[] {
     const id_list: string[] =  new Array();
     for (const m of this.member_list) {
-      if (!('g_id' in m) || m.g_id === undefined || m.g_id === null || m.g_id.trim().length === 0) {
+      if (!('g_id' in m) || m.g_id == null || m.g_id === null || m.g_id.trim().length === 0) {
         continue;
       }
 
-      if (id_list.find((value)=>value===m.g_id) === undefined) {
+      if (id_list.find((value)=>value===m.g_id) == null) {
         id_list.push(m.g_id);
       }
     }

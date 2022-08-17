@@ -466,28 +466,28 @@ export class InputSafetyFactorsMaterialStrengthsService {
 
     // 鉄筋強度 を代入する
     let bar = this.material_bar[g_id];
-    if (bar === undefined) {
+    if (bar == null) {
       bar = this.default_material_bar();
     }
     result['material_bar'] = bar;
 
     // コンクリート強度 を代入する
     let conc = this.material_concrete[g_id];
-    if (conc === undefined) {
+    if (conc == null) {
       conc = this.default_material_concrete();
     }
     result['material_concrete'] = conc;
 
     // 鉄骨強度 を代入する
     let steel = this.material_steel[g_id];
-    if (steel === undefined) {
+    if (steel == null) {
       steel = this.default_material_steel();
     }
     result['material_steel'] = steel;
 
     // 杭の施工条件
     let pile = this.pile_factor[g_id];
-    if (pile === undefined) {
+    if (pile == null) {
       pile = this.default_pile_factor();
     }
     result['pile_factor'] = pile.find((e) => e.selected === true);
@@ -501,7 +501,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
     let safe = this.safety_factor[g_id];
     let current: any;
 
-    if (safe === undefined) {
+    if (safe == null) {
       safe = this.default_safety_factor();
       current = safe[safetyID];
       for(const key of Object.keys(current)){
@@ -510,7 +510,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
       }
     } else {
       current = safe[safetyID];
-      if(current === undefined){
+      if(current == null){
         const temp = this.default_safety_factor();
         current = temp[safetyID];
       }
@@ -519,7 +519,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
     const a = this.default_safety_factor();
     const b = a[safetyID];
     for(const key of Object.keys(b)){
-      if(!(key in current) || current[key] ===null || current[key] ===undefined){
+      if(!(key in current) || current[key] ===null || current[key] == null){
         current[key] = b[key];
       }
     }

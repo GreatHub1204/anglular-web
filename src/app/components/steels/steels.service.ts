@@ -148,7 +148,7 @@ export class InputSteelsService {
   public getTableColumn(index: any): any {
 
     let result = this.steel_list.find((value) => value.index === index);
-    if (result === undefined) {
+    if (result == null) {
       result = this.default_steels(index);
       this.steel_list.push(result);
     }
@@ -175,7 +175,7 @@ export class InputSteelsService {
       }
       // barデータに（部材、着目点など）足りない情報を追加する
       const data: any = steel_list.find((v) => v.index === pos.index);
-      if(data === undefined){
+      if(data == null){
         continue;
       }
       if(result === null) {
