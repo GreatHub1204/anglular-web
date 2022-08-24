@@ -11,8 +11,10 @@
     "build:dev": "concurrently \"ng build --delete-output-path=false --watch\" \"webpack --config webpack.electron.dev.config.js --watch\"",
     "start:dev": "electron dist/shell.js",
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
-    "build:prod": "ng build --optimization --outputHashing=all --sourceMap=false --namedChunks=false --extract-licenses --vendorChunk=false --build-optimizer && webpack --config webpack.electron.prod.config.js",
-    "start:prod": "electron dist/index.js"
+    "build:prod": "ng build --optimization --outputHashing=all --sourceMap=false --namedChunks=false --extract-licenses --vendorChunk=false --build-optimizer && webpack --config webpack.electron.prod.config.js && npm run filecopy1 && npm run filecopy2",
+    "start:prod": "electron dist/index.js",
+    "filecopy1": "node -e \"require('fs').copyFileSync('dev-app-update.yml', 'dist/dev-app-update.yml')\"",
+    "filecopy2": "node -e \"require('fs').copyFileSync('app-update.yml', 'dist/app-update.yml')\""
   },
   "description": "WebDanforJS",
   "author": {
