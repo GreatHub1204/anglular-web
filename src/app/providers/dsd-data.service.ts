@@ -191,7 +191,13 @@ export class DsdDataService {
     dt2Pick = this.readByte(buff);
     dt2Pick = this.readByte(buff);
 
-
+    if (!this.isOlder('3.6.0', buff.datVersID)) {
+      if (!this.isOlder('4.0.0', buff.datVersID)) {
+        this.basic.set_specification1(1); // フィリピン版
+      } else {
+        throw("インド版のデータは読み込むことができません")
+      }
+    }
     if (!this.isOlder('1.3.10', buff.datVersID)) {
       // 縁応力度が制限値以内でも ひび割れ幅の検討を行う
       const iOutputHibiware = this.readInteger(buff);
@@ -379,14 +385,15 @@ export class DsdDataService {
         }
       }
 
-      if (!this.isOlder("3.6.1", buff.datVersID)) {
+      if (!this.isOlder("4.0.1", buff.datVersID)) {
         const sngK4 = this.readSingle(buff);
       }
 
       if (this.isOlder("1.3.4", buff.datVersID)) {
         const sngNumBZI = this.readInteger(buff);
+        const a = sngNumBZI;
         if (sngNumBZI > 0) m.n = sngNumBZI;
-      } else if (this.isOlder("3.6.2", buff.datVersID)) {
+      } else if (this.isOlder("4.1.0", buff.datVersID)) {
         const sngNumBZI = this.readSingle(buff);
         if (sngNumBZI > 0) m.n = sngNumBZI;
       } else {
@@ -491,17 +498,25 @@ export class DsdDataService {
           if (ii < 5) safety_factor[ii].V_rbv = Sen;
           Sen = this.readSingle(buff);
           if (ii < 5) safety_factor[ii].ri = Sen;
-          Sen = this.readSingle(buff);
-          if (ii < 5) safety_factor[ii].T_rbt = Sen;
+          // Sen = this.readSingle(buff);
+          // if (ii < 5) safety_factor[ii].T_rbt = Sen;
         }
       }
 
       for (const k1 of ['tensionBar', 'sidebar', 'stirrup', 'bend']) {
         for (const k2 of ['fsy', 'fsu']) {
-          for (const mb of [material_bar[0], material_bar[1]]) {
+          for (let j=0; j<2; j++) {
             let Kyodo = this.readInteger(buff);
+            if(material_bar.length < (j+1))
+              continue;
+            const mb = material_bar[j];
+            if(mb == null) continue;
+            if(!(k1 in mb)) continue;
+            const mbk1 = mb[k1];
+            if(!(k2 in mbk1)) continue;
+            let mbk1k2 = mbk1[k2];
             if (Kyodo > 0) {
-              mb[k1][k2] = Kyodo;
+              mbk1k2 = Kyodo;
             }
           }
         }
@@ -509,9 +524,14 @@ export class DsdDataService {
 
       if (!isOlder015) {
         let KyodoD = this.readInteger(buff);
-        if (KyodoD > 0) material_bar[0].separate = KyodoD;
+        if (KyodoD > 0) {
+          material_bar[0].separate = KyodoD;
+        }
         KyodoD = this.readInteger(buff);
-        if (KyodoD > 0) material_bar[1].separate = KyodoD;
+        if (KyodoD > 0) {
+          if(1 < material_bar.length)
+            material_bar[1].separate = KyodoD;
+        }
         KyodoD = this.readInteger(buff);
         KyodoD = this.readInteger(buff);
       }
@@ -566,8 +586,13 @@ export class DsdDataService {
 
     if (iDummyCount !== 0) {
       buff['PickFile'] = this.readString(buff, 100).trim(); // ピックアップファイルのパス
-      const strFix100 = this.readString(buff, 100, 'unicode');
-      console.log(strFix100.length);
+      const buff2 = { u8array: buff.u8array.slice(0, buff.u8array.length) };
+      let strFix100 = this.readString(buff, 100, 'unicode').trim();
+      let strFix102 = this.readString(buff2, 100).trim();
+      if(strFix102.length < strFix100.length){
+        strFix100 = strFix102;
+        buff.u8array = buff2.u8array;
+      }
       const D_Name = strFix100.trim();
 
       for (let i = 0; i < iDummyCount; i++) {
