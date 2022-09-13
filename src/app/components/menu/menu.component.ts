@@ -152,7 +152,7 @@ export class MenuComponent implements OnInit {
       this.app.memberChange(); // 左側のボタンを有効にする。
       this.app.designPointChange(); // 左側のボタンを有効にする。
     } else {
-      console.log(error);
+      alert(error);
     }
 
     modalRef.close();
