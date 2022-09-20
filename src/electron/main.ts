@@ -64,7 +64,7 @@ ipcMain.on('open', (event: Electron.IpcMainEvent) => {
   // ファイルを選択
   const paths = dialog.showOpenDialogSync(mainWindow, {
     buttonLabel: 'open', // 確認ボタンのラベル
-    filters: [{ name: 'wdj', extensions: ['wdj'] }],
+    filters: [{ name: 'wdj', extensions: ['wdj'] }, { name: 'dsd', extensions: ['dsd'] }],
     properties: [
       'openFile', // ファイルの選択を許可
       'createDirectory', // ディレクトリの作成を許可 (macOS)
