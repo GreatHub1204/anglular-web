@@ -65,7 +65,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             title: this.translate.instant("safety-factors-material-strengths.safe_d"),
             M_rc: 1.30, M_rs: 1.0, M_rbs: 1.10,
             V_rc: 1.30, V_rs: 1.0, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
-            T_rbt:1.00,
+            T_rbt:1.30,
             ri: 1.20, range: 2,
             S_rs: 1.05, S_rb: 1.1
           },
@@ -74,7 +74,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             title: this.translate.instant("safety-factors-material-strengths.r_ex"),
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.0,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.10, V_rbv: 1.20,
-            T_rbt:1.00,
+            T_rbt:1.30,
             ri: 1.20, range: 3,
             S_rs: 1.05, S_rb: 1.1
           },
@@ -83,7 +83,7 @@ export class InputSafetyFactorsMaterialStrengthsService {
             title: this.translate.instant("safety-factors-material-strengths.r_at"),
             M_rc: 1.30, M_rs: 1.00, M_rbs: 1.00,
             V_rc: 1.30, V_rs: 1.00, V_rbc: 1.30, V_rbs: 1.00, V_rbv: 1.20,
-            T_rbt:1.00,
+            T_rbt:1.30,
             ri: 1.00, range: 3,
             S_rs: 1.05, S_rb: 1.1
           },
