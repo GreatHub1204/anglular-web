@@ -221,7 +221,11 @@ export class CalcSafetyFatigueShearForceService {
 
     // スターラップの永久応力度
     const tmpWrd1: number = ar_steel * ( Vpd + Vrd ) - kr * result.Vcd;
-    let tmpWrd2: number = (result.Aw * result.z) / result.Ss;
+
+    let tmpWrd2: number = 0;
+    if (result.Aw != null){
+      tmpWrd2 += (result.Aw * result.z) / result.Ss;
+    }
     if (section.Asb.Asb !== null){
       tmpWrd2 += (result.Asb * result.z * (Math.cos(Math.PI * result.deg2 / 180) 
                                         +  Math.sin(Math.PI * result.deg2 / 180)) ** 3) / result.Ss2;
@@ -248,10 +252,16 @@ export class CalcSafetyFatigueShearForceService {
 
     let k = 0.12;
 
-    const fai: number = this.helper.toNumber(section.Aw.stirrup_dia);
+    let fai: number = this.helper.toNumber(section.Aw.stirrup_dia);
+    if (fai === null) { 
+      fai = this.helper.toNumber(section.Asb.bending_dia);
+    }
     if (fai === null) { return result; }
 
-    const fwud: number = this.helper.toNumber(section.Aw.fwud);
+    let fwud: number = this.helper.toNumber(section.Aw.fwud);
+    if (fwud == null) {
+      fwud = this.helper.toNumber(section.Asb.fwud);
+    }
     if (fwud === null) { return result; }
     result['fwud'] = fwud;
 
@@ -399,8 +409,13 @@ export class CalcSafetyFatigueShearForceService {
     // 折り曲げ鉄筋の永久応力度
     const SumCosSin = Math.cos(Math.PI * result.deg2 / 180) + Math.sin(Math.PI * result.deg2 / 180);
     const tmpWrd1: number = Vpd + Vrd - kr * result.Vcd;
-    const tmpWrd2 = (result.Aw * result.z) / (result.Ss * SumCosSin**2)
-                  + (result.Asb * result.z * SumCosSin) / result.Ss2;
+    let tmpWrd2 = 0;
+    if(result.Aw != null){
+      tmpWrd2 += (result.Aw * result.z) / (result.Ss * SumCosSin**2);
+    }
+    if(result.Asb != null){
+      tmpWrd2 += (result.Asb * result.z * SumCosSin) / result.Ss2;
+    }
     const tmpWrd3: number = Vpd + result.Vcd;
     const tmpWrd4: number = Vpd + Vrd + result.Vcd;
     let sigma_min2: number = (tmpWrd1 / tmpWrd2) * (tmpWrd3 / tmpWrd4);

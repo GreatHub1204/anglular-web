@@ -428,23 +428,25 @@ export class CalcSafetyShearForceService {
     let Vyd: number = Vcd + Vsd;
 
     //鉄骨鋼材の情報があれば鉄骨鋼材の値、無ければ折り曲げ鉄筋の値を算出する
-    if (web_I_height === null) {
+    if (web_I_height == null) {
       //折り曲げ鉄筋のの設計せん断耐力
       let sinCos2: number =
         Math.sin(this.helper.Radians(deg2)) +
         Math.cos(this.helper.Radians(deg2));
-      result["sinCos2"] = sinCos2;
 
       let Vsd2 = (((Asb * fwyd2 * sinCos2) / Ss2) * z) / V_rbs;
 
       Vsd2 = Vsd2 / 1000;
 
-      // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
-      Vsd2 = Math.min(Vsd2, Vsd);
-
+      if ( Vsd !== 0 ) {
+        // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
+        Vsd2 = Math.min(Vsd2, Vsd);
+      }
+      
+      result["sinCos2"] = sinCos2;
       result["Vsd2"] = Vsd2;
-
       Vyd += Vsd2;
+
 
     } else {
       // 鉄鋼鋼材の設計せん断耐力
