@@ -125,10 +125,10 @@ export class CalcMinimumReinforcementService {
     const εsy: number = fsyd / Es / 1000;
     const sigma_s : number = 0;
     const d : number = (section.shape.Hw === null) ? section.shape.H - section.Ast.dst : 
-                                                     section.shape.Hw - section.Ast.dst;
+                                                      section.shape.Hw - section.Ast.dst;
     const pb : number = ((a * εcu_max / (εcu_max + εsy) - Nd * 1000 / (section.shape.B * d * fcd)) * 
                         fcd / fsyd + Asc / (section.shape.B * d) * sigma_s / fsyd) * 100
-    const pc : number = section.Ast.Ast / (section.shape.B * d) * 100;
+    const pc : number = section.Ast.Ast / (section.shape.B * section.shape.H) * 100;
     
 
     return {
