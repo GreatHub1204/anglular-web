@@ -374,88 +374,87 @@ export class ResultDataService {
 
     // スターラップ -------------------------------------------------------------------------
     // 鉄筋径
-    if (this.helper.toNumber(section.stirrup.stirrup_dia) === null) {
-      return result;
+    if (this.helper.toNumber(section.stirrup.stirrup_dia) != null) {
+      result.Aw.stirrup_dia = Math.abs(section.stirrup.stirrup_dia);
+
+      // 異形鉄筋:D, 丸鋼: R
+      let mark1 = section.stirrup.stirrup_dia > 0 ? "D" : "R";
+
+      // 鉄筋本数
+      result.Aw.stirrup_n = this.helper.toNumber(section.stirrup.stirrup_n);
+      if (result.Aw.stirrup_n === null) {
+        result.Aw.stirrup_n = 0;
+      }
+
+      result.Aw.Ss = this.helper.toNumber(section.stirrup.stirrup_ss);
+      if (result.Aw.Ss === null) {
+        result.Aw.Ss = Number.MAX_VALUE;
+      }
+
+      const fwyd1 = this.helper.getFsyk(result.Aw.stirrup_dia, safety.material_bar, "stirrup");
+      if (fwyd1.fsy === 235) {
+        // 鉄筋強度が 235 なら 丸鋼
+        mark1 = "R";
+      }
+
+      const dia1: string = mark1 + result.Aw.stirrup_dia;
+      const As1: number = this.bars.getAs(dia1);
+
+      result.Aw.Aw = As1 * result.Aw.stirrup_n;
+      if (!(result.Aw.Aw === 0)) {
+        const key: string = this.translate.instant("calculation.number");
+        result.Aw.AwString = dia1 + "-" + this.numStr(result.Aw.stirrup_n, 3) + key;
+      }
+
+      result.Aw.fwyd = fwyd1.fsy;
+      result.Aw.fwud = fwyd1.fsu;
+      result.Aw.rs = safety.safety_factor.rs;
     }
-    result.Aw.stirrup_dia = Math.abs(section.stirrup.stirrup_dia);
-
-    // 異形鉄筋:D, 丸鋼: R
-    let mark1 = section.stirrup.stirrup_dia > 0 ? "D" : "R";
-
-    // 鉄筋本数
-    result.Aw.stirrup_n = this.helper.toNumber(section.stirrup.stirrup_n);
-    if (result.Aw.stirrup_n === null) {
-      result.Aw.stirrup_n = 0;
-    }
-
-    result.Aw.Ss = this.helper.toNumber(section.stirrup.stirrup_ss);
-    if (result.Aw.Ss === null) {
-      result.Aw.Ss = Number.MAX_VALUE;
-    }
-
-    const fwyd1 = this.helper.getFsyk(result.Aw.stirrup_dia, safety.material_bar, "stirrup");
-    if (fwyd1.fsy === 235) {
-      // 鉄筋強度が 235 なら 丸鋼
-      mark1 = "R";
-    }
-
-    const dia1: string = mark1 + result.Aw.stirrup_dia;
-    const As1: number = this.bars.getAs(dia1);
-
-    result.Aw.Aw = As1 * result.Aw.stirrup_n;
-    if (!(result.Aw.Aw === 0)) {
-      const key: string = this.translate.instant("calculation.number");
-      result.Aw.AwString = dia1 + "-" + this.numStr(result.Aw.stirrup_n, 3) + key;
-    }
-
-    result.Aw.fwyd = fwyd1.fsy;
-    result.Aw.fwud = fwyd1.fsu;
-    result.Aw.rs = safety.safety_factor.rs;
 
     // 折り曲げ鉄筋 -------------------------------------------------------------------------
     // 鉄筋径
-    if (this.helper.toNumber(section.bend.bending_dia) === null) {
-      return result;
+    if (this.helper.toNumber(section.bend.bending_dia) != null) {
+
+      result.Asb.bending_dia = Math.abs(section.bend.bending_dia);
+
+      // 異形鉄筋:D, 丸鋼: R
+      let mark2 = section.bend.bending_dia > 0 ? "D" : "R";
+
+      // 鉄筋本数
+      result.Asb.bending_n = this.helper.toNumber(section.bend.bending_n);
+      if (result.Asb.bending_n === null) {
+        result.Asb.bending_n = 0;
+      }
+
+      result.Asb.Ss = this.helper.toNumber(section.bend.bending_ss);
+      if (result.Asb.Ss === null) {
+        result.Asb.Ss = Number.MAX_VALUE;
+      }
+
+      result.Asb.deg = this.helper.toNumber(section.bend.bending_angle);
+      if (result.Asb.deg === null) {
+        result.Asb.deg = 45;
+      }
+
+      const fwyd2 = this.helper.getFsyk(result.Asb.bending_dia, safety.material_bar, "stirrup");
+      if (fwyd2.fsy === 235) {
+        // 鉄筋強度が 235 なら 丸鋼
+        mark2 = "R";
+      }
+
+      const dia2: string = mark2 + result.Asb.bending_dia;
+      const As2: number = this.bars.getAs(dia2);
+
+      result.Asb.Asb = As2 * result.Asb.bending_n;
+      if (!(result.Asb.Asb === 0)) {
+        const key: string = this.translate.instant("calculation.number");
+        result.Asb.AsbString = dia2 + "-" + this.numStr(result.Asb.bending_n, 3) + key;
+      }
+
+      result.Asb.fwyd = fwyd2.fsy;
+      result.Asb.fwud = fwyd2.fsu;
+      result.Asb.rs = safety.safety_factor.rs;
     }
-    result.Asb.bending_dia = Math.abs(section.bend.bending_dia);
-
-    // 異形鉄筋:D, 丸鋼: R
-    let mark2 = section.bend.bending_dia > 0 ? "D" : "R";
-
-    // 鉄筋本数
-    result.Asb.bending_n = this.helper.toNumber(section.bend.bending_n);
-    if (result.Asb.bending_n === null) {
-      result.Asb.bending_n = 0;
-    }
-
-    result.Asb.Ss = this.helper.toNumber(section.bend.bending_ss);
-    if (result.Asb.Ss === null) {
-      result.Asb.Ss = Number.MAX_VALUE;
-    }
-
-    result.Asb.deg = this.helper.toNumber(section.bend.bending_angle);
-    if (result.Asb.deg === null) {
-      result.Asb.deg = 45;
-    }
-
-    const fwyd2 = this.helper.getFsyk(result.Asb.bending_dia, safety.material_bar, "stirrup");
-    if (fwyd2.fsy === 235) {
-      // 鉄筋強度が 235 なら 丸鋼
-      mark2 = "R";
-    }
-
-    const dia2: string = mark2 + result.Asb.bending_dia;
-    const As2: number = this.bars.getAs(dia2);
-
-    result.Asb.Asb = As2 * result.Asb.bending_n;
-    if (!(result.Asb.Asb === 0)) {
-      const key: string = this.translate.instant("calculation.number");
-      result.Asb.AsbString = dia2 + "-" + this.numStr(result.Asb.bending_n, 3) + key;
-    }
-
-    result.Asb.fwyd = fwyd2.fsy;
-    result.Asb.fwud = fwyd2.fsu;
-    result.Asb.rs = safety.safety_factor.rs;
 
     return result;
 

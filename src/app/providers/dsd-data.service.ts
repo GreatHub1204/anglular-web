@@ -81,6 +81,7 @@ export class DsdDataService {
 
     } catch (e) {
       this.save.setInputData(old);
+      throw (e);
     }
   }
 
@@ -191,6 +192,9 @@ export class DsdDataService {
     dt2Pick = this.readByte(buff);
     dt2Pick = this.readByte(buff);
 
+    if (!this.isOlder('4.0.0', buff.datVersID)) {
+      this.basic.set_specification1(1); // フィリピン版
+    }
 
     if (!this.isOlder('1.3.10', buff.datVersID)) {
       // 縁応力度が制限値以内でも ひび割れ幅の検討を行う
@@ -240,182 +244,198 @@ export class DsdDataService {
     iDummyCount = this.readInteger(buff)
 
     for (let i = 0; i < iDummyCount; i++) {
-      const Index = this.readInteger(buff) + 1;     // 算出点データ（基本データ）へのIndex
-      const iNumCalc = this.readInteger(buff);  // 部材の算出点数
-      const iBzNo = this.readInteger(buff); // 部材番号
 
-      // ひび割れデータ
-      let c = this.crack.getTableColumn(Index);
-      // 疲労データ
-      let f = this.fatigues.getTableColumn(Index);
-      // 部材データ
-      let m = this.members.getTableColumns(iBzNo);
-      c.m_no = m.m_no;
-      f.m_no = m.m_no;
+      try {
 
-      const sLeng = this.readSingle(buff);  // 部材長 = JTAN
-      m.m_len = sLeng;
+        const Index = this.readInteger(buff) + 1;     // 算出点データ（基本データ）へのIndex
+        const iNumCalc = this.readInteger(buff);  // 部材の算出点数
+        const iBzNo = this.readInteger(buff); // 部材番号
 
-      const strMark = this.readString(buff, 32);
-      m.g_id = strMark.trim();
-      m.g_no = this.helper.toNumber(m.g_id);
+        // ひび割れデータ
+        let c = this.crack.getTableColumn(Index);
+        // 疲労データ
+        let f = this.fatigues.getTableColumn(Index);
+        // 部材データ
+        let m = this.members.getTableColumns(iBzNo);
+        c.m_no = m.m_no;
+        f.m_no = m.m_no;
 
-      const strBuzaiName = this.readString(buff, 32);
-      m.g_name = strBuzaiName.trim();
-      f.g_name = m.g_name;
-      c.g_name = m.g_name;
+        const sLeng = this.readSingle(buff);  // 部材長 = JTAN
+        m.m_len = sLeng;
 
-      const intDanmenType = this.readInteger(buff);
-      switch (intDanmenType) {
-        case 1:
-          m.shape = '矩形';
-          break;
-        case 2:
-          m.shape = 'T形';
-          break;
-        case 3:
-          m.shape = '円形';
-          break;
-        case 4:
-          m.shape = '小判';
-          break;
-      }
+        const strMark = this.readString(buff, 32);
+        m.g_id = strMark.trim();
+        m.g_no = this.helper.toNumber(m.g_id);
 
-      const isOlder311 = (this.isOlder('3.1.1', buff.datVersID));
-      let sngDanmen1 = this.readSingle(buff);
-      if (isOlder311) { sngDanmen1 *= 10; } // cm --> mm
-      if (sngDanmen1 > 0) {
-        m.B = sngDanmen1;
-        if (m.shape === '円形') {
-          m.B *= 2;
+        const strBuzaiName = this.readString(buff, 32);
+        m.g_name = strBuzaiName.trim();
+        f.g_name = m.g_name;
+        c.g_name = m.g_name;
+
+        const intDanmenType = this.readInteger(buff);
+        switch (intDanmenType) {
+          case 1:
+            m.shape = '矩形';
+            break;
+          case 2:
+            m.shape = 'T形';
+            break;
+          case 3:
+            m.shape = '円形';
+            break;
+          case 4:
+            m.shape = '小判';
+            break;
         }
-      }
-      let sngDanmen2 = this.readSingle(buff);
-      if (isOlder311) { sngDanmen2 *= 10; } // cm --> mm
-      if (sngDanmen2 > 0) m.H = sngDanmen2;
-      let sngDanmen3 = this.readSingle(buff);
-      if (isOlder311) { sngDanmen3 *= 10; } // cm --> mm
-      if (sngDanmen3 > 0) m.Bt = sngDanmen3;
-      let sngDanmen4 = this.readSingle(buff);
-      if (isOlder311) { sngDanmen4 *= 10; } // cm --> mm
-      if (sngDanmen4 > 0) m.t = sngDanmen4;
+
+        const isOlder311 = (this.isOlder('3.1.1', buff.datVersID));
+        let sngDanmen1 = this.readSingle(buff);
+        if (isOlder311) { sngDanmen1 *= 10; } // cm --> mm
+        if (sngDanmen1 > 0) {
+          m.B = sngDanmen1;
+          if (m.shape === '円形') {
+            m.B *= 2;
+          }
+        }
+        let sngDanmen2 = this.readSingle(buff);
+        if (isOlder311) { sngDanmen2 *= 10; } // cm --> mm
+        if (sngDanmen2 > 0) m.H = sngDanmen2;
+        let sngDanmen3 = this.readSingle(buff);
+        if (isOlder311) { sngDanmen3 *= 10; } // cm --> mm
+        if (sngDanmen3 > 0) m.Bt = sngDanmen3;
+        let sngDanmen4 = this.readSingle(buff);
+        if (isOlder311) { sngDanmen4 *= 10; } // cm --> mm
+        if (sngDanmen4 > 0) m.t = sngDanmen4;
 
 
-      // 環境条件 曲げ
-      const intKankyo1 = this.readInteger(buff);
-      if (intKankyo1 > 0) c.con_u = intKankyo1;
-      const intKankyo2 = this.readInteger(buff);
-      if (intKankyo2 > 0) c.con_l = intKankyo2;
-
-      // 環境条件せん断 　since version 0.1.4
-      if (!this.isOlder('0.1.4', buff.datVersID)) {
+        // 環境条件 曲げ
+        const intKankyo1 = this.readInteger(buff);
+        if (intKankyo1 > 0) c.con_u = intKankyo1;
         const intKankyo2 = this.readInteger(buff);
-        if (intKankyo2 > 0) c.con_s = intKankyo2;
-      }
+        if (intKankyo2 > 0) c.con_l = intKankyo2;
 
-      const bytHibi1 = this.readByte(buff);
-      c.vis_u = bytHibi1 !== 0;
-      const bytHibi2 = this.readByte(buff);
-      c.vis_l = bytHibi2 !== 0;
+        // 環境条件せん断 　since version 0.1.4
+        if (!this.isOlder('0.1.4', buff.datVersID)) {
+          const intKankyo2 = this.readInteger(buff);
+          if (intKankyo2 > 0) c.con_s = intKankyo2;
+        }
 
-      if (this.isOlder("0.1.4", buff.datVersID)) {
-        const sngHirou1 = this.readInteger(buff);
-        if (sngHirou1 > 0) {
-          f.M1.r1_1 = sngHirou1;
-          f.M2.r1_1 = sngHirou1;
-        }
-        const sngHirou2 = this.readInteger(buff);
-        if (sngHirou2 > 0) {
-          f.V1.r1_2 = sngHirou2;
-          f.V2.r1_2 = sngHirou2;
-        }
-        const sngHirou3 = this.readInteger(buff);
-        if (sngHirou3 > 0) {
-          f.M1.r1_3 = sngHirou3;
-          f.M2.r1_3 = sngHirou3;
-        }
-      } else {
-        if (this.isOlder("2.5.1", buff.datVersID)) {
-          const kr = this.readSingle(buff); // kr
-          if (kr > 0) c.kr = kr;
-          const sngHirou1 = this.readSingle(buff);
+        const bytHibi1 = this.readByte(buff);
+        c.vis_u = bytHibi1 !== 0;
+        const bytHibi2 = this.readByte(buff);
+        c.vis_l = bytHibi2 !== 0;
+
+        if (this.isOlder("0.1.4", buff.datVersID)) {
+          const sngHirou1 = this.readInteger(buff);
           if (sngHirou1 > 0) {
             f.M1.r1_1 = sngHirou1;
             f.M2.r1_1 = sngHirou1;
           }
-          const sngHirou2 = this.readSingle(buff);
+          const sngHirou2 = this.readInteger(buff);
           if (sngHirou2 > 0) {
             f.V1.r1_2 = sngHirou2;
             f.V2.r1_2 = sngHirou2;
           }
-          const sngHirou3 = this.readSingle(buff);
+          const sngHirou3 = this.readInteger(buff);
           if (sngHirou3 > 0) {
             f.M1.r1_3 = sngHirou3;
             f.M2.r1_3 = sngHirou3;
           }
         } else {
-          const sngEcsd = this.readSingle(buff); // εcsd
-          if (sngEcsd > 0) {
-            c.ecsd_u = sngEcsd; 
-            c.ecsd_l = sngEcsd; 
-          }
-          const kr = this.readSingle(buff);// kr
-          if (kr > 0) c.kr = kr;
-          const sngHirou1 = this.readSingle(buff);
-          if (sngHirou1 > 0) {
-            f.M1.r1_1 = Math.round(sngHirou1 * 100) / 100;
-            f.M2.r1_1 = Math.round(sngHirou1 * 100) / 100;
-          }
-          const sngHirou2 = this.readSingle(buff);
-          if (sngHirou2 > 0) {
-            f.V1.r1_2 = Math.round(sngHirou2 * 100) / 100;
-            f.V2.r1_2 = Math.round(sngHirou2 * 100) / 100;
-          }
-          const sngHirou3 = this.readSingle(buff);
-          if (sngHirou3 > 0) {
-            f.M1.r1_3 = Math.round(sngHirou3 * 100) / 100;
-            f.M2.r1_3 = Math.round(sngHirou3 * 100) / 100;
+          if (this.isOlder("2.5.1", buff.datVersID)) {
+            const kr = this.readSingle(buff); // kr
+            if (kr > 0) c.kr = kr;
+            const sngHirou1 = this.readSingle(buff);
+            if (sngHirou1 > 0) {
+              f.M1.r1_1 = sngHirou1;
+              f.M2.r1_1 = sngHirou1;
+            }
+            const sngHirou2 = this.readSingle(buff);
+            if (sngHirou2 > 0) {
+              f.V1.r1_2 = sngHirou2;
+              f.V2.r1_2 = sngHirou2;
+            }
+            const sngHirou3 = this.readSingle(buff);
+            if (sngHirou3 > 0) {
+              f.M1.r1_3 = sngHirou3;
+              f.M2.r1_3 = sngHirou3;
+            }
+          } else {
+            let sngEcsd = this.readSingle(buff); // εcsd
+            if (sngEcsd != null) {
+              let intEcsd = Math.floor(sngEcsd);
+              if (intEcsd > 0) {
+                c.ecsd_u = intEcsd;
+                c.ecsd_l = intEcsd;
+              }
+              sngEcsd = (sngEcsd - intEcsd) * 100000;
+              intEcsd = Math.floor(sngEcsd);
+              if (intEcsd > 0) {
+                c.ecsd_l = intEcsd;
+              }
+            }
+
+            const kr = this.readSingle(buff);// kr
+            if (kr > 0) c.kr = kr;
+            const sngHirou1 = this.readSingle(buff);
+            if (sngHirou1 > 0) {
+              f.M1.r1_1 = Math.round(sngHirou1 * 100) / 100;
+              f.M2.r1_1 = Math.round(sngHirou1 * 100) / 100;
+            }
+            const sngHirou2 = this.readSingle(buff);
+            if (sngHirou2 > 0) {
+              f.V1.r1_2 = Math.round(sngHirou2 * 100) / 100;
+              f.V2.r1_2 = Math.round(sngHirou2 * 100) / 100;
+            }
+            const sngHirou3 = this.readSingle(buff);
+            if (sngHirou3 > 0) {
+              f.M1.r1_3 = Math.round(sngHirou3 * 100) / 100;
+              f.M2.r1_3 = Math.round(sngHirou3 * 100) / 100;
+            }
           }
         }
-      }
 
-      if (!this.isOlder("3.6.1", buff.datVersID)) {
-        const sngK4 = this.readSingle(buff);
-      }
-
-      if (this.isOlder("1.3.4", buff.datVersID)) {
-        const sngNumBZI = this.readInteger(buff);
-        if (sngNumBZI > 0) m.n = sngNumBZI;
-      } else if (this.isOlder("3.6.2", buff.datVersID)) {
-        const sngNumBZI = this.readSingle(buff);
-        if (sngNumBZI > 0) m.n = sngNumBZI;
-      } else {
-        const strNumBZI = this.helper.toNumber(this.readString(buff, 32));
-        if (strNumBZI !== null && strNumBZI > 0) m.n = strNumBZI;
-      }
-
-      if (!this.isOlder("0.1.3", buff.datVersID)) {
-        const bytTaisinKiso = this.readByte(buff);
-      }
-
-
-      for (let j = Index + 1; j < Index + iNumCalc; j++) {
-        // ひび割れデータ
-        const crack = this.crack.getTableColumn(j);
-        for (const key of Object.keys(crack)) {
-          if (key === 'index') continue;
-          crack[key] = c[key];
+        if (!this.isOlder("3.6.1", buff.datVersID)) {
+          const sngK4 = this.readSingle(buff);
+          c.k4 = sngK4;
         }
-        // 疲労データ
-        // f は連想配列が含まれているため clone をコピーしないと
-        const f2 = JSON.parse(JSON.stringify(f));
-        const fatigue = this.fatigues.getTableColumn(j);
-        for (const key of Object.keys(fatigue)) {
-          if (key === 'index') continue;
-          fatigue[key] = f2[key];
-        }
-      }
 
+        if (this.isOlder("1.3.4", buff.datVersID)) {
+          const sngNumBZI = this.readInteger(buff);
+          const a = sngNumBZI;
+          if (sngNumBZI > 0) m.n = sngNumBZI;
+        } else if (this.isOlder("3.6.2", buff.datVersID)) {
+          const sngNumBZI = this.readSingle(buff);
+          if (sngNumBZI > 0) m.n = sngNumBZI;
+        } else {
+          const strNumBZI = this.helper.toNumber(this.readString(buff, 32));
+          if (strNumBZI !== null && strNumBZI > 0) m.n = strNumBZI;
+        }
+
+        if (!this.isOlder("0.1.3", buff.datVersID)) {
+          const bytTaisinKiso = this.readByte(buff);
+        }
+
+
+        for (let j = Index + 1; j < Index + iNumCalc; j++) {
+          // ひび割れデータ
+          const crack = this.crack.getTableColumn(j);
+          for (const key of Object.keys(crack)) {
+            if (key === 'index') continue;
+            crack[key] = c[key];
+          }
+          // 疲労データ
+          // f は連想配列が含まれているため clone をコピーしないと
+          const f2 = JSON.parse(JSON.stringify(f));
+          const fatigue = this.fatigues.getTableColumn(j);
+          for (const key of Object.keys(fatigue)) {
+            if (key === 'index') continue;
+            fatigue[key] = f2[key];
+          }
+        }
+      } catch (e) {
+        throw (e);
+      }
 
     }
 
@@ -491,17 +511,25 @@ export class DsdDataService {
           if (ii < 5) safety_factor[ii].V_rbv = Sen;
           Sen = this.readSingle(buff);
           if (ii < 5) safety_factor[ii].ri = Sen;
-          Sen = this.readSingle(buff);
-          if (ii < 5) safety_factor[ii].T_rbt = Sen;
+          // Sen = this.readSingle(buff);
+          // if (ii < 5) safety_factor[ii].T_rbt = Sen;
         }
       }
 
       for (const k1 of ['tensionBar', 'sidebar', 'stirrup', 'bend']) {
         for (const k2 of ['fsy', 'fsu']) {
-          for (const mb of [material_bar[0], material_bar[1]]) {
+          for (let j = 0; j < 2; j++) {
             let Kyodo = this.readInteger(buff);
+            if (material_bar.length < (j + 1))
+              continue;
+            const mb = material_bar[j];
+            if (mb == null) continue;
+            if (!(k1 in mb)) continue;
+            const mbk1 = mb[k1];
+            if (!(k2 in mbk1)) continue;
+            let mbk1k2 = mbk1[k2];
             if (Kyodo > 0) {
-              mb[k1][k2] = Kyodo;
+              mbk1k2 = Kyodo;
             }
           }
         }
@@ -509,9 +537,14 @@ export class DsdDataService {
 
       if (!isOlder015) {
         let KyodoD = this.readInteger(buff);
-        if (KyodoD > 0) material_bar[0].separate = KyodoD;
+        if (KyodoD > 0) {
+          material_bar[0].separate = KyodoD;
+        }
         KyodoD = this.readInteger(buff);
-        if (KyodoD > 0) material_bar[1].separate = KyodoD;
+        if (KyodoD > 0) {
+          if (1 < material_bar.length)
+            material_bar[1].separate = KyodoD;
+        }
         KyodoD = this.readInteger(buff);
         KyodoD = this.readInteger(buff);
       }
@@ -566,8 +599,13 @@ export class DsdDataService {
 
     if (iDummyCount !== 0) {
       buff['PickFile'] = this.readString(buff, 100).trim(); // ピックアップファイルのパス
-      const strFix100 = this.readString(buff, 100, 'unicode');
-      console.log(strFix100.length);
+      const buff2 = { u8array: buff.u8array.slice(0, buff.u8array.length) };
+      let strFix100 = this.readString(buff, 100, 'unicode').trim();
+      let strFix102 = this.readString(buff2, 100).trim();
+      if (strFix102.length < strFix100.length) {
+        strFix100 = strFix102;
+        buff.u8array = buff2.u8array;
+      }
       const D_Name = strFix100.trim();
 
       for (let i = 0; i < iDummyCount; i++) {

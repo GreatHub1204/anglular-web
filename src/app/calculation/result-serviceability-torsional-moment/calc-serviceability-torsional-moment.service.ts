@@ -275,7 +275,12 @@ export class CalcServiceabilityTorsionalMomentService {
     result["sigma_wpd"] = sigma_wpd;
 
     // 鋼材の種類
-    result["steel_type"] = sectionV.Asc.compress.mark === "D"?"異形鉄筋":"丸鋼";　// 修正が必要
+    if(sectionV.Asc!=null){
+      const Asc = sectionV.Asc;
+      if(Asc.compress != null){
+        result["steel_type"] = Asc.compress.mark === "D"?"異形鉄筋":"丸鋼";　// 修正が必要
+      }
+    }
 
     // 環境条件
     const crackInfo = this.crack.getCalcData(res.index);
