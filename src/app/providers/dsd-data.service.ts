@@ -312,7 +312,7 @@ export class DsdDataService {
         const intKankyo1 = this.readInteger(buff);
         if (intKankyo1 > 0) c.con_u = intKankyo1;
         const intKankyo2 = this.readInteger(buff);
-        if (intKankyo2 > 0) c.con_l = intKankyo2;
+        if (intKankyo2 > 0)    c.con_l = intKankyo2;
 
         // 環境条件せん断 　since version 0.1.4
         if (!this.isOlder('0.1.4', buff.datVersID)) {
@@ -407,6 +407,12 @@ export class DsdDataService {
         } else if (this.isOlder("3.6.2", buff.datVersID)) {
           const sngNumBZI = this.readSingle(buff);
           if (sngNumBZI > 0) m.n = sngNumBZI;
+        } else if (!this.isOlder("4.0.0", buff.datVersID) 
+                  && this.isOlder("4.1.0", buff.datVersID)) {
+          // フィリピン版
+          const sngNumBZI = this.readSingle(buff);
+          if (sngNumBZI > 0) m.n = sngNumBZI;
+          
         } else {
           const strNumBZI = this.helper.toNumber(this.readString(buff, 32));
           if (strNumBZI !== null && strNumBZI > 0) m.n = strNumBZI;
