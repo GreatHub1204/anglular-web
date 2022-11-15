@@ -1,9 +1,9 @@
 {
   "name": "web-dan-for-js",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
     "build": "ng build --configuration production --base-href \"https://structuralengine.github.io/WebDanforJS/\" && angular-cli-ghpages",
     "test": "ng test",
     "lint": "ng lint",
@@ -45,6 +45,7 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@types/encoding-japanese": "^2.0.1",
     "@types/file-saver": "^2.0.3",
     "@types/jquery": "^3.5.6",
     "@types/jqueryui": "^1.12.16",

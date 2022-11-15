@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from "@ngx-translate/core";
+import { DataHelperModule } from 'src/app/providers/data-helper.module';
 
 @Component({
   selector: 'app-login-dialog',
@@ -26,7 +27,8 @@ export class LoginDialogComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public auth: AngularFireAuth,
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private helper: DataHelperModule
     ) {
     this.loginError = false;
     this.connecting = false;
@@ -61,7 +63,7 @@ export class LoginDialogComponent implements OnInit {
       // this.user.loggedIn = false;
       this.loginError = true;
       this.errorMessage = err;
-      alert( this.translate.instant("login-dialog.fail") + err);
+      this.helper.alert( this.translate.instant("login-dialog.fail") + err);
     });
   }
 
