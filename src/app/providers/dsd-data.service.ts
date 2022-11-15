@@ -1239,14 +1239,14 @@ export class DsdDataService {
     let str: string = '';
     while (str.length < length) {
       const tmp1 = String.fromCharCode.apply("", buff.u8array.slice(0, 2));
-      const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'unicode', encode) : tmp1;
+      const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'UNICODE', 'SJIS') : tmp1;
       if (tmp.length == 1) {
         // ２バイト文字（日本語）
         str += tmp;
         buff.u8array = buff.u8array.slice(2);
       } else {
         const tmp1 = String.fromCharCode.apply("", buff.u8array.slice(0, 1));
-        const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'unicode', encode) : tmp1;
+        const tmp = (encode !== 'unicode') ? Encord.convert(tmp1, 'UNICODE', 'SJIS') : tmp1;
         str += tmp;
         buff.u8array = buff.u8array.slice(1);
       }

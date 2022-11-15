@@ -152,5 +152,6 @@ ipcMain.on(
   'alert',
   async (event: Electron.IpcMainEvent, message: string) => {
     await dialog.showMessageBox({ message });
+    event.returnValue = '';
   }
 );
