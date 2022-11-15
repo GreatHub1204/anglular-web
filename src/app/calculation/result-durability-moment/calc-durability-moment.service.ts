@@ -7,6 +7,8 @@ import { InputCalclationPrintService } from "src/app/components/calculation-prin
 import { InputCrackSettingsService } from "src/app/components/crack/crack-settings.service";
 import { SaveDataService } from "src/app/providers/save-data.service";
 import { TranslateService } from "@ngx-translate/core";
+import { DataHelperModule } from "src/app/providers/data-helper.module";
+
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +28,8 @@ export class CalcDurabilityMomentService {
     private post: SetPostDataService,
     private basic: InputBasicInformationService,
     private calc: InputCalclationPrintService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private helper: DataHelperModule
   ) {
     this.DesignForceList = null;
     this.isEnable = false;
@@ -90,7 +93,7 @@ export class CalcDurabilityMomentService {
         }
       }
     } catch (error) {
-      alert(this.translate.instant("calc-durability-moment.check_crack"));
+      this.helper.alert(this.translate.instant("calc-durability-moment.check_crack"));
       console.error(this.translate.instant("calc-durability-moment.changing_error"));
     }
   }

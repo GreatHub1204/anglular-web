@@ -1,11 +1,25 @@
 import { NgModule } from "@angular/core";
 import { InputBasicInformationService } from "../components/basic-information/basic-information.service";
+import { ElectronService } from 'ngx-electron';
 
 @NgModule({
   imports: [],
   exports: [],
 })
 export class DataHelperModule {
+
+  constructor(
+    public electronService: ElectronService
+  ) {}
+
+  // アラートを表示する
+  public alert(message: string): void{
+    if(this.electronService.isElectronApp) {
+      this.electronService.ipcRenderer.sendSync('alert', message);
+    }else{
+      alert(message);
+    }
+  }
 
   // ファイル名から拡張子を取得する関数
   public getExt(filename: string): string {
@@ -16,9 +30,6 @@ export class DataHelperModule {
     const ext = filename.slice(pos + 1);
     return ext.toLowerCase();
   }
-
-
-
 
   /// 文字列string を数値に変換する
   public toNumber(num: any): number {
