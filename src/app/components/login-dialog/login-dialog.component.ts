@@ -61,7 +61,7 @@ export class LoginDialogComponent implements OnInit {
       // this.user.loggedIn = false;
       this.loginError = true;
       this.errorMessage = err;
-      alert( this.translate.instant("login-dialog.fail") + err);
+      //alert( this.translate.instant("login-dialog.fail") + err);
     });
   }
 

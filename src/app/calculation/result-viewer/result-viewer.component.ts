@@ -96,12 +96,12 @@ export class ResultViewerComponent implements OnInit {
   public printSummaryTable(): boolean {
     if(!this._printSummaryTable){
       if( this.summary.checkDone() === true){
-        alert(
-          this.user.deduct_points 
-          + this.translate.instant("result-viewer.deduct_points") 
-          + this.user.daily_points 
-          + this.translate.instant("result-viewer.daily_points")
-          );
+        //alert(
+          //this.user.deduct_points 
+          //+ this.translate.instant("result-viewer.deduct_points") 
+          //+ this.user.daily_points 
+          //+ this.translate.instant("result-viewer.daily_points")
+          //);
         this._printSummaryTable = true;
       }
     }

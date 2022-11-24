@@ -82,7 +82,7 @@ export class MenuComponent implements OnInit {
     const response = this.electronService.ipcRenderer.sendSync('open');
 
     if(response.status!==true){
-      alert(this.translate.instant("menu.fail") + response.status);
+      //alert(this.translate.instant("menu.fail") + response.status);
       return;
     }
     const modalRef = this.modalService.open(WaitDialogComponent);
@@ -97,7 +97,7 @@ export class MenuComponent implements OnInit {
           const pik = this.dsdData.readDsdData(response.text);
           this.open_done(modalRef);
           if (pik !== null) {
-            alert(pik + this.translate.instant("menu.open"));
+            //alert(pik + this.translate.instant("menu.open"));
           }
           break;
         default:
@@ -125,7 +125,7 @@ export class MenuComponent implements OnInit {
             const pik = this.dsdData.readDsdData(buff);
             this.open_done(modalRef);
             if (pik !== null) {
-            alert(pik + this.translate.instant("menu.open"));
+            //alert(pik + this.translate.instant("menu.open"));
             }
           })
           .catch((err) => {
@@ -152,7 +152,7 @@ export class MenuComponent implements OnInit {
       this.app.memberChange(); // 左側のボタンを有効にする。
       this.app.designPointChange(); // 左側のボタンを有効にする。
     } else {
-      alert(error);
+      //alert(error);
     }
 
     modalRef.close();

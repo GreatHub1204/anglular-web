@@ -75,7 +75,7 @@ export class CalculationPrintComponent implements OnInit, OnDestroy {
 
     this.auth.currentUser.then(user=>{
       if(user === null){
-        alert(this.translate.instant("calculation-print.p_login"));
+        //alert(this.translate.instant("calculation-print.p_login"));
         return;
       }
       this.user.clear(user.uid);

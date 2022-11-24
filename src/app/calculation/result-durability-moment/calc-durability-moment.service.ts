@@ -90,7 +90,7 @@ export class CalcDurabilityMomentService {
         }
       }
     } catch (error) {
-      alert(this.translate.instant("calc-durability-moment.check_crack"));
+      //alert(this.translate.instant("calc-durability-moment.check_crack"));
       console.error(this.translate.instant("calc-durability-moment.changing_error"));
     }
   }
