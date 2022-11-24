@@ -6,6 +6,7 @@ import { SaveDataService } from '../../providers/save-data.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserInfoService } from 'src/app/providers/user-info.service';
 import { TranslateService } from "@ngx-translate/core";
+import { DataHelperModule } from 'src/app/providers/data-helper.module';
 
 @Component({
   selector: 'app-calculation-print',
@@ -31,7 +32,8 @@ export class CalculationPrintComponent implements OnInit, OnDestroy {
     private router: Router,
     private user: UserInfoService,
     public auth: AngularFireAuth,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private helper: DataHelperModule
      ) { }
 
   ngOnInit() {
@@ -75,7 +77,7 @@ export class CalculationPrintComponent implements OnInit, OnDestroy {
 
     this.auth.currentUser.then(user=>{
       if(user === null){
-        //alert(this.translate.instant("calculation-print.p_login"));
+        this.helper.alert(this.translate.instant("calculation-print.p_login"));
         return;
       }
       this.user.clear(user.uid);

@@ -50,7 +50,7 @@ export class ResultSummaryTableComponent implements OnInit {
     document.execCommand("copy");
     document.body.removeChild(selBox);
 
-    //alert(this.translate.instant("result-summary-table.copy"));
+    this.helper.alert(this.translate.instant("result-summary-table.copy"));
   }
 
 }

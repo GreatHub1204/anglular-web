@@ -23,6 +23,7 @@ import { CalcServiceabilityTorsionalMomentService } from '../result-serviceabili
 import { CalcRestorabilityTorsionalMomentService } from '../result-restorability-torsional-moment/calc-restorability-torsional-moment.service';
 import { CalcEarthquakesTosionalMomentService } from '../result-earthquakes-torsional-moment/calc-earthquakes-tosional-moment.service';
 import { TranslateService } from "@ngx-translate/core";
+import { DataHelperModule } from 'src/app/providers/data-helper.module';
 
 @Component({
   selector: 'app-result-viewer',
@@ -59,7 +60,8 @@ export class ResultViewerComponent implements OnInit {
     public serviceabilityTorsionalMoment: CalcServiceabilityTorsionalMomentService,
     public ResultMinimumReinforcement: CalcMinimumReinforcementService,
     private user: UserInfoService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private helper: DataHelperModule
   ) { }
 
   ngOnInit() {
@@ -96,12 +98,12 @@ export class ResultViewerComponent implements OnInit {
   public printSummaryTable(): boolean {
     if(!this._printSummaryTable){
       if( this.summary.checkDone() === true){
-        //alert(
-          //this.user.deduct_points 
-          //+ this.translate.instant("result-viewer.deduct_points") 
-          //+ this.user.daily_points 
-          //+ this.translate.instant("result-viewer.daily_points")
-          //);
+        this.helper.alert(
+          this.user.deduct_points 
+          + this.translate.instant("result-viewer.deduct_points") 
+          + this.user.daily_points 
+          + this.translate.instant("result-viewer.daily_points")
+          );
         this._printSummaryTable = true;
       }
     }
