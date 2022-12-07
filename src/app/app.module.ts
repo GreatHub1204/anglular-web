@@ -90,6 +90,7 @@ import { ResultEarthquakesTorsionalMomentComponent } from "./calculation/result-
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ElectronService, NgxElectronModule } from "ngx-electron";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { ChatComponent } from './components/chat/chat.component';
 
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
   new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -156,6 +157,7 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
     ResultServiceabilityTorsionalMomentComponent,
     ResultRestorabilityTorsionalMomentComponent,
     ResultEarthquakesTorsionalMomentComponent,
+    ChatComponent,
   ],
   entryComponents: [
     LoginDialogComponent,
