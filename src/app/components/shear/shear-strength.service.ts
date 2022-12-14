@@ -9,7 +9,7 @@ export class ShearStrengthService {
 
   
   // 部材情報
-  public crack_list: any[];
+  public shear_list: any[];
 
   constructor(
     private helper: DataHelperModule,
@@ -17,25 +17,18 @@ export class ShearStrengthService {
     this.clear();
   }
   public clear(): void {
-    this.crack_list = new Array();
+    this.shear_list = new Array();
   }
 
-  // ひび割れ情報
-  public default_crack(id: number): any {
+  // せん断耐力情報
+  public default_shear(id: number): any {
     return {
       index: id,
       m_no: null,
       g_name: null,
       p_name: null,
-      con_u: null,
-      con_l: null,
-      con_s: null,
-      vis_u: false,
-      vis_l: false,
-      ecsd_u: null,
-      ecsd_l: null,
-      kr: null,
-      k4: null,
+      s_len: null,
+      fixed_end: null
     };
   }
 
@@ -77,10 +70,10 @@ export class ShearStrengthService {
 
   public getTableColumn(index: any): any {
 
-    let result = this.crack_list.find((value) => value.index === index);
+    let result = this.shear_list.find((value) => value.index === index);
     if (result == null) {
-      result = this.default_crack(index);
-      this.crack_list.push(result);
+      result = this.default_shear(index);
+      this.shear_list.push(result);
     }
     return result;
   }
@@ -88,9 +81,9 @@ export class ShearStrengthService {
   public getCalcData(index: number): any{
 
     // indexに対応する行を探す
-    let target = this.crack_list.find((value) => value.index === index);
+    let target = this.shear_list.find((value) => value.index === index);
     if(target == undefined){
-      target = this.default_crack(index);
+      target = this.default_shear(index);
     }
     // リターンするデータ(result)をクローンで生成する
     const result = JSON.parse(
@@ -100,16 +93,15 @@ export class ShearStrengthService {
     ).temp;
 
     // データ(result)を書き換える
-    for (let ip = result.index; ip >= 0; ip--) { 
-
-      const data = this.crack_list.find((value) => value.index === ip);
+    for (let ip = result.index; ip >= 0; ip--) {
+      const data = this.shear_list.find((value) => value.index === ip);
       if(data == undefined){
         continue;
       }
       // 当該入力行より上の行
       let endFlg = true;
-      const check_list = ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'k4'];
-      for (const key of check_list){
+      const shear_list = ['s_len', 'fixed_end'];
+      for (const key of shear_list){
         if (result[key] == null && key in data) {
           result[key] = this.helper.toNumber(data[key]);
           endFlg = false; // まだ終わらない
@@ -119,30 +111,23 @@ export class ShearStrengthService {
         // 全ての値に有効な数値(null以外)が格納されたら終了する
         break;
       }
-
     }
+
     return result;
   }
 
   public setTableColumns(table_datas: any[]) {
 
-    this.crack_list = new Array();
+    this.shear_list = new Array();
 
     for (const column of table_datas) {
-      const b = this.default_crack(column.index);
+      const b = this.default_shear(column.index);
       b.m_no =      column.m_no;
       b.g_name =    column.g_name;
-      b.p_name = column.p_name;
-      b.con_u =     column.con_u;
-      b.con_l =     column.con_l;
-      b.con_s =     column.con_s;
-      b.vis_u =     column.vis_u;
-      b.vis_l =     column.vis_l;
-      b.ecsd_u =      column.ecsd_u;
-      b.ecsd_l =      column.ecsd_l;
-      b.kr =        column.kr;
-      b.k4 =        column.k4;
-      this.crack_list.push(b);
+      b.p_name =    column.p_name;
+      b.s_len =     column.s_len;
+      b.fixed_end = column.fixed_end;
+      this.shear_list.push(b);
     }
   }
 
@@ -151,37 +136,21 @@ export class ShearStrengthService {
   }
 
   public getSaveData(): any[] {
-    return this.crack_list;
+    return this.shear_list;
   }
 
-  public setSaveData(crack: any) {
-    ////////// 情報追加による調整コード //////////
-    for (const value of crack) {
-      if (value.ecsd_u == null && value.ecsd_l == null) {
-        if (value.ecsd !== null) {
-          value['ecsd_u'] = value.ecsd;
-          value['ecsd_l'] = value.ecsd;
-        } else {
-          value['ecsd_u'] = null;
-          value['ecsd_l'] = null;
-        }
-        delete value['ecsd'];
-      }
-      if (value.k4 == undefined) {
-        let flag: boolean = true;
-        for (const key of ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr']) {
-          if (value[key] === null || value[key] == null) {
-            flag = false;
-            break;
-          }
-        }
-        if (flag) {
-          value['k4'] = 0.85;
+  public setSaveData(shear: any) {
+
+    this.clear();
+    for(const data of shear){
+      const tmp = this.default_shear(data.index);
+      for(const key of Object.keys(tmp)){
+        if(key in data){
+          tmp[key] = data[key];
         }
       }
+      this.shear_list.push(tmp);
     }
-    //////////          //////////
-    this.crack_list = crack;
   }
 
   public getGroupeName(i: number): string {
