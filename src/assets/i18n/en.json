@@ -27,6 +27,7 @@
         "section_force":"Cross-sectional force",
         "bars":"Reinforcing bar arrangement",
         "steels":"Steel arrangement",
+        "shear":"Shear strength",
         "crack":"Crack data",
         "fatigues":"Fatigue data",
         "sf_ms":"Safety factor / Material strength",
@@ -174,6 +175,13 @@
         "crack":"Crack εcsd",
         "shear_kr":"Shear kr",
         "exterior":"Exterior"
+    },
+    "shear-strength":{
+        "m_no":"Member\nNo",
+        "position":"Position",
+        "p_name":"Calculated point name",
+        "s_len":"Shear span length (mm)",
+        "fixed_end":"fixed end"
     },
     "fatigues":{
         "durable":"Durable life：",

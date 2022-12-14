@@ -27,6 +27,7 @@
         "section_force":"断面力",
         "bars":"鉄筋配置",
         "steels":"鉄骨配置",
+        "shear":"せん断耐力算定",
         "crack":"ひび割れデータ",
         "fatigues":"疲労データ",
         "sf_ms":"安全係数・材料強度",
@@ -174,6 +175,13 @@
         "crack":"ひび割 εcsd",
         "shear_kr":"せん断\nkr",
         "exterior":"外観"
+    },
+    "shear-strength":{
+        "m_no":"部材\n番号",
+        "position":"位置",
+        "p_name":"算出点名",
+        "s_len":"せん断スパン長(mm)",
+        "fixed_end":"両端固定"
     },
     "fatigues":{
         "durable":"耐用年数：",

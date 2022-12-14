@@ -13,7 +13,7 @@ import { SectionForcesComponent } from './components/section-forces/section-forc
 import { CalculationPrintComponent } from './components/calculation-print/calculation-print.component';
 import { ResultViewerComponent } from './calculation/result-viewer/result-viewer.component';
 import { CrackSettingsComponent } from './components/crack/crack-settings.component';
-
+import { ShearComponent } from './components/shear/shear.component';
 
 
 const routes: Routes = [
@@ -23,6 +23,7 @@ const routes: Routes = [
     { path: 'design-points', component: DesignPointsComponent },
     { path: 'bars', component: BarsComponent },
     { path: 'steels', component: SteelsComponent },
+    { path: 'shear', component: ShearComponent },
     { path: 'crack', component: CrackSettingsComponent },
     { path: 'fatigues', component: FatiguesComponent },
     { path: 'safety-factors-material-strengths', component: SafetyFactorsMaterialStrengthsComponent },
