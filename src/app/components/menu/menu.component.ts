@@ -75,7 +75,7 @@ export class MenuComponent implements OnInit {
       this.app.memberChange(false); // 左側のボタンを無効にする。
     }, 10);
   }
-  
+
   // Electron でファイルを開く
   open_electron(){
 
