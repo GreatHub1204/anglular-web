@@ -96,7 +96,7 @@ export class ShearComponent implements OnInit {
       },
       {
         title: this.translate.instant("shear-strength.fixed_end"),
-        align: 'center', dataType: 'bool', dataIndx: 'vis_u', type: 'checkbox', sortable: false, width: 50 
+        align: 'center', dataType: 'bool', dataIndx: 'fixed_end', type: 'checkbox', sortable: false, width: 50 
       }
     );
   }

@@ -27,7 +27,7 @@ export class ShearStrengthService {
       m_no: null,
       g_name: null,
       p_name: null,
-      s_len: null,
+      La: null,
       fixed_end: null
     };
   }
@@ -100,7 +100,7 @@ export class ShearStrengthService {
       }
       // 当該入力行より上の行
       let endFlg = true;
-      const shear_list = ['s_len', 'fixed_end'];
+      const shear_list = ['La', 'fixed_end'];
       for (const key of shear_list){
         if (result[key] == null && key in data) {
           result[key] = this.helper.toNumber(data[key]);
@@ -125,7 +125,7 @@ export class ShearStrengthService {
       b.m_no =      column.m_no;
       b.g_name =    column.g_name;
       b.p_name =    column.p_name;
-      b.s_len =     column.s_len;
+      b.La =        column.La;
       b.fixed_end = column.fixed_end;
       this.shear_list.push(b);
     }
