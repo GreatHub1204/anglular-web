@@ -5,6 +5,7 @@ import { SaveDataService } from 'src/app/providers/save-data.service';
 import { DataHelperModule } from 'src/app/providers/data-helper.module';
 import { TranslateService } from '@ngx-translate/core';
 import { ShearStrengthService } from './shear-strength.service';
+import { InputBasicInformationService } from '../basic-information/basic-information.service';
 
 @Component({
   selector: 'app-shear',
@@ -28,6 +29,7 @@ export class ShearComponent implements OnInit {
     private shear: ShearStrengthService,
     private save: SaveDataService,
     public helper: DataHelperModule,
+    private basic: InputBasicInformationService,
     private translate: TranslateService
     ) { }
 
@@ -93,12 +95,19 @@ export class ShearComponent implements OnInit {
       {
         title: this.translate.instant("shear-strength.s_len"),
         dataType: "float",  dataIndx: "La", sortable: false,  width: 200
-      },
+      }
+    );
+
+    // 令和5年 RC標準
+    const speci2 = this.basic.get_specification2();
+    if(speci2===3 || speci2===4){
+      this.columnHeaders.push(
       {
         title: this.translate.instant("shear-strength.fixed_end"),
         align: 'center', dataType: 'bool', dataIndx: 'fixed_end', type: 'checkbox', sortable: false, width: 100
-      }
-    );
+      });
+    }
+
   }
 
   public getGroupeName(i: number): string {
