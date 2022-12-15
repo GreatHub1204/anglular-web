@@ -92,11 +92,11 @@ export class ShearComponent implements OnInit {
       },
       {
         title: this.translate.instant("shear-strength.s_len"),
-        dataType: "float",  dataIndx: "La", sortable: false,  width: 140
+        dataType: "float",  dataIndx: "La", sortable: false,  width: 200
       },
       {
         title: this.translate.instant("shear-strength.fixed_end"),
-        align: 'center', dataType: 'bool', dataIndx: 'fixed_end', type: 'checkbox', sortable: false, width: 50 
+        align: 'center', dataType: 'bool', dataIndx: 'fixed_end', type: 'checkbox', sortable: false, width: 100
       }
     );
   }

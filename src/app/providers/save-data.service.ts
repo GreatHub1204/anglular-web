@@ -10,6 +10,7 @@ import { InputSectionForcesService } from "../components/section-forces/section-
 import { InputCalclationPrintService } from "../components/calculation-print/calculation-print.service";
 import { InputCrackSettingsService } from "../components/crack/crack-settings.service";
 import { InputSteelsService } from "../components/steels/steels.service";
+import { ShearStrengthService } from "../components/shear/shear-strength.service";
 
 @Injectable({
   providedIn: "root",
@@ -40,6 +41,7 @@ export class SaveDataService {
     private steel: InputSteelsService,
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
+    private shear: ShearStrengthService,
     private crack: InputCrackSettingsService,
     private fatigues: InputFatiguesService,
     private members: InputMembersService,
@@ -55,6 +57,7 @@ export class SaveDataService {
     this.pickup_data = {};
     this.basic.clear();
     this.members.clear();
+    this.shear.clear();
     this.crack.clear();
     this.points.clear();
     this.bars.clear();
@@ -162,6 +165,7 @@ export class SaveDataService {
       this.bars.setPickUpData();
       this.steel.setPickUpData();
       this.basic.setPickUpData();
+      this.shear.setPickUpData();
       this.crack.setPickUpData();
       this.fatigues.setPickUpData();
       // this.safety.clear();
@@ -261,6 +265,8 @@ export class SaveDataService {
       basic: this.basic.getSaveData(),
       // 部材情報
       members: this.members.getSaveData(),
+      // せん断耐力
+      shear: this.shear.getSaveData(),
       // ひび割れ情報
       crack: this.crack.getSaveData(),
       // 着目点情報
@@ -308,6 +314,12 @@ export class SaveDataService {
       this.members.setSaveData(jsonData.members);
     } else {
       this.members.clear();
+    }
+    // せん断耐力式
+    if ("shear" in jsonData) {
+      this.shear.setSaveData(jsonData.shear);
+    } else {
+      this.shear.clear();
     }
     // ひび割れ情報
     if ("crack" in jsonData) {
