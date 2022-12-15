@@ -82,6 +82,11 @@ export class CalcSafetyShearForceService {
 
     const result: any = {}; // 印刷用
 
+    // 仕様
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+
+
     // 断面力
     let Md1: number = 0;
     if (force !== void 0) {
@@ -93,15 +98,15 @@ export class CalcSafetyShearForceService {
     }
 
     let Nd: number = 0;
-    if(force !== void 0){
+    if(force != null){
       Nd = this.helper.toNumber(force.Nd);
     }
-    if (Nd !== 0) {
+    if (Nd != 0) {
       result["Nd"] = Nd;
     }
 
     let Vd: number = 0
-    if(force !== void 0){
+    if(force !== null){
       Vd = Math.abs(this.helper.toNumber(force.Vd));
     }
     if (Vd === null) {
@@ -157,6 +162,25 @@ export class CalcSafetyShearForceService {
       pc = section.Ast.Ast / (section.shape.Bw * d);
     }
 
+    // コンクリート材料
+    const fck: number = this.helper.toNumber(fc.fck);
+    if (fck === null) {
+      return result;
+    }
+    result["fck"] = fck;
+
+    let rc: number = this.helper.toNumber(fc.rc);
+    if (rc === null) {
+      rc = 1;
+    }
+    result["rc"] = rc;
+
+    let fcd: number = this.helper.toNumber(fc.fcd);
+    if (fcd === null) {
+      fcd = fck;
+    }
+    result["fcd"] = fcd;
+
     // 帯鉄筋
     let Aw: number = this.helper.toNumber(section.Aw.Aw);
     let fwyd: number = this.helper.toNumber(section.Aw.fwyd);
@@ -168,6 +192,12 @@ export class CalcSafetyShearForceService {
       Aw = 0;
       fwyd = 0;
     } else {
+
+      if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+        // 令和5年 RC標準
+        fwyd = Math.min(fwyd, 25 * fcd, 1275);
+      }
+
       result["Aw"] = Aw;
       result["AwString"] = section.Aw.AwString;
       result["fwyd"] = section.Aw.fwyd;
@@ -192,25 +222,6 @@ export class CalcSafetyShearForceService {
       result["deg2"] = deg2;
       result["Ss2"] = Ss2;
     }
-
-    // コンクリート材料
-    const fck: number = this.helper.toNumber(fc.fck);
-    if (fck === null) {
-      return result;
-    }
-    result["fck"] = fck;
-
-    let rc: number = this.helper.toNumber(fc.rc);
-    if (rc === null) {
-      rc = 1;
-    }
-    result["rc"] = rc;
-
-    let fcd: number = this.helper.toNumber(fc.fcd);
-    if (fcd === null) {
-      fcd = fck;
-    }
-    result["fcd"] = fcd;
 
     // 鉄筋材料
     let fsy: number = this.helper.toNumber(section.Ast.fsy);
@@ -271,6 +282,7 @@ export class CalcSafetyShearForceService {
       result[key] = Vwcd[key];
     }
 
+
     if (La / d >= 2) {
 
       result["rbc"] = V_rbc;
@@ -280,6 +292,17 @@ export class CalcSafetyShearForceService {
         V_rbs = 1;
       }
       result["rbs"] = V_rbs;
+
+      if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+        // 令和5年 RC標準 
+        const pw: number = Aw / (bw * Ss);
+        const pff = pw * fwyd / fcd;
+        if (0.1 < pff) {
+          // pw・fwyd/f'cd≦0.1とするのがよいので
+          // Aw の上限値とする
+          Aw = 0.1 * bw * Ss * fcd / fwyd;
+        }                 
+      }
 
       const Vyd: any = this.calcVyd(
         fcd, d, pc, Nd, h,
@@ -297,8 +320,6 @@ export class CalcSafetyShearForceService {
       }
       result["rbs"] = V_rbs;
 
-      const speci1 = this.basic.get_specification1();
-      const speci2 = this.basic.get_specification2();
       if (speci1 === 0 && (speci2 === 2 || speci2 === 5)) {
         // JR東日本の場合
         result["rbc"] = V_rbc;
@@ -313,19 +334,29 @@ export class CalcSafetyShearForceService {
         }
 
       } else {
-        // 標準の式
+
+        // 標準のディープビーム式
         V_rbc = this.helper.toNumber(safety.safety_factor.rbd);
         if (V_rbc === null) {
           V_rbc = 1.2;
         }
         result["rbc"] = V_rbc;
   
-        const Vdd: any = this.calcVdd(
-          fcd, d, Aw, bw, Ss,
-          La, Nd, h, Mu, pc, V_rbc);
+        let fixed_end = false; // 両端固定梁で令和5年 RC標準で導入された概念
+        if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+          fixed_end = true;
+        }
+
+        const Vdd: any = (fixed_end) ? 
+          this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc) : 
+          this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc); 
+
         for (const key of Object.keys(Vdd)) {
           result[key] = Vdd[key];
         }
+
+
+
       }
 
     }
@@ -477,8 +508,17 @@ export class CalcSafetyShearForceService {
   private calcVwcd(fcd: number, B: number, d: number, rbc: number): any {
     const result = {};
 
+    // 仕様
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+
     let fwcd: number = 1.25 * Math.sqrt(fcd);
-    fwcd = Math.min(fwcd, 7.8);
+
+    if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+      fwcd = Math.min(fwcd, 9.8);
+    } else{
+      fwcd = Math.min(fwcd, 7.8);
+    }
     result["fwcd"] = fwcd;
 
     let Vwcd = (fwcd * B * d) / rbc;
@@ -494,7 +534,12 @@ export class CalcSafetyShearForceService {
   private calcVdd(fcd: number, d: number, Aw: number,
     B: number, Ss: number, La: number, Nd: number,
     Height: number, Mu: number, pc: number, rbc: number): any {
+
     const result = {};
+
+    // 仕様
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
 
     let fdd: number = 0.19 * Math.sqrt(fcd);
     result["fdd"] = fdd;
@@ -502,6 +547,13 @@ export class CalcSafetyShearForceService {
     let Bd: number = Math.pow(1000 / d, 1 / 4);
     Bd = Math.min(Bd, 1.5);
     result["Bd"] = Bd;
+
+    let alpha: number = 1.0;
+    if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+      alpha = 1.14;
+      result["alpha"] = alpha;
+    }
+
 
     let pw: number = Aw / (B * Ss);
     result["pw"] = pw;

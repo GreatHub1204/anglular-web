@@ -99,8 +99,9 @@ export class ShearComponent implements OnInit {
     );
 
     // 令和5年 RC標準
+    const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
-    if(speci2===3 || speci2===4){
+    if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
       this.columnHeaders.push(
       {
         title: this.translate.instant("shear-strength.fixed_end"),
