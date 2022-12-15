@@ -181,7 +181,8 @@
         "position":"位置",
         "p_name":"算出点名",
         "s_len":"せん断スパン長(mm)",
-        "fixed_end":"両端固定"
+        "fixed_end":"両端固定",
+        "m_len":"部材長さ(mm)"
     },
     "fatigues":{
         "durable":"耐用年数：",

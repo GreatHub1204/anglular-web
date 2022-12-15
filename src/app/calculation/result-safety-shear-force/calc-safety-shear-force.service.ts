@@ -349,7 +349,7 @@ export class CalcSafetyShearForceService {
 
         const Vdd: any = (fixed_end) ? 
           this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc) : 
-          this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc); 
+          this.calcVasud(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc); 
 
         for (const key of Object.keys(Vdd)) {
           result[key] = Vdd[key];
@@ -504,6 +504,7 @@ export class CalcSafetyShearForceService {
     return result;
   }
 
+
   // 腹部コンクリートの設計斜め圧縮破壊耐力
   private calcVwcd(fcd: number, B: number, d: number, rbc: number): any {
     const result = {};
@@ -532,6 +533,81 @@ export class CalcSafetyShearForceService {
 
   // 設計せん断圧縮破壊耐力 Vdd
   private calcVdd(fcd: number, d: number, Aw: number,
+    B: number, Ss: number, La: number, Nd: number,
+    Height: number, Mu: number, pc: number, rbc: number): any {
+
+    const result = {};
+
+    // 仕様
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+
+    let fdd: number = 0.19 * Math.sqrt(fcd);
+    result["fdd"] = fdd;
+
+    let Bd: number = Math.pow(1000 / d, 1 / 4);
+    Bd = Math.min(Bd, 1.5);
+    result["Bd"] = Bd;
+
+    let alpha: number = 1.0;
+    if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+      alpha = 1.14;
+      result["alpha"] = alpha;
+    }
+
+
+    let pw: number = Aw / (B * Ss);
+    result["pw"] = pw;
+    if (pw < 0.002) {
+      pw = 0;
+    }
+
+    //せん断スパン比
+    let ad: number = La / d;
+    result["ad"] = ad;
+
+    let Bw: number =
+      (4.2 * Math.pow(100 * pw, 1 / 3) * (ad - 0.75)) / Math.sqrt(fcd);
+    Bw = Math.max(Bw, 0);
+    result["Bw"] = Bw;
+
+    //M0 = NDD / AC * iC / Y
+    let Mo: number = (Nd * Height) / 6000;
+    result["Mo"] = Mo;
+
+    let Bn: number;
+    if (Mu <= 0) {
+      Bn = 1;
+    } else if (Nd > 0) {
+      Bn = 1 + (2 * Mo) / Mu;
+      Bn = Math.min(Bn, 2);
+    } else {
+      Bn = 1 + (4 * Mo) / Mu;
+      Bn = Math.max(Bn, 0);
+    }
+    result["Bn"] = Bn;
+
+    result["pc"] = pc;
+
+    let Bp: number = (1 + Math.sqrt(100 * pc)) / 2;
+    Bp = Math.min(Bp, 1.5);
+    result["Bp"] = Bp;
+
+    let Ba: number = 5 / (1 + Math.pow(ad, 2));
+    result["Ba"] = Ba;
+
+    let Vdd =
+      ((Bd * Bn + Bw) * Bp * Ba * fdd * B * d) / rbc;
+
+    Vdd = Vdd / 1000;
+
+    result["Vdd"] = Vdd;
+
+    return result;
+  }
+
+  // 令和5年 RC標準 
+  private calcVasud(fcd: number, d: number, Aw: number,
     B: number, Ss: number, La: number, Nd: number,
     Height: number, Mu: number, pc: number, rbc: number): any {
 

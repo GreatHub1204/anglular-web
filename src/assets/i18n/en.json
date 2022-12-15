@@ -181,7 +181,8 @@
         "position":"Position",
         "p_name":"Calculated point name",
         "s_len":"Shear span length (mm)",
-        "fixed_end":"fixed end"
+        "fixed_end":"fixed end",
+        "m_len":"Distance (mm)"
     },
     "fatigues":{
         "durable":"Durable life：",

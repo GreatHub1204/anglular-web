@@ -27,7 +27,8 @@ export class ShearStrengthService {
       g_name: null,
       p_name: null,
       La: null,
-      fixed_end: null
+      fixed_end: null,
+      L: null
     };
   }
 
@@ -126,6 +127,7 @@ export class ShearStrengthService {
       b.p_name =    column.p_name;
       b.La =        column.La;
       b.fixed_end = column.fixed_end;
+      b.L =         column.L;
       this.shear_list.push(b);
     }
   }
