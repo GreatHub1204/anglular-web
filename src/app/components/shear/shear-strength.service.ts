@@ -7,7 +7,6 @@ import { InputDesignPointsService } from '../design-points/design-points.service
 })
 export class ShearStrengthService {
 
-  
   // 部材情報
   public shear_list: any[];
 
@@ -92,26 +91,26 @@ export class ShearStrengthService {
       })
     ).temp;
 
-    // データ(result)を書き換える
-    for (let ip = result.index; ip >= 0; ip--) {
-      const data = this.shear_list.find((value) => value.index === ip);
-      if(data == undefined){
-        continue;
-      }
-      // 当該入力行より上の行
-      let endFlg = true;
-      const shear_list = ['La', 'fixed_end'];
-      for (const key of shear_list){
-        if (result[key] == null && key in data) {
-          result[key] = this.helper.toNumber(data[key]);
-          endFlg = false; // まだ終わらない
-        }
-      }
-      if( endFlg === true){
-        // 全ての値に有効な数値(null以外)が格納されたら終了する
-        break;
-      }
-    }
+    // // データ(result)を書き換える
+    // for (let ip = result.index; ip >= 0; ip--) {
+    //   const data = this.shear_list.find((value) => value.index === ip);
+    //   if(data == undefined){
+    //     continue;
+    //   }
+    //   // 当該入力行より上の行
+    //   let endFlg = true;
+    //   const shear_list = ['La', 'fixed_end'];
+    //   for (const key of shear_list){
+    //     if (result[key] == null && key in data) {
+    //       result[key] = this.helper.toNumber(data[key]);
+    //       endFlg = false; // まだ終わらない
+    //     }
+    //   }
+    //   if( endFlg === true){
+    //     // 全ての値に有効な数値(null以外)が格納されたら終了する
+    //     break;
+    //   }
+    // }
 
     return result;
   }
@@ -139,6 +138,7 @@ export class ShearStrengthService {
     return this.shear_list;
   }
 
+
   public setSaveData(shear: any) {
 
     this.clear();
@@ -151,6 +151,28 @@ export class ShearStrengthService {
       }
       this.shear_list.push(tmp);
     }
+  }
+
+  /// points: 旧バージョンの互換のため
+  /// 旧バージョンでは せん断スパンLa は point に含まれていた
+  /// そのためもし points にせん断スパン情報が含まれていたら
+  /// shear の変数として読み込む
+  public setLaFromPoint(): void {
+
+    // 入力行を更新
+    const dummy = this.getTableColumns();
+
+    // points にあるせん断スパン情報を shear の変数として登録する
+    for(let i=0; i<this.shear_list.length; i++){
+      const s = this.shear_list[i];
+      const p = this.points.getCalcData(s.index);
+      if(p != null){
+        if(s.La == null){
+            s.La = p.La;
+        }
+      }
+    }
+
   }
 
   public getGroupeName(i: number): string {

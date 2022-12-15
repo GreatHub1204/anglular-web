@@ -256,6 +256,7 @@ export class SaveDataService {
     const result: string = JSON.stringify(jsonData);
     return result;
   }
+
   public getInputJson(): any {
     return {
       // ピックアップ断面力
@@ -285,11 +286,13 @@ export class SaveDataService {
       calc: this.calc.getSaveData()
     };
   }
+
   // インプットデータを読み込む
   public readInputData(inputText: string) {
     const jsonData: {} = JSON.parse(inputText);
     this.setInputData(jsonData);
   }
+
   public setInputData(jsonData: any) {
     this.clear();
 
@@ -315,12 +318,6 @@ export class SaveDataService {
     } else {
       this.members.clear();
     }
-    // せん断耐力式
-    if ("shear" in jsonData) {
-      this.shear.setSaveData(jsonData.shear);
-    } else {
-      this.shear.clear();
-    }
     // ひび割れ情報
     if ("crack" in jsonData) {
       this.crack.setSaveData(jsonData.crack);
@@ -332,6 +329,13 @@ export class SaveDataService {
       this.points.setSaveData(jsonData.points);
     } else {
       this.points.clear();
+    }
+    // せん断耐力式
+    if ("shear" in jsonData) {
+      this.shear.setSaveData(jsonData.shear);
+      this.shear.setLaFromPoint();
+    } else {
+      this.shear.clear();
     }
     // 鉄筋情報
     if ("bar" in jsonData) {
