@@ -653,7 +653,7 @@ export class CalcSafetyShearForceService {
     result["Ba"] = Ba;
 
     let Vdd =
-      ((Bd * Bn + Bw) * Bp * Ba * fdd * B * d) / rbc;
+      ((Bd * Bn + Bw) * Bp * Ba * alpha * fdd * B * d) / rbc;
 
     Vdd = Vdd / 1000;
 

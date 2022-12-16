@@ -60,10 +60,11 @@ export class InputSectionForcesService  {
     const result: object[] = [
       { 
         title: this.translate.instant("section-forces.p_name"),
-        align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 },
-      { 
-        title: this.translate.instant("section-forces.s_len"),
-        dataType: "float", dataIndx: "La", sortable: false, width: 140 },
+        align: 'left', dataType: 'string', dataIndx: 'p_name', frozen: true, sortable: false, width: 250 
+      }
+      // { 
+      //   title: this.translate.instant("section-forces.s_len"),
+      //   dataType: "float", dataIndx: "La", sortable: false, width: 140 },
       ];
 
     let old: string = null;
@@ -173,10 +174,10 @@ export class InputSectionForcesService  {
     //
     const design_point = this.points.getTableColumn(index);
     const p_name: string = (design_point !== undefined) ? design_point.p_name: '';
-    const La: number = (design_point !== undefined) ? design_point.La: null;
+    // const La: number = (design_point !== undefined) ? design_point.La: null;
 
     result['p_name'] = p_name;
-    result['La'] = La;
+    // result['La'] = La;
     return result;
 
   }
@@ -202,7 +203,7 @@ export class InputSectionForcesService  {
       //
       const position = this.points.getCalcData(new_colum.index);
       position.p_name = data.p_name;
-      position.La = data.La;
+      // position.La = data.La;
     }
   }
 
