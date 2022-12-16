@@ -7,6 +7,7 @@ import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { InputCalclationPrintService } from "src/app/components/calculation-print/calculation-print.service";
 import { InputBasicInformationService } from "src/app/components/basic-information/basic-information.service";
 import { InputSafetyFactorsMaterialStrengthsService } from "src/app/components/safety-factors-material-strengths/safety-factors-material-strengths.service";
+import { ShearStrengthService } from "src/app/components/shear/shear-strength.service";
 
 @Injectable({
   providedIn: "root",
@@ -24,7 +25,8 @@ export class CalcSafetyShearForceService {
     private force: SetDesignForceService,
     private post: SetPostDataService,
     private calc: InputCalclationPrintService,
-    private basic: InputBasicInformationService
+    private basic: InputBasicInformationService,
+    private shear: ShearStrengthService
   ) {
     this.DesignForceList = null;
     this.isEnable = false;
@@ -76,7 +78,7 @@ export class CalcSafetyShearForceService {
     section: any,
     fc: any,
     safety: any,
-    Laa: number,
+    shearkInfo: any,
     force: any
   ): any {
 
@@ -144,14 +146,17 @@ export class CalcSafetyShearForceService {
     }
 
     // せん断スパン
-    let La = this.helper.toNumber(Laa);
-    if (La === null) {
-      La = Number.MAX_VALUE;
-    } else {
-      if (La === 1) {
-        La = Math.abs(Md / Vd) * 1000; // せん断スパン=1 は せん断スパンを自動で計算する
+    let La = Number.MAX_VALUE;
+    if(shearkInfo != null){
+      La = this.helper.toNumber(shearkInfo.La);
+      if (La == null) {
+        La = Number.MAX_VALUE;
+      } else {
+        if (La === 1) {
+          La = Math.abs(Md / Vd) * 1000; // せん断スパン=1 は せん断スパンを自動で計算する
+        }
+        result["La"] = La;
       }
-      result["La"] = La;
     }
 
     // 引張鉄筋比
@@ -195,7 +200,7 @@ export class CalcSafetyShearForceService {
 
       if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
         // 令和5年 RC標準
-        fwyd = Math.min(fwyd, 25 * fcd, 1275);
+        fwyd = Math.min(fwyd, 25 * fcd, 800);
       }
 
       result["Aw"] = Aw;
@@ -294,14 +299,18 @@ export class CalcSafetyShearForceService {
       result["rbs"] = V_rbs;
 
       if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
-        // 令和5年 RC標準 
-        const pw: number = Aw / (bw * Ss);
+        // 令和5年 RC標準
+        let pw: number = Aw / (bw * Ss);
         const pff = pw * fwyd / fcd;
+
         if (0.1 < pff) {
           // pw・fwyd/f'cd≦0.1とするのがよいので
           // Aw の上限値とする
+          pw = 0.1 * fcd / fwyd;
           Aw = 0.1 * bw * Ss * fcd / fwyd;
-        }                 
+          result["pw"] = pw;
+        }
+
       }
 
       const Vyd: any = this.calcVyd(
@@ -309,9 +318,11 @@ export class CalcSafetyShearForceService {
         Mu, bw, V_rbc, rVcd, deg, deg2,
         Aw, Asb, fwyd, fwyd2, Ss, Ss2, V_rbs,
         web_I_height, web_I_thickness, fsvyd_IWeb, Asv);
+
       for (const key of Object.keys(Vyd)) {
         result[key] = Vyd[key];
       }
+
     } else {
       // La / d < 2 の場合
       let V_rbs: number = this.helper.toNumber(safety.safety_factor.rbs);
@@ -343,19 +354,45 @@ export class CalcSafetyShearForceService {
         result["rbc"] = V_rbc;
   
         let fixed_end = false; // 両端固定梁で令和5年 RC標準で導入された概念
+        let L: number = -1.0;
         if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
-          fixed_end = true;
+          // 令和5年 RC標準改定
+          if(shearkInfo.L != null){
+            if(shearkInfo.fixed_end != null)
+            fixed_end = shearkInfo.fixed_end;
+            L = shearkInfo.L;
+          }
         }
 
-        const Vdd: any = (fixed_end) ? 
-          this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc) : 
-          this.calcVasud(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc); 
+        let Vdd: any = {};
+        if (fixed_end === false) {
+          Vdd = this.calcVdd(fcd, d, Aw, bw, Ss, La, Nd, h, Mu, pc, V_rbc);
 
+        } else {
+
+          if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
+            // 令和5年 RC標準
+            const pw: number = Aw / (bw * Ss);
+            const pff = pw * fwyd / fcd;
+            if (0.1 < pff) {
+              // pw・fwyd/f'cd≦0.1とするのがよいので
+              // Aw の上限値とする
+              Aw = 0.1 * bw * Ss * fcd / fwyd;
+            }
+          }
+
+          L = (L/h < 1.5) ? 1.5 * h : L;
+          result["L"] = L;
+
+          Vdd = this.calcVasud(
+            fcd, d, pc, Nd, h,
+            Mu, bw, V_rbc, rVcd, deg, deg2,
+            Aw, Asb, fwyd, fwyd2, Ss, Ss2, V_rbs,
+            web_I_height, web_I_thickness, fsvyd_IWeb, Asv, L);
+        }
         for (const key of Object.keys(Vdd)) {
           result[key] = Vdd[key];
         }
-
-
 
       }
 
@@ -441,6 +478,34 @@ export class CalcSafetyShearForceService {
     result["Vcd"] = Vcd;
 
     //スターラップの設計せん断耐力
+    const _vsd = this.calcVsd(d, deg, deg2, Aw, Asb, fwyd, fwyd2, Ss, Ss2, V_rbs,
+      web_I_height, web_I_thickness, fsvyd_IWeb, Asv);
+    for (const key of Object.keys(_vsd)) {
+      result[key] = _vsd[key];
+    }
+    let Vsd = _vsd.Vsd;
+    result["Vsd"] = Vsd;
+
+    let Vyd: number = Vcd + Vsd;
+
+    // 折り曲げ鉄筋か、鉄骨
+    if ('Vsd2' in  _vsd) {
+      const Vsd2: number = result['Vsd2'];
+      Vyd += Vsd2;
+    }
+
+    result["Vyd"] = Vyd;
+
+    return result;
+  }
+
+  //スターラップの設計せん断耐力
+  private calcVsd(
+    d: number, deg: number, deg2: number, Aw: number, Asb: number,
+    fwyd: number, fwyd2: number, Ss: number, Ss2: number, V_rbs: number,
+    web_I_height: number, web_I_thickness: number, fsvyd_IWeb: number, Asv: number): any {
+    const result = {};
+
     let z: number = d / 1.15;
     result["z"] = z;
 
@@ -451,12 +516,8 @@ export class CalcSafetyShearForceService {
 
     let Vsd =
       (((Aw * fwyd * sinCos) / Ss) * z) / V_rbs;
-
     Vsd = Vsd / 1000;
-
     result["Vsd"] = Vsd;
-
-    let Vyd: number = Vcd + Vsd;
 
     //鉄骨鋼材の情報があれば鉄骨鋼材の値、無ければ折り曲げ鉄筋の値を算出する
     if (web_I_height == null) {
@@ -473,11 +534,9 @@ export class CalcSafetyShearForceService {
         // せん断補強鉄筋としてスターラップと折り曲げ鉄筋を併用する場合は, せん断補強鉄筋が受け持つべきせん断耐力の 50%以上を, スターラップに受け持たせることとする【RC標準 7.2.3.2(1)(b)】
         Vsd2 = Math.min(Vsd2, Vsd);
       }
-      
+
       result["sinCos2"] = sinCos2;
       result["Vsd2"] = Vsd2;
-      Vyd += Vsd2;
-
 
     } else {
       // 鉄鋼鋼材の設計せん断耐力
@@ -496,10 +555,7 @@ export class CalcSafetyShearForceService {
       // Vsddの計算
       const Vsdd = fsvyd * Asv / rb / 1000;
       result['Vsd2'] = Vsdd;
-      Vyd += Vsdd;
     }
-
-    result["Vyd"] = Vyd;
 
     return result;
   }
@@ -606,48 +662,54 @@ export class CalcSafetyShearForceService {
     return result;
   }
 
-  // 令和5年 RC標準 
-  private calcVasud(fcd: number, d: number, Aw: number,
-    B: number, Ss: number, La: number, Nd: number,
-    Height: number, Mu: number, pc: number, rbc: number): any {
-
+  // 令和5年 RC標準 両端固定梁の場合のせん断耐力
+  private calcVasud(
+    fcd: number, d: number, pc: number, Nd: number, H: number,
+    Mu: number, B: number, V_rbc: number, rVcd: number, deg: number, deg2: number,
+    Aw: number, Asb: number, fwyd: number, fwyd2: number, Ss: number, Ss2: number, V_rbs: number,
+    web_I_height: number, web_I_thickness: number, fsvyd_IWeb: number, Asv: number,
+    L: number): any {
     const result = {};
 
-    // 仕様
-    const speci1 = this.basic.get_specification1();
-    const speci2 = this.basic.get_specification2();
-
-    let fdd: number = 0.19 * Math.sqrt(fcd);
-    result["fdd"] = fdd;
+    let fvcd: number = 0.2 * Math.pow(fcd, 1 / 3);
+    fvcd = Math.min(fvcd, 0.72);
+    const focd = 17.4 * fvcd;
+    result["fvcd"] = fvcd;
+    result["focd"] = focd;
 
     let Bd: number = Math.pow(1000 / d, 1 / 4);
     Bd = Math.min(Bd, 1.5);
     result["Bd"] = Bd;
 
-    let alpha: number = 1.0;
-    if (speci1 === 0 && (speci2 === 3 || speci2 === 4)) {
-      alpha = 1.14;
-      result["alpha"] = alpha;
-    }
+    result["pc"] = pc;
 
+    let Bp: number = Math.pow(100 * pc, 1 / 3);
+    Bp = Math.min(Bp, 1.5);
+    result["Bp"] = Bp;
 
     let pw: number = Aw / (B * Ss);
-    result["pw"] = pw;
-    if (pw < 0.002) {
-      pw = 0;
+    const pff = pw * fwyd / fcd;
+    if (0.1 < pff) {
+      // pw・fwyd/f'cd≦0.1とするのがよいので
+      // Aw の上限値とする
+      pw = 0.1* fcd / fwyd;
+      Aw = pw * B * Ss;
     }
+    result["pw"] = pw;
 
-    //せん断スパン比
-    let ad: number = La / d;
-    result["ad"] = ad;
-
-    let Bw: number =
-      (4.2 * Math.pow(100 * pw, 1 / 3) * (ad - 0.75)) / Math.sqrt(fcd);
-    Bw = Math.max(Bw, 0);
+    let Bw: number = -30 * Math.pow(pff, 2) + 1.3;
     result["Bw"] = Bw;
 
+    //  tanθc
+    const tan: number = H / (2 * L);
+    result["tan"] = tan;
+
+    //
+    const hc: number = 0.5 * H;
+    result["hc"] = hc;
+
     //M0 = NDD / AC * iC / Y
-    let Mo: number = (Nd * Height) / 6000;
+    let Mo: number = (Nd * H) / 6000;
     result["Mo"] = Mo;
 
     let Bn: number;
@@ -662,21 +724,29 @@ export class CalcSafetyShearForceService {
     }
     result["Bn"] = Bn;
 
-    result["pc"] = pc;
+    let Vcd = Bd * Bp * Bn * Bw * focd * B * hc * tan / V_rbc;
+    Vcd = Vcd / 1000;
+    Vcd = Vcd * rVcd; // 杭の施工条件
+    result["Vcd"] = Vcd;
 
-    let Bp: number = (1 + Math.sqrt(100 * pc)) / 2;
-    Bp = Math.min(Bp, 1.5);
-    result["Bp"] = Bp;
+    //スターラップの設計せん断耐力
+    const _vsd = this.calcVsd(d, deg, deg2, Aw, Asb, fwyd, fwyd2, Ss, Ss2, V_rbs,
+      web_I_height, web_I_thickness, fsvyd_IWeb, Asv);
+    for (const key of Object.keys(_vsd)) {
+      result[key] = _vsd[key];
+    }
+    let Vsd = _vsd.Vsd;
+    result["Vsd"] = Vsd;
 
-    let Ba: number = 5 / (1 + Math.pow(ad, 2));
-    result["Ba"] = Ba;
+    let Vyd: number = Vcd + Vsd;
 
-    let Vdd =
-      ((Bd * Bn + Bw) * Bp * Ba * fdd * B * d) / rbc;
+    // 折り曲げ鉄筋か、鉄骨
+    if ('Vsd2' in  _vsd) {
+      const Vsd2: number = result['Vsd2'];
+      Vyd += Vsd2;
+    }
 
-    Vdd = Vdd / 1000;
-
-    result["Vdd"] = Vdd;
+    result["Vyd"] = Vyd;
 
     return result;
   }
@@ -720,12 +790,6 @@ export class CalcSafetyShearForceService {
       Bn = Math.max(Bn, 0);
     }
     result["Bn"] = Bn;
-
-    //let pw: number = Aw / (B * Ss);
-    //result["pw"] = pw;
-    //if (pw < 0.002) {
-    //pw = 0;
-    //}
 
     //せん断スパン比
     let ad: number = La / d;

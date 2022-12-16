@@ -82,7 +82,7 @@ export class ShearStrengthService {
 
     // indexに対応する行を探す
     let target = this.shear_list.find((value) => value.index === index);
-    if(target == undefined){
+    if(target == null){
       target = this.default_shear(index);
     }
     // リターンするデータ(result)をクローンで生成する
@@ -91,27 +91,6 @@ export class ShearStrengthService {
         temp: target,
       })
     ).temp;
-
-    // // データ(result)を書き換える
-    // for (let ip = result.index; ip >= 0; ip--) {
-    //   const data = this.shear_list.find((value) => value.index === ip);
-    //   if(data == undefined){
-    //     continue;
-    //   }
-    //   // 当該入力行より上の行
-    //   let endFlg = true;
-    //   const shear_list = ['La', 'fixed_end'];
-    //   for (const key of shear_list){
-    //     if (result[key] == null && key in data) {
-    //       result[key] = this.helper.toNumber(data[key]);
-    //       endFlg = false; // まだ終わらない
-    //     }
-    //   }
-    //   if( endFlg === true){
-    //     // 全ての値に有効な数値(null以外)が格納されたら終了する
-    //     break;
-    //   }
-    // }
 
     return result;
   }

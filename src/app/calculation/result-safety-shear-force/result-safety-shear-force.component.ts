@@ -10,6 +10,7 @@ import { CalcSummaryTableService } from "../result-summary-table/calc-summary-ta
 import { DataHelperModule } from "src/app/providers/data-helper.module";
 import { UserInfoService } from "src/app/providers/user-info.service";
 import { TranslateService } from "@ngx-translate/core";
+import { ShearStrengthService } from "src/app/components/shear/shear-strength.service";
 
 @Component({
   selector: "app-result-safety-shear-force",
@@ -34,6 +35,7 @@ export class ResultSafetyShearForceComponent implements OnInit {
     private helper: DataHelperModule,
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
+    private shear: ShearStrengthService,
     private summary: CalcSummaryTableService,
     private user: UserInfoService,
     private translate: TranslateService
@@ -149,14 +151,15 @@ export class ResultSafetyShearForceComponent implements OnInit {
 
             const titleColumn = this.result.getTitleString( section.member, position, side );
             const fck: any = this.helper.getFck(safety);
+            const shearkInfo = this.shear.getCalcData(res.index);
 
             const column: any = this.getResultString(
-              this.calc.calcVmu( res, section, fck, safety, position.La, force )
+              this.calc.calcVmu( res, section, fck, safety, shearkInfo, force )
             );
 
             let fwyd3: number = 0
             if('fsvy_Hweb' in section.steel) {
-              fwyd3 = (section.steel.fsvy_Hweb.fvyd !== null) ? 
+              fwyd3 = (section.steel.fsvy_Hweb.fvyd !== null) ?
               section.steel.fsvy_Hweb.fvyd :
               section.steel.fsvy_Iweb.fvyd ;
             }
