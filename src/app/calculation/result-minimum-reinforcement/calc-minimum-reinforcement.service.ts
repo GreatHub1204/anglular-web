@@ -125,13 +125,12 @@ export class CalcMinimumReinforcementService {
     const εsy: number = fsyd / Es / 1000;
     let sigma_s : number = 0;
     // 圧縮鉄筋かぶり
-    if(section['Asc'] != null){
-      if(section.Asc['dsc'] != null && section.Asc['compress']['fsy']  != null){
-        sigma_s = εcu / x * (x - section.Asc.dsc) * Es * 1000;
-        sigma_s = Math.min(sigma_s, section.Asc.compress.fsy.fsy);
+      if(section['Asc'] != null){
+        if(section.Asc['dsc'] != null && section.Asc['compress']['fsy']  != null){
+            sigma_s = εcu / x * (x - section.Asc.dsc) * Es * 1000;
+            sigma_s = Math.min(sigma_s, section.Asc.compress.fsy.fsy);
+        }
       }
-    }
-
 
 
     const d : number = (section.shape.Hw === null) ? section.shape.H - section.Ast.dst :

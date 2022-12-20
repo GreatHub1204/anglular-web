@@ -92,7 +92,7 @@ export class CalcServiceabilityMomentService {
     const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
     if(speci1==0 &&(speci2===2 || speci2===5)){
-      option['barCenterPosition'] = true; 
+      option['barCenterPosition'] = true;
     }
 
     const postData = this.post.setInputData('Md', '応力度', this.safetyID, option,
@@ -110,7 +110,8 @@ export class CalcServiceabilityMomentService {
     fc: any, safety: any,
     isDurability: boolean,
     speci2Info_TT: boolean,
-    speci2Info: boolean,): any {
+    speci2Info: boolean,
+    limit100: boolean): any {
 
     const resMin = res[0]; // 永久作用
     const resMax = res[1]; // 永久＋変動作用
@@ -256,17 +257,21 @@ export class CalcServiceabilityMomentService {
     const fai: number = section.Ast.tension.rebar_dia;
     result['fai'] = fai;
 
-    const c: number = section.Ast.tension.dsc - (section.Ast.tension.rebar_dia / 2)
+    let c: number = section.Ast.tension.dsc - (section.Ast.tension.rebar_dia / 2); //ひび割れ幅算出用 純かぶり
+    let c_lim: number = c; //制限値算出用 純かぶり
     if (speci2Info_TT){
-
-    } 
+      c = Math.min(c, 100);
+      c_lim = c;
+    }else if(limit100){
+      c_lim = Math.min(c, 100);
+    }
     result['c'] = c;
 
     let Cs: number = section.Ast.tension.rebar_ss;
     result['Cs'] = Cs;
 
     let ecu: number = (resMin.side === '上側引張') ? this.helper.toNumber(crackInfo.ecsd_u) : 
-                                                     this.helper.toNumber(crackInfo.ecsd_l) ;
+                                                    this.helper.toNumber(crackInfo.ecsd_l) ;
     if (ecu === null) { ecu = 450; }
 
 
@@ -329,7 +334,7 @@ export class CalcServiceabilityMomentService {
 
     // 制限値
     if (isDurability === false) {
-      Wlim = Wlim * c;
+      Wlim = Wlim * c_lim;
     } else {
       Wlim = 0.3;
     }

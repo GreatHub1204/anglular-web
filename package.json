@@ -1,6 +1,6 @@
 {
   "name": "web-dan-for-js",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "scripts": {
     "ng": "ng",
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",

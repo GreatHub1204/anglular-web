@@ -113,7 +113,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
       } else {
         const JR_001: boolean = condi.find(e => e.id === 'JR-001');
         if(JR_001 === true){
-          c = true;
+          this.limit100 = true;
         }
       }
     }
@@ -174,7 +174,8 @@ export class ResultServiceabilityMomentComponent implements OnInit {
                 isDurability,
                 this.isJRTT,
                 this.isJREAST,
-\              )
+                this.limit100 
+              )
             );
 
             let SRC_pik = "";
