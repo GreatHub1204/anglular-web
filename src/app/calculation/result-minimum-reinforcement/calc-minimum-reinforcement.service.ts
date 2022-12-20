@@ -66,9 +66,9 @@ export class CalcMinimumReinforcementService {
     // POST 用
     const option = {};
 
-    const postData = this.post.setInputData('Md', '耐力', this.safetyID, option, 
+    const postData = this.post.setInputData('Md', '耐力', this.safetyID, option,
     force[0]);
-    
+
     return postData;
   }
 
@@ -82,13 +82,13 @@ export class CalcMinimumReinforcementService {
 
     const dmax: number = safety.material_concrete.dmax;
     const fck13: number = fck.fck * 1.3;
-    const GF: number = 0.01 * dmax ** (1/3) * fck13 ** (1/3);
-    const Ec: number = this.helper.getEc(fck13);
-    const ftk: number = 0.23 * fck13 **(2/3);
-    const lch: number = 1000 * GF * Ec / ftk ** 2;
-    const k0b: number = 1 + 1 / (0.85 + 4.5 * (section.shape.H / lch));
+    const GF: number = Math.round(10000 * 0.01 * dmax ** (1/3) * fck13 ** (1/3))/10000;
+    const Ec: number = Math.round(10 * this.helper.getEc(fck13)) / 10;
+    const ftk: number = Math.round(100 * 0.23 * fck13 **(2/3)) / 100;
+    const lch: number = Math.round(10 * 1000 * GF * Ec / ftk ** 2) / 10;
+    const k0b: number = Math.round(100 * (1 + 1 / (0.85 + 4.5 * (section.shape.H / lch)))) / 100;
     const k1b: number = 1.0;
-    const sigma_crd: number = k0b * k1b * ftk;
+    const sigma_crd: number = Math.round(100 * k0b * k1b * ftk) / 100;
 
     const struct = this.result.getStructuralVal(
       section.shapeName, member, "Md", res.index);
@@ -123,18 +123,28 @@ export class CalcMinimumReinforcementService {
     const Es: number = section.Ast.Es;
     const Asc: number = section.Asc.Asc;
     const εsy: number = fsyd / Es / 1000;
-    const sigma_s : number = 0;
-    const d : number = (section.shape.Hw === null) ? section.shape.H - section.Ast.dst : 
+    let sigma_s : number = 0;
+    // 圧縮鉄筋かぶり
+    if(section['Asc'] != null){
+      if(section.Asc['dsc'] != null && section.Asc['compress']['fsy']  != null){
+        sigma_s = εcu / x * (x - section.Asc.dsc) * Es * 1000;
+        sigma_s = Math.min(sigma_s, section.Asc.compress.fsy.fsy);
+      }
+    }
+
+
+
+    const d : number = (section.shape.Hw === null) ? section.shape.H - section.Ast.dst :
                                                       section.shape.Hw - section.Ast.dst;
-    const pb : number = ((a * εcu_max / (εcu_max + εsy) - Nd * 1000 / (section.shape.B * d * fcd)) * 
+    const pb : number = ((a * εcu_max / (εcu_max + εsy) - Nd * 1000 / (section.shape.B * d * fcd)) *
                         fcd / fsyd + Asc / (section.shape.B * d) * sigma_s / fsyd) * 100
-    const pc : number = section.Ast.Ast / (section.shape.B * section.shape.H) * 100;
-    
+    const pc : number = section.Ast.Ast / (section.shape.B * d) * 100;
+
 
     return {
       dmax, fck13, GF, Ec, ftk, lch,
       k0b, k1b, sigma_crd, A, I, y, Nd,
-      Mcrd, 
+      Mcrd,
       εcu, εs, x, My, rb, Myd,
       fcd, a_val, a, εcu_val, εcu_max, fsyd, Es, εsy,
       sigma_s, d, pb, pc

@@ -410,16 +410,16 @@ export class InputBasicInformationService  {
       case 1: // 土木学会
       case 2: // 港湾
         result =[
-          { 
-            id: 'JR-001', 
+          {
+            id: 'JR-001',
             title: this.translate.instant("basic-information.limit100"),
             selected: true },
-          { 
-            id: 'JR-003', 
+          {
+            id: 'JR-003',
             title: this.translate.instant("basic-information.apex"),
             selected: true },
-          { 
-            id: 'JR-004', 
+          {
+            id: 'JR-004',
             title: this.translate.instant("basic-information.Mud"),
             selected: false }
         ];
@@ -439,7 +439,10 @@ export class InputBasicInformationService  {
 
     target.selected = value;
   }
+  public get_conditions(): any {
 
+    return this.conditions_list;
+  }
 
   public pickup_moment_no(id: number){
     const old = this.pickup_moment.find(v=>v.id===id);

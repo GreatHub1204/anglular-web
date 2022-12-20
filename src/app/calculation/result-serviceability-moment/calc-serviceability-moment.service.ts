@@ -257,6 +257,9 @@ export class CalcServiceabilityMomentService {
     result['fai'] = fai;
 
     const c: number = section.Ast.tension.dsc - (section.Ast.tension.rebar_dia / 2)
+    if (speci2Info_TT){
+
+    } 
     result['c'] = c;
 
     let Cs: number = section.Ast.tension.rebar_ss;
