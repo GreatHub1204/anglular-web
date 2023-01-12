@@ -99,7 +99,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     this.isJREAST = false;
     this.isJRTT = false;
     this.limit100 = false;
-
+    
     const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
     const condi = this.basic.get_conditions();
@@ -404,13 +404,6 @@ export class ResultServiceabilityMomentComponent implements OnInit {
           result.sigma_s_ratio.dividend = re.Sigmas;
           result.sigma_s_ratio.divisor  = re.sigmal1;
           result.sigma_s_ratio.value = re.Sigmas / re.sigmal1;
-        }
-        if (!this.isJRTT){
-          return result;
-        } else {
-          if (re.Pt < 0.50){
-            return result
-          }
         }
       } else {
         result.sigma_b.value =

@@ -174,7 +174,8 @@
         "shear":"Shear",
         "crack":"Crack εcsd",
         "shear_kr":"Shear kr",
-        "exterior":"Exterior"
+        "exterior":"Exterior",
+        "JRTT05": "Don't omit"
     },
     "shear-strength":{
         "m_no":"Member\nNo",

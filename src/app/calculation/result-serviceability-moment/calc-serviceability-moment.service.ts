@@ -230,24 +230,27 @@ export class CalcServiceabilityMomentService {
     }
     result['Pt'] = pt * 100;
 
-    /* 運輸機構の場合 */
-    if (speci2Info_TT){
-      if (Sigmab < Sigmabl) {
-        // 鉄筋応力度の照査
-        result['Sigmas'] = Sigmas;
-        result['sigmal1'] = sigmal1;
-        if (pt < 0.0050) {
+    let JRTT05: boolean = false;
+    if('JRTT05' in crackInfo)
+      JRTT05 = crackInfo.JRTT05;
+
+    if(!JRTT05){
+      result['Sigmas'] = Sigmas;
+      result['sigmal1'] = sigmal1;
+      if (speci2Info_TT){
+        /* 運輸機構の場合 */
+        if (Sigmab < Sigmabl) {
+          if (pt < 0.0050) {
+            return result;
+          }
+        }
+      } else {
+        if (Sigmab < Sigmabl) {
           return result;
         }
       }
-    } else {
-      if (Sigmab < Sigmabl) {
-        // 鉄筋応力度の照査
-        result['Sigmas'] = Sigmas;
-        result['sigmal1'] = sigmal1;
-        return result;
-      }
     }
+
 
     // ひび割れ幅の照査
     const Es: number = section.Ast.Es;
