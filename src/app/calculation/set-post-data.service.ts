@@ -98,6 +98,9 @@ export class SetPostDataService {
       'SteelElastic', 'Bars', 'Steels','shape'
     ];
 
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+
     // 基本となる DesignForceList[0] の集計 ---------------------------------------------------------
     const dict = {};
     let key = 0;
@@ -115,9 +118,17 @@ export class SetPostDataService {
           side: force.side,
           Nd: force.Nd
         };
+
+        // せん断照査のMuの計算の場合
+        if(target ==="Vd" && speci1===0 && (speci2===3 || speci2===4)){
+          data.Nd = 0; // 軸力 は考慮しない
+        }
+
+        // 応力度照査は、Md を追加
         if(type === "応力度") {
           data['Md'] = Math.abs(force.Md);
         }
+
         data['force'] = force; // 一時的に登録
         try {
           const shape = this.getPostData(target, safetyID, force, option);

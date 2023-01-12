@@ -79,6 +79,17 @@
         </li>
         <li class="c-mainNavArea__navItem">
           <a
+            routerLink="./shear"
+            routerLinkActive="selected-item"
+            (click)="activePageChenge(10)"
+            id="10"
+            class="c-mainNavArea__navItemTitle disabled"
+          >
+            <span translate>app.shear</span>
+          </a>
+        </li>
+        <li class="c-mainNavArea__navItem">
+          <a
             routerLink="./crack"
             routerLinkActive="selected-item"
             (click)="activePageChenge(5)"
@@ -130,4 +141,9 @@
       (deactivate)="onDeactivate($event)"
     ></router-outlet>
   </div>
+</div>
+
+<!-- チャットボタン -->
+<div class="over-three right-buttom">
+  <app-chat></app-chat>
 </div>

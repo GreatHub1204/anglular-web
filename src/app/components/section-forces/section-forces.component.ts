@@ -60,7 +60,7 @@ export class SectionForcesComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       }
     };
-  
+
 
   }
 

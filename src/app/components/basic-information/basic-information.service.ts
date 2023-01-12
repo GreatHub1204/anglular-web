@@ -355,17 +355,25 @@ export class InputBasicInformationService  {
     switch (specification1) {
       case 0: // 鉄道
         result =[
-          { 
-            id: 0, 
+          {
+            id: 0,
             title: this.translate.instant("basic-information.jr_com"),
             selected: true },
-          { 
-            id: 1, 
+          {
+            id: 1,
             title: this.translate.instant("basic-information.trans"),
             selected: false },
-          { 
-            id: 2, 
+          {
+            id: 2,
             title: this.translate.instant("basic-information.jr_east"),
+            selected: false },
+          {
+            id: 3, // JR各社 令和5年 RC標準
+            title: this.translate.instant("basic-information.jr_com5"),
+            selected: false },
+          {
+            id: 4, // 運輸機構 令和5年 RC標準
+            title: this.translate.instant("basic-information.trans5"),
             selected: false },
           // { id: 5, title: 'ＪＲ東日本（既存構造物）', selected: false }
         ];
@@ -402,16 +410,16 @@ export class InputBasicInformationService  {
       case 1: // 土木学会
       case 2: // 港湾
         result =[
-          { 
-            id: 'JR-001', 
+          {
+            id: 'JR-001',
             title: this.translate.instant("basic-information.limit100"),
             selected: true },
-          { 
-            id: 'JR-003', 
+          {
+            id: 'JR-003',
             title: this.translate.instant("basic-information.apex"),
             selected: true },
-          { 
-            id: 'JR-004', 
+          {
+            id: 'JR-004',
             title: this.translate.instant("basic-information.Mud"),
             selected: false }
         ];
@@ -431,7 +439,10 @@ export class InputBasicInformationService  {
 
     target.selected = value;
   }
+  public get_conditions(): any {
 
+    return this.conditions_list;
+  }
 
   public pickup_moment_no(id: number){
     const old = this.pickup_moment.find(v=>v.id===id);
@@ -485,11 +496,11 @@ export class InputBasicInformationService  {
     this.specification1_list = this.default_specification1();
     for(const sp1 of this.specification1_list){
       const _sp1 = basic.specification1_list.find(v=> v.id===sp1.id)
-      if(_sp1 !== undefined){
+      if(_sp1 != null){
         sp1.selected = _sp1.selected;
       }
     }
-    const sp1 = this.get_specification1();
+    const sp1: number = this.get_specification1();
 
     this.pickup_moment = this.default_pickup_moment(sp1);
     for(let i=0; i<basic.pickup_moment.length; i++){
@@ -530,7 +541,16 @@ export class InputBasicInformationService  {
       }
     }
 
-    this.specification2_list = basic.specification2_list;
+    // this.specification2_list = basic.specification2_list;
+    this.specification2_list = this.default_specification2(sp1);
+    for(const sp2 of this.specification2_list){
+      const _sp2 = basic.specification2_list.find(v=> v.id===sp2.id)
+      if(_sp2 != null){
+        sp2.selected = _sp2.selected;
+      }
+    }
+
+
     this.conditions_list = basic.conditions_list;
   }
 

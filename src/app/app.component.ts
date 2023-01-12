@@ -36,7 +36,7 @@ export class AppComponent {
 
   // アクティブになっているボタンを全て非アクティブにする
   public deactiveButtons() {
-    for (let i = 0; i <= 9; i++) {
+    for (let i = 0; i <= 10; i++) {
       const data = document.getElementById(i + "");
       if (data != null) {
         if (data.classList.contains("is-active")) {
@@ -82,7 +82,7 @@ export class AppComponent {
     // }
 
     if (this.isDesignPointEnable !== flg) {
-      for (const id of ["3", "4", "5", "6", "7"]) {
+      for (const id of ["3", "4", "5", "6", "7", "10"]) {
         const data = document.getElementById(id);
         if (data != null) {
           if (flg === true) {

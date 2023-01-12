@@ -188,8 +188,8 @@ export class InputDesignPointsService {
       isVyCalc: false,
       isMzCalc: false,
       isVzCalc: false,
-      isMtCalc: false,
-      La: null
+      isMtCalc: false
+      // La: null
     };
   }
 

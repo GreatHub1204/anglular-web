@@ -27,6 +27,7 @@
         "section_force":"Cross-sectional force",
         "bars":"Reinforcing bar arrangement",
         "steels":"Steel arrangement",
+        "shear":"Shear strength",
         "crack":"Crack data",
         "fatigues":"Fatigue data",
         "sf_ms":"Safety factor / Material strength",
@@ -35,7 +36,7 @@
     "blank-page":{
         "cs_pc":"Cross-section performance check",
         "program":"This program is a design standard for railway structures, etc.",
-        "with2004":"Concrete structure-Compliant with April 2004,",
+        "with2004":"Concrete structure-Compliant",
         "cs":"Cross-section ",
         "bal_calc":"balance calculation",
         "and":"and",
@@ -75,7 +76,9 @@
         "vl_u":"Usage limit (variable load)",
         "d_torsion_judge":"Durability For examination and judgment of torsional cracks",
         "jr_com":"JR companies",
+        "jr_com5":"JR companies from 2023",
         "trans":"Transport Organization",
+        "trans5":"Transport Organization from 2023",
         "jr_east":"JR East",
         "limit100":"The upper limit of the cover used for the crack width limit is 100 mm.",
         "apex":"Place one reinforcing bar at the apex in a circular cross section",
@@ -172,6 +175,14 @@
         "crack":"Crack εcsd",
         "shear_kr":"Shear kr",
         "exterior":"Exterior"
+    },
+    "shear-strength":{
+        "m_no":"Member\nNo",
+        "position":"Position",
+        "p_name":"Calculated point name",
+        "s_len":"Shear span length (mm)",
+        "fixed_end":"fixed end",
+        "m_len":"Distance (mm)"
     },
     "fatigues":{
         "durable":"Durable life：",

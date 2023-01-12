@@ -10,6 +10,7 @@ import { InputSectionForcesService } from "../components/section-forces/section-
 import { InputCalclationPrintService } from "../components/calculation-print/calculation-print.service";
 import { InputCrackSettingsService } from "../components/crack/crack-settings.service";
 import { InputSteelsService } from "../components/steels/steels.service";
+import { ShearStrengthService } from "../components/shear/shear-strength.service";
 
 @Injectable({
   providedIn: "root",
@@ -40,6 +41,7 @@ export class SaveDataService {
     private steel: InputSteelsService,
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
+    private shear: ShearStrengthService,
     private crack: InputCrackSettingsService,
     private fatigues: InputFatiguesService,
     private members: InputMembersService,
@@ -55,6 +57,7 @@ export class SaveDataService {
     this.pickup_data = {};
     this.basic.clear();
     this.members.clear();
+    this.shear.clear();
     this.crack.clear();
     this.points.clear();
     this.bars.clear();
@@ -162,6 +165,7 @@ export class SaveDataService {
       this.bars.setPickUpData();
       this.steel.setPickUpData();
       this.basic.setPickUpData();
+      this.shear.setPickUpData();
       this.crack.setPickUpData();
       this.fatigues.setPickUpData();
       // this.safety.clear();
@@ -252,6 +256,7 @@ export class SaveDataService {
     const result: string = JSON.stringify(jsonData);
     return result;
   }
+
   public getInputJson(): any {
     return {
       // ピックアップ断面力
@@ -261,6 +266,8 @@ export class SaveDataService {
       basic: this.basic.getSaveData(),
       // 部材情報
       members: this.members.getSaveData(),
+      // せん断耐力
+      shear: this.shear.getSaveData(),
       // ひび割れ情報
       crack: this.crack.getSaveData(),
       // 着目点情報
@@ -279,11 +286,13 @@ export class SaveDataService {
       calc: this.calc.getSaveData()
     };
   }
+
   // インプットデータを読み込む
   public readInputData(inputText: string) {
     const jsonData: {} = JSON.parse(inputText);
     this.setInputData(jsonData);
   }
+
   public setInputData(jsonData: any) {
     this.clear();
 
@@ -320,6 +329,13 @@ export class SaveDataService {
       this.points.setSaveData(jsonData.points);
     } else {
       this.points.clear();
+    }
+    // せん断耐力式
+    if ("shear" in jsonData) {
+      this.shear.setSaveData(jsonData.shear);
+      this.shear.setLaFromPoint();
+    } else {
+      this.shear.clear();
     }
     // 鉄筋情報
     if ("bar" in jsonData) {

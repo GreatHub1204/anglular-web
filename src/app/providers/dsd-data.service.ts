@@ -13,6 +13,7 @@ import { InputMembersService } from '../components/members/members.service';
 import { InputSafetyFactorsMaterialStrengthsService } from '../components/safety-factors-material-strengths/safety-factors-material-strengths.service';
 import { InputSectionForcesService } from '../components/section-forces/section-forces.service';
 import { InputSteelsService } from '../components/steels/steels.service';
+import { ShearStrengthService } from '../components/shear/shear-strength.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,7 @@ export class DsdDataService {
     private steel: InputSteelsService,
     private basic: InputBasicInformationService,
     private points: InputDesignPointsService,
+    private shear: ShearStrengthService,
     private crack: InputCrackSettingsService,
     private fatigues: InputFatiguesService,
     private members: InputMembersService,
@@ -71,6 +73,8 @@ export class DsdDataService {
       // 画面６　計算・印刷フォーム
       this.GetPrtScrn(buff)
 
+      // 互換性の確保
+      this.shear.setLaFromPoint();
 
       // 断面力手入力モード
       if (buff.isManualInput) {
@@ -83,6 +87,7 @@ export class DsdDataService {
       this.save.setInputData(old);
       throw (e);
     }
+
   }
 
   // ピックアップファイルを読み込む

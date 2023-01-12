@@ -26,7 +26,8 @@ export class ResultServiceabilityMomentComponent implements OnInit {
   public isJREAST: boolean = false;
   public isJRTT: boolean = false;
   public isSRC: boolean = false;
-  
+  public limit100: boolean = false;
+
   constructor(
     private http: HttpClient,
     private calc: CalcServiceabilityMomentService,
@@ -63,7 +64,7 @@ export class ResultServiceabilityMomentComponent implements OnInit {
         this.summary.setSummaryTable("serviceabilityMoment", this.serviceabilityMomentPages);
       })
       .catch((error) => {
-        this.err = 'error!!\n' + error;; 
+        this.err = 'error!!\n' + error;
         this.summary.setSummaryTable("serviceabilityMoment");
       })
       .finally(()=>{
@@ -97,15 +98,23 @@ export class ResultServiceabilityMomentComponent implements OnInit {
     }
     this.isJREAST = false;
     this.isJRTT = false;
+    this.limit100 = false;
 
     const speci1 = this.basic.get_specification1();
     const speci2 = this.basic.get_specification2();
+    const condi = this.basic.get_conditions();
     if(speci1==0){
       if(speci2===2 || speci2===5){
         this.isJREAST = true;
       }
-      if(speci2===1){
+      if(speci2===1 || speci2===4){
         this.isJRTT = true;
+        this.limit100 = true;
+      } else {
+        const JR_001: boolean = condi.find(e => e.id === 'JR-001');
+        if(JR_001 === true){
+          this.limit100 = true;
+        }
       }
     }
 
@@ -164,7 +173,8 @@ export class ResultServiceabilityMomentComponent implements OnInit {
                 safety,
                 isDurability,
                 this.isJRTT,
-                this.isJREAST
+                this.isJREAST,
+                this.limit100 
               )
             );
 

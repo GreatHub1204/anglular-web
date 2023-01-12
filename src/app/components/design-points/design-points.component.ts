@@ -124,13 +124,13 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           sortable: false,
           width: 250,
         },
-        {
-          title: this.translate.instant("design-points.s_len"),
-          dataType: "float",
-          dataIndx: "La",
-          sortable: false,
-          width: 140,
-        },
+        // {
+        //   title: this.translate.instant("design-points.s_len"),
+        //   dataType: "float",
+        //   dataIndx: "La",
+        //   sortable: false,
+        //   width: 140,
+        // },
       ];
     } else {
       // ピックアップファイルを使う場合
@@ -263,13 +263,13 @@ export class DesignPointsComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         );
       }
-      this.columnHeaders.push({
-        title: this.translate.instant("design-points.s_len"),
-        dataType: "float",
-        dataIndx: "La",
-        sortable: false,
-        width: 140,
-      });
+      // this.columnHeaders.push({
+      //   title: this.translate.instant("design-points.s_len"),
+      //   dataType: "float",
+      //   dataIndx: "La",
+      //   sortable: false,
+      //   width: 140,
+      // });
     }
   }
 
