@@ -174,7 +174,8 @@
         "shear":"せん断",
         "crack":"ひび割 εcsd",
         "shear_kr":"せん断\nkr",
-        "exterior":"外観"
+        "exterior":"外観",
+        "JRTT05": "省略しない"
     },
     "shear-strength":{
         "m_no":"部材\n番号",

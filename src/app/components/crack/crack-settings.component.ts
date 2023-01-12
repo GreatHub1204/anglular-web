@@ -5,6 +5,7 @@ import { SaveDataService } from 'src/app/providers/save-data.service';
 import { SheetComponent } from '../sheet/sheet.component';
 import { InputCrackSettingsService } from './crack-settings.service';
 import { TranslateService } from "@ngx-translate/core";
+import { InputBasicInformationService } from '../basic-information/basic-information.service';
 
 @Component({
   selector: 'app-crack-settings',
@@ -28,7 +29,8 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
     private crack: InputCrackSettingsService,
     private save: SaveDataService,
     public helper: DataHelperModule,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private basic: InputBasicInformationService
     ) { }
 
   ngOnInit() {
@@ -131,6 +133,17 @@ export class CrackSettingsComponent implements OnInit, OnDestroy, AfterViewInit 
         ]
       },
     );
+
+    // 鉄道運輸機構の場合
+    const speci1 = this.basic.get_specification1();
+    const speci2 = this.basic.get_specification2();
+    if(speci1==0 && speci2===1){
+      // 縁応力度が制限値以内の場合でもひび割れ幅を計算するフラグ
+      this.columnHeaders.push({ 
+        title: this.translate.instant("crack-settings.JRTT05"),
+        align: 'center', dataType: 'bool', dataIndx: 'JRTT05', type: 'checkbox', sortable: false, width: 100
+      });
+    }
   }
  
   public getGroupeName(i: number): string {
