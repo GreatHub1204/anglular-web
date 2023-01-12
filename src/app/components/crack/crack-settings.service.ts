@@ -37,6 +37,7 @@ export class InputCrackSettingsService {
       ecsd_l: null,
       kr: null,
       k4: null,
+      JRTT05: false, // 縁応力度が制限値以内の場合でもひび割れ幅を計算するフラグ
     };
   }
 
@@ -109,7 +110,7 @@ export class InputCrackSettingsService {
       }
       // 当該入力行より上の行
       let endFlg = true;
-      const check_list = ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'k4'];
+      const check_list = ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'k4', 'JRTT05'];
       for (const key of check_list){
         if (result[key] == null && key in data) {
           result[key] = this.helper.toNumber(data[key]);
@@ -131,18 +132,19 @@ export class InputCrackSettingsService {
 
     for (const column of table_datas) {
       const b = this.default_crack(column.index);
-      b.m_no =      column.m_no;
-      b.g_name =    column.g_name;
+      b.m_no =   column.m_no;
+      b.g_name = column.g_name;
       b.p_name = column.p_name;
-      b.con_u =     column.con_u;
-      b.con_l =     column.con_l;
-      b.con_s =     column.con_s;
-      b.vis_u =     column.vis_u;
-      b.vis_l =     column.vis_l;
-      b.ecsd_u =      column.ecsd_u;
-      b.ecsd_l =      column.ecsd_l;
-      b.kr =        column.kr;
-      b.k4 =        column.k4;
+      b.con_u =  column.con_u;
+      b.con_l =  column.con_l;
+      b.con_s =  column.con_s;
+      b.vis_u =  column.vis_u;
+      b.vis_l =  column.vis_l;
+      b.ecsd_u = column.ecsd_u;
+      b.ecsd_l = column.ecsd_l;
+      b.kr =     column.kr;
+      b.k4 =     column.k4;
+      b.JRTT05 = column.JRTT05;
       this.crack_list.push(b);
     }
   }
@@ -170,7 +172,7 @@ export class InputCrackSettingsService {
       }
       if (value.k4 == undefined) {
         let flag: boolean = true;
-        for (const key of ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr']) {
+        for (const key of ['con_l', 'con_s', 'con_u', 'ecsd_u', 'ecsd_l', 'kr', 'JRTT05']) {
           if (value[key] === null || value[key] == null) {
             flag = false;
             break;
