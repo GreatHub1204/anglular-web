@@ -189,6 +189,9 @@ export class CalcServiceabilityMomentService {
     result['Sigmab'] = Sigmab;
 
     // 制限値
+    let ri: number = safety.safety_factor.ri;
+    result['ri'] = ri;
+    
     // 円形の制限値を求める時は換算矩形で求める
     const VydBH = section.shape;
     const Sigmabl: number = this.getSigmaBl(VydBH.H, fcd);
@@ -237,20 +240,14 @@ export class CalcServiceabilityMomentService {
     if(!JRTT05){
       result['Sigmas'] = Sigmas;
       result['sigmal1'] = sigmal1;
-      if (speci2Info_TT){
-        /* 運輸機構の場合 */
-        if (Sigmab < Sigmabl) {
-          if (pt < 0.0050) {
+      if (Sigmab < Sigmabl) {
+        if ((speci2Info_TT && pt < 0.0050) || !speci2Info_TT){
+            const ratio: number = ri * Sigmab / Sigmabl;
+            result['ratio'] = ratio;
             return result;
-          }
-        }
-      } else {
-        if (Sigmab < Sigmabl) {
-          return result;
         }
       }
     }
-
 
     // ひび割れ幅の照査
     const Es: number = section.Ast.Es;
@@ -343,8 +340,7 @@ export class CalcServiceabilityMomentService {
     }
     result['Wlim'] = Wlim;
 
-    let ri: number = safety.safety_factor.ri;
-    result['ri'] = ri;
+
 
     const ratio: number = ri * Wd / Wlim;
     result['ratio'] = ratio;
